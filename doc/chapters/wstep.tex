@@ -29,7 +29,7 @@ Przy łączeniu agentów z~relacyjnymi bazami danych sama liczba wierszy nie jes
 
 Celem pracy jest analiza i~ewaluacja wydajności, skalowalności oraz bezpieczeństwa integracji systemów agentowych opartych na dużych modelach językowych ze złożonymi relacyjnymi bazami danych za pośrednictwem protokołu Model Context Protocol.
 
-Cel główny zrealizowano przez następujące cele szczegółowe:
+Cel główny rozpisano na następujące cele szczegółowe:
 \begin{enumerate}
     \item analiza porównawcza protokołu MCP i~formatu JSON-RPC 2.0 z~innymi sposobami komunikacji (REST, gRPC) pod kątem kosztu przesyłania danych oraz zagrożeń bezpieczeństwa;
     \item ocena, jak uwzględnienie grafu kluczy obcych przy doborze tabel wpływa na kompletność i~objętość fragmentu schematu przekazywanego modelowi, a~także na poprawność generowanych przez model zapytań SQL;
@@ -38,7 +38,6 @@ Cel główny zrealizowano przez następujące cele szczegółowe:
     \item ocena skuteczności walidacji zapytań oraz oczyszczania zwracanych rekordów w~ochronie przed atakami typu SQL Injection i~wstrzykiwaniem instrukcji;
     \item porównanie skalowalności paginacji kursorowej i~paginacji OFFSET/LIMIT przy przeglądaniu dużych zbiorów wyników.
 \end{enumerate}
-Cele 2--5 odpowiadają pytaniom badawczym PB1--PB3 sformułowanym w~podrozdziale~\ref{sec:wstep_rq}.
 
 
 \section{Zakres pracy}
@@ -58,7 +57,7 @@ W~pracy nie uwzględniono:
 \begin{itemize}
     \item operacji modyfikujących dane ani transakcji, ponieważ brama udostępnia wyłącznie odczyt;
     \item pomiarów pełnej komunikacji MCP przez warstwę transportową (\texttt{stdio}, HTTP), ponieważ mechanizmy bramy mierzono, wywołując je bezpośrednio;
-    \item pomiarów w~rzeczywistej sieci lokalnej i~rozległej, dla których progi opłacalności wyznaczono z~modelu analitycznego;
+    \item pomiarów w~rzeczywistej sieci lokalnej i~rozległej, dla których progi opłacalności wyznaczono z~modelu analitycznego.
 \end{itemize}
 Praca nie obejmuje także dostrajania modeli językowych, ewaluacji modeli komercyjnych dostępnych przez API ani wdrożenia rozproszonego na wielu serwerach.
 
@@ -83,12 +82,12 @@ Hipoteza główna pracy brzmi:
 \textit{Zastosowanie dedykowanej bramy pośredniczącej w~standardzie MCP, integrującej semantyczno-grafową selekcję schematu, adaptacyjną paginację kursorową oraz wieloprocesową walidację zapytań, pozwala ograniczyć objętość kontekstu i~koszt przekazania danych oraz chronić bazę danych przed badanymi klasami ataków bez degradacji responsywności pętli zdarzeń bramy pod obciążeniem.}
 \end{quote}
 
-Do weryfikacji statystycznej rrozbito ją na hipotezy szczegółowe:
+Do weryfikacji statystycznej rozbito ją na hipotezy szczegółowe:
 \begin{description}
     \item[\textbf{H1:}] Uzupełnienie hybrydowego wyszukiwania schematu o~ekspansję grafową o~tabele mostkujące zapewnia statystycznie istotny wzrost czułości selekcji tabel (\emph{Table-Recall}) w~relacji do hybrydowego wyszukiwania RRF bez ekspansji oraz leksykalnego BM25 bez ekspansji przy równym budżecie tabel, tj. gdy warianty bazowe otrzymują maksymalną liczbę tabel zwracaną przez wariant autorski (Graph@5 wobec RRF@8 i~BM25@8; test rangowanych znaków Wilcoxona dla prób zależnych z~korektą Holma). Porównanie z~gęstym k-NN ma charakter opisowy.
     \item[\textbf{H1b:}] Analogiczny, statystycznie istotny wzrost dotyczy czułości selekcji kolumn (\emph{Column-Recall}) w~relacji do RRF@8 i~BM25@8 (test rangowanych znaków Wilcoxona dla prób zależnych). Ponieważ w~przyjętej metodyce kolumny wynikają automatycznie z~wybranych tabel, H1b jest pochodną H1, a~nie niezależną hipotezą.
-    \item[\textbf{H2:}] Istnieje wyznaczalny empirycznie próg wolumenu danych $S^*$, powyżej którego transfer binarny w~kanale pozapasmowym cechuje się statystycznie istotnie niższym opóźnieniem niż standardowa serializacja JSON-RPC z~kodowaniem Base64, a~poniżej którego przewagę ma serializacja Base64 (test Manna--Whitneya dla rozmiaru ładunku poniżej i~powyżej progu).
-    \item[\textbf{H3:}] Oddelegowanie walidacji drzew składniowych AST do wieloprocesowej puli wykonawczej zapewnia statystycznie istotnie niższe opóźnienie asynchronicznej pętli zdarzeń pod obciążeniem wieloagentowym niż walidacja w~wątku pętli zdarzeń (test Manna--Whitneya dla $M = 100$ i~$M = 500$ klientów).
+    \item[\textbf{H2:}] Istnieje wyznaczalny empirycznie próg wolumenu danych $S^*$, powyżej którego transfer binarny w~kanale pozapasmowym cechuje się statystycznie istotnie niższym opóźnieniem niż standardowa serializacja JSON-RPC z~kodowaniem Base64, a~poniżej którego przewagę ma serializacja Base64 (test Manna-Whitneya dla rozmiaru ładunku poniżej i~powyżej progu).
+    \item[\textbf{H3:}] Oddelegowanie walidacji drzew składniowych AST do wieloprocesowej puli wykonawczej zapewnia statystycznie istotnie niższe opóźnienie asynchronicznej pętli zdarzeń pod obciążeniem wieloagentowym niż walidacja w~wątku pętli zdarzeń (test Manna-Whitneya dla $M = 100$ i~$M = 500$ klientów).
 \end{description}
 
 
@@ -145,8 +144,8 @@ Hipotezy H1, H2 (dla jednego serwera) i~H3 zostały potwierdzone, H1b częściow
 
 Najwięcej trudności sprawiły:
 \begin{itemize}
-    \item \textbf{brak gotowych danych} -- publiczne zbiory Text-to-SQL nie zawierają schematów z~tysiącem tabel, więc trzeba było napisać własny generator schematu i~przygotować własny zbiór pytań;
-    \item \textbf{koszt i~powtarzalność eksperymentów z~modelami} -- do uruchomienia modeli potrzebna była karta graficzna, a~więc wynajęta instancja w~chmurze; żeby wyniki dało się powtórzyć, ustawiono temperaturę $T = 0$ i~stałe ziarna losowania, a~każdą rundę opisano manifestem;
+    \item \textbf{brak gotowych danych} -- publiczne zbiory Text-to-SQL nie zawierają schematów z~tysiącem tabel, więc trzeba było wydzielić własny generator schematu i~przygotować własny zbiór pytań;
+    \item \textbf{koszt i~powtarzalność eksperymentów z~modelami} -- do uruchomienia modeli potrzebna była karta graficzna, a~więc wynajęta instancja w~chmurze; aby wyniki dało się powtórzyć, ustawiono temperaturę $T = 0$ i~stałe ziarna losowania, a~każdą rundę opisano manifestem;
     \item \textbf{ograniczenia instancji chmurowej} -- nie dało się na niej emulować opóźnień sieci (\texttt{tc netem}), dlatego progi dla sieci lokalnej i~rozległej wyznaczono z~modelu;
     \item \textbf{wpływ pomiaru na wynik} -- odczyt zużycia pamięci w~trakcie testu sam wydłużał najdłuższe opóźnienia, co trzeba było wydzielić w~dodatkowej analizie.
 \end{itemize}
@@ -155,7 +154,7 @@ Najwięcej trudności sprawiły:
 \section{Możliwości wykorzystania wyników}
 \label{sec:wstep_wykorzystanie}
 
-Wyniki mogą przydać się zespołom, które budują agentów z~dostępem do firmowych baz danych. Próg $S^*$ pomaga zdecydować, od jakiego rozmiaru danych warto przesyłać je poza JSON-RPC. Ekspansję grafową można dodać jako etap wyboru tabel w~istniejących systemach Text-to-SQL, a~paginację kursorową z~kontrolą liczby tokenów zastosować w~narzędziach MCP zwracających duże wyniki. Przeniesienie kosztownych obliczeń do puli procesów sprawdzi się w~każdym serwerze opartym na \texttt{asyncio}, nie tylko w~serwerach MCP. Z~kolei wyniki testów bezpieczeństwa pokazują, że sama analiza AST nie wystarcza i~trzeba ją łączyć z~ograniczeniem uprawnień w~bazie.
+Wyniki mogą przydać się zespołom, które budują agentów z~dostępem do firmowych baz danych. Próg $S^*$ pomaga zdecydować, od jakiego rozmiaru danych warto przesyłać je poza JSON-RPC. Ekspansję grafową można dodać jako etap wyboru tabel w~istniejących systemach Text-to-SQL, a~paginację kursorową z~kontrolą liczby tokenów zastosować w~narzędziach MCP zwracających duże wyniki. Przeniesienie kosztownych obliczeń do puli procesów może znaleźć zastosowanie w serwerach opartych na \texttt{asyncio}, nie tylko w~serwerach MCP. Z~kolei wyniki testów bezpieczeństwa pokazują, że sama analiza AST nie wystarcza i~trzeba ją łączyć z~ograniczeniem uprawnień w~bazie.
 
 Generator schematu i~aparatura pomiarowa pozwalają powtórzyć eksperymenty i~porównać z~nimi inne metody wyboru tabel.
 
@@ -163,7 +162,7 @@ Generator schematu i~aparatura pomiarowa pozwalają powtórzyć eksperymenty i~p
 \section{Wykorzystanie narzędzi i~metod sztucznej inteligencji}
 \label{sec:wstep_ai}
 
-Podczas pisania pracy korzystano z~narzędzi opartych na dużych modelach językowych do poprawek stylistycznych i~redakcyjnych tekstu: ujednolicenia terminologii, poprawy składni i~interpunkcji oraz skracania zbyt rozbudowanych zdań. Wszystkie proponowane zmiany autor sprawdził i~ponosi pełną odpowiedzialność za treść pracy. Modele \texttt{qwen2.5-coder} opisane w~Rozdziale~\ref{chap:wyniki} były natomiast przedmiotem badań, a~nie narzędziem redakcyjnym.
+Podczas pisania pracy korzystano z~narzędzi opartych na dużych modelach językowych do poprawek stylistycznych i~redakcyjnych tekstu: ujednolicenia terminologii, poprawy składni i~interpunkcji oraz skracania zbyt rozbudowanych zdań. Wszystkie proponowane zmiany autor sprawdził i~ponosi pełną odpowiedzialność za treść pracy. Modele \texttt{qwen2.5-coder} opisane w~rozdziale~\ref{chap:wyniki} były natomiast przedmiotem badań, a~nie narzędziem redakcyjnym.
 
 Przykładowe prompty użyte w~trakcie tworzenia pracy udostępniono w~repozytorium z~kodem źródłowym pracy (załącznik~\ref{app:kod_zrodlowy}):
 \begin{center}
