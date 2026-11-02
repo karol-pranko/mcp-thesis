@@ -1,0 +1,98 @@
+{
+  "encoder": "cl100k_base",
+  "random_seed": 2026,
+  "base64": [
+    {
+      "bytes": 1024,
+      "base64_chars": 1368,
+      "tokens": 961,
+      "tokens_per_byte": 0.9384765625,
+      "tokens_per_char": 0.702485380116959,
+      "bytes_per_token": 1.065556711758585
+    },
+    {
+      "bytes": 4096,
+      "base64_chars": 5464,
+      "tokens": 3966,
+      "tokens_per_byte": 0.96826171875,
+      "tokens_per_char": 0.7258418740849195,
+      "bytes_per_token": 1.032778618255169
+    },
+    {
+      "bytes": 16384,
+      "base64_chars": 21848,
+      "tokens": 15679,
+      "tokens_per_byte": 0.95697021484375,
+      "tokens_per_char": 0.7176400585865983,
+      "bytes_per_token": 1.0449646023343326
+    },
+    {
+      "bytes": 65536,
+      "base64_chars": 87384,
+      "tokens": 62712,
+      "tokens_per_byte": 0.9569091796875,
+      "tokens_per_char": 0.7176599835210107,
+      "bytes_per_token": 1.045031253986478
+    },
+    {
+      "bytes": 262144,
+      "base64_chars": 349528,
+      "tokens": 250738,
+      "tokens_per_byte": 0.9564895629882812,
+      "tokens_per_char": 0.7173616992057861,
+      "bytes_per_token": 1.0454897143631998
+    },
+    {
+      "bytes": 1048576,
+      "base64_chars": 1398104,
+      "tokens": 1002242,
+      "tokens_per_byte": 0.9558124542236328,
+      "tokens_per_char": 0.7168579733696492,
+      "bytes_per_token": 1.0462303515518208
+    }
+  ],
+  "tokens_per_byte_range": [
+    0.9384765625,
+    0.96826171875
+  ],
+  "tokens_per_char_range": [
+    0.702485380116959,
+    0.7258418740849195
+  ],
+  "cursor_example": {
+    "token": "eyJvcmRlcl9zcGVjcyI6W3siY29sIjoiY3JlYXRlZF9hdCIsImRpciI6IkRFU0MiLCJudWxscyI6Ik5VTExTIExBU1QifSx7ImNvbCI6ImFtb3VudCIsImRpciI6IkFTQyIsIm51bGxzIjoiTlVMTFMgTEFTVCJ9LHsiY29sIjoiaWQiLCJkaXIiOiJBU0MiLCJudWxscyI6Ik5VTExTIExBU1QifV0sImxhc3RfdmFsdWVzIjpbIjIwMjYtMTAtMDQgMTE6MDk6MzUuNDAwMDAwKzAwOjAwIiwiOTM1NS41MCIsOTk5OTUxXSwic29ydF9jb2wiOiJjcmVhdGVkX2F0IiwibGFzdF92YWwiOiIyMDI2LTEwLTA0IDExOjA5OjM1LjQwMDAwMCswMDowMCIsImxhc3RfaWQiOjAsImRpcmVjdGlvbiI6IkRFU0MiLCJxdWVyeV9oYXNoIjoiZmE1MTg3ZjciLCJzbmFwc2hvdF9pZCI6IjAwMDAwMDA0LTAwMDAwM0Y0LTEiLCJ0cyI6MTc5MTE0NTczNn0=.c665f8f742899ca08bab472ebaf62b6b4c05c2de968a1c654fd62f0138be36f1",
+    "chars": 617,
+    "tokens_cl100k": 418,
+    "decoded_payload": {
+      "order_specs": [
+        {
+          "col": "created_at",
+          "dir": "DESC",
+          "nulls": "NULLS LAST"
+        },
+        {
+          "col": "amount",
+          "dir": "ASC",
+          "nulls": "NULLS LAST"
+        },
+        {
+          "col": "id",
+          "dir": "ASC",
+          "nulls": "NULLS LAST"
+        }
+      ],
+      "last_values": [
+        "2026-10-04 11:09:35.400000+00:00",
+        "9355.50",
+        999951
+      ],
+      "sort_col": "created_at",
+      "last_val": "2026-10-04 11:09:35.400000+00:00",
+      "last_id": 0,
+      "direction": "DESC",
+      "query_hash": "fa5187f7",
+      "snapshot_id": "00000004-000003F4-1",
+      "ts": 1791145736
+    }
+  }
+}

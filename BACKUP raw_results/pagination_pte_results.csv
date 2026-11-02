@@ -1,0 +1,4 @@
+token_budget,rows_retrieved,tokens_used,latency_ms,pte,has_more,cursor,mode,std_dev,variance,p50_latency_ms,p95_latency_ms,p99_latency_ms,raw_samples
+1000,10,949,3.629,0.01,True,eyJsYXN0X2lkIjoxMH0=,LEAN_ANALYTICS,0.0,0.0,3.629,3.629,3.629,[3.629]
+2000,20,1907,4.058,0.01,True,eyJsYXN0X2lkIjoyMH0=,LEAN_ANALYTICS,0.0,0.0,4.058,4.058,4.058,[4.058]
+4000,41,3928,4.64,0.0103,True,eyJsYXN0X2lkIjo0MX0=,LEAN_ANALYTICS,0.0,0.0,4.64,4.64,4.64,[4.64]

@@ -1,0 +1,165 @@
+\begin{easyappendix}{Kod źródłowy implementacji referencyjnej oraz środowiska badawczego}
+\label{app:kod_zrodlowy}
+
+Kompletny kod źródłowy opracowanego systemu, definicje środowiska badawczego, skrypty powtarzalnych eksperymentów ewaluacyjnych pliki źródłowe tekstu pracy oraz przykładowe prompty wykorzystane podczas jej redakcji udostępniono w~publicznym repozytorium Git w~serwisie GitHub pod adresem:
+\begin{center}
+\repoUrl
+\end{center}
+Wszystkie ścieżki plików przywoływane w~treści pracy i~w~listingach podano względem katalogu głównego tego repozytorium.
+
+\section*{Struktura repozytorium}
+
+Poniżej przedstawiono strukturę głównych katalogów i~plików repozytorium:
+
+\begin{itemize}
+    \item \textbf{\texttt{src/mcp\_server/}} -- kod źródłowy autorskiej bramy pośredniczącej protokołu Model Context Protocol:
+    \begin{itemize}
+        \item \texttt{server.py} -- główny moduł serwera FastMCP pod Pythonem 3.12, rejestracja narzędzi analitycznych, zasobów kontekstowych oraz obsługa cyklu życia sesji;
+        \item \texttt{schema\_engine.py} -- silnik selekcji schematu (BM25, wyszukiwanie wektorowe pgvector, fuzja RRF, ekspansja grafowa o~tabele mostkujące);
+        \item \texttt{pagination.py} -- algorytm adaptacyjnej paginacji kursorowej (Smart Pagination) z~dynamiczną estymacją budżetu tokenów (tiktoken BPE);
+        \item \texttt{streaming.py} -- konsument zdarzeń telemetrycznych Apache Kafka (\texttt{aiokafka}) z~buforem anomalii udostępnianych jako zasoby MCP;
+        \item \texttt{out\_of\_band.py} -- dyspozytor transferu danych binarnych poza ramką JSON-RPC (pamięć współdzielona POSIX, deskryptory z~podpisanym URI);
+        \item \texttt{security.py} -- wielowarstwowa zapora bezpieczeństwa zapytań SQL Sanitizer oparta na weryfikacji drzew składniowych AST (SQLGlot).
+    \end{itemize}
+    \item \textbf{\texttt{src/agent\_client/}} -- klient agentowy w~paradygmacie ReAct (\texttt{agent\_loop.py}) oraz klient MCP wykorzystywany przez aparaturę pomiarową (\texttt{benchmark\_client.py});
+    \item \textbf{\texttt{testbed/}} -- definicje infrastruktury badawczej i~zasilania danymi:
+    \begin{itemize}
+        \item \texttt{docker-compose.yml} -- plik orkiestracji kontenerów PostgreSQL 16 (z~rozszerzeniem \texttt{pgvector}) oraz Apache Kafka w~trybie KRaft (konfiguracja deweloperska);
+        \item \texttt{init-scripts/} -- skrypty DDL oraz generatory syntetycznych struktur hurtowni danych (do 1000 relacji) oraz wolumenu 1~miliona rekordów analitycznych.
+    \end{itemize}
+    \item \textbf{\texttt{benchmarks/}} -- aparatura pomiarowa i~narzędzia ewaluacyjne:
+    \begin{itemize}
+        \item \texttt{scenarios/} -- pomocnicze scenariusze pomiarowe opisane w~Rozdziale~\ref{chap:wyniki}: A (selekcja schematu i~Text-to-SQL, ablacja $M_{\text{exp}}$, czas do pierwszego tokenu, dryf schematu), B1 (transfer Out-of-Band), B2 (paginacja keyset i~postać predykatu), C1 (obciążenie współbieżne walidatora) oraz D (bezpieczeństwo);
+        \item \texttt{config/benchmark\_config.json} -- jedyne źródło konfiguracji rundy (liczności, ziarna, profile modeli);
+        \item \texttt{analysis\_final/}, \texttt{analysis\_offline/} -- skrypty analiz wyników rundy i~analiz wtórnych, generujące makra liczbowe pracy;
+        \item \texttt{plot\_generators/} -- zautomatyzowane skrypty generujące wykresy wektorowe PDF prezentowane w~rozdziale badawczym.
+    \end{itemize}
+    \item \textbf{\texttt{tests/}} -- testy jednostkowe i~integracyjne \texttt{pytest};
+    \item \textbf{\texttt{scripts/}} -- skrypty przygotowania środowiska testowego (\texttt{setup\_runpod.sh}), kontroli gotowości (\texttt{preflight\_check.py}) oraz plik przypiętych wersji usług (\texttt{versions.env});
+    \item \textbf{\texttt{run\_benchmark.sh}} -- jedyny punkt wejścia pełnej rundy pomiarowej;
+    \item \textbf{\texttt{doc/}} -- kompletne pliki źródłowe tekstu pracy w~systemie \LaTeX{}, arkusze stylów \texttt{EE-dyplom.cls}, pliki bibliograficzne Bib\LaTeX{} oraz materiały graficzne;
+    \item \textbf{\texttt{pyproject.toml}, \texttt{uv.lock}, \texttt{requirements.txt}} -- specyfikacja i~zamrożone wersje zależności środowiska Python 3.12;
+    \item \textbf{\texttt{README.md}} -- opis repozytorium i~instrukcja uruchomienia.
+\end{itemize}
+
+\section*{Wymagania systemowe i~instrukcja uruchomienia}
+
+Wyniki przedstawione w~Rozdziale~\ref{chap:wyniki} uzyskano w~jednej rundzie pomiarowej wykonanej natywnie (bez kontenerów) na instancji chmurowej z~akceleratorem GPU. Odtworzenie rundy wymaga:
+\begin{itemize}
+    \item systemu Linux (Ubuntu 22.04 lub nowszego) z~akceleratorem NVIDIA (do uruchomienia modelu 7B w~rozsądnym czasie zalecane co najmniej 10~GiB pamięci GPU) i~sterownikiem CUDA;
+    \item Pythona 3.12, PostgreSQL 16 z~rozszerzeniem pgvector, Apache Kafka oraz serwera Ollama z~modelami \texttt{qwen2.5-coder:3b} i~\texttt{qwen2.5-coder:7b} (dokładne wersje i~skróty wag zapisuje manifest rundy);
+    \item co najmniej 16~GB pamięci RAM i~kilkudziesięciu GB miejsca na dysku.
+\end{itemize}
+
+Procedura uruchomienia:
+\begin{enumerate}
+    \item Sklonowanie repozytorium i~przejście do jego katalogu głównego:
+    \begin{center}
+        \texttt{git clone https://github.com/karol-pranko/mcp-thesis.git \&\& cd mcp-thesis}
+    \end{center}
+    \item Instalacja usług, środowiska Pythona, pobranie modeli oraz zasilenie bazy (schemat 1000 tabel z~\texttt{generate\_enterprise\_schema.py}, dane tabel i~relacja 1~mln wierszy z~\texttt{seed\_1m\_records.py}):
+    \begin{center}
+        \texttt{bash scripts/setup\_runpod.sh}
+    \end{center}
+    \item Uruchomienie pełnej rundy pomiarowej (wszystkie scenariusze, analiza statystyczna, wykresy i~walidacja; wyniki wraz z~manifestem w~katalogu wskazanym przez \texttt{RESULTS\_DIR}):
+    \begin{center}
+        \texttt{./run\_benchmark.sh --archive-existing --llm-injection}
+    \end{center}
+    \item Odtworzenie liczb i~tabel pracy z~wyników rundy:
+    \begin{center}
+        \texttt{python benchmarks/analysis\_final/analiza.py \&\& python benchmarks/analysis\_final/generuj\_makra.py}
+    \end{center}
+\end{enumerate}
+Plik \texttt{testbed/docker-compose.yml} opisuje konfigurację deweloperską (PostgreSQL z~pgvector oraz Kafka w~kontenerach) przeznaczoną do lokalnych testów; nie była ona użyta w~rundzie pomiarowej.
+
+\end{easyappendix}
+
+\begin{easyappendix}{Wybrane listingi implementacji}
+\label{app:listingi}
+
+W~załączniku zebrano listingi kodu, do których odwołuje się treść pracy. Listingi~\ref{lst:graph_pruning}--\ref{lst:ast_sanitizer} są skróconymi fragmentami kodu; w~podpisie każdego z~nich wskazano plik źródłowy. Pełny kod źródłowy jest dostępny w~repozytorium \repoUrl{} opisanym w~załączniku~\ref{app:kod_zrodlowy}.
+
+\begin{lstlisting}[language={}, caption={Ramka wywołania narzędzia \texttt{execute\_query\_paginated} i~odpowiedzi serwera (kursor w~formacie wzoru~\eqref{eq:cursor_token_format}, skrócony w~listingu z~\wynOfiveCursorChars{} znaków, wygenerowany funkcją \texttt{encode\_opaque\_cursor} z~pliku \texttt{src/mcp\_server/pagination.py} dla granicy pierwszej strony relacji \texttt{analytics\_orders}; wartości pól odpowiedzi zastąpiono znakiem ,,\dots'', ponieważ odpowiedzi narzędzia nie rejestrowano w~rundzie)}, label={lst:mcp_tool_call_compact}, breaklines=true, breakatwhitespace=false, columns=fullflexible]
+// 1. (*@Żądanie@*) klienta MCP (tools/call) - druga strona wyniku:
+{ "jsonrpc": "2.0", "id": 42, "method": "tools/call",
+  "params": {
+    "name": "execute_query_paginated",
+    "arguments": {
+      "table_name": "analytics_orders",
+      "order_by": "created_at DESC NULLS LAST, amount ASC NULLS LAST, id ASC",
+      "cursor": "eyJvcmRlcl9zcGVjcyI6W3siY29sIjoiY3JlYXRlZF9hdCIsImRpciI6...968a1c654fd62f0138be36f1",
+      "token_budget": 2000,
+      "max_records": 500,
+      "use_snapshot": true
+    }
+  }
+}
+// 2. (*@Odpowiedź@*) serwera (wynik (*@narzędzia@*) jako tekst JSON w bloku content):
+{ "jsonrpc": "2.0", "id": 42,
+  "result": {
+    "content": [{"type": "text", "text":
+      "{\"data\": [{\"id\": ..., \"created_at\": \"...\", \"amount\": \"...\", ...}, ...],
+        \"next_cursor\": \"eyJvcmRlcl9zcGVjcyI6...\",
+        \"has_more\": true, \"tokens_used\": ...,
+        \"index_guard\": {\"is_indexed\": true, ...},
+        \"snapshot_id\": \"00000004-000003F4-1\"}"}],
+    "isError": false
+  }
+}
+\end{lstlisting}
+
+
+\begin{lstlisting}[language=Python, caption={Ekspansja grafowa o~tabele mostkujące -- metoda \texttt{SchemaEngine.discover\_schema\_with\_graph\_pruning} (fragment pliku \texttt{src/mcp\_server/schema\_engine.py}; pełny kod w~repozytorium)}, label={lst:graph_pruning}]
+async def discover_schema_with_graph_pruning(
+    self, query: str, top_k: int = 5, max_expanded_tables: int = 3, pool: Optional[asyncpg.Pool] = None
+) -> str:
+    active_pool = self._get_active_pool(pool)
+    base_schemas = await self.retrieve_hybrid_rrf(query=query, top_k=top_k, pool=active_pool)
+    base_tables = [item["table_name"] for item in base_schemas]
+
+    G = (await self._ensure_relation_graph(active_pool)).to_undirected(as_view=True)
+    bridge_counter: Counter[str] = Counter()
+
+    # Wykrywanie wezlow mostkujacych na sciezkach o dlugosci dist <= 2
+    for u, v in itertools.combinations(base_tables, 2):
+        if u in G and v in G and nx.has_path(G, u, v):
+            path = nx.shortest_path(G, source=u, target=v)
+            if len(path) == 3 and path[1] not in base_tables:
+                bridge_counter[path[1]] += 1
+
+    selected_bridges = [node for node, _ in bridge_counter.most_common(max_expanded_tables)]
+    final_tables = base_tables + [b for b in selected_bridges if b not in base_tables]
+
+    # Pobranie metadanych kolumn i aktywnych kluczy obcych [...]
+    return await self._synthesize_ddl_context(active_pool, query, final_tables, selected_bridges)
+\end{lstlisting}
+
+
+\begin{lstlisting}[language=Python, caption={Paginacja wielokolumnowa z~kontrolą indeksów i~migawką MVCC -- fragment funkcji \texttt{fetch\_paginated\_data} (plik \texttt{src/mcp\_server/pagination.py}; pełny kod w~repozytorium)}, label={lst:keyset_pagination}]
+# 1. Asynchroniczna inspekcja indeksow w pg_catalog z ochrona buforow
+async with pool.acquire() as check_conn:
+    index_check = await index_catalog_guard.verify_index_compatibility(
+        check_conn, safe_table, normalized_specs)
+
+# 2. Dynamiczne wyznaczenie paczki i prewencyjne dlawienie
+batch_size = token_budget_estimator.estimate_batch_size(token_budget, max_records)
+if not index_check.is_compatible and batch_size > 50:
+    batch_size = 50
+
+# 3. Wykonanie zapytania keyset w izolacji snapshotowej MVCC
+query_sql, params = build_keyset_query(safe_table, cursor_data=cursor_data, fetch_limit=batch_size + 1,
+                                       order_by=normalized_specs, use_union_all=True)
+rows = await snapshot_manager.execute_in_snapshot(pool, active_snapshot_id, query_sql, params) \
+       if active_snapshot_id else await pool.fetch(query_sql, *params)
+\end{lstlisting}
+
+
+\begin{lstlisting}[language=Python, caption={Asynchroniczna walidacja AST w~puli \texttt{ProcessPoolExecutor} z~kontekstem \texttt{forkserver} -- funkcja \texttt{async\_validate\_query} (plik \texttt{src/mcp\_server/security.py}; pełny kod w~repozytorium)}, label={lst:ast_sanitizer}]
+async def async_validate_query(sql_query: str, dialect: str = "postgres", max_limit: Optional[int] = None) -> ValidationResult:
+    loop = asyncio.get_running_loop()
+    pool = get_process_pool()  # ProcessPoolExecutor zainicjalizowany z mp_context="forkserver"
+    return await loop.run_in_executor(pool, _worker_validate_query, sql_query, dialect, max_limit)
+\end{lstlisting}
+
+
+\end{easyappendix}

@@ -1,0 +1,133 @@
+% !TEX root = ../main.tex
+\chapter{Analiza porównawcza protokołów komunikacyjnych}
+\label{chap:protokoly}
+
+Integracja modeli językowych ze złożonymi składami danych wymaga zdefiniowania warstwy komunikacyjnej, a~dobór protokołu wyznacza kompromis między przepustowością binarną (np. gRPC), narzutem serializacji tekstowej i~re-autoryzacji (np. REST), bezpieczeństwem perymetru bazy danych oraz transparentnością śladu wnioskowania. Rozdział porównuje protokoły stosowane w~systemach agentowych i~uzasadnia wybór formatu JSON-RPC 2.0 w~standardzie MCP~\cite{mcp_spec}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Protokół JSON-RPC 2.0 jako rdzeń Model Context Protocol}
+\label{sec:protokoly_jsonrpc}
+
+Standard JSON-RPC 2.0~\cite{jsonrpc2010}, oparty na formacie JSON (RFC 8259~\cite{rfc8259}), jest agnostycznym transportowo protokołem zdalnego wywoływania procedur o~trzech typach komunikatów: żądaniu (\emph{Request}, z~polami \texttt{jsonrpc}, \texttt{method}, \texttt{params}, \texttt{id}), odpowiedzi (\emph{Response}, z~obiektem \texttt{result} lub \texttt{error}) oraz powiadomieniu (\emph{Notification}), czyli żądaniu bez pola \texttt{id}, na które odbiorca nie odpowiada. W~MCP powiadomienia służą do sygnalizacji cyklu życia sesji i~asynchronicznego Server Push.
+
+\subsection{Narzut serializacji tekstowej UTF-8 i~tokenizacja danych Base64}
+\label{subsec:protokoly_narzut_bpe}
+
+Format JSON kodowany w~UTF-8 zapewnia transparentność inspekcji, lecz w~środowiskach relacyjnych rodzi istotny narzut transmisyjny wynikający z: (1)~redundancji etykiet schematu poprzez powielanie tekstowych nazw kolumn w~każdej krotce zbioru analitycznego; (2)~ucieczki znaków wymagającej prefiksowania znaków specjalnych; oraz (3)~kosztu tokenizacji danych binarnych zakodowanych w~Base64. Brak typu binarnego w~JSON wymusza rzutowanie danych binarnych na ciągi Base64 (narzut 33,3\% bajtów). Ciągi Base64 mają wysoką entropię i~nie zawierają częstych podsłów, więc tokenizatory podsłów (ang. \emph{Byte-Pair Encoding}, BPE)~\cite{tiktoken} dzielą je na krótkie fragmenty. W~analizie wtórnej (niezależnej od sprzętu) enkoder \texttt{cl100k\_base} zakodował losowe dane binarne o~rozmiarach od 1~KiB do 1~MiB po przekształceniu do Base64 na \wynOfiveTokPerByteMin--\wynOfiveTokPerByteMax{} tokenu na bajt danych binarnych (ok. \wynOfiveTokPerChar{} tokenu na znak tekstu Base64; skrypt \texttt{benchmarks/analysis\_offline/o5\_tokenizacja\_base64.py}). Przekazanie 1~MiB danych binarnych w~kontekście modelu kosztowałoby więc ok. \wynOfiveTokOneMiB{} tokenów.
+
+Przykład zwartej ramki wywołania narzędzia oraz odpowiedzi serwera MCP ze stronicowaniem kursorowym zamieszczono na listingu~\ref{lst:mcp_tool_call_compact} w~załączniku~\ref{app:listingi}.
+
+\paragraph{Most logiczny do badań własnych.}
+Koszt tokenowy wskazuje, że dane binarne i~masowe wyniki nie powinny trafiać do okna kontekstu modelu. Zaprojektowany w~pracy transfer pozapasmowy (\emph{Out-of-Band}, Rozdział~\ref{chap:projekt}) przekazuje je poza ramką JSON-RPC, a~model otrzymuje jedynie deskryptor. Zmierzona korzyść tego mechanizmu dotyczy jednak hosta, a~nie tokenów: krótszego czasu przekazania i~mniejszego kosztu kodowania. Próg opłacalności transferu przez pamięć współdzieloną zmierzony na jednym węźle wynosi ok. \wynSstarLoopShm~KiB (podrozdział~\ref{sec:wyniki_scenariusz_b1}).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Taksonomia architektur komunikacyjnych w systemach agentowych}
+\label{sec:protokoly_zestawienie_architektur}
+
+\subsection{Charakterystyka porównywanych paradygmatów architektonicznych}
+\label{subsec:protokoly_paradygmaty}
+
+Ocena właściwości protokołu Model Context Protocol wymaga osadzenia go w~kontekście wiodących standardów wymiany danych w~systemach rozproszonych:
+\begin{enumerate}
+    \item \textbf{Architektura REST (Fielding 2000~\cite{fielding2000rest}):} zorientowana na reprezentację zasobów identyfikowanych za pomocą jednolitych adresów URI oraz manipulację stanem poprzez standardowe czasowniki HTTP; zakłada całkowity brak pamięci sesyjnej po stronie serwera pomiędzy kolejnymi żądaniami;
+    \item \textbf{Standard gRPC (Google~\cite{grpc_spec}):} wysokowydajny, binarny framework RPC oparty na transportowym standardzie HTTP/2~\cite{rfc7540_http2} oraz mechanizmie serializacji Protocol Buffers~\cite{protobuf_spec}, wykorzystujący statyczne deskryptory interfejsów (pliki \texttt{.proto}) z~numerycznym znakowaniem pól w~reżimie TLV;
+    \item \textbf{Apache Arrow Flight~\cite{arrow_flight}:} sieciowy transport danych analitycznych oparty na gRPC, przesyłający pakiety rekordów w~kolumnowym formacie Apache Arrow~\cite{apache_arrow} bez konwersji do reprezentacji wierszowej;
+    \item \textbf{Paradygmat CodeAct (Wang i~in., ICML 2024~\cite{wang2024codeact}):} model traktujący wykonywalny kod w~języku Python jako uniwersalną akcję agenta, integrujący dynamiczną modyfikację środowiska bezpośrednio w~pętli interpretera REPL;
+    \item \textbf{Protokoły wieloagentowe (ACP i~A2A~\cite{survey_agent_interoperability_2025}):} standardy komunikacji poziomej między agentami, opisujące odkrywanie agentów, delegowanie zadań i~wymianę komunikatów (A2A wykorzystuje JSON-RPC 2.0 przez HTTP).
+\end{enumerate}
+
+\subsection{Model dwoistości stanowej w protokole MCP}
+\label{subsec:protokoly_dwoistosc_stanowa}
+
+W~niniejszej pracy magisterskiej formalizuje się \textbf{dwuwarstwowy model stanowości protokołu MCP}:
+(1)~\textbf{Warstwa Transportowo-Sesyjna (stanowa):} opiera się na trwałym medium (\texttt{stdio} lub Streamable HTTP) i~realizuje cykl życia sesji (inicjalizacja z~negocjacją zdolności, operacja, zamknięcie; \texttt{ping} do kontroli połączenia). W~transporcie \texttt{stdio} stan sesji jest związany z~procesem serwera; w~transporcie Streamable HTTP sesję identyfikuje nagłówek \texttt{Mcp-Session-Id}, a~token dostępu jest przesyłany w~każdym żądaniu;
+(2)~\textbf{Warstwa Wykonawcza Narzędzi (bezstanowa):} wywołania \texttt{tools/call} stanowią odizolowane transakcje żądanie-odpowiedź JSON-RPC 2.0. Serwer nie przechowuje kontekstu poprzednich wywołań ani otwartych transakcji w~pamięci RAM.
+
+\paragraph{Implikacje dla relacyjnych baz danych:}
+Bezstanowość wywołań \texttt{tools/call} gwarantuje horyzontalną skalowalność bramy pośredniczącej, lecz w~zderzeniu z~wieloetapową inferencją modeli LLM rodzi ryzyko anomalii współbieżności omówionych w~podrozdziale~\ref{subsec:teoria_acid_base_cap}. Ponieważ utrzymywanie połączeń i~horyzontu $x_{\text{min}}$ MVCC przez bezczynnego agenta jest kosztowne, konflikt ten motywuje opracowany w~Rozdziale~\ref{chap:projekt} moduł \texttt{TransactionSnapshotManager}, synchronizujący bezstanowe wywołania z~izolowanymi migawkami silnika PostgreSQL.
+
+\subsection{Wzorcowa tabela taksonomiczna}
+\label{subsec:protokoly_tabela_zbiorcza}
+
+W~tabeli~\ref{tab:protokoly_taksonomia} zestawiono pięć kryteriów najistotniejszych dla integracji modelu z~danymi.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption[Porównanie architektur komunikacyjnych w systemach agentowych]{Wielowymiarowa taksonomia architektur komunikacyjnych i paradygmatów interakcji agentowej}
+\label{tab:protokoly_taksonomia}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{p{3.0cm}p{2.6cm}p{2.6cm}p{2.7cm}p{2.9cm}p{2.6cm}}
+\toprule
+\textbf{Kryterium analizy} & \textbf{REST (HTTP/1.1--2)} & \textbf{gRPC (Protobuf)} & \textbf{CodeAct (Python)} & \textbf{MCP (JSON-RPC 2.0)} & \textbf{ACP / A2A} \\
+\midrule
+\textbf{1. Warstwa transportowa} & HTTP/1.1--2 (TCP) & HTTP/2--3 (TCP/QUIC) & Proces potomny (\texttt{stdio}) / WebSocket & \texttt{stdio} / Streamable HTTP & HTTP \\
+\midrule
+\textbf{2. Format ładunku} & Tekstowy JSON / XML & Binarny Protobuf (TLV) & Kod źródłowy Python & JSON-RPC 2.0 (UTF-8, Base64) & JSON (A2A: JSON-RPC 2.0) \\
+\midrule
+\textbf{3. Zarządzanie stanem} & Bezstanowy (nagłówki per żądanie) & Stanowe strumienie HTTP/2 & Stanowa sesja interpretera w RAM & Sesja stanowa (FSM), bezstanowe RPC (\texttt{tools/call}) & Stanowe zadania i~konteksty rozmów \\
+\midrule
+\textbf{4. Narzut żądania} & Umiarkowany (nagłówki HTTP) & Minimalny (ramka binarna) & Koszt interpretacji AST & Umiarkowany (koperta JSON-RPC) & Umiarkowany (metadane zadania) \\
+\midrule
+\textbf{5. Główna rola} & Publiczne API & Backend i~klastry GPU & Zadania analityczne i~pliki & \textbf{Integracja pionowa:} model--dane & \textbf{Integracja pozioma:} rój agentów \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Równowaga kompromisów: uzasadnienie wyboru JSON-RPC 2.0}
+\label{sec:protokoly_kompromis_inzynierski}
+
+\subsection{Przyczyny odrzucenia architektur REST i gRPC}
+\label{subsec:protokoly_odrzucenie_rest_grpc}
+
+Wybór formatu JSON-RPC 2.0 w~warstwie sterowania protokołu MCP można uzasadnić ograniczeniami architektury REST oraz gRPC w~kontakcie ze specyfiką modeli LLM:
+\begin{itemize}
+    \item \textbf{Odrzucenie architektury REST:} Wieloetapowe pętle decyzyjne (np. ReAct) wymagają sekwencji powiązanych odpytań w~ramach jednego procesu analitycznego. Przesyłanie tokenu uwierzytelniającego w~każdym żądaniu nie odróżnia REST od MCP: transport Streamable HTTP również wymaga tokenu Bearer w~każdym żądaniu. Różnica dotyczy semantyki interakcji: MCP definiuje jednorazową negocjację zdolności w~ramach sesji, jednolity kontrakt odkrywania i~wywoływania narzędzi oraz powiadomienia wysyłane przez serwer, podczas gdy w~REST każde API definiuje te elementy samodzielnie, a~powiadomienia wymagają odpytywania lub osobnego kanału;
+    \item \textbf{Odrzucenie binarnego gRPC:} Pomimo przewagi przepustowości kompresji Protobuf, format ten wprowadza barierę inspekcji semantycznej. Modele autoregresyjne operują natywnie na sekwencjach tekstowych i~nie posiadają zdolności bezpośredniego dekodowania ani generowania binarnych strumieni bajtów. Zastosowanie gRPC wymuszałoby ciągłą translację pośrednią tekstu wygenerowanego przez model do buforów binarnych, utrudniając śledzenie łańcucha myśli i~debugowanie. Co więcej, lekki schemat JSON Schema w~MCP pozwala na dynamiczną ekstrakcję katalogu systemowego bazy danych i~generowanie definicji narzędzi w~locie, podczas gdy gRPC wymaga uprzedniej kompilacji deskryptorów usług (\texttt{protoc}).
+\end{itemize}
+
+\subsection{Krytyczna polemika z paradygmatem Code-as-Action}
+\label{subsec:protokoly_codeact_polemika}
+
+W~środowiskach korporacyjnych CodeAct~\cite{wang2024codeact} wykonuje generowany kod Pythona w~pętli REPL. Dynamiczny kod ogólnego przeznaczenia utrudnia zamkniętą analizę bezpieczeństwa: adwersarz może zaciemnić operacje niszczące lub uzyskać dostęp do powłoki przez refleksję, \texttt{importlib} albo \texttt{ctypes}. Izolacja wymaga piaskownicy, co zwiększa opóźnienie uruchomienia i~zużycie pamięci.
+
+W~przeciwieństwie do tego parser AST SQL (np. \texttt{sqlglot}~\cite{sqlglot}) pozwala deterministycznie egzekwować niezmiennik \texttt{exp.Select}, a~schemat JSON Schema tworzy kontrakt walidacyjny przed wykonaniem. W~pomiarze własnym walidacja w~puli procesów trwała średnio \wynLatAnalytic~ms ($p_{95}$ \wynLatPpp~ms) i~nie blokowała pętli zdarzeń (podrozdział~\ref{sec:wyniki_scenariusz_c1}).
+
+Przyjęty w~MCP kompromis akceptuje większy rozmiar tekstowego ładunku JSON niż w~formatach binarnych oraz koszt kodowania Base64 dla danych binarnych, w~zamian za niski próg implementacyjny, czytelność komunikatów dla modelu i~człowieka oraz możliwość nałożenia deterministycznego perymetru bezpieczeństwa na zapytania deklaratywne.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Relacja MCP do protokołów komunikacji wieloagentowej (ACP i A2A)}
+\label{sec:protokoly_relacja_mcp_a2a}
+
+W~architekturach systemów wieloagentowych kluczowe znaczenie ma rozgraniczenie dwóch ortogonalnych płaszczyzn integracji~\cite{survey_agent_interoperability_2025}: poziomej, służącej do koordynacji i negocjacji w roju, oraz pionowej, łączącej model z deterministycznymi narzędziami i bazami danych:
+\begin{equation}
+    \text{Architektura MAS} = \underbrace{\text{Płaszczyzna Pozioma (ACP / A2A)}}_{\text{Koordynacja, Negocjacje}} \;\times\; \underbrace{\text{Płaszczyzna Pionowa (MCP)}}_{\text{Infrastruktura, Bazy Danych, Narzędzia}}.
+    \label{eq:protokoly_mas_decomposition}
+\end{equation}
+
+Z~punktu widzenia integracji ze złożonymi bazami danych jednym z~możliwych modeli współistnienia obu płaszczyzn jest \textbf{wzorzec agenta analitycznego}. W~rozległym roju agentów bezpośrednie połączenie z~serwerem MCP utrzymuje wyłącznie jeden dedykowany agent analityczny. Pozostałe węzły delegują zadania eksploracyjne za pośrednictwem protokołu poziomego (A2A). Agent analityczny dokonuje translacji intencji biznesowej na kwerendy SQL w~kanale pionowym MCP i~odsyła zagregowany rezultat do roju, co ogranicza liczbę sesji bazodanowych otwieranych przez rój agentów.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Wektory ataków i deterministyczne bezpieczeństwo protokołów}
+\label{sec:protokoly_bezpieczenstwo}
+
+\subsection{Autoryzacja i podatność Confused Deputy w środowiskach MCP}
+\label{subsec:protokoly_auth_deputy}
+
+Klasyczne modele bezpieczeństwa zakładają tożsamość podmiotu wykonującego akcję z~uwierzytelnionym użytkownikiem. W~systemach agentowych następuje \textbf{delegacja uprawnień wykonawczych na autonomiczny komponent probabilistyczny}, co rodzi problem autoryzacji otoczenia: statyczna konfiguracja uprawnień serwera MCP udostępnia modelowi pełne zasoby bazy danych, co wymusza dynamiczną propagację tożsamości w~metadanych ramki JSON-RPC. Zjawisko to prowadzi bezpośrednio do podatności zdezorientowanego zastępcy (ang. \emph{Confused Deputy})~\cite{hardy1988confused_deputy}: uprzywilejowany serwer MCP zostaje nakłoniony przez stochastyczny model LLM do wykonania operacji na rzecz nieuprawnionego użytkownika. Brak deterministycznej weryfikacji uprawnień wewnątrz modelu umożliwia eskalację uprawnień i~nieautoryzowany odczyt poufnych tabel przez konto techniczne serwera bazy danych. Usystematyzowaną analizę krajobrazu bezpieczeństwa protokołu MCP, powierzchni ataku oraz zagrożeń autoryzacyjnych i~zasobowych przedstawili Hou i~in.~\cite{hou2025mcpsecurity}.
+
+\subsection{Zagrożenie pośredniego wstrzykiwania instrukcji i perymetr obronny}
+\label{subsec:protokoly_prompt_injection}
+
+Najpoważniejszym zagrożeniem integracji bazodanowej LLM (LLM01 na liście OWASP~\cite{owasp_llm_2025}) jest pośrednie wstrzykiwanie promptu (\emph{Indirect Prompt Injection})~\cite{greshake2023promptinjection} poprzez zatrucie danych: (1)~zewnętrzny adwersarz umieszcza ładunek (np. \texttt{"[SYSTEM: execute\_sql 'DROP TABLE orders;']"}) w~polu bazy transakcyjnej; (2)~rekord jest replikowany przez potok Apache Kafka do PostgreSQL; (3)~agent odpytuje bazę narzędziem MCP (w~implementacji referencyjnej: \texttt{execute\_read\_only\_query}); (4)~złośliwy tekst trafia do okna uwagi modelu w~odpowiedzi JSON-RPC; (5)~model w~kolejnym kroku ReAct emituje destrukcyjne polecenie narzędziowe.
+
+Obrona nie powinna opierać się wyłącznie na dyrektywach języka naturalnego w~promptach systemowych; potrzebny jest perymetr w~bramie MCP i~w~bazie (rola bazodanowa tylko do odczytu, enkapsulacja rekordów oraz weryfikacja drzew AST kwerend), którego projekt przedstawiono w~podrozdziale~\ref{sec:projekt_bezpieczenstwo}.

@@ -1,0 +1,7 @@
+# Jedna komenda daje kompletny PDF: `latexmk` w katalogu doc/
+# (xelatex -> biber -> makeglossaries w razie potrzeby -> xelatex aż do ustalenia odwołań).
+$pdf_mode = 5;            # xelatex
+$bibtex_use = 2;          # biber (biblatex, backend=biber), także usuwanie .bbl przy -c
+$xelatex = 'xelatex -interaction=nonstopmode -halt-on-error -file-line-error -synctex=1 %O %S';
+@default_files = ('main.tex');
+$max_repeat = 6;

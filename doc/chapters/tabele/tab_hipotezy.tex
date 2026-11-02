@@ -1,0 +1,10 @@
+% Wygenerowano: benchmarks/analysis_final/generuj_makra.py
+% Źródło: statistical_hypothesis_tests.csv, oob_h2_tests.json, concurrency_h3_tests.json (r: korelacja rangowo-biserialna; dla Manna-Whitneya r = 1 - 2U/(n_a n_b))
+H1 & Table-Recall, Graph@5 vs RRF@8 & Wilcoxon & 500 (247) & 55{,}3 / 47{,}0~\% & $W = 6\,780$ & \ensuremath{2{,}1 \cdot 10^{-14}} & 0{,}56 \\
+H1 & Table-Recall, Graph@5 vs BM25@8 & Wilcoxon & 500 (255) & 55{,}3 / 53{,}2~\% & $W = 13\,800$ & \ensuremath{0{,}032} & 0{,}15 \\
+H1b & Column-Recall, Graph@5 vs RRF@8 & Wilcoxon & 500 (275) & 62{,}5 / 60{,}2~\% & $W = 15\,548$ & \ensuremath{0{,}009} & 0{,}18 \\
+H1b & Column-Recall, Graph@5 vs BM25@8 & Wilcoxon & 500 (300) & 62{,}5 / 67{,}2~\% & $W = 15\,909$ & \ensuremath{9{,}2 \cdot 10^{-6}} & -0{,}30 \\
+H2 & SHM vs In-Band, loopback, 2~KB & Mann--Whitney & 50 / 50 & 0{,}10 / 0{,}03~ms & $U = 2\,500$ & \ensuremath{7{,}1 \cdot 10^{-18}} & -1{,}00 \\
+H2 & SHM vs In-Band, loopback, 10~MB & Mann--Whitney & 50 / 50 & 14{,}7 / 113~ms & $U = 0$ & \ensuremath{7{,}1 \cdot 10^{-18}} & 1{,}00 \\
+H3 & lag, POOL vs SYNC, $M = 100$ & Mann--Whitney & 2227 / 33 & 0{,}40 / 975~ms & $U = 0$ & \ensuremath{5{,}4 \cdot 10^{-23}} & 1{,}00 \\
+H3 & lag, POOL vs SYNC, $M = 500$ & Mann--Whitney & 2200 / 6 & 0{,}39 / 4\,919~ms & $U = 0$ & \ensuremath{2{,}3 \cdot 10^{-5}} & 1{,}00 \\

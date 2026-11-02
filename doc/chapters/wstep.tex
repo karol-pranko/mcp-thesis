@@ -1,0 +1,187 @@
+% !TEX root = ../main.tex
+\chapter{Wstęp}
+\label{chap:wstep}
+
+\section{Tło i~motywacja}
+\label{sec:wstep_kontekst}
+
+Duże modele językowe (ang. \emph{Large Language Models}, LLM), oparte na architekturze Transformer~\cite{vaswani2017attention}, bardzo dobrze radzą sobie z~tekstem, ale same w~sobie są odcięte od otoczenia. Ich wiedza pochodzi z~danych treningowych i~z~czasem się starzeje, a~model, który jedynie odpowiada na pytania, nie może sam sprawdzić niczego w~bazie danych ani wykonać operacji w~systemie informatycznym.
+
+Rozwiązaniem tego problemu stało się udostępnianie modelom narzędzi~\cite{schick2023toolformer,patil2023gorilla}. Model pełni wtedy rolę agenta: planuje kolejne kroki, wywołuje zewnętrzne funkcje i~na podstawie ich wyników decyduje, co zrobić dalej, np. w~pętli ReAct (\emph{Reasoning and Acting})~\cite{yao2023react}.
+
+W~latach 2023--2024 każda biblioteka i~każdy dostawca modeli definiowali jednak własny sposób opisywania i~wywoływania narzędzi (m.in. LangChain~\cite{chase2022langchain}). Połączenie $M$ modeli z~$N$ narzędziami wymagało więc w~praktyce $M \times N$ osobnych integracji. Pod koniec 2024 roku opublikowano otwartą specyfikację \emph{Model Context Protocol} (MCP)~\cite{mcp_spec}, rozwijaną obecnie pod egidą Linux Foundation. MCP wyraźnie oddziela klienta (aplikację z~modelem) od serwera udostępniającego narzędzia i~dane, dzięki czemu wystarcza $M + N$ implementacji.
+
+
+\section{Problem badawczy}
+\label{sec:wstep_problem_badawczy}
+
+Przy łączeniu agentów z~relacyjnymi bazami danych sama liczba wierszy nie jest głównym problemem, ponieważ miliony rekordów da się sprawnie przetworzyć na jednym serwerze. Trudność polega na tym, że schemat bazy bywa często większy niż to, co model jest w~stanie przyjąć w~kontekście. Schematy hurtowni danych liczą setki lub tysiące tabel powiązanych kluczami obcymi; schemat syntetyczny badany w~tej pracy ma 1000 tabel i~1174 klucze obce. W~takich warunkach pojawiają się cztery problemy:
+\begin{enumerate}
+    \item \textbf{Rozmiar kontekstu.} Pełny opis schematu w~postaci DDL zajmuje \wynFullDumpTokens{} tokenów. Nie mieści się to w~oknie kontekstowym modeli uruchamianych lokalnie, a~w~modelach z~większym oknem wyraźnie wydłuża czas odpowiedzi (podrozdziały~\ref{subsec:teoria_bigdata_3v} i~\ref{subsec:wyniki_ttft}).
+    \item \textbf{Pomijanie tabel pośrednich.} Wyszukiwanie oparte wyłącznie na podobieństwie wektorowym~\cite{lewis2020rag} nie bierze pod uwagę powiązań między tabelami. Może więc pominąć tabelę łączącą relację $N:M$, a~model, który dostanie niepełny fragment schematu, zgaduje warunki złączeń.
+    \item \textbf{Koszt przesyłania danych binarnych.} Dane binarne w~wiadomości JSON-RPC~\cite{rfc8259} trzeba zakodować w~Base64, co zwiększa ich objętość o~jedną trzecią i~podnosi liczbę tokenów (podrozdział~\ref{subsec:protokoly_narzut_bpe}).
+    \item \textbf{Bezpieczeństwo.} Agent z~dostępem do bazy może zostać zmanipulowany treścią zapisaną w~samych danych (pośrednie wstrzykiwanie instrukcji~\cite{greshake2023promptinjection,owasp_llm_2025}, problem zdezorientowanego zastępcy~\cite{hardy1988confused_deputy}). Zabezpieczenia oparte wyłącznie na instrukcjach w~prompcie systemowym są zawodne~\cite{pedro2023prompt2sql}, dlatego potrzebna jest deterministyczna kontrola zapytań, np. przez analizę ich drzewa składniowego (AST).
+\end{enumerate}
+
+
+\section{Cel pracy}
+\label{sec:wstep_cel_zakres}
+
+Celem pracy jest analiza i~ewaluacja wydajności, skalowalności oraz bezpieczeństwa integracji systemów agentowych opartych na dużych modelach językowych ze złożonymi relacyjnymi bazami danych za pośrednictwem protokołu Model Context Protocol.
+
+Cel główny zrealizowano przez następujące cele szczegółowe:
+\begin{enumerate}
+    \item analiza porównawcza protokołu MCP i~formatu JSON-RPC 2.0 z~innymi sposobami komunikacji (REST, gRPC) pod kątem kosztu przesyłania danych oraz zagrożeń bezpieczeństwa;
+    \item ocena, jak uwzględnienie grafu kluczy obcych przy doborze tabel wpływa na kompletność i~objętość fragmentu schematu przekazywanego modelowi, a~także na poprawność generowanych przez model zapytań SQL;
+    \item wyznaczenie, analitycznie oraz pomiarowo, rozmiaru danych, od którego przesyłanie ich poza wiadomością JSON-RPC jest szybsze niż kodowanie w~Base64;
+    \item ocena wpływu przeniesienia walidacji zapytań SQL do puli procesów na responsywność serwera obsługującego wielu agentów jednocześnie;
+    \item ocena skuteczności walidacji zapytań oraz oczyszczania zwracanych rekordów w~ochronie przed atakami typu SQL Injection i~wstrzykiwaniem instrukcji;
+    \item porównanie skalowalności paginacji kursorowej i~paginacji OFFSET/LIMIT przy przeglądaniu dużych zbiorów wyników.
+\end{enumerate}
+Cele 2--5 odpowiadają pytaniom badawczym PB1--PB3 sformułowanym w~podrozdziale~\ref{sec:wstep_rq}.
+
+
+\section{Zakres pracy}
+\label{sec:wstep_zakres}
+
+Przedmiotem pracy jest integracja agentów opartych na modelach językowych z~relacyjną bazą danych PostgreSQL o~złożonym schemacie za pośrednictwem protokołu MCP. Obiektem badań jest zaprojektowana i~zaimplementowana na potrzeby pracy brama pośrednicząca, czyli serwer MCP, który udostępnia agentom dostęp do bazy.
+
+Zakres pracy obejmuje:
+\begin{itemize}
+    \item przegląd literatury oraz analizę porównawczą protokołów komunikacyjnych stosowanych w~systemach agentowych;
+    \item projekt i~implementację bramy MCP współpracującej z~PostgreSQL i~Apache Kafka, w~tym modułu doboru tabel łączącego wyszukiwanie leksykalne i~wektorowe z~rozszerzaniem wyniku o~tabele pośrednie, paginacji kursorowej z~kontrolą liczby tokenów, kanału przesyłania danych binarnych poza JSON-RPC oraz zapory zapytań SQL opartej na analizie drzewa składniowego i~uruchamianej w~puli procesów;
+    \item przygotowanie środowiska badawczego: syntetycznej bazy danych (1000 tabel, 1174 klucze obce, tabela z~1~mln rekordów), zbioru \wynNQueries{} pytań testowych oraz zautomatyzowanej aparatury pomiarowej;
+    \item eksperymentalną ocenę poszczególnych mechanizmów z~użyciem dwóch modeli językowych oraz statystyczną weryfikację postawionych hipotez.
+\end{itemize}
+
+W~pracy nie uwzględniono:
+\begin{itemize}
+    \item operacji modyfikujących dane ani transakcji, ponieważ brama udostępnia wyłącznie odczyt;
+    \item pomiarów pełnej komunikacji MCP przez warstwę transportową (\texttt{stdio}, HTTP), ponieważ mechanizmy bramy mierzono, wywołując je bezpośrednio;
+    \item pomiarów w~rzeczywistej sieci lokalnej i~rozległej, dla których progi opłacalności wyznaczono z~modelu analitycznego;
+\end{itemize}
+Praca nie obejmuje także dostrajania modeli językowych, ewaluacji modeli komercyjnych dostępnych przez API ani wdrożenia rozproszonego na wielu serwerach.
+
+
+\section{Pytania badawcze}
+\label{sec:wstep_rq}
+
+Na podstawie opisanych problemów sformułowano trzy pytania badawcze:
+\begin{enumerate}
+    \item[\textbf{PB1}] \emph{W~jakim stopniu uzupełnienie wyszukiwania semantycznego o~ekspansję grafową o~tabele mostkujące (ang. \emph{FK bridge expansion}) poprawia kompletność doboru tabel w~złożonych schematach relacyjnych?}
+    \item[\textbf{PB2}] \emph{Przy jakiej wielkości przesyłanych danych narzut kodowania Base64 w~protokole JSON-RPC uzasadnia przeniesienie transferu do osobnego kanału (Out-of-Band)?}
+    \item[\textbf{PB3}] \emph{W~jakim stopniu przeniesienie walidacji składniowej SQL do procesów potomnych pozwala utrzymać wydajność serwera asynchronicznego pod dużym obciążeniem przy zachowaniu ochrony przed badanymi klasami ataków?}
+\end{enumerate}
+
+
+\section{Hipotezy badawcze}
+\label{sec:wstep_hipoteza}
+
+Hipoteza główna pracy brzmi:
+
+\begin{quote}
+\textit{Zastosowanie dedykowanej bramy pośredniczącej w~standardzie MCP, integrującej semantyczno-grafową selekcję schematu, adaptacyjną paginację kursorową oraz wieloprocesową walidację zapytań, pozwala ograniczyć objętość kontekstu i~koszt przekazania danych oraz chronić bazę danych przed badanymi klasami ataków bez degradacji responsywności pętli zdarzeń bramy pod obciążeniem.}
+\end{quote}
+
+Do weryfikacji statystycznej rrozbito ją na hipotezy szczegółowe:
+\begin{description}
+    \item[\textbf{H1:}] Uzupełnienie hybrydowego wyszukiwania schematu o~ekspansję grafową o~tabele mostkujące zapewnia statystycznie istotny wzrost czułości selekcji tabel (\emph{Table-Recall}) w~relacji do hybrydowego wyszukiwania RRF bez ekspansji oraz leksykalnego BM25 bez ekspansji przy równym budżecie tabel, tj. gdy warianty bazowe otrzymują maksymalną liczbę tabel zwracaną przez wariant autorski (Graph@5 wobec RRF@8 i~BM25@8; test rangowanych znaków Wilcoxona dla prób zależnych z~korektą Holma). Porównanie z~gęstym k-NN ma charakter opisowy.
+    \item[\textbf{H1b:}] Analogiczny, statystycznie istotny wzrost dotyczy czułości selekcji kolumn (\emph{Column-Recall}) w~relacji do RRF@8 i~BM25@8 (test rangowanych znaków Wilcoxona dla prób zależnych). Ponieważ w~przyjętej metodyce kolumny wynikają automatycznie z~wybranych tabel, H1b jest pochodną H1, a~nie niezależną hipotezą.
+    \item[\textbf{H2:}] Istnieje wyznaczalny empirycznie próg wolumenu danych $S^*$, powyżej którego transfer binarny w~kanale pozapasmowym cechuje się statystycznie istotnie niższym opóźnieniem niż standardowa serializacja JSON-RPC z~kodowaniem Base64, a~poniżej którego przewagę ma serializacja Base64 (test Manna--Whitneya dla rozmiaru ładunku poniżej i~powyżej progu).
+    \item[\textbf{H3:}] Oddelegowanie walidacji drzew składniowych AST do wieloprocesowej puli wykonawczej zapewnia statystycznie istotnie niższe opóźnienie asynchronicznej pętli zdarzeń pod obciążeniem wieloagentowym niż walidacja w~wątku pętli zdarzeń (test Manna--Whitneya dla $M = 100$ i~$M = 500$ klientów).
+\end{description}
+
+
+\section{Metodyka badań}
+\label{sec:wstep_metodologia}
+
+Pracę prowadzono zgodnie z~metodyką badań konstrukcyjnych (\emph{Design Science Research})~\cite{peffers2007dsr}: najpierw zbudowano artefakt, czyli bramę MCP, a~następnie oceniono go eksperymentalnie. Wszystkie pomiary wykonano w~jednej, w~pełni zautomatyzowanej rundzie na danych syntetycznych. Do wnioskowania użyto testów nieparametrycznych (Wilcoxona, McNemara, Manna-Whitneya) oraz przedziałów ufności wyznaczanych metodą bootstrap i~metodą Cloppera-Pearsona.
+
+
+\section{Wykorzystane narzędzia i~środowisko}
+\label{sec:wstep_narzedzia}
+
+\subsection*{Narzędzia}
+
+Podczas realizacji pracy wykorzystano:
+\begin{itemize}
+    \item do budowy bramy: język Python 3.12, framework FastMCP~\cite{fastmcp} i~SDK protokołu MCP~\cite{mcp_spec}, sterownik \texttt{asyncpg}~\cite{asyncpg} oraz biblioteki \texttt{aiokafka}, \texttt{pydantic} i~\texttt{httpx};
+    \item jako warstwę danych: PostgreSQL z~rozszerzeniem \texttt{pgvector}~\cite{pgvector} (indeks HNSW~\cite{malkov2018hnsw}) oraz Apache Kafka~\cite{kreps2011kafka};
+    \item do wyboru tabel i~kontroli zapytań: \texttt{sentence-transformers} z~modelem \texttt{all-MiniLM-L6-v2}~\cite{reimers2019sentencebert}, \texttt{rank\_bm25}, NetworkX oraz parser SQL \texttt{sqlglot}~\cite{sqlglot};
+    \item jako modele językowe: \texttt{qwen2.5-coder:3b} i~\texttt{qwen2.5-coder:7b}~\cite{qwen2025qwen25} uruchamiane w~serwerze Ollama, a~do liczenia tokenów bibliotekę \texttt{tiktoken}~\cite{tiktoken};
+    \item do pomiarów i~analiz: własną aparaturę pomiarową (podrozdział~\ref{sec:klient_aparatura}), bibliotekę \texttt{psutil}, a~do obliczeń statystycznych i~wykresów biblioteki SciPy, pandas, PyArrow, matplotlib i~seaborn;
+    \item do pracy nad kodem i~tekstem: \texttt{pytest}, \texttt{uv}, Git, Docker z~Docker Compose, Visual Studio Code oraz \LaTeX{} z~BibLaTeX.
+\end{itemize}
+
+\subsection*{Środowisko deweloperskie}
+
+Kod powstawał na komputerze z~procesorem Intel Core i7-1165G7 (4~rdzenie, 8~wątków, 2,8~GHz) i~16~GB RAM, z~systemem Ubuntu 26.04 LTS. Python 3.12 działał w~środowisku wirtualnym \texttt{.venv} zarządzanym przez \texttt{uv}. Zależności opisano w~pliku \texttt{pyproject.toml}, a~ich dokładne wersje zapisano w~\texttt{uv.lock}.
+
+Bazę danych i~brokera uruchamiano lokalnie w~kontenerach Docker opisanych w~pliku \texttt{testbed/docker-compose.yml} (tabela~\ref{tab:parametry_kontenerow}):
+\begin{itemize}
+    \item \texttt{mcp\_postgres} -- obraz \texttt{pgvector/pgvector:0.7.4-pg16} z~ustawieniami \texttt{max\_connections=200}, \texttt{shared\_buffers=1GB} i~\texttt{work\_mem=32MB} oraz trwałym wolumenem \texttt{pgdata}; przy pierwszym uruchomieniu skrypty z~katalogu \texttt{testbed/init-scripts/} tworzą schemat 1000 tabel z~1174 kluczami obcymi, tabele z~opisami i~wektorami tabel oraz tabelę z~1~mln rekordów;
+    \item \texttt{mcp\_kafka} -- obraz \texttt{apache/kafka:3.7.0} z~jednym brokerem w~trybie KRaft i~tematem o~trzech partycjach.
+\end{itemize}
+
+Poprawność kodu sprawdzano testami \texttt{pytest}, które obejmują m.in. zaporę SQL, wybór tabel, paginację, przesyłanie danych binarnych i~samą aparaturę pomiarową. Przed właściwą rundą pomiarową uruchamiano skrócony przebieg wszystkich scenariuszy (\texttt{./run\_benchmark.sh --quick}) oraz skrypt \texttt{scripts/preflight\_check.py}, sprawdzający, czy usługi i~dane są gotowe. Pełne eksperymenty z~modelami językowymi prowadzono tylko w~środowisku testowym.
+
+\subsection*{Środowisko testowe}
+
+Rundę pomiarową wykonano na wynajętej instancji RunPod z~kartą \wynGpu{} (\wynGpuMem~GiB), procesorem \wynCpu{} (\wynVcpu~vCPU, \wynRam~GB RAM) i~systemem Ubuntu 22.04 z~CUDA. Skrypt \texttt{scripts/setup\_runpod.sh} instaluje tam bez kontenerów PostgreSQL \wynPg{} z~pgvector \wynPgvector, Apache Kafka \wynKafka, Ollamę \wynOllama{} i~Pythona \wynPython{}, a~następnie wypełnia bazę tym samym generatorem co lokalnie. Pełne parametry podano w~tabeli~\ref{tab:parametry_rundy}, a~przebieg rundy opisano w~podrozdziałach~\ref{sec:klient_aparatura} i~\ref{subsec:wyniki_powtarzalnosc}.
+
+
+\section{Osiągnięte rezultaty}
+\label{sec:wstep_rezultaty}
+
+Dzięki ekspansji grafowej do wyniku trafiało \wynRecallGraphFive\% potrzebnych tabel (Table-Recall), wobec \wynRecallRrfEight\% dla RRF@8 i~\wynRecallBmEight\% dla BM25@8 przy tej samej liczbie tabel. Przekazywany modelowi fragment schematu był przy tym ponad 99\% mniejszy od pełnego opisu bazy. Nie przełożyło się to jednak na istotnie lepszą poprawność generowanych zapytań.
+
+Przesyłanie danych przez pamięć współdzieloną okazało się na jednym serwerze szybsze od Base64 dla danych większych niż \wynSstarLoopShm~KiB, zgodnie z~modelem analitycznym. Paginacja kursorowa miała stały czas odpowiedzi (\wynKeysetDeep~ms przy przesunięciu 950\,000 wierszy, wobec \wynOffsetDeep~ms dla OFFSET/LIMIT). Przeniesienie walidacji do puli procesów zmniejszyło medianę opóźnienia pętli zdarzeń przy 100 klientach z~\wynCcSyncHundredLagMed{} do \wynCcPoolHundredLagMed~ms. Zapora zablokowała wszystkie \wynSecInjection{} próby SQL Injection bez fałszywych alarmów, ale przepuściła zapytania \texttt{SELECT} wywołujące funkcje z~efektami ubocznymi.
+
+Hipotezy H1, H2 (dla jednego serwera) i~H3 zostały potwierdzone, H1b częściowo, a~hipotezę główną uznano za potwierdzoną w~badanym zakresie.
+
+
+\section{Główne trudności}
+\label{sec:wstep_trudnosci}
+
+Najwięcej trudności sprawiły:
+\begin{itemize}
+    \item \textbf{brak gotowych danych} -- publiczne zbiory Text-to-SQL nie zawierają schematów z~tysiącem tabel, więc trzeba było napisać własny generator schematu i~przygotować własny zbiór pytań;
+    \item \textbf{koszt i~powtarzalność eksperymentów z~modelami} -- do uruchomienia modeli potrzebna była karta graficzna, a~więc wynajęta instancja w~chmurze; żeby wyniki dało się powtórzyć, ustawiono temperaturę $T = 0$ i~stałe ziarna losowania, a~każdą rundę opisano manifestem;
+    \item \textbf{ograniczenia instancji chmurowej} -- nie dało się na niej emulować opóźnień sieci (\texttt{tc netem}), dlatego progi dla sieci lokalnej i~rozległej wyznaczono z~modelu;
+    \item \textbf{wpływ pomiaru na wynik} -- odczyt zużycia pamięci w~trakcie testu sam wydłużał najdłuższe opóźnienia, co trzeba było wydzielić w~dodatkowej analizie.
+\end{itemize}
+
+
+\section{Możliwości wykorzystania wyników}
+\label{sec:wstep_wykorzystanie}
+
+Wyniki mogą przydać się zespołom, które budują agentów z~dostępem do firmowych baz danych. Próg $S^*$ pomaga zdecydować, od jakiego rozmiaru danych warto przesyłać je poza JSON-RPC. Ekspansję grafową można dodać jako etap wyboru tabel w~istniejących systemach Text-to-SQL, a~paginację kursorową z~kontrolą liczby tokenów zastosować w~narzędziach MCP zwracających duże wyniki. Przeniesienie kosztownych obliczeń do puli procesów sprawdzi się w~każdym serwerze opartym na \texttt{asyncio}, nie tylko w~serwerach MCP. Z~kolei wyniki testów bezpieczeństwa pokazują, że sama analiza AST nie wystarcza i~trzeba ją łączyć z~ograniczeniem uprawnień w~bazie.
+
+Generator schematu i~aparatura pomiarowa pozwalają powtórzyć eksperymenty i~porównać z~nimi inne metody wyboru tabel.
+
+
+\section{Wykorzystanie narzędzi i~metod sztucznej inteligencji}
+\label{sec:wstep_ai}
+
+Podczas pisania pracy korzystano z~narzędzi opartych na dużych modelach językowych do poprawek stylistycznych i~redakcyjnych tekstu: ujednolicenia terminologii, poprawy składni i~interpunkcji oraz skracania zbyt rozbudowanych zdań. Wszystkie proponowane zmiany autor sprawdził i~ponosi pełną odpowiedzialność za treść pracy. Modele \texttt{qwen2.5-coder} opisane w~Rozdziale~\ref{chap:wyniki} były natomiast przedmiotem badań, a~nie narzędziem redakcyjnym.
+
+Przykładowe prompty użyte w~trakcie tworzenia pracy udostępniono w~repozytorium z~kodem źródłowym pracy (załącznik~\ref{app:kod_zrodlowy}):
+\begin{center}
+\repoUrl
+\end{center}
+
+
+\section{Układ pracy}
+\label{sec:wstep_uklad_pracy}
+
+Praca składa się z~siedmiu rozdziałów:
+\begin{itemize}
+    \item \textbf{Rozdział~1 -- Wstęp:} tło i~problem badawczy, cel i~zakres pracy, pytania i~hipotezy, metodyka oraz narzędzia i~środowisko.
+    \item \textbf{Rozdział~\ref{chap:teoria} -- Teoretyczne podstawy integracji modeli językowych z~danymi:} sposoby łączenia modeli językowych z~otoczeniem, specyfikacja MCP i~ograniczenia okna kontekstowego.
+    \item \textbf{Rozdział~\ref{chap:protokoly} -- Analiza porównawcza protokołów komunikacyjnych:} porównanie JSON-RPC 2.0, REST, gRPC i~MCP oraz przegląd zagrożeń bezpieczeństwa w~systemach agentowych.
+    \item \textbf{Rozdział~\ref{chap:projekt} -- Projekt systemu integracji MCP z~hurtownią danych:} projekt bramy, czyli wybór tabel z~ekspansją grafową, paginacja kursorowa, model progu $S^*$ i~ochrona pętli zdarzeń.
+    \item \textbf{Rozdział~\ref{chap:implementacja} -- Implementacja i~środowisko badawcze:} implementacja modułów bramy, środowisko badawcze i~aparatura pomiarowa.
+    \item \textbf{Rozdział~\ref{chap:wyniki} -- Wyniki badań i~ewaluacja eksperymentalna:} wyniki eksperymentów i~statystyczna weryfikacja hipotez.
+    \item \textbf{Rozdział~\ref{chap:podsumowanie} -- Podsumowanie i~wnioski:} podsumowanie wyników, ograniczenia rozwiązania i~kierunki dalszych prac.
+\end{itemize}
+Pracę uzupełniają załączniki z~opisem repozytorium kodu źródłowego i~wybranymi listingami.

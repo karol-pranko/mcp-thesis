@@ -1,0 +1,144 @@
+{
+  "family_size_per_profile": {
+    "large": 6,
+    "small": 6
+  },
+  "tests": {
+    "large": [
+      {
+        "test": "EX[large]: Graph@5 vs DomainScoped@15 (k_independent)",
+        "ex_graph_pct": 15.2,
+        "ex_base_pct": 6.6000000000000005,
+        "only_graph": 47,
+        "only_base": 4,
+        "p_raw": 2.4163071543625847e-10,
+        "p_holm": 1.4497842926175508e-09,
+        "direction": "Graph lepszy",
+        "significant_holm_0_05": true
+      },
+      {
+        "test": "EX[large]: Graph@5 vs BM25@8 (equal_budget)",
+        "ex_graph_pct": 15.2,
+        "ex_base_pct": 17.8,
+        "only_graph": 9,
+        "only_base": 22,
+        "p_raw": 0.0294493734836578,
+        "p_holm": 0.147246867418289,
+        "direction": "baseline lepszy",
+        "significant_holm_0_05": false
+      },
+      {
+        "test": "EX[large]: Graph@5 vs Dense@5 (k_sweep)",
+        "ex_graph_pct": 15.2,
+        "ex_base_pct": 14.000000000000002,
+        "only_graph": 15,
+        "only_base": 9,
+        "p_raw": 0.3074562549591064,
+        "p_holm": 1.0,
+        "direction": "Graph lepszy",
+        "significant_holm_0_05": false
+      },
+      {
+        "test": "EX[large]: Graph@5 vs BM25@5 (k_sweep)",
+        "ex_graph_pct": 15.2,
+        "ex_base_pct": 15.8,
+        "only_graph": 14,
+        "only_base": 17,
+        "p_raw": 0.720100131817162,
+        "p_holm": 1.0,
+        "direction": "baseline lepszy",
+        "significant_holm_0_05": false
+      },
+      {
+        "test": "EX[large]: Graph@5 vs RRF@5 (k_sweep)",
+        "ex_graph_pct": 15.2,
+        "ex_base_pct": 15.0,
+        "only_graph": 7,
+        "only_base": 6,
+        "p_raw": 1.0,
+        "p_holm": 1.0,
+        "direction": "Graph lepszy",
+        "significant_holm_0_05": false
+      },
+      {
+        "test": "EX[large]: Graph@5 vs RRF@8 (equal_budget)",
+        "ex_graph_pct": 15.2,
+        "ex_base_pct": 15.2,
+        "only_graph": 14,
+        "only_base": 14,
+        "p_raw": 1.0,
+        "p_holm": 1.0,
+        "direction": "remis",
+        "significant_holm_0_05": false
+      }
+    ],
+    "small": [
+      {
+        "test": "EX[small]: Graph@5 vs DomainScoped@15 (k_independent)",
+        "ex_graph_pct": 17.0,
+        "ex_base_pct": 7.8,
+        "only_graph": 48,
+        "only_base": 2,
+        "p_raw": 2.26663132707472e-12,
+        "p_holm": 1.359978796244832e-11,
+        "direction": "Graph lepszy",
+        "significant_holm_0_05": true
+      },
+      {
+        "test": "EX[small]: Graph@5 vs RRF@5 (k_sweep)",
+        "ex_graph_pct": 17.0,
+        "ex_base_pct": 15.8,
+        "only_graph": 9,
+        "only_base": 3,
+        "p_raw": 0.14599609375,
+        "p_holm": 0.72998046875,
+        "direction": "Graph lepszy",
+        "significant_holm_0_05": false
+      },
+      {
+        "test": "EX[small]: Graph@5 vs BM25@5 (k_sweep)",
+        "ex_graph_pct": 17.0,
+        "ex_base_pct": 15.4,
+        "only_graph": 16,
+        "only_base": 8,
+        "p_raw": 0.1515896320343017,
+        "p_holm": 0.72998046875,
+        "direction": "Graph lepszy",
+        "significant_holm_0_05": false
+      },
+      {
+        "test": "EX[small]: Graph@5 vs RRF@8 (equal_budget)",
+        "ex_graph_pct": 17.0,
+        "ex_base_pct": 15.8,
+        "only_graph": 13,
+        "only_base": 7,
+        "p_raw": 0.2631759643554687,
+        "p_holm": 0.789527893066406,
+        "direction": "Graph lepszy",
+        "significant_holm_0_05": false
+      },
+      {
+        "test": "EX[small]: Graph@5 vs Dense@5 (k_sweep)",
+        "ex_graph_pct": 17.0,
+        "ex_base_pct": 16.0,
+        "only_graph": 15,
+        "only_base": 10,
+        "p_raw": 0.4243562221527099,
+        "p_holm": 0.8487124443054198,
+        "direction": "Graph lepszy",
+        "significant_holm_0_05": false
+      },
+      {
+        "test": "EX[small]: Graph@5 vs BM25@8 (equal_budget)",
+        "ex_graph_pct": 17.0,
+        "ex_base_pct": 16.6,
+        "only_graph": 10,
+        "only_base": 8,
+        "p_raw": 0.8145294189453125,
+        "p_holm": 0.8487124443054198,
+        "direction": "Graph lepszy",
+        "significant_holm_0_05": false
+      }
+    ]
+  }
+}

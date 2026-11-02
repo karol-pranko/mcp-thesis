@@ -1,0 +1,56 @@
+metric_name,sample_size,mean_value,median_value,ci_lower_95,ci_upper_95,std_error,resamples_count
+Recall@3 [Baseline A (Full Schema)],200,0.1663,0.1667,0.1464,0.186,0.01,10000
+Precision@3 [Baseline A (Full Schema)],200,0.0696,0.0833,0.0612,0.0779,0.0042,10000
+Recall@5 [Baseline A (Full Schema)],200,0.1663,0.1667,0.1464,0.186,0.01,10000
+Precision@5 [Baseline A (Full Schema)],200,0.0696,0.0833,0.0612,0.0779,0.0042,10000
+Recall@10 [Baseline A (Full Schema)],200,0.1663,0.1667,0.1464,0.186,0.01,10000
+Precision@10 [Baseline A (Full Schema)],200,0.0696,0.0833,0.0612,0.0779,0.0042,10000
+Recall@20 [Baseline A (Full Schema)],200,0.1663,0.1667,0.1464,0.186,0.01,10000
+Precision@20 [Baseline A (Full Schema)],200,0.0696,0.0833,0.0612,0.0779,0.0042,10000
+Recall@3 [Autorskie (Graph Pruning & Bridges)],200,0.3919,0.3333,0.3608,0.4232,0.016,10000
+Precision@3 [Autorskie (Graph Pruning & Bridges)],200,0.5102,0.5,0.4787,0.5413,0.0159,10000
+Recall@5 [Autorskie (Graph Pruning & Bridges)],200,0.577,0.6,0.547,0.607,0.0154,10000
+Precision@5 [Autorskie (Graph Pruning & Bridges)],200,0.4511,0.4286,0.4305,0.4721,0.0106,10000
+Recall@10 [Autorskie (Graph Pruning & Bridges)],200,0.7288,0.6667,0.701,0.757,0.0145,10000
+Precision@10 [Autorskie (Graph Pruning & Bridges)],200,0.3049,0.3077,0.2925,0.3173,0.0063,10000
+Recall@20 [Autorskie (Graph Pruning & Bridges)],200,0.8129,0.8333,0.7858,0.84,0.0138,10000
+Precision@20 [Autorskie (Graph Pruning & Bridges)],200,0.1822,0.1739,0.1755,0.1887,0.0034,10000
+Recall@3 [Baseline B (Lexical BM25)],200,0.3304,0.3333,0.3073,0.3541,0.0119,10000
+Precision@3 [Baseline B (Lexical BM25)],200,0.5433,0.6667,0.51,0.5767,0.0173,10000
+Recall@5 [Baseline B (Lexical BM25)],200,0.4472,0.45,0.4228,0.4721,0.0125,10000
+Precision@5 [Baseline B (Lexical BM25)],200,0.448,0.4,0.425,0.471,0.0118,10000
+Recall@10 [Baseline B (Lexical BM25)],200,0.5828,0.6,0.5597,0.6061,0.0118,10000
+Precision@10 [Baseline B (Lexical BM25)],200,0.2955,0.3,0.283,0.3085,0.0065,10000
+Recall@20 [Baseline B (Lexical BM25)],200,0.7448,0.75,0.7232,0.7663,0.011,10000
+Precision@20 [Baseline B (Lexical BM25)],200,0.1893,0.2,0.1825,0.196,0.0034,10000
+Recall@3 [Baseline C (Hybrid pgvector+BM25 RRF)],200,0.2639,0.25,0.2424,0.286,0.0111,10000
+Precision@3 [Baseline C (Hybrid pgvector+BM25 RRF)],200,0.44,0.3333,0.4083,0.4733,0.0166,10000
+Recall@5 [Baseline C (Hybrid pgvector+BM25 RRF)],200,0.3682,0.3333,0.3436,0.3923,0.0125,10000
+Precision@5 [Baseline C (Hybrid pgvector+BM25 RRF)],200,0.367,0.4,0.344,0.389,0.0114,10000
+Recall@10 [Baseline C (Hybrid pgvector+BM25 RRF)],200,0.4955,0.5,0.4692,0.5215,0.0132,10000
+Precision@10 [Baseline C (Hybrid pgvector+BM25 RRF)],200,0.2495,0.2,0.2365,0.2625,0.0066,10000
+Recall@20 [Baseline C (Hybrid pgvector+BM25 RRF)],200,0.6305,0.6667,0.6031,0.6587,0.0141,10000
+Precision@20 [Baseline C (Hybrid pgvector+BM25 RRF)],200,0.1587,0.15,0.1517,0.1657,0.0036,10000
+E2E Latency (2 MB) [IN_BAND_BASE64],50,23.8165,23.3142,23.387,24.4004,0.2604,10000
+E2E Latency (2 MB) [OOB_POSIX_SHM],50,3.0715,3.0647,3.0615,3.0856,0.0062,10000
+E2E Latency (2 MB) [OOB_HTTP_STREAM],50,3.6328,3.6006,3.6063,3.6683,0.016,10000
+E2E Latency (10 MB) [IN_BAND_BASE64],50,127.9226,127.2036,127.3305,128.685,0.3487,10000
+E2E Latency (10 MB) [OOB_POSIX_SHM],50,16.3567,16.0363,16.053,16.8306,0.2079,10000
+E2E Latency (10 MB) [OOB_HTTP_STREAM],50,17.1277,16.9023,16.9208,17.4079,0.1292,10000
+E2E Latency (50 MB) [IN_BAND_BASE64],50,692.8429,691.3417,690.9606,694.8298,0.9951,10000
+E2E Latency (50 MB) [OOB_POSIX_SHM],50,107.6766,106.7675,107.0386,108.4411,0.3639,10000
+E2E Latency (50 MB) [OOB_HTTP_STREAM],50,107.4194,106.7959,106.8065,108.1501,0.349,10000
+Event Loop Lag (M=1) [SYNCHRONOUS_AST],200,0.0,2.32,0.0,0.0,0.0,10000
+Event Loop Lag (M=5) [SYNCHRONOUS_AST],200,0.0,2.33,0.0,0.0,0.0,10000
+Event Loop Lag (M=10) [SYNCHRONOUS_AST],200,0.0,2.34,0.0,0.0,0.0,10000
+Event Loop Lag (M=25) [SYNCHRONOUS_AST],200,0.0,2.34,0.0,0.0,0.0,10000
+Event Loop Lag (M=50) [SYNCHRONOUS_AST],250,0.0,2.35,0.0,0.0,0.0,10000
+Event Loop Lag (M=100) [SYNCHRONOUS_AST],500,0.0,2.35,0.0,0.0,0.0,10000
+Event Loop Lag (M=500) [SYNCHRONOUS_AST],2500,0.0,2.36,0.0,0.0,0.0,10000
+Event Loop Lag (M=1) [MULTIPROCESS_AST_POOL],200,0.18,3.17,0.18,0.55,0.0,10000
+Event Loop Lag (M=5) [MULTIPROCESS_AST_POOL],200,2.79,15.53,2.79,1.06,0.0,10000
+Event Loop Lag (M=10) [MULTIPROCESS_AST_POOL],200,0.55,31.27,0.55,1.03,0.0,10000
+Event Loop Lag (M=25) [MULTIPROCESS_AST_POOL],200,0.54,78.18,0.54,0.96,0.0,10000
+Event Loop Lag (M=50) [MULTIPROCESS_AST_POOL],250,0.55,156.14,0.55,1.02,0.0,10000
+Event Loop Lag (M=100) [MULTIPROCESS_AST_POOL],500,0.61,313.24,0.61,1.05,0.0,10000
+Event Loop Lag (M=500) [MULTIPROCESS_AST_POOL],2500,0.57,577.75,0.57,1.0,0.0,10000

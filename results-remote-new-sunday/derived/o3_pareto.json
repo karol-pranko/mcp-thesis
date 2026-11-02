@@ -1,0 +1,155 @@
+{
+  "points": [
+    {
+      "strategy": "BM25",
+      "k": 3,
+      "recall": 42.39333333333333,
+      "tokens": 684.032,
+      "n_tables": 3.0
+    },
+    {
+      "strategy": "RRF",
+      "k": 3,
+      "recall": 34.27,
+      "tokens": 690.312,
+      "n_tables": 3.0
+    },
+    {
+      "strategy": "Dense",
+      "k": 3,
+      "recall": 24.666666666666664,
+      "tokens": 695.424,
+      "n_tables": 3.0
+    },
+    {
+      "strategy": "Graph",
+      "k": 3,
+      "recall": 44.696666666666665,
+      "tokens": 851.564,
+      "n_tables": 3.534
+    },
+    {
+      "strategy": "BM25",
+      "k": 5,
+      "recall": 47.846666666666664,
+      "tokens": 1146.714,
+      "n_tables": 5.0
+    },
+    {
+      "strategy": "RRF",
+      "k": 5,
+      "recall": 40.446666666666665,
+      "tokens": 1161.456,
+      "n_tables": 5.0
+    },
+    {
+      "strategy": "Dense",
+      "k": 5,
+      "recall": 31.2,
+      "tokens": 1166.106,
+      "n_tables": 5.0
+    },
+    {
+      "strategy": "Graph",
+      "k": 5,
+      "recall": 55.32999999999999,
+      "tokens": 1482.378,
+      "n_tables": 6.02
+    },
+    {
+      "strategy": "BM25",
+      "k": 8,
+      "recall": 53.18333333333334,
+      "tokens": 1847.594,
+      "n_tables": 8.0
+    },
+    {
+      "strategy": "RRF",
+      "k": 8,
+      "recall": 46.986666666666665,
+      "tokens": 1869.746,
+      "n_tables": 8.0
+    },
+    {
+      "strategy": "BM25",
+      "k": 10,
+      "recall": 55.14333333333333,
+      "tokens": 2313.522,
+      "n_tables": 10.0
+    },
+    {
+      "strategy": "Dense",
+      "k": 10,
+      "recall": 40.656666666666666,
+      "tokens": 2345.572,
+      "n_tables": 10.0
+    },
+    {
+      "strategy": "RRF",
+      "k": 10,
+      "recall": 49.556666666666665,
+      "tokens": 2347.616,
+      "n_tables": 10.0
+    },
+    {
+      "strategy": "Graph",
+      "k": 10,
+      "recall": 67.44333333333333,
+      "tokens": 3016.878,
+      "n_tables": 11.962
+    },
+    {
+      "strategy": "DomainScoped",
+      "k": 15,
+      "recall": 8.516666666666667,
+      "tokens": 3263.6,
+      "n_tables": 15.0
+    },
+    {
+      "strategy": "Dense",
+      "k": 20,
+      "recall": 50.61666666666667,
+      "tokens": 4754.68,
+      "n_tables": 20.0
+    },
+    {
+      "strategy": "BM25",
+      "k": 20,
+      "recall": 65.84666666666666,
+      "tokens": 4755.176,
+      "n_tables": 20.0
+    },
+    {
+      "strategy": "RRF",
+      "k": 20,
+      "recall": 58.99666666666668,
+      "tokens": 4778.096,
+      "n_tables": 20.0
+    },
+    {
+      "strategy": "Graph",
+      "k": 20,
+      "recall": 76.20666666666665,
+      "tokens": 5845.948,
+      "n_tables": 22.734
+    }
+  ],
+  "pareto_front": [
+    "BM25@3",
+    "Graph@3",
+    "BM25@5",
+    "Graph@5",
+    "Graph@10",
+    "Graph@20"
+  ],
+  "graph5": {
+    "tokens": 1482.378,
+    "recall": 55.32999999999999
+  },
+  "recall_at_graph5_tokens_interpolated": {
+    "BM25": 50.40249202906822,
+    "Dense": 33.73579067137162,
+    "Graph": 55.32999999999999,
+    "RRF": 43.40990189517476
+  }
+}

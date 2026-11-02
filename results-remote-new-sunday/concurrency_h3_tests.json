@@ -1,0 +1,50 @@
+[
+  {
+    "hypothesis": "H3",
+    "comparison": "POOL vs SYNC (lag pętli zdarzeń)",
+    "concurrency_level": 100,
+    "workers": 4,
+    "test": "mann_whitney_u",
+    "n_a": 2227,
+    "n_b": 33,
+    "U": 0.0,
+    "p_value": 5.362219263652581e-23,
+    "rank_biserial_r": 1.0,
+    "median_a": 0.39787590503692627,
+    "median_b": 974.7251085937023,
+    "reported": true,
+    "median_diff_ci": {
+      "reported": true,
+      "estimate": -974.3272326886654,
+      "ci_low": -994.6985235437751,
+      "ci_high": -703.4571306779981,
+      "level": 0.95,
+      "n_resamples": 5000,
+      "seed": 12345
+    }
+  },
+  {
+    "hypothesis": "H3",
+    "comparison": "POOL vs SYNC (lag pętli zdarzeń)",
+    "concurrency_level": 500,
+    "workers": 4,
+    "test": "mann_whitney_u",
+    "n_a": 2200,
+    "n_b": 6,
+    "U": 0.0,
+    "p_value": 2.279562243361888e-05,
+    "rank_biserial_r": 1.0,
+    "median_a": 0.38777291774749756,
+    "median_b": 4918.973345309496,
+    "reported": true,
+    "median_diff_ci": {
+      "reported": true,
+      "estimate": -4918.585572391748,
+      "ci_low": -5039.577296003699,
+      "ci_high": -3367.5202599260956,
+      "level": 0.95,
+      "n_resamples": 5000,
+      "seed": 12345
+    }
+  }
+]

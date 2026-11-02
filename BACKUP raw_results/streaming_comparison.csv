@@ -1,0 +1,4 @@
+approach,description,polling_interval_ms,ttfe_mean_ms,ttfe_std_dev,ttfe_variance,ttfe_p50_ms,ttfe_p95_ms,ttfe_p99_ms,idle_cpu_pct,idle_ram_mb,active_cpu_pct,active_ram_mb,idle_queries_per_sec,wasted_bandwidth_bytes_sec,latency_penalty_ratio,raw_samples
+MCP_SSE_PUSH,MCP Server-Sent Events (SSE Push),0.0,1.135,0.19,0.036,1.135,1.256,1.266,0.0,1011.97,248.3,1012.04,0.0,0.0,1.0,"[1.269, 1.001]"
+REST_POLLING_1S,REST Polling (Interwał 1s),100.0,66.653,35.444,1256.258,66.653,89.209,91.214,1.0,1011.98,7.1,1012.33,9.94,4524.75,58.73,"[41.59, 91.715]"
+REST_POLLING_5S,REST Polling (Interwał 5s),500.0,126.594,26.643,709.854,126.594,143.549,145.056,1.0,1012.0,7.5,1012.34,2.0,914.0,111.54,"[107.754, 145.433]"

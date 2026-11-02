@@ -1,0 +1,14 @@
+{
+  "total_test_vectors": 1000,
+  "fpr_pct": 0.0,
+  "false_positives_count": 0,
+  "analytical_queries_count": 500,
+  "amr_pct": 100.0,
+  "mitigated_attacks_count": 250,
+  "sql_injection_count": 250,
+  "asr_pct": 0.0,
+  "successful_prompt_injections": 0,
+  "prompt_injection_count": 250,
+  "mean_validation_latency_ms": 1.2984,
+  "p95_validation_latency_ms": 3.4635
+}

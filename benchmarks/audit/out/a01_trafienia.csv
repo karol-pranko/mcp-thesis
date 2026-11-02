@@ -1,0 +1,131 @@
+plik,linia,wzorzec,tresc
+benchmarks/benchmark_pagination.py,203,fallback_defaults,fallback_password = (
+benchmarks/benchmark_pagination.py,211,fallback_defaults,"password=fallback_password,"
+benchmarks/benchmark_streaming.py,136,random.,"dev_num = random.randint(1, 50)"
+benchmarks/benchmark_streaming.py,141,random.,"""temperature"": round(random.uniform(125.0, 160.0), 2),"
+benchmarks/benchmark_streaming.py,141,uniform(,"""temperature"": round(random.uniform(125.0, 160.0), 2),"
+benchmarks/benchmark_streaming.py,142,random.,"""pressure"": round(random.uniform(1150.0, 1380.0), 2),"
+benchmarks/benchmark_streaming.py,142,uniform(,"""pressure"": round(random.uniform(1150.0, 1380.0), 2),"
+benchmarks/benchmark_streaming.py,338,random.,"initial_wait = random.uniform(0.01, interval_s)"
+benchmarks/benchmark_streaming.py,338,uniform(,"initial_wait = random.uniform(0.01, interval_s)"
+benchmarks/benchmark_schema.py,218,fallback_defaults,fallback_password = (
+benchmarks/benchmark_schema.py,226,fallback_defaults,"password=fallback_password,"
+benchmarks/statistical_analysis.py,120,np.random,rng = np.random.default_rng(random_state)
+benchmarks/statistical_analysis.py,120,default_rng,rng = np.random.default_rng(random_state)
+benchmarks/statistical_analysis.py,478,np.random,rng = np.random.default_rng(42)
+benchmarks/statistical_analysis.py,478,default_rng,rng = np.random.default_rng(42)
+benchmarks/statistical_analysis.py,479,normal(,"sample_a = rng.normal(loc=0.85, scale=0.05, size=10)"
+benchmarks/statistical_analysis.py,480,normal(,"sample_b = rng.normal(loc=0.70, scale=0.05, size=10)"
+benchmarks/plot_generators/generate_thesis_plots.py,565,linspace,"x_line = np.linspace(0, x_off.max(), 100)"
+benchmarks/plot_generators/generate_thesis_plots.py,737,hardcoded_pvalue,"r""Wilcoxon: $p = 1{,}00 \times 10^{-5}$"","
+benchmarks/plot_generators/generate_publication_plots.py,828,hardcoded_annotation,"ax2.text(101.5, i, f""{row['count']} prób"", va=""center"", fontsize=7.8, color=COLORS[""text""])"
+benchmarks/plot_generators/generate_publication_plots.py,904,hardcoded_annotation,"ax1.text(x_pos[i], med * 2.2, txt, ha=""center"", va=""bottom"", fontsize=8.8, fontweight=""bold"", color=colors[i])"
+benchmarks/plot_generators/generate_publication_plots.py,1121,np.random,np.random.seed(2026)
+benchmarks/plot_generators/generate_publication_plots.py,1121,seed=,np.random.seed(2026)
+benchmarks/plot_generators/generate_publication_plots.py,1127,np.random,"ttft_mcp = np.clip(np.random.normal(loc=34.2, scale=3.6, size=n_samples), 25.0, 50.0)"
+benchmarks/plot_generators/generate_publication_plots.py,1127,normal(,"ttft_mcp = np.clip(np.random.normal(loc=34.2, scale=3.6, size=n_samples), 25.0, 50.0)"
+benchmarks/plot_generators/generate_publication_plots.py,1128,np.random,"le2e_mcp = np.clip(np.random.normal(loc=345.0, scale=22.8, size=n_samples), 280.0, 420.0)"
+benchmarks/plot_generators/generate_publication_plots.py,1128,normal(,"le2e_mcp = np.clip(np.random.normal(loc=345.0, scale=22.8, size=n_samples), 280.0, 420.0)"
+benchmarks/plot_generators/generate_publication_plots.py,1130,np.random,"ttft_base = np.clip(np.random.normal(loc=1380.0, scale=85.0, size=n_samples), 1150.0, 1650.0)"
+benchmarks/plot_generators/generate_publication_plots.py,1130,normal(,"ttft_base = np.clip(np.random.normal(loc=1380.0, scale=85.0, size=n_samples), 1150.0, 1650.0)"
+benchmarks/plot_generators/generate_publication_plots.py,1131,np.random,"le2e_base = np.clip(np.random.normal(loc=2420.0, scale=120.0, size=n_samples), 2100.0, 2800.0)"
+benchmarks/plot_generators/generate_publication_plots.py,1131,normal(,"le2e_base = np.clip(np.random.normal(loc=2420.0, scale=120.0, size=n_samples), 2100.0, 2800.0)"
+benchmarks/plot_generators/generate_publication_plots.py,1307,fallback_defaults,"fallback = PROJECT_ROOT / ""benchmarks"" / ""raw_results"""
+benchmarks/plot_generators/generate_publication_plots.py,1308,fallback_defaults,if fallback.exists():
+benchmarks/plot_generators/generate_publication_plots.py,1309,fallback_defaults,gpu_path = fallback
+benchmarks/plot_generators/generate_publication_plots.py,1313,fallback_defaults,"fallback = PROJECT_ROOT / ""benchmarks"" / ""raw_results"""
+benchmarks/plot_generators/generate_publication_plots.py,1314,fallback_defaults,if fallback.exists():
+benchmarks/plot_generators/generate_publication_plots.py,1315,fallback_defaults,new_path = fallback
+benchmarks/scenarios/bench_snapshot_pool_starvation.py,152,fallback_defaults,"fallback = ""mcp_secret_password"" if self.db_pass == ""mcp_password"" else ""mcp_password"""
+benchmarks/scenarios/bench_snapshot_pool_starvation.py,157,fallback_defaults,"password=fallback,"
+benchmarks/scenarios/bench_snapshot_pool_starvation.py,175,fallback_defaults,"fallback = ""mcp_secret_password"" if self.db_pass == ""mcp_password"" else ""mcp_password"""
+benchmarks/scenarios/bench_snapshot_pool_starvation.py,180,fallback_defaults,"password=fallback,"
+benchmarks/scenarios/bench_oob_crossover.py,201,random.,"jitter = random.uniform(-profile.jitter_ms, profile.jitter_ms) if profile.jitter_ms > 0 else 0.0"
+benchmarks/scenarios/bench_oob_crossover.py,201,uniform(,"jitter = random.uniform(-profile.jitter_ms, profile.jitter_ms) if profile.jitter_ms > 0 else 0.0"
+benchmarks/scenarios/bench_oob_crossover.py,257,random.,"jitter1 = random.uniform(-profile.jitter_ms, profile.jitter_ms) if profile.jitter_ms > 0 else 0.0"
+benchmarks/scenarios/bench_oob_crossover.py,257,uniform(,"jitter1 = random.uniform(-profile.jitter_ms, profile.jitter_ms) if profile.jitter_ms > 0 else 0.0"
+benchmarks/scenarios/bench_oob_crossover.py,267,random.,"jitter2 = random.uniform(-profile.jitter_ms, profile.jitter_ms) if profile.jitter_ms > 0 else 0.0"
+benchmarks/scenarios/bench_oob_crossover.py,267,uniform(,"jitter2 = random.uniform(-profile.jitter_ms, profile.jitter_ms) if profile.jitter_ms > 0 else 0.0"
+benchmarks/scenarios/bench_schema_quality.py,438,random.,rnd = random.Random(2026)
+scripts/setup_runpod.sh,9,fallback_defaults,"#    - Fallback: Jeśli Docker jest aktywny, uruchamia usługi przez docker compose."
+scripts/setup_runpod.sh,78,fallback_defaults,"log_warn ""Standardowa instalacja zgłosiła ostrzeżenia, instalowanie wariantu fallback..."""
+scripts/generate_streaming_and_security_plots.py,77,fallback_defaults,# Domyślne wartości referencyjne z pełnego biegu produkcyjnego (N=100)
+scripts/generate_streaming_and_security_plots.py,86,np.random,"""samples"": np.random.normal(loc=1.34, scale=0.25, size=100),"
+scripts/generate_streaming_and_security_plots.py,86,normal(,"""samples"": np.random.normal(loc=1.34, scale=0.25, size=100),"
+scripts/generate_streaming_and_security_plots.py,95,np.random,"""samples"": np.random.uniform(low=20.0, high=990.0, size=100),"
+scripts/generate_streaming_and_security_plots.py,95,uniform(,"""samples"": np.random.uniform(low=20.0, high=990.0, size=100),"
+scripts/generate_streaming_and_security_plots.py,104,np.random,"""samples"": np.random.uniform(low=50.0, high=4950.0, size=100),"
+scripts/generate_streaming_and_security_plots.py,104,uniform(,"""samples"": np.random.uniform(low=50.0, high=4950.0, size=100),"
+scripts/generate_schema_discovery_and_pagination_plots.py,61,fallback_defaults,fallback_dirs = [
+scripts/generate_schema_discovery_and_pagination_plots.py,66,fallback_defaults,for fb in fallback_dirs:
+scripts/generate_schema_discovery_and_pagination_plots.py,240,fallback_defaults,fallback_dirs = [
+scripts/generate_schema_discovery_and_pagination_plots.py,245,fallback_defaults,for fb in fallback_dirs:
+scripts/generate_schema_discovery_and_pagination_plots.py,250,np.random,np.random.seed(42)  # powtarzalność próbkowania stochastycznego
+scripts/generate_schema_discovery_and_pagination_plots.py,250,seed=,np.random.seed(42)  # powtarzalność próbkowania stochastycznego
+scripts/generate_schema_discovery_and_pagination_plots.py,258,np.random,"ttft_mcp = np.random.normal(loc=34.2, scale=3.6, size=n_samples)"
+scripts/generate_schema_discovery_and_pagination_plots.py,258,normal(,"ttft_mcp = np.random.normal(loc=34.2, scale=3.6, size=n_samples)"
+scripts/generate_schema_discovery_and_pagination_plots.py,259,np.random,"le2e_mcp = np.random.normal(loc=345.0, scale=22.8, size=n_samples)"
+scripts/generate_schema_discovery_and_pagination_plots.py,259,normal(,"le2e_mcp = np.random.normal(loc=345.0, scale=22.8, size=n_samples)"
+scripts/generate_schema_discovery_and_pagination_plots.py,261,np.random,"ttft_baseline = np.random.normal(loc=1380.0, scale=85.0, size=n_samples)"
+scripts/generate_schema_discovery_and_pagination_plots.py,261,normal(,"ttft_baseline = np.random.normal(loc=1380.0, scale=85.0, size=n_samples)"
+scripts/generate_schema_discovery_and_pagination_plots.py,262,np.random,"le2e_baseline = np.random.normal(loc=2420.0, scale=120.0, size=n_samples)"
+scripts/generate_schema_discovery_and_pagination_plots.py,262,normal(,"le2e_baseline = np.random.normal(loc=2420.0, scale=120.0, size=n_samples)"
+scripts/generate_architecture_diagram.py,51,hardcoded_annotation,"ax.text(0.7, 6.05, ""Środowisko Uruchomieniowe Docker Compose (Linux Kernel 6.8 / AMD Ryzen 7)"","
+scripts/generate_architecture_diagram.py,72,hardcoded_annotation,"ax.text(2.4, 5.25, ""Kontener: mcp_postgres\n(PostgreSQL 16 + pgvector)"","
+scripts/generate_architecture_diagram.py,90,hardcoded_annotation,"ax.text(1.0, 4.75, pg_text, fontsize=8.5, color=""#1E293B"", va=""top"", linespacing=1.25)"
+scripts/generate_architecture_diagram.py,109,hardcoded_annotation,"ax.text(5.8, 5.35, ""Kontener: mcp_kafka\n(Tryb KRaft / Bez ZooKeepera)"","
+scripts/generate_architecture_diagram.py,119,hardcoded_annotation,"ax.text(4.55, 4.95, kf_text, fontsize=8, color=""#1E293B"", va=""top"", linespacing=1.2)"
+scripts/generate_architecture_diagram.py,138,hardcoded_annotation,"ax.text(5.8, 2.9, ""Segment Pamięci Współdzielonej\n/dev/shm (POSIX Shared Memory)"","
+scripts/generate_architecture_diagram.py,148,hardcoded_annotation,"ax.text(4.55, 2.5, shm_text, fontsize=8, color=""#78350F"", va=""top"", linespacing=1.2)"
+scripts/generate_architecture_diagram.py,167,hardcoded_annotation,"ax.text(9.0, 5.25, ""Autorski Serwer MCP\n(FastMCP Gateway Middleware)"","
+scripts/generate_architecture_diagram.py,185,hardcoded_annotation,"ax.text(7.75, 4.85, mcp_text, fontsize=8, color=""#134E4A"", va=""top"", linespacing=1.2)"
+scripts/generate_architecture_diagram.py,197,hardcoded_annotation,"ax.text(5.8, 3.4, ""Protokół binarny asyncpg / TCP 5432"", fontsize=7.5, fontweight=""bold"","
+scripts/generate_architecture_diagram.py,208,hardcoded_annotation,"ax.text(7.4, 4.6, ""aiokafka (SSE)"", fontsize=7, fontweight=""bold"", color=""#E11D48"", ha=""center"")"
+scripts/generate_architecture_diagram.py,218,hardcoded_annotation,"ax.text(7.4, 2.05, ""OOB SHM"", fontsize=7.5, fontweight=""bold"", color=C_ACCENT_SHM, ha=""center"")"
+scripts/run_benchmarks.sh,155,seed=,"log_info ""Uruchamianie pełnego seedera dla 1000 tabel (10-50 rekordów/tabelę, seed=42)..."""
+src/mcp_server/pagination.py,946,fallback_defaults,# Fallback jeśli wszystkie wartości były NULL
+src/mcp_server/server.py,102,fallback_defaults,fallback_password = (
+src/mcp_server/server.py,112,fallback_defaults,"password=fallback_password,"
+testbed/init-scripts/generate_enterprise_schema.py,104,fallback_defaults,Wspiera automatyczny fallback na alternatywne hasło środowiska Docker.
+testbed/init-scripts/generate_enterprise_schema.py,125,fallback_defaults,fallback_password = (
+testbed/init-scripts/generate_enterprise_schema.py,136,fallback_defaults,"password=fallback_password,"
+testbed/init-scripts/generate_enterprise_schema.py,364,random.,rnd = random.Random(42)
+testbed/init-scripts/generate_enterprise_schema.py,846,seed=,"spec_seed = importlib.util.spec_from_file_location(""seed_enterprise_tables"", current_script_dir / ""seed_enterprise_tables.py"")"
+testbed/init-scripts/generate_enterprise_schema.py,858,seed=,"random_seed=42,"
+testbed/init-scripts/seed_1m_records.py,121,fallback_defaults,fallback_password = (
+testbed/init-scripts/seed_1m_records.py,131,fallback_defaults,"password=fallback_password,"
+testbed/init-scripts/seed_1m_records.py,176,random.,"target_size = random.randint(min_bytes, max_bytes)"
+testbed/init-scripts/kafka_stream_producer.py,113,random.,"device_number = random.randint(1, 50)"
+testbed/init-scripts/kafka_stream_producer.py,118,random.,is_anomaly = random.random() < anomaly_probability
+testbed/init-scripts/kafka_stream_producer.py,123,random.,"temperature = round(random.uniform(121.5, 158.0), 2)"
+testbed/init-scripts/kafka_stream_producer.py,123,uniform(,"temperature = round(random.uniform(121.5, 158.0), 2)"
+testbed/init-scripts/kafka_stream_producer.py,124,random.,"pressure = round(random.uniform(1150.0, 1380.0), 2)"
+testbed/init-scripts/kafka_stream_producer.py,124,uniform(,"pressure = round(random.uniform(1150.0, 1380.0), 2)"
+testbed/init-scripts/kafka_stream_producer.py,128,random.,"temperature = round(random.uniform(20.0, 90.0), 2)"
+testbed/init-scripts/kafka_stream_producer.py,128,uniform(,"temperature = round(random.uniform(20.0, 90.0), 2)"
+testbed/init-scripts/kafka_stream_producer.py,129,random.,"pressure = round(random.uniform(900.0, 1100.0), 2)"
+testbed/init-scripts/kafka_stream_producer.py,129,uniform(,"pressure = round(random.uniform(900.0, 1100.0), 2)"
+testbed/init-scripts/seed_enterprise_tables.py,11,random.,3. Stałe ziarno losowości: random.seed(42).
+testbed/init-scripts/seed_enterprise_tables.py,11,seed=,3. Stałe ziarno losowości: random.seed(42).
+testbed/init-scripts/seed_enterprise_tables.py,78,fallback_defaults,# Fallback jeśli uruchamiany z katalogu głównego
+testbed/init-scripts/seed_enterprise_tables.py,95,fallback_defaults,Wspiera automatyczny fallback na hasło alternatywne (np. mcp_secret_password).
+testbed/init-scripts/seed_enterprise_tables.py,115,fallback_defaults,fallback_password = (
+testbed/init-scripts/seed_enterprise_tables.py,126,fallback_defaults,"password=fallback_password,"
+testbed/init-scripts/seed_enterprise_tables.py,140,random.,"rnd: random.Random,"
+testbed/init-scripts/seed_enterprise_tables.py,161,uniform(,"amt = Decimal(str(round(rnd.uniform(10.0, 50000.0), 2)))"
+testbed/init-scripts/seed_enterprise_tables.py,178,uniform(,"cost = Decimal(str(round(rnd.uniform(1.0, 1500.0), 4)))"
+testbed/init-scripts/seed_enterprise_tables.py,216,uniform(,"val = Decimal(str(round(rnd.uniform(500.0, 250000.0), 2)))"
+testbed/init-scripts/seed_enterprise_tables.py,236,uniform(,"m_val = round(float(rnd.uniform(10.0, 99.9)), 3)"
+testbed/init-scripts/seed_enterprise_tables.py,303,seed=,"logger.info(""Parametry: min_records=%d, max_records=%d, seed=%d, dry_run=%s"","
+testbed/init-scripts/seed_enterprise_tables.py,335,random.,rnd = random.Random(random_seed)
+testbed/init-scripts/seed_enterprise_tables.py,543,seed=,"random_seed=args.seed,"
+tests/test_pagination_and_oob.py,415,fallback_defaults,def test_union_all_fallback_when_sort_keys_not_selected(self):
+doc/chapters/wyniki.tex,83,seed=,"\item \textbf{Determinizm próbkowania modeli LLM:} W~scenariuszach inferencyjnych temperaturę próbkowania zablokowano na poziomie $T = 0{,}0$, a~generator liczb pseudolosowych zainicjalizowano determi"
+doc/chapters/wyniki.tex,175,hardcoded_pvalue,"\item W~zakresie dokładności wykonawczej (Execution Accuracy EX) podejście autorskie osiąga najwyższy wynik \textbf{15,8\%} (przy Valid SQL = \textbf{19,8\%}), deklasując Baseline A (5,8\% EX, 10,4\% "
+doc/chapters/wyniki.tex,545,hardcoded_pvalue,"Liczebność par $N$ wynika ze specyfiki scenariusza, a~$n_{\text{eff}}$ oznacza liczbę par o~niezerowej różnicy. W~teście głównym H1 wariant autorski osiąga średni Table-Recall 54,5\% wobec 48,8\% dla "
+doc/chapters/wyniki.tex,547,hardcoded_pvalue,"Dla Execution Accuracy wykonano dokładny test McNemara na sparowanych wynikach przy $k = 5$. Na Silniku B wariant autorski był poprawny, a~RRF błędny w~17 zapytaniach, a~odwrotnie w~11 ($p = 0{,}34$);"
+doc/chapters/podsumowanie.tex,40,hardcoded_pvalue,"H1: Table-Recall (Graph@5 vs RRF@10) & 54{,}5\% wobec 48{,}8\%; $N = 500$ ($n_{\text{eff}} = 236$), $W = 8\,101$, $p = 1{,}78 \cdot 10^{-8}$, $r = 0{,}42$; wobec BM25@10 (53{,}2\%) $p = 0{,}10$; test "
+doc/chapters/podsumowanie.tex,41,hardcoded_pvalue,"H1b: Column-Recall (Graph@5 vs RRF@10) & pochodna H1; 62{,}2\% wobec 62{,}5\%, $p = 0{,}79$ & Brak podstaw do odrzucenia $H_0$ \\"
+doc/chapters/podsumowanie.tex,42,hardcoded_pvalue,"H2: latencja OOB vs In-Band (10~MB) & mediana 127{,}6~ms $\to$ 15{,}5~ms (spadek o~87{,}9\%); $N = 50$, $p = 1{,}78 \cdot 10^{-15}$, $r = 1{,}000$ & Odrzucono $H_0$ \\"
+doc/chapters/podsumowanie.tex,52,hardcoded_pvalue,"Hipotezy H1, H1b oraz H2 rozstrzygnięto testem rangowanych znaków Wilcoxona dla prób zależnych (tabela~\ref{tab:wilcoxon_hypothesis_tests}). Dla H1 przy porównywalnej liczbie tabel przewaga nad RRF je"
+doc/chapters/implementacja.tex,120,seed=,"\item \textbf{Determinizm środowiska bazodanowego:} Pomiędzy seriami pomiarowymi baza danych jest resetowana poleceniem \texttt{DISCARD ALL}, które czyści pamięć podręczną planów zapytań, blokady oraz"

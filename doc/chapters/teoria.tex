@@ -1,0 +1,142 @@
+% !TEX root = ../main.tex
+\chapter{Teoretyczne podstawy integracji modeli językowych z~danymi}
+\label{chap:teoria}
+
+Generatywne modele językowe oparte na architekturze Transformer~\cite{vaswani2017attention} generują tokeny autoregresyjnie, a~wiedza zakodowana w~ich wagach odzwierciedla jedynie stan korpusu treningowego; stochastyczne próbkowanie sprzyja ponadto halucynacjom~\cite{mialon2023augmented}, co w~zastosowaniach wymagających determinizmu (relacyjne bazy danych, transakcje finansowe) czyni model odizolowany od zewnętrznych źródeł prawdy niewiarygodnym. Konieczność determinizmu wymusiła ewolucję paradygmatów integracji: od modyfikacji wag (\emph{fine-tuning}), przez generowanie wspomagane wyszukiwaniem~\cite{lewis2020rag}, po korzystanie z~narzędzi~\cite{schick2023toolformer}, które doprowadziło do powstania standardu MCP~\cite{mcp_spec}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Ewolucja paradygmatów integracji: od odizolowanych LLM do Tool Use}
+\label{sec:teoria_ewolucja_paradygmatow}
+
+\subsection{Od pamięci parametrycznej do paradygmatu Tool Use}
+\label{subsec:teoria_finetuning_rag}
+
+Pasywna pamięć parametryczna modeli LLM (wagi sieci zapisane w procesie pre-treningu) odzwierciedla stan korpusu z~chwili treningu i~nie zapewnia deterministycznego dostępu do danych, co wyklucza bezpośrednie wnioskowanie na transakcyjnych danych korporacyjnych. Historyczne podejścia adaptacji~-- dostrajanie wag obarczone zjawiskiem katastrofalnego zapominania~\cite{kirkpatrick2017overcoming} oraz generowanie wspomagane wyszukiwaniem (RAG)~\cite{lewis2020rag}~-- zawodzą w kontakcie z relacyjnymi składami danych. RAG spłaszcza relacje logiczne bazy do postaci bezpostaciowego tekstu, a wyszukiwanie gęste po wektorach nie interpretuje predykatów selekcji ani złączeń algebraicznych. Szczegółowe zestawienie kompromisów architektonicznych tych paradygmatów w zestawieniu z paradygmatem korzystania z narzędzi~\cite{qin2023toollearning} przedstawiono w tabeli~\ref{tab:teoria_paradygmaty_porownanie}.
+
+\begin{table}[!ht]
+\centering
+\small
+\caption{Syntetyczne porównanie paradygmatów integracji modeli językowych z zasobami danych}
+\label{tab:teoria_paradygmaty_porownanie}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.2cm}}
+\toprule
+\textbf{Paradygmat} & \textbf{Determinizm danych} & \textbf{Świeżość informacji} & \textbf{Koszt aktualizacji bazy} & \textbf{Narzut na okno kontekstowe} & \textbf{Zdolność do efektów ubocznych} \\
+\midrule
+\textbf{Fine-tuning} & Niski (aproksymacja probabilistyczna) & Bardzo niska (wymaga cyklu trenowania) & Bardzo wysoki (wymaga klastra GPU) & Brak narzutu ($\mathcal{O}(1)$) & Brak (model pasywny) \\
+\midrule
+\textbf{RAG (indeksy wektorowe)} & Średni (wrażliwy na chunking i k-NN) & Umiarkowana (opóźnienia potoków ETL) & Umiarkowany (rekalkulacja wektorów) & Średni ($\mathcal{O}(k \cdot L_{\text{chunk}})$) & Brak (tryb read-only) \\
+\midrule
+\textbf{Tool Use (np. bazy SQL)} & Wysoki (determinizm silnika bazy danych) & Czas rzeczywisty (stan transakcyjny) & Minimalny (standardowy zapis w bazie) & Zmienny ($\mathcal{O}(L_{\text{schema}} + L_{\text{result}})$) & Pełna (kontrolowane zmiany stanu) \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Przełom przyniósł paradygmat korzystania z~narzędzi: model może wywołać deterministyczną procedurę API, odebrać wynik i~wykorzystać go w~dalszym wnioskowaniu~\cite{schick2023toolformer}. Wzorzec \emph{ReAct}~\cite{yao2023react} porządkuje tę pętlę jako sekwencję decyzji, akcji i~obserwacji. Rozdzielenie generowania od wykonania narzędzia stało się bezpośrednią przesłanką standaryzacji MCP.
+
+\subsection{Redukcja przestrzeni relacyjnej i ograniczenia metod promptingowych}
+\label{subsec:teoria_schema_linking_pruning}
+
+Gdy model integruje się z korporacyjną hurtownią danych o złożonym schemacie ($N_T \ge 500$ tabel), wstrzyknięcie pełnego zrzutu DDL prowadzi do wyczerpania budżetu okna kontekstowego oraz spadku trafności generowanych zapytań SQL. W literaturze rozwinięto metody redukcji przestrzeni relacyjnej i łączenia schematu (ang.~\emph{schema linking}), w tym dekompozycję szkieletową zapytań RESDSQL~\cite{li2023resdsql}, halucynacyjne przeszukiwanie struktur relacyjnych CRUSH4SQL~\cite{kothyari2023crush4sql}, prompting kognitywny (DIN-SQL~\cite{pourreza2023dinsql}, MAC-SQL~\cite{wang2025macsql}), dobór demonstracji few-shot (DAIL-SQL~\cite{gao2024dailsql}) oraz zewnętrzne filtry heurystyczne (CodeS~\cite{li2024codes}, CHESS~\cite{talaei2025chess}). Wyzwania integracji modeli językowych z realistycznymi, rozbudowanymi bazami danych przedsiębiorstw formalizuje również benchmark Spider 2.0~\cite{lei2025spider2}.
+
+\paragraph{Teoretyczna luka metod promptingowych i gęstego RAG: problem grafów o dużej średnicy.}
+Metody promptingowe oraz gęste wyszukiwanie wektorowe ($k$-NN RAG) mogą zawodzić w~obecności relacji o~dużej odległości w~grafie schematu ($\text{dist}(u, v) \ge 2$). Gdy zapytanie analityczne wymaga powiązania dwóch encji skrajnych, a ścieżka w schemacie relacyjnym prowadzi przez tabele pośredniczące modelujące relacje $N:M$ (np. tabele asocjacyjne pozycji zamówień, partii magazynowych czy alokacji), nazwy tych tabel pośrednich często nie występują w~pytaniu użytkownika.
+
+W~rezultacie wyszukiwanie oparte na podobieństwie do pytania może zwracać tabele krańcowe bez tabel mostkujących. Model LLM, pozbawiony definicji kluczy obcych łączących te relacje, może wtedy halucynować nieistniejące powiązania bezpośrednie albo generować iloczyn kartezjański. Ta obserwacja motywuje zaprojektowaną w~niniejszej pracy ekspansję grafową o~tabele mostkujące (ang. \emph{FK bridge expansion}; w~kodzie: \texttt{discover\_schema\_with\_graph\_pruning}), sformalizowaną w~Rozdziale~\ref{chap:projekt}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Geneza standaryzacji interfejsów komunikacyjnych w AI}
+\label{sec:teoria_geneza_standaryzacji}
+
+\subsection{Fragmentacja ekosystemu i redukcja złożoności integracyjnej}
+\label{subsec:teoria_fragmentacja}
+
+Rozwój modeli językowych i~wczesnych interfejsów funkcyjnych doprowadził do powstania długu technologicznego kodu łączącego (ang.~\emph{glue code}). Brak otwartego standardu wymuszał dedykowane adaptery dla każdego środowiska, w~tym osobne kontrakty błędów, autoryzacji i~transmisji.
+
+Analogicznie do protokołu \emph{Language Server Protocol}~\cite{lsp_spec}, standaryzacja interfejsów w~systemach agentowych redukuje liczbę wymaganych integracji między $M$ środowiskami modeli a~$N$ źródłami danych i~narzędzi z~$\mathcal{O}(M \times N)$ do $\mathcal{O}(M + N)$. Analogia ta ma jednak wyłącznie charakter architektoniczny: standaryzacja obejmuje ramkę JSON-RPC 2.0 i~metody odkrywania oraz wywołania narzędzi, nie eliminuje natomiast różnorodności kontraktów narzędziowych, które model musi interpretować w~każdej sesji.
+
+Praktyczną implementacją opisanego paradygmatu stał się otwarty standard \emph{Model Context Protocol}~\cite{mcp_spec}, którego szczegółowa specyfikacja techniczna, prymitywy semantyczne oraz warstwy transportowe zostały poddane analizie w~podrozdziale~\ref{sec:teoria_specyfikacja_mcp}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Formalna specyfikacja Model Context Protocol (MCP)}
+\label{sec:teoria_specyfikacja_mcp}
+
+\subsection{Role architektoniczne w protokole}
+\label{subsec:teoria_role_mcp}
+
+Specyfikacja protokołu MCP~\cite{mcp_spec} definiuje ścisły podział odpowiedzialności pomiędzy trzema głównymi węzłami logicznymi:
+\begin{enumerate}
+    \item \textbf{Host (Aplikacja orkiestrująca):} Główny proces nadrzędny, w~ramach którego realizowane jest zadanie użytkownika. Host zarządza interfejsem użytkownika, integruje model językowy, koordynuje procesy decyzyjne oraz sprawuje bezpośrednią kontrolę nad politykami bezpieczeństwa i~zgodami użytkownika na wykonanie akcji. Przykłady Hostów to m.in. środowisko IDE (np. JetBrains, Visual Studio Code) lub dedykowany orkiestrator mikrousług;
+    \item \textbf{Klient MCP:} Biblioteczny moduł komunikacyjny osadzony wewnątrz architektury Hosta. Klient utrzymuje ścisłe połączenie 1:1 z~danym serwerem MCP. Odpowiada za translację wewnętrznych struktur Hosta na komunikaty protokołu, zarządzanie warstwą transportową, serializację i~deserializację pakietów JSON-RPC oraz obsługę błędów protokołu;
+    \item \textbf{Serwer MCP:} Niezależny, wyspecjalizowany komponent programistyczny (proces lokalny lub serwis sieciowy), hermetyzujący dostęp do określonej domeny danych lub zestawu operacji. Serwer publikuje swoje możliwości, udostępniając zasoby pasywne, aktywne narzędzia wykonawcze oraz szablony promptów.
+\end{enumerate}
+
+Relacja między Hostem, Klientem i~Serwerem ma charakter modularny. Pojedynczy Host może powołać do życia wiele niezależnych instancji Klientów MCP, z~których każdy komunikuje się z~odrębnym Serwerem MCP (np. Serwer bazy PostgreSQL, Serwer brokera Kafka, Serwer systemu plików), tworząc spójny graf kontekstowy dostępny dla modelu językowego.
+
+\subsection{Cykl życia sesji, transport i~prymitywy semantyczne}
+\label{subsec:teoria_cykl_zycia_mcp}
+
+Opis dotyczy rewizji specyfikacji 2025-06-18~\cite{mcp_spec_20250618}; biblioteka \texttt{mcp} użyta w~implementacji (wersja 2.2.0) obsługuje także nowsze rewizje, których nowe elementy nie są w~pracy wykorzystywane. Zgodnie ze specyfikacją sesja Klient--Serwer przebiega w~trzech fazach: inicjalizacji (obejmującej negocjację wersji i~zdolności), operacji oraz zamknięcia, a~logika komunikatów JSON-RPC jest oddzielona od medium transmisyjnego. Zestawienie przedstawiono w~tabeli~\ref{tab:mcp_sesja_transport_prymitywy}.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Cykl życia sesji, warstwy transportowe i~prymitywy semantyczne protokołu MCP (rewizja 2025-06-18)}
+\label{tab:mcp_sesja_transport_prymitywy}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.27\linewidth} >{\raggedright\arraybackslash}p{0.65\linewidth}}
+\toprule
+\textbf{Element} & \textbf{Krótki opis} \\
+\midrule
+Faza 1: inicjalizacja & Klient wysyła żądanie \texttt{initialize} z~wersją protokołu i~deklaracją zdolności (np. \texttt{roots}, \texttt{sampling}, \texttt{elicitation}); Serwer odpowiada wybraną wersją i~własnymi zdolnościami (\texttt{tools}, \texttt{resources}, \texttt{prompts}, \texttt{logging}); Klient potwierdza powiadomieniem \texttt{notifications/initialized}. Brak wspólnej wersji kończy sesję. \\
+Faza 2: operacja & Wymiana zgodna z~wynegocjowanymi zdolnościami: listowanie prymitywów, \texttt{tools/call}, \texttt{resources/read}, powiadomienia oraz \texttt{ping}. \\
+Faza 3: zamknięcie & Zakończenie połączenia przez warstwę transportową (dla \texttt{stdio}: zamknięcie strumienia wejściowego procesu serwera). \\
+\midrule
+Transport \texttt{stdio} & Serwer jako proces potomny Hosta; komunikaty JSON-RPC w~pojedynczych liniach przez \texttt{stdin}/\texttt{stdout}, \texttt{stderr} dla logów. Brak portów sieciowych. \\
+Transport Streamable HTTP & Serwer jako niezależna usługa z~jednym punktem końcowym: Klient wysyła komunikaty żądaniami HTTP POST, a~Serwer odpowiada pojedynczą odpowiedzią JSON lub strumieniem Server-Sent Events~\cite{w3c_sse}. Zastąpił on transport HTTP+SSE w~rewizji 2025-03-26. Dla transportów HTTP specyfikacja definiuje opcjonalną autoryzację opartą na OAuth 2.1. \\
+\midrule
+Zasoby (\emph{Resources}) & Dane kontekstowe tylko do odczytu, identyfikowane przez URI (także szablonami parametryzowanymi). \\
+Narzędzia (\emph{Tools}) & Procedury o~nazwie, opisie i~parametrach opisanych w~JSON Schema~\cite{json_schema}; wynik zawiera listę bloków \texttt{content}, opcjonalnie ustrukturyzowany wynik \texttt{structuredContent} zgodny z~deklarowanym \texttt{outputSchema}, a~błąd wykonania narzędzia jest sygnalizowany polem \texttt{isError} w~wyniku. \\
+Prompty (\emph{Prompts}) & Udostępniane przez Serwer szablony instrukcji i~konwersacji. \\
+Elicitacja (\emph{Elicitation}) & Zdolność Klienta: Serwer może w~trakcie operacji poprosić użytkownika o~dodatkowe dane w~ustrukturyzowanej postaci. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Implementacja referencyjna (Rozdział~\ref{chap:implementacja}) uruchamia serwer FastMCP w~transporcie \texttt{stdio} (\texttt{mcp.run(transport="stdio")}); transport Streamable HTTP nie był w~pracy używany.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Specyfika systemów wielkoskalowych w interakcji z agentami}
+\label{sec:teoria_specyfika_bigdata}
+
+\subsection{Fizyczne i logiczne bariery mechanizmu uwagi}
+\label{subsec:teoria_bigdata_3v}
+
+Powszechne w~przemyśle przekonanie, że ekspansja nominalnego okna kontekstowego modeli LLM (od 128k tokenów w~rodzinie Llama 3.1 do miliona i~więcej tokenów w~architekturach komercyjnych) eliminuje konieczność selekcji schematów i~paginacji danych, nie uwzględnia kosztów serwowania modeli ani wyników badań empirycznych nad mechanizmem samo-uwagi.
+
+Koszt obliczeniowy samej operacji uwagi w~fazie wstępnego przetwarzania promptu rośnie kwadratowo z~długością sekwencji $L$, $\mathcal{O}(L^2)$, natomiast koszt warstw liniowych (projekcje i~sieci MLP) rośnie liniowo. Dla modeli rzędu kilku miliardów parametrów i~kontekstów rzędu dziesiątek tysięcy tokenów składnik liniowy pozostaje dominujący; zgodnie z~tym czas do pierwszego tokenu zmierzony w~niniejszej pracy rósł w~przybliżeniu liniowo w~badanym zakresie do ok. 28 tys. tokenów (podrozdział~\ref{subsec:wyniki_ttft}). Ponadto utrzymanie długiego kontekstu wymaga alokacji bufora kluczy i~wartości (\emph{KV-Cache}), którego rozmiar w~pamięci akceleratora skaluje się liniowo z~$L$:
+\begin{equation}
+    M_{\text{KV}} = 2 \cdot b_{\text{elem}} \cdot l_{\text{layers}} \cdot h_{\text{KV}} \cdot d_{\text{head}} \cdot L,
+    \label{eq:kv_cache}
+\end{equation}
+gdzie $b_{\text{elem}} = 2\ \text{B}$ oznacza rozmiar słowa w~precyzji FP16/BF16, mnożnik 2 wynika z~przechowywania tensorów kluczy i~wartości, $l_{\text{layers}}$ to liczba warstw, $h_{\text{KV}}$ -- liczba głów kluczy i~wartości, a~$d_{\text{head}}$ -- wymiar pojedynczej głowy. W~modelach z~grupowaną uwagą zapytań (\emph{Grouped-Query Attention}, GQA)~\cite{ainslie2023gqa} $h_{\text{KV}}$ jest mniejsze od liczby głów zapytań. Dla modelu Qwen2.5-7B (28 warstw, 4 głowy KV, $d_{\text{head}} = 128$)~\cite{qwen2025qwen25} i~sesji o~długości $L = 128\text{k} = 131\,072$ tokenów wzór~\eqref{eq:kv_cache} daje $2 \cdot 2 \cdot 28 \cdot 4 \cdot 128 \cdot 131\,072\ \text{B} = 7{,}0\ \text{GiB}$ na jedną sesję. Dla modelu tej samej skali z~pełną uwagą wielogłowową (MHA), np. Llama~2~7B (32 warstwy, 32 głowy KV, $d_{\text{head}} = 128$)~\cite{touvron2023llama2}, ta sama długość kontekstu wymaga 64~GiB, czyli niemal całej pamięci jednego akceleratora klasy A100~80~GB.
+
+Niezależnie od barier sprzętowych, badania nad dynamiką uwagi w~długich sekwencjach wskazują na pogorszenie jakości wnioskowania:
+\begin{itemize}
+    \item \textbf{Zapaść uwagi w środku sekwencji:} Liu i~in.~\cite{liu2024lostinthemiddle} wykazali, że zdolność modeli autoregresyjnych do ekstrakcji informacji ulega gwałtownej degradacji w~centralnych segmentach kontekstu (zjawisko \emph{Lost in the Middle}, charakterystyka w~kształcie litery U), przez co definicje tabel umieszczone w~środku obszernego zrzutu DDL są pomijane;
+    \item \textbf{Wpływ długości wejścia:} Levy i~in.~\cite{levy2024same} wykazali na zadaniach rozumowania (bez związku z~SQL), że dopełnienie wejścia nieistotnym tekstem obniża trafność odpowiedzi modeli już przy długościach wejścia znacznie mniejszych od nominalnego okna kontekstowego. Można oczekiwać podobnego efektu przy wstrzykiwaniu obszernego, w~większości nieistotnego zrzutu DDL, choć cytowane badanie nie dotyczyło generowania SQL.
+\end{itemize}
+Uwarunkowania te wskazują, że integracja z~dużymi składami danych wymaga deterministycznych technik kompresji schematu oraz adaptacyjnej paginacji kursorowej bezpośrednio w~warstwie pośredniczącej MCP.
+
+\subsection{Transakcyjność i modele spójności w komunikacji bezstanowej}
+\label{subsec:teoria_acid_base_cap}
+
+Bezstanowe wywołania MCP i~wielosekundowa inferencja czynią długie transakcje kosztownymi: przesuwają horyzont $x_{\text{min}}$ MVCC i~zajmują połączenia z~puli. Dlatego kolejne strony są domyślnie odczytywane w~odrębnych migawkach, a~spójność całego przeglądania zapewnia opcjonalna, krótkotrwała migawka opisana w~Rozdziale~\ref{chap:projekt}.
+
+\subsection{Stochastyczne transakcje agentowe i paradygmat SAGA}
+\label{subsec:teoria_transakcje_stochastyczne}
+
+2PC/XA wymagałoby utrzymywania blokad przez cały czas inferencji, a~SAGA dodatkowo wymagałaby wiarygodnych akcji kompensujących~\cite{gray1978notes,garcia1987sagas}. Ponieważ praca nie wykonuje modyfikacji danych, oba modele pozostają poza zakresem: bezpieczeństwo zapewnia niezmiennik czystego odczytu \texttt{SELECT}, a~spójność przeglądania -- migawka MVCC (Rozdział~\ref{chap:projekt}).

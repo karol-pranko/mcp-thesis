@@ -1,0 +1,880 @@
+{
+  ".gitkeep": {
+    "bytes": 41
+  },
+  "ablation_m_exp_calls.csv": {
+    "bytes": 790691,
+    "rows": 2500,
+    "columns": [
+      "m_exp",
+      "query_id",
+      "top_k",
+      "tables",
+      "n_tables",
+      "table_recall",
+      "ddl_tokens_gateway_format",
+      "ddl_tokens_uniform_format",
+      "wall_ns",
+      "t_rrf_ns",
+      "t_graph_load_ns",
+      "t_bridge_search_ns",
+      "t_ddl_synthesis_ns",
+      "t_total_ns",
+      "t_n_base_tables",
+      "t_n_bridges"
+    ]
+  },
+  "ablation_m_exp_calls.parquet": {
+    "bytes": 162765,
+    "rows": 2500,
+    "columns": [
+      "m_exp",
+      "query_id",
+      "top_k",
+      "tables",
+      "n_tables",
+      "table_recall",
+      "ddl_tokens_gateway_format",
+      "ddl_tokens_uniform_format",
+      "wall_ns",
+      "t_rrf_ns",
+      "t_graph_load_ns",
+      "t_bridge_search_ns",
+      "t_ddl_synthesis_ns",
+      "t_total_ns",
+      "t_n_base_tables",
+      "t_n_bridges"
+    ]
+  },
+  "ablation_m_exp_results.csv": {
+    "bytes": 809,
+    "rows": 5,
+    "columns": [
+      "m_exp",
+      "num_queries",
+      "table_recall_at_5",
+      "avg_ddl_tokens_gateway_format",
+      "avg_ddl_tokens_uniform_format",
+      "median_total_ms",
+      "p95_total_ms",
+      "median_rrf_ms",
+      "median_graph_load_ms",
+      "median_bridge_search_ms",
+      "p95_bridge_search_ms",
+      "median_ddl_synthesis_ms"
+    ]
+  },
+  "ablation_m_exp_sweet_spot.json": {
+    "bytes": 413,
+    "keys": [
+      "m_exp",
+      "recall_pct",
+      "gain_to_next_pp",
+      "threshold_pp",
+      "rule"
+    ]
+  },
+  "concurrency_h3_tests.json": {
+    "bytes": 1214,
+    "keys": "list[2]"
+  },
+  "concurrency_lag_samples.parquet": {
+    "bytes": 581646,
+    "rows": 34996,
+    "columns": [
+      "variant",
+      "workers",
+      "concurrency_level",
+      "ts_ns",
+      "lag_ms",
+      "phase"
+    ]
+  },
+  "concurrency_memory_samples.csv": {
+    "bytes": 76729,
+    "rows": 1256,
+    "columns": [
+      "variant",
+      "workers",
+      "concurrency_level",
+      "ts_ns",
+      "tree_mem_mb",
+      "n_children",
+      "metric",
+      "phase"
+    ]
+  },
+  "concurrency_request_latencies.parquet": {
+    "bytes": 2719832,
+    "rows": 390475,
+    "columns": [
+      "variant",
+      "workers",
+      "concurrency_level",
+      "latency_ms"
+    ]
+  },
+  "concurrency_summary.csv": {
+    "bytes": 7224,
+    "rows": 25,
+    "columns": [
+      "variant",
+      "workers",
+      "concurrency_level",
+      "client_model",
+      "measure_duration_s",
+      "warmup_s",
+      "completed_requests",
+      "successful_requests",
+      "requests_per_second",
+      "latency_p50_ms",
+      "latency_p95_ms",
+      "latency_p99_ms",
+      "lag_samples_n",
+      "lag_median_ms",
+      "lag_p95_ms",
+      "lag_p99_ms",
+      "lag_max_ms",
+      "tree_mem_peak_mb",
+      "tree_mem_mean_mb",
+      "children_max",
+      "memory_metric",
+      "lag_probe_interval_ms"
+    ]
+  },
+  "environment.json": {
+    "bytes": 12496,
+    "keys": [
+      "captured_at",
+      "hostname",
+      "nvidia_smi",
+      "lscpu",
+      "free_b",
+      "uname",
+      "nproc",
+      "df_results",
+      "runpod",
+      "python",
+      "pip_freeze",
+      "postgres",
+      "kafka",
+      "ollama",
+      "capabilities"
+    ]
+  },
+  "manifest.json": {
+    "bytes": 26041,
+    "keys": [
+      "run_id",
+      "created_at",
+      "mode",
+      "git",
+      "config",
+      "seeds",
+      "smoke_test_model_substitution",
+      "network_mode_requested",
+      "scenario_order",
+      "scenarios",
+      "scenario_notes",
+      "pinned_service_versions",
+      "updated_at",
+      "service_versions_observed",
+      "capabilities",
+      "estimated_duration_s",
+      "preflight",
+      "model_digests",
+      "files_sha256",
+      "finished_at",
+      "final_status",
+      "resumed_at",
+      "git_at_resume"
+    ]
+  },
+  "oob_crossover_metrics.json": {
+    "bytes": 2451,
+    "keys": [
+      "network_mode",
+      "network_mode_reason",
+      "profiles"
+    ]
+  },
+  "oob_crossover_results.csv": {
+    "bytes": 432676,
+    "rows": 3150,
+    "columns": [
+      "network_profile",
+      "measurement_mode",
+      "transport_mode",
+      "payload_size_bytes",
+      "repetition",
+      "e2e_ns",
+      "sha256_verified",
+      "frame_bytes",
+      "emulated_network_ms",
+      "transfer_ns",
+      "base64_encode_ns",
+      "sha256_ns",
+      "base64_decode_ns",
+      "sha256_verify_ns",
+      "shm_alloc_ns",
+      "shm_copy_ns",
+      "shm_read_ns",
+      "blob_write_ns",
+      "blob_read_ns",
+      "emu_rtt_ms",
+      "emu_jitter_ms",
+      "emu_bandwidth_mbps",
+      "e2e_ms"
+    ]
+  },
+  "oob_crossover_results.parquet": {
+    "bytes": 154250,
+    "rows": 3150,
+    "columns": [
+      "network_profile",
+      "measurement_mode",
+      "transport_mode",
+      "payload_size_bytes",
+      "repetition",
+      "e2e_ns",
+      "sha256_verified",
+      "frame_bytes",
+      "emulated_network_ms",
+      "transfer_ns",
+      "base64_encode_ns",
+      "sha256_ns",
+      "base64_decode_ns",
+      "sha256_verify_ns",
+      "shm_alloc_ns",
+      "shm_copy_ns",
+      "shm_read_ns",
+      "blob_write_ns",
+      "blob_read_ns",
+      "emu_rtt_ms",
+      "emu_jitter_ms",
+      "emu_bandwidth_mbps",
+      "e2e_ms"
+    ]
+  },
+  "oob_crossover_summary.csv": {
+    "bytes": 6620,
+    "rows": 63,
+    "columns": [
+      "network_profile",
+      "measurement_mode",
+      "transport_mode",
+      "payload_size_bytes",
+      "n",
+      "median_ms",
+      "mean_ms",
+      "p95_ms",
+      "std_ms"
+    ]
+  },
+  "oob_h2_tests.json": {
+    "bytes": 1180,
+    "keys": "list[2]"
+  },
+  "oob_model_fit.json": {
+    "bytes": 1486,
+    "keys": [
+      "lan",
+      "loopback",
+      "wan"
+    ]
+  },
+  "pagination_advanced_1m.csv": {
+    "bytes": 26487,
+    "rows": 250,
+    "columns": [
+      "variant",
+      "depth_k",
+      "offset_rows",
+      "page_size",
+      "iteration",
+      "latency_ms",
+      "records_retrieved",
+      "index_used",
+      "execution_plan_type",
+      "tokens_consumed"
+    ]
+  },
+  "pagination_advanced_1m.parquet": {
+    "bytes": 8589,
+    "rows": 250,
+    "columns": [
+      "variant",
+      "depth_k",
+      "offset_rows",
+      "page_size",
+      "iteration",
+      "latency_ms",
+      "records_retrieved",
+      "index_used",
+      "execution_plan_type",
+      "tokens_consumed"
+    ]
+  },
+  "pagination_advanced_summary.csv": {
+    "bytes": 2011,
+    "rows": 25,
+    "columns": [
+      "variant",
+      "depth_k",
+      "offset_rows",
+      "p50",
+      "p95",
+      "mean",
+      "std"
+    ]
+  },
+  "pagination_consistency.json": {
+    "bytes": 6793,
+    "keys": [
+      "consistency",
+      "snapshot_isolation",
+      "welford"
+    ]
+  },
+  "pagination_explain_plans.json": {
+    "bytes": 72701,
+    "keys": "list[6]"
+  },
+  "pagination_predicate_ablation.csv": {
+    "bytes": 5412,
+    "rows": 200,
+    "columns": [
+      "variant",
+      "offset_rows",
+      "iteration",
+      "latency_ms",
+      "records_retrieved"
+    ]
+  },
+  "schema_drift_queries.csv": {
+    "bytes": 16320,
+    "rows": 108,
+    "columns": [
+      "phase",
+      "query_idx",
+      "query_text",
+      "latency_ms",
+      "tables_found",
+      "bridges_found",
+      "ddl_chars",
+      "is_success",
+      "error_type",
+      "error_message",
+      "timestamp_iso"
+    ]
+  },
+  "schema_drift_queries.parquet": {
+    "bytes": 10289,
+    "rows": 108,
+    "columns": [
+      "phase",
+      "query_idx",
+      "query_text",
+      "latency_ms",
+      "tables_found",
+      "bridges_found",
+      "ddl_chars",
+      "is_success",
+      "error_type",
+      "error_message",
+      "timestamp_iso"
+    ]
+  },
+  "schema_drift_summary.json": {
+    "bytes": 1259,
+    "keys": [
+      "timestamp",
+      "smoke_test",
+      "total_runtime_s",
+      "num_drift_tables",
+      "domain_tested",
+      "phases",
+      "drift_telemetry",
+      "drift_tables_discovered_pct",
+      "in_flight_error_count",
+      "in_flight_error_rate_pct"
+    ]
+  },
+  "schema_error_decomposition.csv": {
+    "bytes": 4253,
+    "rows": 49,
+    "columns": [
+      "profile",
+      "model",
+      "strategy",
+      "k",
+      "budget_variant",
+      "error_category",
+      "count",
+      "ex_false_total",
+      "percentage"
+    ]
+  },
+  "schema_full_dump_tokens.json": {
+    "bytes": 139,
+    "keys": [
+      "n_tables",
+      "ddl_tokens_cl100k",
+      "ddl_chars",
+      "format"
+    ]
+  },
+  "schema_quality_dataset.jsonl": {
+    "bytes": 1321882,
+    "rows": 500,
+    "columns": [
+      "difficulty",
+      "ground_truth_sql",
+      "ground_truth_tables",
+      "join_path",
+      "natural_language_query",
+      "primary_domain",
+      "query_id",
+      "required_columns",
+      "required_tables"
+    ]
+  },
+  "schema_quality_generation.csv": {
+    "bytes": 26581457,
+    "rows": 7000,
+    "columns": [
+      "profile",
+      "model",
+      "model_digest",
+      "query_id",
+      "difficulty",
+      "primary_domain",
+      "strategy",
+      "k",
+      "budget_variant",
+      "question",
+      "gt_sql",
+      "gt_tables",
+      "retrieved_tables",
+      "n_tables",
+      "ddl_tokens",
+      "prompt_tokens_cl100k",
+      "raw_response",
+      "generated_sql",
+      "error_category",
+      "valid_sql",
+      "ex_match",
+      "ex_match_strict",
+      "exec_error",
+      "n_rows_pred",
+      "n_rows_gt",
+      "gt_empty",
+      "prompt_eval_count",
+      "eval_count",
+      "total_duration",
+      "load_duration",
+      "prompt_eval_duration",
+      "eval_duration",
+      "done_reason",
+      "client_wall_ms",
+      "possible_truncation",
+      "num_ctx",
+      "num_predict",
+      "seed",
+      "temperature"
+    ]
+  },
+  "schema_quality_generation.parquet": {
+    "bytes": 2609413,
+    "rows": 7000,
+    "columns": [
+      "profile",
+      "model",
+      "model_digest",
+      "query_id",
+      "difficulty",
+      "primary_domain",
+      "strategy",
+      "k",
+      "budget_variant",
+      "question",
+      "gt_sql",
+      "gt_tables",
+      "retrieved_tables",
+      "n_tables",
+      "ddl_tokens",
+      "prompt_tokens_cl100k",
+      "raw_response",
+      "generated_sql",
+      "error_category",
+      "valid_sql",
+      "ex_match",
+      "ex_match_strict",
+      "exec_error",
+      "n_rows_pred",
+      "n_rows_gt",
+      "gt_empty",
+      "prompt_eval_count",
+      "eval_count",
+      "total_duration",
+      "load_duration",
+      "prompt_eval_duration",
+      "eval_duration",
+      "done_reason",
+      "client_wall_ms",
+      "possible_truncation",
+      "num_ctx",
+      "num_predict",
+      "seed",
+      "temperature"
+    ]
+  },
+  "schema_quality_summary.csv": {
+    "bytes": 1847,
+    "rows": 14,
+    "columns": [
+      "profile",
+      "model",
+      "strategy",
+      "k",
+      "budget_variant",
+      "n",
+      "valid_sql_pct",
+      "execution_accuracy_pct",
+      "execution_accuracy_strict_pct",
+      "avg_prompt_eval_count",
+      "avg_eval_count",
+      "avg_prompt_tokens_cl100k",
+      "avg_ddl_tokens",
+      "median_total_duration_ms",
+      "possible_truncation_n"
+    ]
+  },
+  "schema_retrieval.csv": {
+    "bytes": 6611624,
+    "rows": 9500,
+    "columns": [
+      "query_id",
+      "difficulty",
+      "primary_domain",
+      "strategy",
+      "k",
+      "budget_variant",
+      "retrieved_tables",
+      "gt_tables",
+      "n_tables",
+      "n_gt_tables",
+      "table_recall",
+      "table_precision",
+      "column_precision",
+      "column_recall",
+      "column_f1",
+      "schema_complete",
+      "ddl_tokens",
+      "prompt_tokens",
+      "bridges",
+      "graph_rrf_ns",
+      "graph_graph_load_ns",
+      "graph_bridge_search_ns",
+      "graph_ddl_synthesis_ns",
+      "graph_total_ns",
+      "graph_n_base_tables",
+      "graph_n_bridges"
+    ]
+  },
+  "schema_retrieval.parquet": {
+    "bytes": 650392,
+    "rows": 9500,
+    "columns": [
+      "query_id",
+      "difficulty",
+      "primary_domain",
+      "strategy",
+      "k",
+      "budget_variant",
+      "retrieved_tables",
+      "gt_tables",
+      "n_tables",
+      "n_gt_tables",
+      "table_recall",
+      "table_precision",
+      "column_precision",
+      "column_recall",
+      "column_f1",
+      "schema_complete",
+      "ddl_tokens",
+      "prompt_tokens",
+      "bridges",
+      "graph_rrf_ns",
+      "graph_graph_load_ns",
+      "graph_bridge_search_ns",
+      "graph_ddl_synthesis_ns",
+      "graph_total_ns",
+      "graph_n_base_tables",
+      "graph_n_bridges"
+    ]
+  },
+  "schema_retrieval_summary.csv": {
+    "bytes": 2239,
+    "rows": 19,
+    "columns": [
+      "strategy",
+      "k",
+      "budget_variant",
+      "n",
+      "table_recall",
+      "table_precision",
+      "column_recall",
+      "column_f1",
+      "n_tables",
+      "ddl_tokens",
+      "prompt_tokens"
+    ]
+  },
+  "security_llm_injection.jsonl": {
+    "bytes": 35452,
+    "rows": 26,
+    "columns": [
+      "attack_success",
+      "eval_count",
+      "eval_duration",
+      "load_duration",
+      "model",
+      "model_digest",
+      "prompt",
+      "prompt_eval_count",
+      "prompt_eval_duration",
+      "response",
+      "rule",
+      "sub_category",
+      "total_duration",
+      "variant",
+      "vector_id"
+    ]
+  },
+  "security_llm_injection_summary.csv": {
+    "bytes": 95,
+    "rows": 2,
+    "columns": [
+      "variant",
+      "n",
+      "attack_success_rate"
+    ]
+  },
+  "security_suite_metrics.json": {
+    "bytes": 854,
+    "keys": [
+      "unique_vectors_by_category",
+      "FPR",
+      "AMR",
+      "side_effect_allowed_rate",
+      "sanitization_residual_rate",
+      "latency_ms_mean_by_category",
+      "latency_ms_p95_all",
+      "metric_definitions"
+    ]
+  },
+  "security_suite_results.csv": {
+    "bytes": 13142,
+    "rows": 77,
+    "columns": [
+      "vector_id",
+      "category",
+      "sub_category",
+      "payload",
+      "expected_allowed",
+      "error_message",
+      "validator_allowed",
+      "metric",
+      "latency_ms",
+      "residual_raw_im_start",
+      "residual_raw_inst",
+      "residual_raw_sys",
+      "residual_raw_system_role",
+      "residual_unclosed_escape",
+      "sanitization_residual"
+    ]
+  },
+  "security_suite_summary.csv": {
+    "bytes": 1723,
+    "rows": 27,
+    "columns": [
+      "category",
+      "sub_category",
+      "metric",
+      "n",
+      "mean_latency_ms"
+    ]
+  },
+  "security_vectors_unique.csv": {
+    "bytes": 11915,
+    "rows": 77,
+    "columns": [
+      "category",
+      "sub_category",
+      "payload",
+      "expected_allowed",
+      "vector_id",
+      "llm_success_regex"
+    ]
+  },
+  "security_xml_token_overhead.csv": {
+    "bytes": 444,
+    "rows": 16,
+    "columns": [
+      "record_kind",
+      "raw_tokens",
+      "encapsulated_tokens",
+      "added_tokens"
+    ]
+  },
+  "statistical_bootstrap_ci.csv": {
+    "bytes": 4115,
+    "rows": 47,
+    "columns": [
+      "metric",
+      "profile",
+      "strategy",
+      "k",
+      "budget_variant",
+      "reported",
+      "mean",
+      "ci_low",
+      "ci_high",
+      "n",
+      "n_resamples",
+      "seed"
+    ]
+  },
+  "statistical_hypothesis_tests.csv": {
+    "bytes": 6363,
+    "rows": 30,
+    "columns": [
+      "test_id",
+      "hypothesis",
+      "kind",
+      "metric",
+      "mean_a",
+      "mean_b",
+      "status",
+      "test",
+      "N",
+      "n_eff",
+      "W",
+      "p_value",
+      "rank_biserial_r",
+      "reported",
+      "profile",
+      "ex_a",
+      "ex_b",
+      "only_a",
+      "only_b",
+      "source_file",
+      "payload_size_bytes",
+      "comparison",
+      "n_a",
+      "n_b",
+      "U",
+      "median_a",
+      "median_b",
+      "median_diff_estimate",
+      "median_diff_ci_low",
+      "median_diff_ci_high",
+      "median_diff_n_resamples",
+      "median_diff_seed",
+      "concurrency_level",
+      "workers",
+      "slope_ms_per_1k_tokens",
+      "ci_low",
+      "ci_high",
+      "n",
+      "seed"
+    ]
+  },
+  "statistical_report.json": {
+    "bytes": 13119,
+    "keys": [
+      "tests",
+      "bootstrap_seed"
+    ]
+  },
+  "ttft_scaling.csv": {
+    "bytes": 92076,
+    "rows": 372,
+    "columns": [
+      "profile",
+      "model",
+      "model_digest",
+      "target_ddl_tokens",
+      "ddl_tokens_cl100k",
+      "n_tables",
+      "repetition",
+      "warmup",
+      "num_ctx",
+      "model_max_context",
+      "num_ctx_capped",
+      "prefix_cache",
+      "ttft_ms",
+      "total_ms",
+      "stream_chunks",
+      "possible_truncation",
+      "done_reason",
+      "prompt_eval_count",
+      "eval_count",
+      "total_duration",
+      "load_duration",
+      "prompt_eval_duration",
+      "eval_duration"
+    ]
+  },
+  "ttft_scaling.parquet": {
+    "bytes": 33087,
+    "rows": 372,
+    "columns": [
+      "profile",
+      "model",
+      "model_digest",
+      "target_ddl_tokens",
+      "ddl_tokens_cl100k",
+      "n_tables",
+      "repetition",
+      "warmup",
+      "num_ctx",
+      "model_max_context",
+      "num_ctx_capped",
+      "prefix_cache",
+      "ttft_ms",
+      "total_ms",
+      "stream_chunks",
+      "possible_truncation",
+      "done_reason",
+      "prompt_eval_count",
+      "eval_count",
+      "total_duration",
+      "load_duration",
+      "prompt_eval_duration",
+      "eval_duration"
+    ]
+  },
+  "ttft_scaling_summary.csv": {
+    "bytes": 1404,
+    "rows": 12,
+    "columns": [
+      "profile",
+      "model",
+      "target_ddl_tokens",
+      "n",
+      "ddl_tokens_cl100k",
+      "prompt_eval_count",
+      "num_ctx",
+      "ttft_median_ms",
+      "ttft_p95_ms",
+      "total_median_ms",
+      "prompt_eval_median_ms",
+      "possible_truncation_n"
+    ]
+  },
+  "validation_report.md": {
+    "bytes": 3977
+  }
+}

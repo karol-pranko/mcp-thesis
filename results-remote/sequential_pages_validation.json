@@ -1,0 +1,67 @@
+[
+  {
+    "page_number": 1,
+    "rows_in_page": 21,
+    "first_id": 1,
+    "last_id": 21,
+    "tokens_used": 1998,
+    "latency_ms": 3.83,
+    "has_more": true,
+    "cursor_in": "START",
+    "cursor_out": "eyJsYXN0X2lkIjoy...",
+    "duplicates_detected": 0,
+    "monotonic": true
+  },
+  {
+    "page_number": 2,
+    "rows_in_page": 20,
+    "first_id": 22,
+    "last_id": 41,
+    "tokens_used": 1911,
+    "latency_ms": 4.64,
+    "has_more": true,
+    "cursor_in": "eyJsYXN0X2lkIjoy...",
+    "cursor_out": "eyJsYXN0X2lkIjo0...",
+    "duplicates_detected": 0,
+    "monotonic": true
+  },
+  {
+    "page_number": 3,
+    "rows_in_page": 20,
+    "first_id": 42,
+    "last_id": 61,
+    "tokens_used": 1930,
+    "latency_ms": 4.1,
+    "has_more": true,
+    "cursor_in": "eyJsYXN0X2lkIjo0...",
+    "cursor_out": "eyJsYXN0X2lkIjo2...",
+    "duplicates_detected": 0,
+    "monotonic": true
+  },
+  {
+    "page_number": 4,
+    "rows_in_page": 20,
+    "first_id": 62,
+    "last_id": 81,
+    "tokens_used": 1920,
+    "latency_ms": 4.08,
+    "has_more": true,
+    "cursor_in": "eyJsYXN0X2lkIjo2...",
+    "cursor_out": "eyJsYXN0X2lkIjo4...",
+    "duplicates_detected": 0,
+    "monotonic": true
+  },
+  {
+    "page_number": 5,
+    "rows_in_page": 20,
+    "first_id": 82,
+    "last_id": 101,
+    "tokens_used": 1947,
+    "latency_ms": 4.04,
+    "has_more": true,
+    "cursor_in": "eyJsYXN0X2lkIjo4...",
+    "cursor_out": "eyJsYXN0X2lkIjox...",
+    "duplicates_detected": 0,
+    "monotonic": true
+  }
+]

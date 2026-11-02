@@ -1,0 +1,65 @@
+{
+  "sample_causes": {
+    "A+B": {
+      "large": 11,
+      "small": 10
+    },
+    "A+C": {
+      "large": 1,
+      "small": 0
+    },
+    "B": {
+      "large": 3,
+      "small": 3
+    },
+    "C": {
+      "large": 2,
+      "small": 2
+    },
+    "D": {
+      "large": 0,
+      "small": 3
+    },
+    "E": {
+      "large": 3,
+      "small": 2
+    }
+  },
+  "sample_size": 40,
+  "ex_by_difficulty_pct": {
+    "complex": 0.2142857142857143,
+    "medium": 0.0,
+    "simple": 48.42857142857142
+  },
+  "medium_records": 3500,
+  "medium_valid_sql": 3,
+  "medium_ex": 0,
+  "medium_having_alias_pct": 99.6,
+  "medium_question_instructs_having_alias_pct": 100.0,
+  "fenced_code_pct_by_profile": {
+    "large": 100.0,
+    "small": 100.0
+  },
+  "done_reason": {
+    "stop": 7000
+  },
+  "table_missing_pg_error_column_pct": 99.02803738317758,
+  "ex_without_medium_small": {
+    "BM25@5": 30.8,
+    "BM25@8": 33.2,
+    "Dense@5": 32.0,
+    "DomainScoped@15": 15.6,
+    "Graph@5": 34.0,
+    "RRF@5": 31.6,
+    "RRF@8": 31.6
+  },
+  "ex_without_medium_large": {
+    "BM25@5": 31.6,
+    "BM25@8": 35.6,
+    "Dense@5": 28.0,
+    "DomainScoped@15": 13.2,
+    "Graph@5": 30.4,
+    "RRF@5": 30.0,
+    "RRF@8": 30.4
+  }
+}

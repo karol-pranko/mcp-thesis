@@ -1,0 +1,84 @@
+metric_name,sample_size,mean_value,median_value,ci_lower_95,ci_upper_95,std_error,resamples_count
+Table-Recall@3 [Baseline A (Full Schema)],500,0.1499,0.0,0.1341,0.1663,0.0083,10000
+Table-Precision@3 [Baseline A (Full Schema)],500,0.0352,0.0,0.0316,0.0389,0.0019,10000
+Column-Recall@3 [Baseline A (Full Schema)],500,0.1284,0.0,0.1131,0.1444,0.008,10000
+Table-Recall@5 [Baseline A (Full Schema)],500,0.1499,0.0,0.1341,0.1663,0.0083,10000
+Table-Precision@5 [Baseline A (Full Schema)],500,0.0352,0.0,0.0316,0.0389,0.0019,10000
+Column-Recall@5 [Baseline A (Full Schema)],500,0.1284,0.0,0.1131,0.1444,0.008,10000
+Table-Recall@10 [Baseline A (Full Schema)],500,0.1499,0.0,0.1341,0.1663,0.0083,10000
+Table-Precision@10 [Baseline A (Full Schema)],500,0.0352,0.0,0.0316,0.0389,0.0019,10000
+Column-Recall@10 [Baseline A (Full Schema)],500,0.1284,0.0,0.1131,0.1444,0.008,10000
+Table-Recall@20 [Baseline A (Full Schema)],500,0.1499,0.0,0.1341,0.1663,0.0083,10000
+Table-Precision@20 [Baseline A (Full Schema)],500,0.0352,0.0,0.0316,0.0389,0.0019,10000
+Column-Recall@20 [Baseline A (Full Schema)],500,0.1284,0.0,0.1131,0.1444,0.008,10000
+Table-Recall@3 [Baseline B (Lexical BM25)],500,0.4129,0.3333,0.3974,0.4291,0.0081,10000
+Table-Precision@3 [Baseline B (Lexical BM25)],500,0.456,0.3333,0.4393,0.4733,0.0086,10000
+Column-Recall@3 [Baseline B (Lexical BM25)],500,0.5644,0.5,0.5485,0.5799,0.008,10000
+Table-Recall@5 [Baseline B (Lexical BM25)],500,0.4589,0.3333,0.4408,0.4777,0.0095,10000
+Table-Precision@5 [Baseline B (Lexical BM25)],500,0.3092,0.2,0.2964,0.3224,0.0067,10000
+Column-Recall@5 [Baseline B (Lexical BM25)],500,0.6069,0.6,0.5905,0.6234,0.0084,10000
+Table-Recall@10 [Baseline B (Lexical BM25)],500,0.5315,0.5,0.5098,0.5539,0.0112,10000
+Table-Precision@10 [Baseline B (Lexical BM25)],500,0.1826,0.1,0.1738,0.1916,0.0045,10000
+Column-Recall@10 [Baseline B (Lexical BM25)],500,0.6721,0.6459,0.6548,0.6897,0.0089,10000
+Table-Recall@20 [Baseline B (Lexical BM25)],500,0.6481,0.6667,0.6256,0.6718,0.0118,10000
+Table-Precision@20 [Baseline B (Lexical BM25)],500,0.1111,0.1,0.1063,0.116,0.0025,10000
+Column-Recall@20 [Baseline B (Lexical BM25)],500,0.7629,0.8,0.7455,0.7811,0.009,10000
+Table-Recall@3 [Baseline C (Hybrid pgvector+BM25 RRF)],500,0.3399,0.3333,0.3216,0.3589,0.0094,10000
+Table-Precision@3 [Baseline C (Hybrid pgvector+BM25 RRF)],500,0.368,0.3333,0.35,0.386,0.0091,10000
+Column-Recall@3 [Baseline C (Hybrid pgvector+BM25 RRF)],500,0.4646,0.5,0.4426,0.4868,0.0112,10000
+Table-Recall@5 [Baseline C (Hybrid pgvector+BM25 RRF)],500,0.3924,0.3333,0.3743,0.4113,0.0095,10000
+Table-Precision@5 [Baseline C (Hybrid pgvector+BM25 RRF)],500,0.2576,0.2,0.2464,0.2692,0.0058,10000
+Column-Recall@5 [Baseline C (Hybrid pgvector+BM25 RRF)],500,0.5268,0.5,0.507,0.5469,0.0102,10000
+Table-Recall@10 [Baseline C (Hybrid pgvector+BM25 RRF)],500,0.4885,0.5,0.4687,0.5091,0.0103,10000
+Table-Precision@10 [Baseline C (Hybrid pgvector+BM25 RRF)],500,0.1652,0.1,0.1578,0.1728,0.0038,10000
+Column-Recall@10 [Baseline C (Hybrid pgvector+BM25 RRF)],500,0.6251,0.6,0.6062,0.6443,0.0096,10000
+Table-Recall@20 [Baseline C (Hybrid pgvector+BM25 RRF)],500,0.6158,0.6667,0.5948,0.6374,0.0108,10000
+Table-Precision@20 [Baseline C (Hybrid pgvector+BM25 RRF)],500,0.1057,0.1,0.1014,0.1101,0.0022,10000
+Column-Recall@20 [Baseline C (Hybrid pgvector+BM25 RRF)],500,0.7361,0.8,0.7193,0.7533,0.0088,10000
+Table-Recall@3 [Baseline D (Dense-only pgvector k-NN)],500,0.244,0.25,0.2244,0.2641,0.0102,10000
+Table-Precision@3 [Baseline D (Dense-only pgvector k-NN)],500,0.252,0.3333,0.2333,0.2707,0.0097,10000
+Column-Recall@3 [Baseline D (Dense-only pgvector k-NN)],500,0.3276,0.375,0.3022,0.3535,0.0131,10000
+Table-Recall@5 [Baseline D (Dense-only pgvector k-NN)],500,0.2974,0.3333,0.2774,0.318,0.0103,10000
+Table-Precision@5 [Baseline D (Dense-only pgvector k-NN)],500,0.1904,0.2,0.1784,0.202,0.0062,10000
+Column-Recall@5 [Baseline D (Dense-only pgvector k-NN)],500,0.3986,0.4286,0.3734,0.4238,0.0128,10000
+Table-Recall@10 [Baseline D (Dense-only pgvector k-NN)],500,0.4013,0.3333,0.3798,0.4237,0.0112,10000
+Table-Precision@10 [Baseline D (Dense-only pgvector k-NN)],500,0.1314,0.1,0.1246,0.1382,0.0035,10000
+Column-Recall@10 [Baseline D (Dense-only pgvector k-NN)],500,0.5147,0.5,0.4907,0.5392,0.0124,10000
+Table-Recall@20 [Baseline D (Dense-only pgvector k-NN)],500,0.4984,0.5,0.4771,0.5202,0.011,10000
+Table-Precision@20 [Baseline D (Dense-only pgvector k-NN)],500,0.084,0.1,0.0801,0.088,0.002,10000
+Column-Recall@20 [Baseline D (Dense-only pgvector k-NN)],500,0.6204,0.6,0.5993,0.6417,0.0109,10000
+Table-Recall@3 [Autorskie (Graph Pruning & Bridges)],500,0.4495,0.3333,0.4255,0.4741,0.0124,10000
+Table-Precision@3 [Autorskie (Graph Pruning & Bridges)],500,0.4103,0.3333,0.3917,0.4293,0.0096,10000
+Column-Recall@3 [Autorskie (Graph Pruning & Bridges)],500,0.533,0.5,0.509,0.5574,0.0124,10000
+Table-Recall@5 [Autorskie (Graph Pruning & Bridges)],500,0.5448,0.5,0.5212,0.5692,0.0122,10000
+Table-Precision@5 [Autorskie (Graph Pruning & Bridges)],500,0.298,0.2857,0.2859,0.3104,0.0063,10000
+Column-Recall@5 [Autorskie (Graph Pruning & Bridges)],500,0.6217,0.6,0.5997,0.6436,0.0113,10000
+Table-Recall@10 [Autorskie (Graph Pruning & Bridges)],500,0.6676,0.6667,0.6444,0.6912,0.0119,10000
+Table-Precision@10 [Autorskie (Graph Pruning & Bridges)],500,0.1919,0.1667,0.1839,0.2001,0.0042,10000
+Column-Recall@10 [Autorskie (Graph Pruning & Bridges)],500,0.7334,0.75,0.7138,0.7533,0.0101,10000
+Table-Recall@20 [Autorskie (Graph Pruning & Bridges)],500,0.7934,0.8333,0.7729,0.8133,0.0104,10000
+Table-Precision@20 [Autorskie (Graph Pruning & Bridges)],500,0.1209,0.1304,0.1165,0.1252,0.0022,10000
+Column-Recall@20 [Autorskie (Graph Pruning & Bridges)],500,0.8395,0.866,0.8226,0.8558,0.0085,10000
+E2E Latency (2 MB) [IN_BAND_BASE64],150,66.8554,40.5095,58.8992,74.7611,4.0934,10000
+E2E Latency (2 MB) [OOB_POSIX_SHM],50,2.5598,2.4898,2.491,2.6837,0.0555,10000
+E2E Latency (2 MB) [OOB_HTTP_STREAM],150,52.3364,21.912,43.5181,61.0938,4.5393,10000
+E2E Latency (10 MB) [IN_BAND_BASE64],150,314.3491,225.1308,282.7083,345.9193,16.2803,10000
+E2E Latency (10 MB) [OOB_POSIX_SHM],50,15.5006,15.4635,15.4631,15.5613,0.0262,10000
+E2E Latency (10 MB) [OOB_HTTP_STREAM],150,179.2586,101.5044,152.5049,206.0139,13.7228,10000
+E2E Latency (50 MB) [IN_BAND_BASE64],150,1585.9131,1188.9219,1434.2388,1737.0551,77.7554,10000
+E2E Latency (50 MB) [OOB_POSIX_SHM],50,97.9423,97.9373,97.8028,98.0825,0.0722,10000
+E2E Latency (50 MB) [OOB_HTTP_STREAM],150,829.5297,517.0102,713.8025,945.1098,59.5254,10000
+Event Loop Lag (M=1) [SYNCHRONOUS_AST],1000,3360.23,2.51,3360.23,3360.23,0.0,10000
+Event Loop Lag (M=5) [SYNCHRONOUS_AST],1000,3357.61,2.52,3357.61,3357.61,0.0,10000
+Event Loop Lag (M=10) [SYNCHRONOUS_AST],1000,3369.66,2.53,3369.66,3369.66,0.0,10000
+Event Loop Lag (M=25) [SYNCHRONOUS_AST],1000,3376.58,2.54,3376.58,3376.58,0.0,10000
+Event Loop Lag (M=50) [SYNCHRONOUS_AST],1000,3368.68,2.53,3368.68,3368.68,0.0,10000
+Event Loop Lag (M=100) [SYNCHRONOUS_AST],1000,3357.17,2.52,3357.17,3357.17,0.0,10000
+Event Loop Lag (M=500) [SYNCHRONOUS_AST],2500,8702.65,2.52,8702.65,8702.65,0.0,10000
+Event Loop Lag (M=1) [MULTIPROCESS_AST_POOL],1000,0.25,2.69,0.25,0.95,0.0,10000
+Event Loop Lag (M=5) [MULTIPROCESS_AST_POOL],1000,0.91,16.9,0.91,0.94,0.0,10000
+Event Loop Lag (M=10) [MULTIPROCESS_AST_POOL],1000,0.96,34.0,0.96,1.02,0.0,10000
+Event Loop Lag (M=25) [MULTIPROCESS_AST_POOL],1000,0.52,41.66,0.52,0.97,0.0,10000
+Event Loop Lag (M=50) [MULTIPROCESS_AST_POOL],1000,0.51,42.08,0.51,1.01,0.0,10000
+Event Loop Lag (M=100) [MULTIPROCESS_AST_POOL],1000,0.53,84.25,0.53,0.97,0.0,10000
+Event Loop Lag (M=500) [MULTIPROCESS_AST_POOL],2500,0.53,422.49,0.53,0.93,0.0,10000

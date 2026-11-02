@@ -1,0 +1,95 @@
+% !TEX program = xelatex
+% !BIB program = biber
+% !TeX encoding = utf8
+% !TeX spellcheck = pl-PL
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Wybierz rodzaj pracy dyplomowej oraz wydział
+% Pick thesis type and faculty
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[thesis=mgr,faculty=ee]{EE-dyplom} 
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,backgrounds}
+\usepackage{booktabs}
+\usepackage{array}
+% Liczby wynikowe generowane z rundy pomiarowej (benchmarks/analysis_final/generuj_makra.py)
+\input{chapters/wyniki_liczby}
+\input{chapters/wyniki_wtorne}
+% Adres repozytorium z kodem źródłowym (używany w załącznikach)
+\newcommand{\repoUrl}{\url{https://github.com/karol-pranko/mcp-thesis}}
+
+% thesis=[inz|mgr|bsc|msc]
+%  * inz - praca inżynierska
+%  * mgr - praca magisterska
+%  * bsc - bachelor thesis
+%  * msc - master thesis
+
+% Skróty nazw wydziałów zgodne z domenami internetowymi
+% Abbreviations of Faculties according to Internet subdomains
+% faculty=[
+%	arch,
+%	gik,
+%	ee,
+%	wip
+%	]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Konfiguracja - do personalizacji
+% Configuration - to be personalized
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\instytut{Instytut Sterowania i Elektroniki Przemysłowej}
+\kierunek{Informatyka Stosowana}
+\specjalnosc{Inżynieria Oprogramowania}
+\title{Analiza Wydajności i Bezpieczeństwa Protokołu MCP w Integracji Systemów Agentowych z Wielkimi Zbiorami Danych}
+\engtitle{Performance and Security Analysis of the Model Context Protocol in Integrating Agent Systems with Big Data}
+\album{340801}
+\author{Karol Sygiet}
+\promotor{dr inż. Włodzimierz Dąbrowski, prof. uczelni}
+\date{2026}
+\longdate{2026-10-02}
+
+%\grantlicense{TRUE} % [TRUE|FALSE]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Streszczenie pracy i abstract.
+% In case of thesis in English swap the order - English version goes first.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\streszczeniepracy{
+Praca dotyczy wydajności i~bezpieczeństwa komponentów bramy pośredniczącej w~standardzie Model Context Protocol (MCP), integrującej systemy agentowe oparte na modelach językowych z~relacyjną bazą danych o~złożonym schemacie. Zaprojektowano i~zaimplementowano w~języku Python 3.12 bramę zawierającą: selekcję schematu łączącą wyszukiwanie leksykalne i~wektorowe (RRF) z~autorską ekspansją grafową o~tabele mostkujące, wielokolumnową paginację kursorową keyset, transfer danych binarnych poza ramką JSON-RPC (Out-of-Band) z~analitycznym modelem progu opłacalności oraz walidator zapytań oparty na analizie drzew AST wykonywany w~puli procesów. Na zbiorze \wynNQueriesEn{}\,zapytań Text-to-SQL w~schemacie o~skali 1000 tabel ekspansja grafowa istotnie zwiększyła czułość selekcji tabel (Table-Recall@5 \wynRecallGraphFive\% wobec \wynRecallRrfEight\% dla RRF@8 i~\wynRecallBmEight\% dla BM25@8 przy równym budżecie tabel), redukując objętość DDL w~prompcie o~ponad 99\% względem pełnego zrzutu schematu (\wynFullDumpTokens{} tokenów). Paginacja keyset zachowuje stałe opóźnienie na relacji 1 mln wierszy (\wynKeysetDeep~ms przy offsecie 950\,000 wobec 429~ms dla OFFSET/LIMIT), transfer przez pamięć współdzieloną (SHM) na jednym węźle jest szybszy od kodowania Base64 dla ładunków powyżej \wynSstarLoopShm~KiB, zgodnie z~modelem progu, a~wieloprocesowa walidacja AST obniża medianę opóźnienia pętli zdarzeń przy 100 klientach z~\wynCcSyncHundredLagMed{} do \wynCcPoolHundredLagMed~ms. Walidator zablokował wszystkie \wynSecInjection{} badane wektory SQL Injection bez fałszywych alarmów. Wyniki eksperymentalne potwierdziły nadrzędną hipotezę badawczą w~odniesieniu do zaimplementowanych komponentów bramy MCP.
+} % koniec streszczenia
+
+\slowakluczowe{Model Context Protocol, systemy agentowe, bazy danych, duże modele językowe, paginacja kursorowa, pgvector, bezpieczeństwo AI, Text-to-SQL}
+
+\thesisabstract{
+This thesis investigates the performance and security of the components of a Model Context Protocol (MCP) gateway integrating LLM-based agent systems with a relational database having a complex schema. A gateway was designed and implemented in Python 3.12 featuring: schema selection combining lexical and vector retrieval (RRF) with foreign-key bridge-table expansion, multi-column keyset cursor pagination, out-of-band binary data transfer outside the JSON-RPC frame with an analytical break-even model, and an AST-based query validator executed in a dedicated process pool. On a benchmark of \wynNQueriesEn{} Text-to-SQL queries over a 1000-table schema, graph expansion significantly increased table retrieval recall (Table-Recall@5 of \wynRecallGraphFiveEn\% versus \wynRecallRrfEightEn\% for RRF@8 and \wynRecallBmEightEn\% for BM25@8 at an equal table budget), reducing prompt DDL volume by over 99\% compared to the full database dump (\wynFullDumpTokensEn{} tokens). Keyset pagination maintains constant latency on a 1-million-row table (\wynKeysetDeepEn~ms at offset 950,000 versus 429~ms for OFFSET/LIMIT), shared-memory transfer (SHM) on a single node outperforms Base64 encoding for payloads above \wynSstarLoopShmEn~KiB consistent with the analytical model, and multi-process AST validation reduces the median event-loop lag under 100 concurrent clients from \wynCcSyncHundredLagMedEn{} to \wynCcPoolHundredLagMedEn~ms. The validator successfully blocked all \wynSecInjectionEn{} tested SQL injection attack vectors without false positives. The experimental findings confirm the overarching research hypothesis for the investigated MCP gateway architecture.
+} % end of abstract
+
+\thesiskeywords{Model Context Protocol, agentic systems, databases, large language models, cursor pagination, pgvector, AI security, Text-to-SQL}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tu zaczyna się dokument
+% Here is the beginning of the document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+    % Strony nagłówkowe
+    \frontpages
+
+    % Właściwa treść jest w pliku tekst/main.tex
+    \input{tekst/main}
+
+    % Bibliografia - musi być
+    \bibliografia
+
+    % Strony końcowe - można zakomentować, jeśli zbędne
+    
+    % Wykaz symboli i skrótów - patrz opis w tekście przykładowym
+    \acronymslist
+    % Spis rysunków
+    \listoffigures
+    % Spis tabel
+    \listoftables
+    % Załączniki (plik appendices.tex)
+    \easyappendices
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

@@ -1,0 +1,768 @@
+{
+  "run_id": "20261004T120209_d347d2",
+  "created_at": "2026-10-04T12:02:09+00:00",
+  "mode": "full",
+  "git": {
+    "commit": "774b75ae79fde0e9da637babe7fe0d0cff6b5f0c",
+    "branch": "main",
+    "dirty": true,
+    "diff_stat": "benchmarks/common/db.py | 1 +\n 1 file changed, 1 insertion(+)",
+    "status_porcelain": "M benchmarks/common/db.py\n?? .schema_initialized\n?? benchmarks/common/db.py.save"
+  },
+  "config": {
+    "_comment": "Jedyne źródło konfiguracji pełnej rundy pomiarowej. Sekcja quick_overrides jest nakładana w trybie --quick (jedna iteracja każdego scenariusza). Cała zawartość trafia do raw_results/manifest.json.",
+    "seeds": {
+      "query_generator": 2026,
+      "security_vectors": 42,
+      "bootstrap": 12345,
+      "streaming_producer": 7,
+      "ttft_table_sampling": 99,
+      "llm": 42,
+      "data_seeder": 42,
+      "concurrency_query_order": 11
+    },
+    "database": {
+      "host_env": "POSTGRES_HOST",
+      "host_default": "localhost",
+      "port_env": "POSTGRES_PORT",
+      "port_default": 5432,
+      "user_env": "POSTGRES_USER",
+      "user_default": "mcp_user",
+      "password_env": "POSTGRES_PASSWORD",
+      "password_default": "mcp_secret_password",
+      "name_env": "POSTGRES_DB",
+      "name_default": "analytics_db"
+    },
+    "data": {
+      "rows_per_table": 200,
+      "min_rows_required_in_gt_tables": 1
+    },
+    "llm": {
+      "base_url": "http://localhost:11434",
+      "num_ctx": 8192,
+      "temperature": 0.0,
+      "request_timeout_s": 600,
+      "possible_truncation_ratio": 0.95,
+      "profiles": {
+        "small": {
+          "model": "qwen2.5-coder:3b",
+          "num_predict": 1024
+        },
+        "large": {
+          "model": "qwen2.5-coder:7b",
+          "num_predict": 1024
+        }
+      },
+      "min_vram_mib_for_large": 10000,
+      "stop": [],
+      "_stop_comment": "Brak sekwencji stop: poprzednie [';', '\\n\\n', ...] ucinały wielowierszowy SQL. Ekstrakcja SQL odbywa się po stronie benchmarku.",
+      "smoke_test_model_substitution": false
+    },
+    "scenarios": {
+      "pagination": {
+        "repetitions": 10,
+        "warmup": 2,
+        "page_size": 50,
+        "offsets": [
+          0,
+          100,
+          1000,
+          10000,
+          50000,
+          100000,
+          250000,
+          500000,
+          750000,
+          950000
+        ],
+        "unindexed_max_offset": 50000,
+        "explain_offsets": [
+          10000,
+          250000,
+          950000
+        ],
+        "consistency_samples": 10000
+      },
+      "oob": {
+        "repetitions": 50,
+        "warmup": 5,
+        "payload_sizes_bytes": [
+          512,
+          2048,
+          8192,
+          32768,
+          131072,
+          524288,
+          2097152,
+          10485760,
+          52428800
+        ],
+        "h2_sizes_bytes": [
+          2048,
+          10485760
+        ],
+        "h2_min_repetitions": 30,
+        "crossover_fit_neighbours": 2,
+        "bootstrap_resamples": 2000,
+        "profiles": {
+          "lan": {
+            "rtt_ms": 1.0,
+            "jitter_ms": 0.0,
+            "bandwidth_mbps": 1000.0
+          },
+          "wan": {
+            "rtt_ms": 30.0,
+            "jitter_ms": 2.0,
+            "bandwidth_mbps": 250.0
+          }
+        }
+      },
+      "concurrency": {
+        "levels": [
+          1,
+          5,
+          10,
+          25,
+          50,
+          100,
+          500
+        ],
+        "variants": [
+          "SYNC",
+          "THREAD",
+          "POOL"
+        ],
+        "default_workers": 4,
+        "workers_grid": [
+          2,
+          4,
+          8
+        ],
+        "workers_grid_level": 100,
+        "level_duration_s": 30,
+        "level_warmup_s": 5,
+        "lag_probe_interval_ms": 10,
+        "h3_levels": [
+          100,
+          500
+        ],
+        "bootstrap_resamples": 5000
+      },
+      "streaming": {
+        "n_events": 100,
+        "mean_interarrival_s": 3.0,
+        "poll_intervals_s": [
+          1.0,
+          5.0
+        ],
+        "idle_window_s": 60,
+        "topic": "telemetry_bench_sse",
+        "gateway_port": 18765,
+        "detection_timeout_s": 30
+      },
+      "security": {
+        "llm_injection": false,
+        "llm_injection_profile": "small",
+        "llm_injection_max_vectors": null
+      },
+      "drift": {
+        "num_drift_tables": 50,
+        "num_baseline_queries": 50,
+        "num_inflight_queries": 50,
+        "num_postdrift_queries": 10
+      },
+      "ablation": {
+        "m_exp_values": [
+          0,
+          1,
+          2,
+          3,
+          5
+        ],
+        "top_k": 5,
+        "n_queries": 500,
+        "sweet_spot_rule": "najmniejsze M_exp, dla którego wzrost Table-Recall@5 względem następnej badanej wartości M_exp jest < sweet_spot_threshold_pp punktu procentowego",
+        "sweet_spot_threshold_pp": 0.5
+      },
+      "ttft_scaling": {
+        "enabled": true,
+        "ddl_token_targets": [
+          1000,
+          2000,
+          4000,
+          8000,
+          16000,
+          28000
+        ],
+        "repetitions": 30,
+        "profiles": [
+          "small",
+          "large"
+        ],
+        "ctx_margin_tokens": 2048,
+        "num_predict": 64,
+        "question": "Write a SQL query that returns the 10 most recent rows of the first table in the schema."
+      },
+      "schema_quality": {
+        "n_queries": 500,
+        "k_values": [
+          3,
+          5,
+          10,
+          20
+        ],
+        "generation_k": 5,
+        "equal_budget": {
+          "mode": "fixed",
+          "k": 8,
+          "strategies": [
+            "BM25",
+            "RRF"
+          ]
+        },
+        "profiles": [
+          "small",
+          "large"
+        ],
+        "llm_concurrency": 4,
+        "ex_comparison": "multiset_unless_order_by",
+        "statement_timeout_ms": 10000,
+        "domain_scoped_tables": 15,
+        "generation_strategies": [
+          "DomainScoped",
+          "BM25",
+          "Dense",
+          "RRF",
+          "Graph"
+        ]
+      }
+    },
+    "mode": "full",
+    "config_path": "/mcp/benchmarks/config/benchmark_config.json"
+  },
+  "seeds": {
+    "query_generator": 2026,
+    "security_vectors": 42,
+    "bootstrap": 12345,
+    "streaming_producer": 7,
+    "ttft_table_sampling": 99,
+    "llm": 42,
+    "data_seeder": 42,
+    "concurrency_query_order": 11
+  },
+  "smoke_test_model_substitution": false,
+  "network_mode_requested": "auto",
+  "scenario_order": [
+    "data",
+    "pagination",
+    "oob",
+    "concurrency",
+    "streaming",
+    "security",
+    "drift",
+    "ablation",
+    "ttft_scaling",
+    "schema_quality",
+    "statistics",
+    "plots",
+    "validation"
+  ],
+  "scenarios": {
+    "preflight": {
+      "status": "completed",
+      "started_at": "2026-10-04T12:02:10+00:00",
+      "log": "logs/preflight.log",
+      "finished_at": "2026-10-04T12:02:11+00:00",
+      "exit_code": 0
+    },
+    "data": {
+      "status": "completed",
+      "started_at": "2026-10-04T12:02:11+00:00",
+      "log": "logs/data.log",
+      "finished_at": "2026-10-04T12:02:12+00:00",
+      "exit_code": 0
+    },
+    "pagination": {
+      "status": "completed",
+      "started_at": "2026-10-04T12:02:12+00:00",
+      "log": "logs/pagination.log",
+      "finished_at": "2026-10-04T12:03:14+00:00",
+      "exit_code": 0
+    },
+    "oob": {
+      "status": "completed",
+      "started_at": "2026-10-04T12:03:14+00:00",
+      "log": "logs/oob.log",
+      "finished_at": "2026-10-04T12:12:16+00:00",
+      "exit_code": 0
+    },
+    "concurrency": {
+      "status": "completed",
+      "started_at": "2026-10-04T12:12:16+00:00",
+      "log": "logs/concurrency.log",
+      "finished_at": "2026-10-04T12:28:28+00:00",
+      "exit_code": 0
+    },
+    "streaming": {
+      "status": "failed",
+      "started_at": "2026-10-04T12:28:28+00:00",
+      "log": "logs/streaming.log",
+      "finished_at": "2026-10-04T12:45:39+00:00",
+      "exit_code": 1
+    },
+    "security": {
+      "status": "completed",
+      "started_at": "2026-10-04T12:51:09+00:00",
+      "log": "logs/security.log",
+      "finished_at": "2026-10-04T12:51:51+00:00",
+      "exit_code": 0
+    },
+    "drift": {
+      "status": "completed",
+      "started_at": "2026-10-04T12:51:51+00:00",
+      "log": "logs/drift.log",
+      "finished_at": "2026-10-04T12:52:03+00:00",
+      "exit_code": 0
+    },
+    "ablation": {
+      "status": "completed",
+      "started_at": "2026-10-04T12:52:03+00:00",
+      "log": "logs/ablation.log",
+      "finished_at": "2026-10-04T12:53:06+00:00",
+      "exit_code": 0
+    },
+    "ttft_scaling": {
+      "status": "completed",
+      "started_at": "2026-10-04T12:53:06+00:00",
+      "log": "logs/ttft_scaling.log",
+      "finished_at": "2026-10-04T13:17:00+00:00",
+      "exit_code": 0
+    },
+    "schema_quality": {
+      "status": "completed",
+      "started_at": "2026-10-04T13:17:00+00:00",
+      "log": "logs/schema_quality.log",
+      "finished_at": "2026-10-04T18:57:41+00:00",
+      "exit_code": 0
+    },
+    "statistics": {
+      "status": "completed",
+      "started_at": "2026-10-04T18:57:42+00:00",
+      "log": "logs/statistics.log",
+      "finished_at": "2026-10-04T18:57:45+00:00",
+      "exit_code": 0
+    },
+    "plots": {
+      "status": "completed",
+      "started_at": "2026-10-04T18:57:45+00:00",
+      "log": "logs/plots.log",
+      "finished_at": "2026-10-04T18:57:52+00:00",
+      "exit_code": 0
+    },
+    "validation": {
+      "status": "failed",
+      "started_at": "2026-10-04T18:57:53+00:00",
+      "log": "logs/validation.log",
+      "finished_at": "2026-10-04T18:57:54+00:00",
+      "exit_code": 1
+    }
+  },
+  "scenario_notes": {
+    "data": {
+      "empty_schema_tables": 0
+    },
+    "pagination": {
+      "cursor_construction": "Kursor dla offsetu M (strona k = M/page_size + 1) to wartości (created_at, amount, id) wiersza na pozycji M-1 w porządku created_at DESC NULLS LAST, amount ASC NULLS LAST, id ASC, wyznaczone przed pomiarem zapytaniem ORDER BY ... OFFSET M-1 LIMIT 1 (poza mierzonym czasem); mierzone jest wyłącznie zapytanie keyset od tego kursora.",
+      "offsets": [
+        0,
+        100,
+        1000,
+        10000,
+        50000,
+        100000,
+        250000,
+        500000,
+        750000,
+        950000
+      ]
+    },
+    "oob": {
+      "network_mode": "emulated",
+      "network_mode_reason": "netem niedostępny (tc=True, net_admin=False); użyto inject_network_delay",
+      "profiles": {
+        "lan": {
+          "rtt_ms": 1.0,
+          "jitter_ms": 0.0,
+          "bandwidth_mbps": 1000.0
+        },
+        "wan": {
+          "rtt_ms": 30.0,
+          "jitter_ms": 2.0,
+          "bandwidth_mbps": 250.0
+        }
+      }
+    },
+    "concurrency": {
+      "client_model": "closed_loop_asyncio_tasks_single_process",
+      "plan": [
+        [
+          "SYNC",
+          null,
+          1
+        ],
+        [
+          "SYNC",
+          null,
+          5
+        ],
+        [
+          "SYNC",
+          null,
+          10
+        ],
+        [
+          "SYNC",
+          null,
+          25
+        ],
+        [
+          "SYNC",
+          null,
+          50
+        ],
+        [
+          "SYNC",
+          null,
+          100
+        ],
+        [
+          "SYNC",
+          null,
+          500
+        ],
+        [
+          "THREAD",
+          4,
+          1
+        ],
+        [
+          "THREAD",
+          4,
+          5
+        ],
+        [
+          "THREAD",
+          4,
+          10
+        ],
+        [
+          "THREAD",
+          4,
+          25
+        ],
+        [
+          "THREAD",
+          4,
+          50
+        ],
+        [
+          "THREAD",
+          4,
+          100
+        ],
+        [
+          "THREAD",
+          4,
+          500
+        ],
+        [
+          "THREAD",
+          2,
+          100
+        ],
+        [
+          "THREAD",
+          8,
+          100
+        ],
+        [
+          "POOL",
+          4,
+          1
+        ],
+        [
+          "POOL",
+          4,
+          5
+        ],
+        [
+          "POOL",
+          4,
+          10
+        ],
+        [
+          "POOL",
+          4,
+          25
+        ],
+        [
+          "POOL",
+          4,
+          50
+        ],
+        [
+          "POOL",
+          4,
+          100
+        ],
+        [
+          "POOL",
+          4,
+          500
+        ],
+        [
+          "POOL",
+          2,
+          100
+        ],
+        [
+          "POOL",
+          8,
+          100
+        ]
+      ],
+      "process_pool_start_method": "forkserver"
+    },
+    "security": {
+      "unique_vectors_by_category": {
+        "ANALYTICAL_SELECT": 25,
+        "PROMPT_INJECTION": 13,
+        "SIDE_EFFECT_SELECT": 15,
+        "SQL_INJECTION": 24
+      },
+      "llm_injection": true
+    },
+    "ablation": {
+      "sweet_spot": {
+        "m_exp": 2,
+        "recall_pct": 55.123333333333335,
+        "gain_to_next_pp": 0.15666666666665918,
+        "threshold_pp": 0.5,
+        "rule": "Sweet spot M_exp = najmniejsza badana wartość M_exp, dla której wzrost Table-Recall@5 przy przejściu do następnej badanej wartości M_exp jest mniejszy niż próg (threshold_pp) punktów procentowych; jeśli taki punkt nie istnieje, wybierana jest największa badana wartość."
+      },
+      "sweet_spot_rule": "Sweet spot M_exp = najmniejsza badana wartość M_exp, dla której wzrost Table-Recall@5 przy przejściu do następnej badanej wartości M_exp jest mniejszy niż próg (threshold_pp) punktów procentowych; jeśli taki punkt nie istnieje, wybierana jest największa badana wartość."
+    },
+    "ttft_scaling": {
+      "model_digests": {
+        "qwen2.5-coder:3b": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+        "qwen2.5-coder:7b": "dae161e27b0e90dd1856c8bb3209201fd6736d8eb66298e75ed87571486f4364"
+      },
+      "prefix_cache": "defeated_by_unique_leading_nonce"
+    },
+    "schema_quality": {
+      "model_digests": {
+        "qwen2.5-coder:3b": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+        "qwen2.5-coder:7b": "dae161e27b0e90dd1856c8bb3209201fd6736d8eb66298e75ed87571486f4364"
+      },
+      "models": {
+        "small": "qwen2.5-coder:3b",
+        "large": "qwen2.5-coder:7b"
+      },
+      "ex_comparison": "multiset_unless_order_by",
+      "equal_budget": {
+        "mode": "fixed",
+        "k": 8,
+        "strategies": [
+          "BM25",
+          "RRF"
+        ]
+      },
+      "graph_m_exp": 3,
+      "full_schema_dump": {
+        "n_tables": 1000,
+        "ddl_tokens_cl100k": 263113,
+        "ddl_chars": 987468,
+        "format": "synthesize_ddl (jednolity format Scenariusza A)"
+      },
+      "gt_empty_queries": 0,
+      "possible_truncation_share": 0.0
+    }
+  },
+  "pinned_service_versions": {
+    "PG_MAJOR": "16",
+    "PG_MINOR": "16.4",
+    "PGVECTOR_VERSION": "0.7.4",
+    "KAFKA_VERSION": "3.7.0",
+    "KAFKA_SCALA": "2.13",
+    "OLLAMA_VERSION": "0.35.0",
+    "PYTHON_VERSION": "3.12",
+    "LLM_MODEL_SMALL": "qwen2.5-coder:3b",
+    "LLM_MODEL_LARGE": "qwen2.5-coder:7b",
+    "DOCKER_PGVECTOR_IMAGE": "pgvector/pgvector:0.7.4-pg16",
+    "DOCKER_KAFKA_IMAGE": "apache/kafka:3.7.0"
+  },
+  "updated_at": "2026-10-04T18:57:54+00:00",
+  "service_versions_observed": {
+    "postgres": "PostgreSQL 16.4 (Ubuntu 16.4-1.pgdg24.04+2) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.2.0-23ubuntu4) 13.2.0, 64-bit",
+    "extensions": {
+      "plpgsql": "1.0",
+      "vector": "0.7.4"
+    },
+    "kafka": {
+      "kafka_topics_version": "3.7.0",
+      "aiokafka": "0.14.0"
+    },
+    "ollama": "0.35.0"
+  },
+  "capabilities": {
+    "docker": false,
+    "tc": true,
+    "net_admin": false,
+    "netem_possible": false
+  },
+  "estimated_duration_s": {
+    "data": 140.0,
+    "pagination": 112.31987999999998,
+    "oob": 583.4748394945642,
+    "concurrency": 935,
+    "streaming": 1155.0,
+    "security": 60,
+    "drift": 60,
+    "ablation": 105.0,
+    "ttft_scaling": 2236.0,
+    "schema_quality": 14820.0,
+    "statistics": 60,
+    "plots": 60,
+    "validation": 10
+  },
+  "preflight": {
+    "info": {
+      "postgres": {
+        "schema_tables": 1000,
+        "foreign_keys": 1174,
+        "analytics_orders": 1000000,
+        "missing_tables": []
+      },
+      "kafka": "ok",
+      "models": {
+        "qwen2.5-coder:3b": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+        "qwen2.5-coder:7b": "dae161e27b0e90dd1856c8bb3209201fd6736d8eb66298e75ed87571486f4364"
+      },
+      "gpu": {
+        "name": "NVIDIA A100-SXM4-80GB",
+        "memory_mib": 81920
+      },
+      "disk_free_gb": 46.4,
+      "capabilities": {
+        "docker": false,
+        "tc": true,
+        "net_admin": false,
+        "netem_possible": false
+      }
+    },
+    "problems": [],
+    "at": "2026-10-04T12:02:11+00:00"
+  },
+  "model_digests": {
+    "qwen2.5-coder:3b": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+    "qwen2.5-coder:7b": "dae161e27b0e90dd1856c8bb3209201fd6736d8eb66298e75ed87571486f4364"
+  },
+  "files_sha256": {
+    ".gitkeep": "1aa7bd9dd5437b94375b357478c5db6b36d6cb272cbb8a581e8af0d5c879c813",
+    "environment.json": "d6cd238c03e93f143510154a6553467eeb21c6fc5d03633e07f2b3ed3a636cd6",
+    "logs/preflight.log": "ea4034bff9a029fe7314a4fb348eaabe65049868fa78c8869894c4a68242bb61",
+    "logs/data.log": "4d976e819032df15dde4718d1fdcef0561e1110df7b1fceb3944ae6306af3324",
+    "logs/pagination.log": "3be17291160d6b334ba5b8fa76b6288eaa5368e7175b0f73d1e626010bfacf7e",
+    "pagination_advanced_1m.csv": "8395fe48dfbb12342ef92fd9a12516f5a55428381707f3d0756cc247a484e1d1",
+    "pagination_advanced_1m.parquet": "d14b5b04631b8163f3cf7ffb044fe886b17d09f1a559f0b2a3685472f9963db8",
+    "pagination_advanced_summary.csv": "aecd568741ab131595d8954091a7cffb38900228edb8dec66b5ed334fb821c04",
+    "pagination_consistency.json": "fc29c195878e580a26c7273d78064e7d7091081acafc203c3c49c6e2a8830852",
+    "pagination_explain_plans.json": "20c2548dacb45ab0323ab680dde689da4dd19039697267d980bb4ef710ef9a87",
+    "pagination_predicate_ablation.csv": "67004788b4fbe6a890eb0d4bf844a9fda89750eb036fdf35a01f8220ebc59903",
+    "logs/oob.log": "046e4dc8359ce4a67f692e765117f592277f47c5550e5a7ab6eec9dae4a05aa2",
+    "oob_crossover_metrics.json": "fbde78cceb7359ef2f7a1ac399c7939b7d4a0e7793f424e21fc6081c914f46a1",
+    "oob_crossover_results.csv": "1b2f3aea281da1c95376f462ac8063428734ee29b038539c1f6c267ab79a6307",
+    "oob_crossover_results.parquet": "c2fc3fb727f0b9b3ad980744ae801e4cc424026a9d718f5e36a991d787a7160f",
+    "oob_crossover_summary.csv": "42eaaf14ae407dc50f4ac4d61d9bd32479006ca54a8cf3f18133ab5d98f91603",
+    "oob_h2_tests.json": "1f6acb53b90606bda5f78e67f6c2ddc7cfbf6036593f2952544573af4d920e3a",
+    "oob_model_fit.json": "7f16150705ac44106c4c720d7925707d02bfee44ee50d0cf70e598b51b88896a",
+    "concurrency_h3_tests.json": "2cacf755d6efdceb38ec56517048291cd603a4cacb538bc82b38c334986f14a5",
+    "concurrency_lag_samples.parquet": "66b054aa3e10bf5cfef726fd27eaac746ac7dbaa33f2b8c96844a8a37a927710",
+    "concurrency_memory_samples.csv": "1d1ef204ae4d274b7d6c7594b3d3174e7a7281bfa363b6ff94be274a37b135f4",
+    "concurrency_request_latencies.parquet": "5a1ef75562534354fe9ab8e0d2d9bd7596c96d61ab3db740445b871c761f713a",
+    "concurrency_summary.csv": "1320a0e31b02fb7c270894f2737fe21ec6298c8c27150ab3f7c9fb536f455a15",
+    "logs/concurrency.log": "171d3106999fd510d924e00eb804dddce8f34caf7e8669145a20eef5d10156dc",
+    "_streaming_tmp/client_POLL_1S.json": "c258783c4640e16f106bba73afa2d155a39b081f5846e4ff914506c346f7afcf",
+    "_streaming_tmp/client_SSE.json": "76b1322b7b3f22c86cf12731dc6b0c59ecbc1a1d3c8ced6b1ceee1cd59d21d91",
+    "_streaming_tmp/producer_POLL_1S.json": "410a0d0d0571d366af928f9d8f8b1a4e1aea19bd90194f4f491f319c26bff38b",
+    "_streaming_tmp/producer_POLL_5S.json": "19a275253c726cc512c0da3a8939cb8302708f80719761893b724e60120b1443",
+    "_streaming_tmp/producer_SSE.json": "fec692bf735e2194e46cee0598e5eaf2b66bc8857ea5c8d17fcd5f8a0b2ac78c",
+    "logs/streaming.log": "d9d01730f47f6596114fd9059e62c0705c8d60595c82b71b71e79c496e286b5f",
+    "logs/security.log": "45120a2578344a406f809a8a273e5b10638133f8eba45a1d163cad4b1a992b72",
+    "security_llm_injection.jsonl": "93fbc549217459d1eada218d426f149f4853b37b6c4a53e080f8b64b597f4211",
+    "security_llm_injection_summary.csv": "75da0f8f5cbf413b03c0614e529d4ace8d78b007b56c89f2b80141148360719c",
+    "security_suite_metrics.json": "c08239a9880eae409458dcaf7c15eefe730f915bccbc54164c42a94edae541cf",
+    "security_suite_results.csv": "c44454395f26c9e08aa29f9b6902264c8af0a10aef6dcfa82365796f0d9299b5",
+    "security_suite_summary.csv": "0208e03e79ce7c6d94bdc42e5983c4a0baf165ee64b7529e7dc61b8949f0d953",
+    "security_vectors_unique.csv": "c5555e17803f03d76d928f9788cd05c09bfe5f5525bb901549f78d659d30e21c",
+    "security_xml_token_overhead.csv": "1db0c738afca0ce3a1cc730ad62b1d1b8fd394f27a69dc474b46f80916504b0e",
+    "logs/drift.log": "629c0eb8f02151f15f01d28073a2ac9de15a34e5a83b0191d2700cdfeaf63fb1",
+    "schema_drift_queries.csv": "805680afa88f2be338e997873bcf353163a4224cac93f036277400af6048ab0a",
+    "schema_drift_queries.parquet": "72ee0c22560eeddbe707bb4e3351f605865775dfb13d795cad08b29e330f804d",
+    "schema_drift_summary.json": "1dac03683ffc8c999112ed9d77c7177dd5829ac004d1cc36b8b39c6861df40f1",
+    "ablation_m_exp_calls.csv": "f38e1005aa91c5ed7b1b30eb4f57405a7306af2a46bb9a4c904482b751e7980b",
+    "ablation_m_exp_calls.parquet": "d1031ab3d4175fb5fafe2b02aed5445c023de0d614c30356765c734f7292772b",
+    "ablation_m_exp_results.csv": "ec4d7d64ef35e7d72d039be9e5d1548c435651aa9989cf8dcb2399e9a7ab5a41",
+    "ablation_m_exp_sweet_spot.json": "73b8352e932b46d263ed8fa59af4d1b233a1f8be6222553972b8a66d6ba26837",
+    "logs/ablation.log": "72fd9c1c189b583baf7086e3a4744de796deab8838a0e8899b97113e0be00a2d",
+    "logs/ttft_scaling.log": "868f915baddb03800b464675039bdbc55e753579d2dda373880a4c97504eb3c4",
+    "ttft_scaling.csv": "79459093bcf0f41e744e91f2e1db4c6526c2cffba1903a0d91b692a3cb7ef61e",
+    "ttft_scaling.parquet": "febe19c47fa9f6e22d5a9621351fb886b8100aa5f6541ae1c48482085c2050c8",
+    "ttft_scaling_summary.csv": "27f53571a6b2a5d976387e17d7d60c6d5f5c17e266402c57b9014df98b009d62",
+    "logs/schema_quality.log": "2324f8de53ceb6e7dee9f647b3d266845b28d099d3be54f86d66115f97e73f10",
+    "schema_error_decomposition.csv": "5ff74e2ee80539f7c206001727de2e185c7993825b14640011888fe8d64824f8",
+    "schema_full_dump_tokens.json": "9e7972320e8e48214317ef9e2d0248c7a5c55edbed45abdc7f595e250e3c711b",
+    "schema_quality_dataset.jsonl": "deef7c9d91d35b8fd8e75a0a5e3d2395e7cd7b478c3cce8f6814ae98bbb8c266",
+    "schema_quality_generation.csv": "fadfa9b630f501a2a36031addf4e5dcb7e6ade9630370d4b873ddaf9cc9d2580",
+    "schema_quality_generation.parquet": "883e5e05a2f5e882efb982681628ef7c29c0d0a405b1be4d52c71396d5c202a1",
+    "schema_quality_summary.csv": "1b698cca74d08bf5c51577297d2f6aa6b5e94904096cf1c45e1244711c18a771",
+    "schema_retrieval.csv": "3328a303bbb0ccfd75a5bd216588597fc3f43da538133f9df53939f4f5b5dac4",
+    "schema_retrieval.parquet": "fb0b47d837886024833365bd62c71c7e34919a8c76f16bbaa9bab460b83487bc",
+    "schema_retrieval_summary.csv": "2ad102370794bac21c9cb220c788eb07548640a8608f2fc301d2a4d090197c1f",
+    "logs/statistics.log": "5dfafe4c79dd81603314f66dd14d849910a526589d8bbf144259ed87e332385d",
+    "statistical_bootstrap_ci.csv": "86bf7faf08c4b41fde7dcff654f8d57d8b2f3698c76571420a7de9d26eb530cf",
+    "statistical_hypothesis_tests.csv": "7b00f358522a491eb9ee622a739bc565881014b46bbceaac13e74b3c430b2988",
+    "statistical_report.json": "82c19b93924dfcfdc58f6c198a56a6ab64e41b545359863ff122ae55d760c7ac",
+    "logs/plots.log": "a328ca0be1475d64093796d45946903922ba8484a7ba045c2a54ff6f8ddf6428",
+    "plots/fig_ablation_mexp.pdf": "41ff273257d405c29e3bbdda5eee9994eb313c1c812ded0a19bebabe2b77db7b",
+    "plots/fig_ablation_mexp.png": "ff176301116d52702154873ec93f5a18fa4a0b8d345b3fbe6a692ec608037f1c",
+    "plots/fig_concurrency_rps_lag.pdf": "eba6eec289a1d000bae247f0560d8ba2d1ab13d782235326faf449decefcc6f1",
+    "plots/fig_concurrency_rps_lag.png": "f22798b2a459afd7554f86cc56fdf7a80a8f297d05ad344909e7f4d02816186a",
+    "plots/fig_error_decomposition_tree.pdf": "ef4306b57bb70318a1b357e6567eb066026443aedf63e7e399dc1c4e8ccd24c0",
+    "plots/fig_error_decomposition_tree.png": "6c594e357cc4091365904ef37c0c11abeef4678d52f2030b2dfc386f698151e5",
+    "plots/fig_oob_crossover_rtt.pdf": "8cfdde73eb5b62d24547825de937449aa58477f0e7d20c49496d9f242ea200cc",
+    "plots/fig_oob_crossover_rtt.png": "2a5a8e232bf1eb7f0efb361b53d7d5deb91503a0cf75627b1b4a5a159ea7ca64",
+    "plots/fig_pagination_depth_1m.pdf": "226dde7fb548de559f6bf6da24b6cb90926e406441859e21a66ededd1b9e5abd",
+    "plots/fig_pagination_depth_1m.png": "a9775d87d1304d1f656eae539f1b11f34c3912351cc6b518dd79d1f59381b4a0",
+    "plots/fig_schema_recall_precision.pdf": "4d0e1348fd7bd062b7bd4e7b224b1609fab56f77e5bbe3e421f9eeaa6cf0d8ee",
+    "plots/fig_schema_recall_precision.png": "6e65cb279455cd09f32d872b360cee9c4d34d0e3579ebc747f5a77a32ad5185e",
+    "plots/fig_text2sql_accuracy.pdf": "2a0fa0c4570b63f5487524d52f91bb586fe67613361398992d0bc38343231793",
+    "plots/fig_text2sql_accuracy.png": "eaa9c0bad40fba2d63c92eec9fd668e1e3d59b0a5814e4cd82f53cda17510ffe",
+    "plots/fig_ttft_scaling.pdf": "c9d01bd1308d16fddfa5e8d468ec5680a541991095b4266f4fdb59895295476a",
+    "plots/fig_ttft_scaling.png": "6b96afd0bcc9c769ced8c45a14d8e16c31f79070a80e05b14baa7a76a99a2b3d",
+    "logs/validation.log": "8ec880dcc494055e22152a1aaa5313c3c33d9bd765b890a10f9cf244beaf8767",
+    "validation_report.md": "c9523c968e9b4d9146cceb2dac7753ab29c7cf4db4adbf20ce0274f12e2ad372"
+  },
+  "finished_at": "2026-10-04T18:57:54+00:00",
+  "final_status": "failed:validation",
+  "resumed_at": [
+    "2026-10-04T12:51:08+00:00"
+  ],
+  "git_at_resume": {
+    "commit": "774b75ae79fde0e9da637babe7fe0d0cff6b5f0c",
+    "branch": "main",
+    "dirty": true,
+    "diff_stat": "benchmarks/common/db.py | 1 +\n 1 file changed, 1 insertion(+)",
+    "status_porcelain": "M benchmarks/common/db.py\n?? .schema_initialized\n?? benchmarks/common/db.py.save"
+  }
+}

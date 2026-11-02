@@ -1,0 +1,17 @@
+=== 1. llm_inference_latencies.csv ===
+  seed=2026 clip=True: max |różnica| per kolumna = [0.0, 0.0, 0.0, 0.0]
+  seed=42 clip=True: max |różnica| per kolumna = [12.911999999999999, 89.25099999999998, 468.807, 335.3130000000001]
+  seed=42 clip=False: max |różnica| per kolumna = [12.911999999999999, 89.25099999999998, 526.289, 335.3130000000001]
+  wartości MCP TTFT równe dolnej granicy clip 25.0: 2
+
+=== 2. results-remote-gpu/streaming_comparison.json (rys. 9) ===
+  n: SSE=100 P1=100 P5=100; min/max P1=(12.3, 961.1), P5=(51.6, 4965.8)
+  przeszukano ziarna 0..199999; trafienia: brak
+  P1: odsetek próbek w [10 ms, interwał+50 ms] = 1.00; średnia = 466.7 (U(10, 1000) -> 505)
+  P5: odsetek próbek w [10 ms, interwał+50 ms] = 1.00; średnia = 2740.7 (U(10, 5000) -> 2505)
+
+=== 3. Ślady przycinania np.clip w raw_results (>=3 wartości na niecałkowitej granicy) ===
+  oob_crossover_results.csv:throughput_mb_s - 50 wartości równych 0.01 (1.6%)
+  statistical_bootstrap_ci.csv:mean_value - 4 wartości równych 0.0352 (4.8%)
+  statistical_bootstrap_ci.csv:ci_lower_95 - 4 wartości równych 0.0316 (4.8%)
+  statistical_bootstrap_ci.csv:ci_upper_95 - 4 wartości równych 0.0389 (4.8%)

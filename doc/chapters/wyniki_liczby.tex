@@ -1,0 +1,470 @@
+% Wygenerowano: benchmarks/analysis_final/generuj_makra.py -- NIE EDYTOWAĆ RĘCZNIE.
+% Runda: 20261004T120209_d347d2, commit 774b75a, tryb full. Źródła: results-remote-new-sunday/.
+
+% Wstawianie wierszy tabel z chapters/tabele/ (pierwotne \input TeX-a działa wewnątrz środowiska tabular)
+\makeatletter\newcommand{\tabelawynikow}[1]{\@@input chapters/tabele/#1.tex }\makeatother
+
+% manifest.json: run_id
+\newcommand{\wynRunId}{20261004T120209\_d347d2}
+% manifest.json: git.commit
+\newcommand{\wynCommit}{774b75a}
+% environment.json: nvidia-smi name
+\newcommand{\wynGpu}{NVIDIA~A100-SXM4-80GB}
+% environment.json: nvidia-smi memory.total MiB / 1024
+\newcommand{\wynGpuMem}{80}
+% environment.json: lscpu Model name
+\newcommand{\wynCpu}{AMD EPYC 7742 64-Core Processor}
+% environment.json: RUNPOD_CPU_COUNT (przydział poda)
+\newcommand{\wynVcpu}{16}
+% environment.json: RUNPOD_MEM_GB (przydział poda)
+\newcommand{\wynRam}{250}
+% environment.json: uname -r
+\newcommand{\wynKernel}{6.8.0-100-generic}
+% environment.json: SELECT version()
+\newcommand{\wynPg}{16.4}
+% environment.json: pg_extension
+\newcommand{\wynPgvector}{0.7.4}
+% environment.json: kafka-topics --version
+\newcommand{\wynKafka}{3.7.0}
+% environment.json: /api/version
+\newcommand{\wynOllama}{0.35.0}
+% environment.json: platform
+\newcommand{\wynPython}{3.12.3}
+% environment.json: pg_settings
+\newcommand{\wynStmtTimeout}{10000~ms}
+% manifest.json files_sha256: liczba plików zgodnych z sumą SHA-256
+\newcommand{\wynShaOk}{84}
+% environment.json: pg_settings (kB / 1024^2)
+\newcommand{\wynPgSharedBuffers}{2{,}5~GiB}
+% environment.json: pg_settings (kB / 1024)
+\newcommand{\wynPgWorkMem}{64~MiB}
+% environment.json: pg_settings
+\newcommand{\wynPgMaxConn}{100}
+% environment.json: pg_settings
+\newcommand{\wynPgJit}{on}
+% environment.json: pg_settings
+\newcommand{\wynPgParallel}{2}
+% schema_quality_dataset.jsonl: liczba zapytań
+\newcommand{\wynNQueries}{500}
+% schema_quality_dataset.jsonl: % zapytań z >= 3 tabelami GT
+\newcommand{\wynGtGeThreePct}{85{,}0}
+% schema_retrieval.parquet: zapytania z recall Graph@5 > RRF@5
+\newcommand{\wynExpGainN}{241}
+% schema_retrieval.parquet: % zapytań z recall Graph@5 > RRF@5
+\newcommand{\wynExpGainPct}{48{,}2}
+% schema_retrieval.parquet: min |T_final| Graph@5
+\newcommand{\wynGraphTablesMin}{5}
+% schema_retrieval.parquet: max |T_final| Graph@5
+\newcommand{\wynGraphTablesMax}{8}
+% schema_retrieval.parquet: średnia n_tables po 500 zapytaniach (k_sweep)
+\newcommand{\wynGraphTablesMean}{6{,}02}
+% schema_retrieval.parquet: średnia table_recall po 500 zapytaniach (k_sweep)
+\newcommand{\wynRecallGraphFive}{55{,}3}
+% schema_retrieval.parquet: średnia ddl_tokens po 500 zapytaniach (k_sweep)
+\newcommand{\wynDdlGraphFive}{1\,482}
+% schema_retrieval.parquet: średnia table_recall po 500 zapytaniach (k_sweep)
+\newcommand{\wynRecallRrfFive}{40{,}4}
+% schema_retrieval.parquet: średnia ddl_tokens po 500 zapytaniach (k_sweep)
+\newcommand{\wynDdlRrfFive}{1\,161}
+% schema_retrieval.parquet: średnia table_recall po 500 zapytaniach (k_sweep)
+\newcommand{\wynRecallBmFive}{47{,}8}
+% schema_retrieval.parquet: średnia table_recall po 500 zapytaniach (k_sweep)
+\newcommand{\wynRecallDenseFive}{31{,}2}
+% schema_retrieval.parquet: średnia table_recall po 500 zapytaniach (equal_budget)
+\newcommand{\wynRecallRrfEight}{47{,}0}
+% schema_retrieval.parquet: średnia ddl_tokens po 500 zapytaniach (equal_budget)
+\newcommand{\wynDdlRrfEight}{1\,870}
+% schema_retrieval.parquet: średnia table_recall po 500 zapytaniach (equal_budget)
+\newcommand{\wynRecallBmEight}{53{,}2}
+% schema_retrieval.parquet: średnia ddl_tokens po 500 zapytaniach (equal_budget)
+\newcommand{\wynDdlBmEight}{1\,848}
+% schema_retrieval.parquet: średnia table_recall po 500 zapytaniach (k_independent)
+\newcommand{\wynRecallDomain}{8{,}5}
+% schema_retrieval.parquet: średnia ddl_tokens po 500 zapytaniach (k_independent)
+\newcommand{\wynDdlDomain}{3\,264}
+% schema_retrieval.parquet: średnia table_recall po 500 zapytaniach (k_sweep)
+\newcommand{\wynRecallGraphTwenty}{76{,}2}
+% schema_retrieval.parquet: średnia table_recall po 500 zapytaniach (k_sweep)
+\newcommand{\wynRecallGraphThree}{44{,}7}
+% schema_retrieval.parquet: średnia table_recall po 500 zapytaniach (k_sweep)
+\newcommand{\wynRecallRrfTen}{49{,}6}
+% schema_retrieval.parquet: średnia table_recall po 500 zapytaniach (k_sweep)
+\newcommand{\wynRecallBmTen}{55{,}1}
+% schema_retrieval.parquet: średnia column_recall po 500 zapytaniach (k_sweep)
+\newcommand{\wynColRecallGraphFive}{62{,}5}
+% schema_retrieval.parquet: średnia column_recall po 500 zapytaniach (equal_budget)
+\newcommand{\wynColRecallRrfEight}{60{,}2}
+% schema_retrieval.parquet: średnia column_recall po 500 zapytaniach (equal_budget)
+\newcommand{\wynColRecallBmEight}{67{,}2}
+% schema_full_dump_tokens.json: cl100k, jednolity format synthesize_ddl, 1000 tabel
+\newcommand{\wynFullDumpTokens}{263\,113}
+% schema_retrieval.parquet + schema_full_dump_tokens.json: 1 - średni DDL Graph@5 / DDL pełnego zrzutu (ten sam format)
+\newcommand{\wynReductionVsFull}{99{,}4}
+% schema_quality_generation.parquet: maksymalny prompt_eval_count
+\newcommand{\wynMaxPromptEval}{3\,691}
+% schema_quality_generation.parquet: num_ctx
+\newcommand{\wynNumCtx}{8\,192}
+% schema_quality_generation.parquet: rekordy z possible_truncation
+\newcommand{\wynTruncN}{0}
+% schema_quality_generation.parquet: liczba rekordów generacji
+\newcommand{\wynGenRecords}{7\,000}
+% statistical_hypothesis_tests.csv: H1: Graph@5 vs RRF@8 (equal_budget)
+\newcommand{\wynHjedenRrfP}{\ensuremath{2{,}1 \cdot 10^{-14}}}
+% statistical_hypothesis_tests.csv: H1: Graph@5 vs RRF@8 (equal_budget) (korelacja rangowo-biserialna)
+\newcommand{\wynHjedenRrfR}{0{,}56}
+% statistical_hypothesis_tests.csv: H1: Graph@5 vs BM25@8 (equal_budget)
+\newcommand{\wynHjedenBmP}{\ensuremath{0{,}032}}
+% statistical_hypothesis_tests.csv: H1: Graph@5 vs BM25@8 (equal_budget) (korelacja rangowo-biserialna)
+\newcommand{\wynHjedenBmR}{0{,}15}
+% statistical_hypothesis_tests.csv: H1: Graph@5 vs RRF@5 (statystyka W)
+\newcommand{\wynHjedenKonstrW}{0}
+% statistical_hypothesis_tests.csv: H1: Graph@5 vs RRF@5 (n_eff)
+\newcommand{\wynHjedenKonstrNeff}{241}
+% statistical_hypothesis_tests.csv: H1b: Graph@5 vs RRF@8 (equal_budget)
+\newcommand{\wynHjedenbRrfP}{\ensuremath{0{,}009}}
+% statistical_hypothesis_tests.csv: H1b: Graph@5 vs RRF@8 (equal_budget) (korelacja rangowo-biserialna)
+\newcommand{\wynHjedenbRrfR}{0{,}18}
+% statistical_hypothesis_tests.csv: H1b: Graph@5 vs BM25@8 (equal_budget)
+\newcommand{\wynHjedenbBmP}{\ensuremath{9{,}2 \cdot 10^{-6}}}
+% statistical_hypothesis_tests.csv: H1b: Graph@5 vs BM25@8 (equal_budget) (korelacja rangowo-biserialna)
+\newcommand{\wynHjedenbBmR}{-0{,}30}
+% statistical_hypothesis_tests.csv: H1: Graph@5 vs BM25@10
+\newcommand{\wynHjedenBmTenP}{\ensuremath{0{,}555}}
+% schema_quality_generation.parquet: odsetek ex_match; 95% CI Cloppera-Pearsona
+\newcommand{\wynExSmallGraphFive}{17{,}0}
+% schema_quality_generation.parquet: odsetek ex_match; 95% CI Cloppera-Pearsona
+\newcommand{\wynExSmallBmFive}{15{,}4}
+% schema_quality_generation.parquet: odsetek ex_match; 95% CI Cloppera-Pearsona
+\newcommand{\wynExSmallDomain}{7{,}8}
+% schema_quality_generation.parquet: liczba rekordów EX=False w kategoriach
+\newcommand{\wynErrFalseSmall}{415}
+% schema_quality_generation.parquet: liczba rekordów EX=False w kategoriach
+\newcommand{\wynErrTableMissingSmall}{350}
+% schema_quality_generation.parquet: liczba rekordów EX=False w kategoriach (% EX=False)
+\newcommand{\wynErrTableMissingPctSmall}{84{,}3}
+% schema_quality_generation.parquet: odsetek ex_match; 95% CI Cloppera-Pearsona
+\newcommand{\wynExLargeGraphFive}{15{,}2}
+% schema_quality_generation.parquet: odsetek ex_match; 95% CI Cloppera-Pearsona
+\newcommand{\wynExLargeDenseFive}{14{,}0}
+% schema_quality_generation.parquet: odsetek ex_match; 95% CI Cloppera-Pearsona
+\newcommand{\wynExLargeBmEight}{17{,}8}
+% schema_quality_generation.parquet: odsetek ex_match; 95% CI Cloppera-Pearsona
+\newcommand{\wynExLargeDomain}{6{,}6}
+% statistical_hypothesis_tests.csv: EX[large] Graph@5 vs BM25@8(equal_budget) (McNemar dokładny)
+\newcommand{\wynMcLargeBmEightP}{\ensuremath{0{,}029}}
+% statistical_hypothesis_tests.csv: EX[large] Graph@5 vs BM25@8(equal_budget) (McNemar dokładny) (pary: tylko Graph poprawny)
+\newcommand{\wynMcLargeBmEightA}{9}
+% statistical_hypothesis_tests.csv: EX[large] Graph@5 vs BM25@8(equal_budget) (McNemar dokładny) (pary: tylko baseline poprawny)
+\newcommand{\wynMcLargeBmEightB}{22}
+% schema_quality_generation.parquet: liczba rekordów EX=False w kategoriach
+\newcommand{\wynErrFalseLarge}{424}
+% schema_quality_generation.parquet: liczba rekordów EX=False w kategoriach
+\newcommand{\wynErrTableMissingLarge}{325}
+% schema_quality_generation.parquet: liczba rekordów EX=False w kategoriach (% EX=False)
+\newcommand{\wynErrTableMissingPctLarge}{76{,}7}
+% schema_quality_generation.parquet: liczba rekordów EX=False w kategoriach
+\newcommand{\wynErrJoinLarge}{2}
+% schema_quality_generation.parquet: liczba rekordów EX=False w kategoriach
+\newcommand{\wynErrColumnLarge}{59}
+% schema_quality_generation.parquet: liczba rekordów EX=False w kategoriach
+\newcommand{\wynErrSemanticLarge}{38}
+% ablation_m_exp_results.csv: Table-Recall@5 [%]
+\newcommand{\wynAbRecallZero}{40{,}4}
+% ablation_m_exp_results.csv: średni DDL (format jednolity)
+\newcommand{\wynAbDdlZero}{1\,161}
+% ablation_m_exp_results.csv: Table-Recall@5 [%]
+\newcommand{\wynAbRecallOne}{52{,}9}
+% ablation_m_exp_results.csv: średni DDL (format jednolity)
+\newcommand{\wynAbDdlOne}{1\,401}
+% ablation_m_exp_results.csv: Table-Recall@5 [%]
+\newcommand{\wynAbRecallTwo}{55{,}1}
+% ablation_m_exp_results.csv: średni DDL (format jednolity)
+\newcommand{\wynAbDdlTwo}{1\,479}
+% ablation_m_exp_results.csv: Table-Recall@5 [%]
+\newcommand{\wynAbRecallThree}{55{,}3}
+% ablation_m_exp_results.csv: średni DDL (format jednolity)
+\newcommand{\wynAbDdlThree}{1\,486}
+% ablation_m_exp_sweet_spot.json: Sweet spot M_exp = najmniejsza badana wartość M_exp, dla której wzrost Table-Recall@5 przy przejściu do następnej badanej wartości M_exp jest mniejszy niż próg (threshold_pp) punktów procentowych; jeśli taki punkt nie istnieje, wybierana jest największa badana wartość.
+\newcommand{\wynAbSweet}{2}
+% ablation_m_exp_sweet_spot.json: wzrost recall do następnej wartości [pp]
+\newcommand{\wynAbSweetGain}{0{,}16}
+% ablation_m_exp_calls.parquet: czas składowej rrf [ms] dla M_exp = 3 (mediana, p95, max) (mediana)
+\newcommand{\wynTRrfMed}{18{,}0}
+% ablation_m_exp_calls.parquet: czas składowej graph_load [ms] dla M_exp = 3 (mediana, p95, max) (mediana)
+\newcommand{\wynTGraphMed}{0{,}16}
+% ablation_m_exp_calls.parquet: czas składowej bridge_search [ms] dla M_exp = 3 (mediana, p95, max) (mediana)
+\newcommand{\wynTBridgeMed}{0{,}18}
+% ablation_m_exp_calls.parquet: czas składowej bridge_search [ms] dla M_exp = 3 (mediana, p95, max) (p95)
+\newcommand{\wynTBridgePnn}{0{,}29}
+% ablation_m_exp_calls.parquet: czas składowej ddl_synthesis [ms] dla M_exp = 3 (mediana, p95, max) (mediana)
+\newcommand{\wynTDdlMed}{0{,}84}
+% ablation_m_exp_calls.parquet: czas składowej total [ms] dla M_exp = 3 (mediana, p95, max) (mediana)
+\newcommand{\wynTTotalMed}{19{,}2}
+% ablation_m_exp_calls.parquet: czas składowej total [ms] dla M_exp = 3 (mediana, p95, max) (p95)
+\newcommand{\wynTTotalPnn}{23{,}2}
+% ttft_scaling.parquet: powtórzenia na punkt
+\newcommand{\wynTtftReps}{30}
+% statistical_hypothesis_tests.csv: TTFT[small] nachylenie
+\newcommand{\wynTtftSlopeSmall}{157}
+% statistical_hypothesis_tests.csv: TTFT[small] 95% CI bootstrap
+\newcommand{\wynTtftSlopeCiSmall}{[154; 159]}
+% ttft_scaling.parquet: mediana, p95, bootstrapowy 95% CI mediany (ziarno seeds.bootstrap) (mediana TTFT)
+\newcommand{\wynTtftSmallOne}{484}
+% ttft_scaling.parquet: mediana, p95, bootstrapowy 95% CI mediany (ziarno seeds.bootstrap) (mediana TTFT)
+\newcommand{\wynTtftSmallMax}{4\,714}
+% statistical_hypothesis_tests.csv: TTFT[large] nachylenie
+\newcommand{\wynTtftSlopeLarge}{246}
+% statistical_hypothesis_tests.csv: TTFT[large] 95% CI bootstrap
+\newcommand{\wynTtftSlopeCiLarge}{[243; 248]}
+% ttft_scaling.parquet: mediana, p95, bootstrapowy 95% CI mediany (ziarno seeds.bootstrap) (mediana TTFT)
+\newcommand{\wynTtftLargeOne}{588}
+% ttft_scaling.parquet: mediana, p95, bootstrapowy 95% CI mediany (ziarno seeds.bootstrap) (mediana prompt_eval_count)
+\newcommand{\wynTtftPromptLargeOne}{1\,204}
+% ttft_scaling.parquet: mediana, p95, bootstrapowy 95% CI mediany (ziarno seeds.bootstrap) (mediana TTFT)
+\newcommand{\wynTtftLargeMax}{7\,289}
+% ttft_scaling.parquet: mediana, p95, bootstrapowy 95% CI mediany (ziarno seeds.bootstrap) (mediana prompt_eval_count)
+\newcommand{\wynTtftPromptLargeMax}{28\,123}
+% oob_crossover_metrics.json: przecięcie prostych L = a + b*S (MNK na powtórzeniach) w otoczeniu zmiany znaku różnicy median (KiB)
+\newcommand{\wynSstarLoopShm}{12{,}9}
+% oob_crossover_metrics.json: przecięcie prostych L = a + b*S (MNK na powtórzeniach) w otoczeniu zmiany znaku różnicy median (95% CI bootstrap, KiB)
+\newcommand{\wynSstarCiLoopShm}{[12{,}2; 13{,}5]}
+% oob_crossover_metrics.json: przecięcie prostych L = a + b*S (MNK na powtórzeniach) w otoczeniu zmiany znaku różnicy median (KiB)
+\newcommand{\wynSstarLoopHttp}{25{,}3}
+% oob_crossover_metrics.json: przecięcie prostych L = a + b*S (MNK na powtórzeniach) w otoczeniu zmiany znaku różnicy median (KiB)
+\newcommand{\wynSstarLan}{122{,}9}
+% oob_crossover_metrics.json: przecięcie prostych L = a + b*S (MNK na powtórzeniach) w otoczeniu zmiany znaku różnicy median (KiB)
+\newcommand{\wynSstarWan}{1\,570{,}3}
+% oob_crossover_results.parquet: mediana In-Band / mediana SHM przy 50 MB (loopback)
+\newcommand{\wynSpeedupFifty}{6{,}65}
+% oob_crossover_results.parquet: mediana E2E In-Band 50 MB (loopback)
+\newcommand{\wynFiftyInband}{599}
+% oob_crossover_results.parquet: mediana E2E SHM 50 MB (loopback)
+\newcommand{\wynFiftyShm}{90{,}0}
+% oob_crossover_results.parquet: frame_bytes / payload - 1 (ramka JSON-RPC z Base64) (10 MB)
+\newcommand{\wynFrameOverheadTen}{33{,}34}
+% oob_crossover_results.parquet: frame_bytes / payload - 1 (ramka JSON-RPC z Base64) (512 B)
+\newcommand{\wynFrameOverheadSmall}{76{,}0}
+% oob_crossover_results.parquet: mediany składowych [ms] przy 50 MB (Base64 encode)
+\newcommand{\wynFiftyEnc}{101}
+% oob_crossover_results.parquet: mediany składowych [ms] przy 50 MB (Base64 decode)
+\newcommand{\wynFiftyDec}{165}
+% oob_crossover_results.parquet: mediany składowych [ms] przy 50 MB (SHA-256)
+\newcommand{\wynFiftySha}{31{,}9}
+% oob_crossover_results.parquet: mediany składowych [ms] przy 50 MB (kopiowanie do SHM)
+\newcommand{\wynFiftyShmCopy}{27{,}9}
+% oob_h2_tests.json: Mann-Whitney + bootstrapowy CI różnicy median
+\newcommand{\wynHdwaSmallP}{\ensuremath{7{,}1 \cdot 10^{-18}}}
+% oob_h2_tests.json: Mann-Whitney + bootstrapowy CI różnicy median (mediana SHM)
+\newcommand{\wynHdwaSmallShm}{0{,}10}
+% oob_h2_tests.json: Mann-Whitney + bootstrapowy CI różnicy median (mediana In-Band)
+\newcommand{\wynHdwaSmallInband}{0{,}03}
+% oob_h2_tests.json: Mann-Whitney + bootstrapowy CI różnicy median
+\newcommand{\wynHdwaBigP}{\ensuremath{7{,}1 \cdot 10^{-18}}}
+% oob_h2_tests.json: Mann-Whitney + bootstrapowy CI różnicy median (mediana SHM)
+\newcommand{\wynHdwaBigShm}{14{,}7}
+% oob_h2_tests.json: Mann-Whitney + bootstrapowy CI różnicy median (mediana In-Band)
+\newcommand{\wynHdwaBigInband}{113}
+% oob_h2_tests.json: Mann-Whitney + bootstrapowy CI różnicy median (95% CI różnicy median)
+\newcommand{\wynHdwaBigCi}{[-98{,}5; -98{,}0]}
+% oob_h2_tests.json: Mann-Whitney + bootstrapowy CI różnicy median (n powtórzeń)
+\newcommand{\wynOobReps}{50}
+% pagination_advanced_1m.csv: mediana keyset przy 950 000
+\newcommand{\wynKeysetDeep}{0{,}43}
+% pagination_advanced_1m.csv: mediana keyset przy 0
+\newcommand{\wynKeysetFirst}{0{,}26}
+% pagination_advanced_1m.csv: mediana OFFSET przy 950 000
+\newcommand{\wynOffsetDeep}{357}
+% pagination_advanced_1m.csv: min OFFSET przy 950 000
+\newcommand{\wynOffsetDeepMin}{341}
+% pagination_advanced_1m.csv: max OFFSET przy 950 000
+\newcommand{\wynOffsetDeepMax}{617}
+% pagination_advanced_1m.csv: mediana OFFSET / keyset przy 950 000
+\newcommand{\wynRatioDeep}{829}
+% pagination_advanced_1m.csv: regresja median OFFSET/LIMIT [ms / 100 tys. wierszy]
+\newcommand{\wynOffsetSlope}{38{,}3}
+% pagination_advanced_1m.csv: R^2 regresji
+\newcommand{\wynOffsetRsq}{0{,}999}
+% pagination_advanced_1m.csv: regresja median keyset [ms / 100 tys. wierszy]
+\newcommand{\wynKeysetSlope}{0{,}0032}
+% pagination_advanced_1m.csv: p nachylenia keyset (H0: nachylenie = 0)
+\newcommand{\wynKeysetSlopeP}{\ensuremath{0{,}581}}
+% pagination_advanced_1m.csv: wariant bez indeksu
+\newcommand{\wynUnidxMin}{187}
+% pagination_advanced_1m.csv: wariant bez indeksu
+\newcommand{\wynUnidxMax}{221}
+% pagination_advanced_1m.csv: wariant bez indeksu
+\newcommand{\wynUnidxMed}{212}
+% pagination_advanced_1m.csv: powtórzeń na punkt
+\newcommand{\wynPagReps}{10}
+% pagination_predicate_ablation.csv: mediana [ms] (DNF, 950 000)
+\newcommand{\wynDnfDeep}{401}
+% pagination_predicate_ablation.csv: mediana [ms] (UNION ALL, 950 000)
+\newcommand{\wynUnionDeep}{0{,}42}
+% pagination_explain_plans.json: EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) (Execution Time, DNF, 950 000)
+\newcommand{\wynExplainDnfMs}{406}
+% pagination_explain_plans.json: EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) (Execution Time, UNION ALL, 950 000)
+\newcommand{\wynExplainUnionMs}{0{,}06}
+% pagination_explain_plans.json: EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) (Rows Removed by Filter)
+\newcommand{\wynExplainDnfRemoved}{950\,000}
+% pagination_explain_plans.json: EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) (strony bufora hit+read)
+\newcommand{\wynExplainDnfBuf}{77\,446}
+% pagination_explain_plans.json: EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) (strony bufora hit+read)
+\newcommand{\wynExplainUnionBuf}{23}
+% pagination_explain_plans.json: EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) (węzły z Index Cond)
+\newcommand{\wynExplainUnionIdx}{5}
+% pagination_consistency.json: sample_limit
+\newcommand{\wynConsSamples}{10\,000}
+% concurrency_summary.csv: SYNC workers=na M=1 (RPS)
+\newcommand{\wynCcSyncOneRps}{286}
+% concurrency_summary.csv: SYNC workers=na M=1 (mediana lagu)
+\newcommand{\wynCcSyncOneLagMed}{8{,}67}
+% concurrency_summary.csv: SYNC workers=na M=100 (RPS)
+\newcommand{\wynCcSyncHundredRps}{295}
+% concurrency_summary.csv: SYNC workers=na M=100 (mediana lagu)
+\newcommand{\wynCcSyncHundredLagMed}{975}
+% concurrency_summary.csv: SYNC workers=na M=100 (liczba próbek lagu)
+\newcommand{\wynCcSyncHundredLagN}{33}
+% concurrency_summary.csv: SYNC workers=na M=100 (szczytowa suma PSS drzewa procesów, GiB)
+\newcommand{\wynCcSyncHundredMem}{1{,}04}
+% concurrency_summary.csv: SYNC workers=na M=500 (RPS)
+\newcommand{\wynCcSyncFivehundredRps}{301}
+% concurrency_summary.csv: SYNC workers=na M=500 (mediana lagu)
+\newcommand{\wynCcSyncFivehundredLagMed}{4\,919}
+% concurrency_summary.csv: SYNC workers=na M=500 (liczba próbek lagu)
+\newcommand{\wynCcSyncFivehundredLagN}{6}
+% concurrency_summary.csv: THREAD workers=4 M=100 (RPS)
+\newcommand{\wynCcThreadHundredRps}{257}
+% concurrency_summary.csv: THREAD workers=4 M=100 (mediana lagu)
+\newcommand{\wynCcThreadHundredLagMed}{76{,}6}
+% concurrency_summary.csv: THREAD workers=4 M=100 (szczytowa suma PSS drzewa procesów, GiB)
+\newcommand{\wynCcThreadHundredMem}{1{,}05}
+% concurrency_summary.csv: POOL workers=4 M=1 (RPS)
+\newcommand{\wynCcPoolOneRps}{220}
+% concurrency_summary.csv: POOL workers=4 M=100 (RPS)
+\newcommand{\wynCcPoolHundredRps}{1\,065}
+% concurrency_summary.csv: POOL workers=4 M=100 (mediana lagu)
+\newcommand{\wynCcPoolHundredLagMed}{0{,}40}
+% concurrency_summary.csv: POOL workers=4 M=100 (p99 lagu)
+\newcommand{\wynCcPoolHundredLagPnn}{148}
+% concurrency_summary.csv: POOL workers=4 M=100 (szczytowa suma PSS drzewa procesów, GiB)
+\newcommand{\wynCcPoolHundredMem}{3{,}78}
+% concurrency_summary.csv: POOL workers=4 M=500 (RPS)
+\newcommand{\wynCcPoolFivehundredRps}{1\,166}
+% concurrency_summary.csv: POOL workers=4 M=500 (mediana lagu)
+\newcommand{\wynCcPoolFivehundredLagMed}{0{,}39}
+% concurrency_summary.csv: POOL workers=4 M=500 (p99 lagu)
+\newcommand{\wynCcPoolFivehundredLagPnn}{147}
+% concurrency_summary.csv: (PSS POOL w=4 - PSS SYNC) / 4 przy M=100 [GiB na proces roboczy]
+\newcommand{\wynCcPoolPerWorker}{0{,}69}
+% concurrency_summary.csv: POOL workers=2 M=100 (RPS)
+\newcommand{\wynCcPoolWTwoRps}{596}
+% concurrency_summary.csv: POOL workers=8 M=100 (RPS)
+\newcommand{\wynCcPoolWEightRps}{1\,727}
+% concurrency_summary.csv: POOL workers=8 M=100 (PSS GiB)
+\newcommand{\wynCcPoolWEightMem}{6{,}48}
+% concurrency_h3_tests.json: Mann-Whitney + bootstrapowy CI różnicy median
+\newcommand{\wynHtrzyHundredP}{\ensuremath{5{,}4 \cdot 10^{-23}}}
+% concurrency_h3_tests.json: Mann-Whitney + bootstrapowy CI różnicy median (95% CI różnicy median)
+\newcommand{\wynHtrzyHundredCi}{[-995; -703]}
+% concurrency_h3_tests.json: Mann-Whitney + bootstrapowy CI różnicy median
+\newcommand{\wynHtrzyFivehundredP}{\ensuremath{2{,}3 \cdot 10^{-5}}}
+% security_suite_metrics.json: suma unikalnych wektorów
+\newcommand{\wynSecTotal}{77}
+% security_suite_metrics.json: unikalne wektory
+\newcommand{\wynSecAnalytic}{25}
+% security_suite_metrics.json: unikalne wektory
+\newcommand{\wynSecInjection}{24}
+% security_suite_metrics.json: unikalne wektory
+\newcommand{\wynSecSideEffect}{15}
+% security_suite_metrics.json: unikalne wektory
+\newcommand{\wynSecPrompt}{13}
+% security_suite_metrics.json: rate + 95% CI Cloppera-Pearsona
+\newcommand{\wynAmr}{100{,}0}
+% security_suite_metrics.json: rate + 95% CI Cloppera-Pearsona (k)
+\newcommand{\wynAmrK}{24}
+% security_suite_metrics.json: rate + 95% CI Cloppera-Pearsona (95% CI Cloppera-Pearsona)
+\newcommand{\wynAmrCi}{[85{,}8; 100{,}0]}
+% security_suite_metrics.json: rate + 95% CI Cloppera-Pearsona
+\newcommand{\wynFpr}{0{,}0}
+% security_suite_metrics.json: rate + 95% CI Cloppera-Pearsona (95% CI Cloppera-Pearsona)
+\newcommand{\wynFprCi}{[0{,}0; 13{,}7]}
+% security_suite_metrics.json: rate + 95% CI Cloppera-Pearsona
+\newcommand{\wynSide}{100{,}0}
+% security_suite_metrics.json: rate + 95% CI Cloppera-Pearsona (k)
+\newcommand{\wynSideK}{15}
+% security_suite_metrics.json: rate + 95% CI Cloppera-Pearsona (95% CI Cloppera-Pearsona)
+\newcommand{\wynSideCi}{[78{,}2; 100{,}0]}
+% security_suite_metrics.json: rate + 95% CI Cloppera-Pearsona
+\newcommand{\wynResid}{0{,}0}
+% security_suite_metrics.json: rate + 95% CI Cloppera-Pearsona (k)
+\newcommand{\wynResidK}{0}
+% security_suite_metrics.json: rate + 95% CI Cloppera-Pearsona (95% CI Cloppera-Pearsona)
+\newcommand{\wynResidCi}{[0{,}0; 24{,}7]}
+% security_suite_metrics.json: średni czas walidacji [ms]
+\newcommand{\wynLatAnalytic}{2{,}61}
+% security_suite_metrics.json: średni czas walidacji [ms]
+\newcommand{\wynLatInjection}{0{,}33}
+% security_suite_metrics.json: p95 czasu [ms]
+\newcommand{\wynLatPpp}{3{,}43}
+% security_xml_token_overhead.csv: tokeny dodane przez enkapsulację
+\newcommand{\wynXmlMin}{31}
+% security_xml_token_overhead.csv: tokeny dodane przez enkapsulację
+\newcommand{\wynXmlMax}{50}
+% security_xml_token_overhead.csv: tokeny dodane przez enkapsulację
+\newcommand{\wynXmlMedPi}{38}
+% security_llm_injection.jsonl: odsetek dopasowań reguły llm_success_regex; McNemar raw vs xml (obliczony tu)
+\newcommand{\wynLlmRawK}{7}
+% security_llm_injection.jsonl: odsetek dopasowań reguły llm_success_regex; McNemar raw vs xml (obliczony tu)
+\newcommand{\wynLlmXmlK}{8}
+% security_llm_injection.jsonl: odsetek dopasowań reguły llm_success_regex; McNemar raw vs xml (obliczony tu)
+\newcommand{\wynLlmN}{13}
+% security_llm_injection.jsonl: odsetek dopasowań reguły llm_success_regex; McNemar raw vs xml (obliczony tu)
+\newcommand{\wynLlmP}{\ensuremath{1{,}000}}
+% schema_drift_summary.json: czasy składowe [ms]
+\newcommand{\wynDriftTables}{50}
+% schema_drift_summary.json: czasy składowe [ms]
+\newcommand{\wynDriftTotal}{364}
+% schema_drift_summary.json: czasy składowe [ms]
+\newcommand{\wynDriftEmb}{49{,}6}
+% schema_drift_summary.json: czasy składowe [ms]
+\newcommand{\wynDriftIns}{146}
+% schema_drift_summary.json: czasy składowe [ms]
+\newcommand{\wynDriftBm}{124}
+% schema_drift_summary.json: czasy składowe [ms]
+\newcommand{\wynDriftGraph}{5{,}69}
+% schema_drift_summary.json: p50/p95/p99 [ms] faz
+\newcommand{\wynDriftBase}{8{,}72}
+% schema_drift_summary.json: p50/p95/p99 [ms] faz
+\newcommand{\wynDriftInflight}{25{,}9}
+% schema_drift_summary.json: p50/p95/p99 [ms] faz
+\newcommand{\wynDriftInflightPpp}{68{,}2}
+% schema_drift_summary.json: błędy zapytań w toku
+\newcommand{\wynDriftErrors}{0}
+% schema_full_dump_tokens.json: cl100k, jednolity format synthesize_ddl, 1000 tabel (format angielski)
+\newcommand{\wynFullDumpTokensEn}{263,113}
+% schema_retrieval.parquet: średnia table_recall po 500 zapytaniach (k_sweep) (format angielski)
+\newcommand{\wynRecallGraphFiveEn}{55.3}
+% schema_retrieval.parquet: średnia table_recall po 500 zapytaniach (equal_budget) (format angielski)
+\newcommand{\wynRecallRrfEightEn}{47.0}
+% schema_retrieval.parquet: średnia table_recall po 500 zapytaniach (equal_budget) (format angielski)
+\newcommand{\wynRecallBmEightEn}{53.2}
+% schema_quality_generation.parquet: odsetek ex_match; 95% CI Cloppera-Pearsona (format angielski)
+\newcommand{\wynExSmallGraphFiveEn}{17.0}
+% schema_quality_generation.parquet: odsetek ex_match; 95% CI Cloppera-Pearsona (format angielski)
+\newcommand{\wynExLargeGraphFiveEn}{15.2}
+% pagination_advanced_1m.csv: mediana keyset przy 950 000 (format angielski)
+\newcommand{\wynKeysetDeepEn}{0.43}
+% pagination_advanced_1m.csv: mediana OFFSET przy 950 000 (format angielski)
+\newcommand{\wynOffsetDeepEn}{357}
+% oob_crossover_metrics.json: przecięcie prostych L = a + b*S (MNK na powtórzeniach) w otoczeniu zmiany znaku różnicy median (KiB) (format angielski)
+\newcommand{\wynSstarLoopShmEn}{12.9}
+% concurrency_summary.csv: SYNC workers=na M=100 (mediana lagu) (format angielski)
+\newcommand{\wynCcSyncHundredLagMedEn}{975}
+% concurrency_summary.csv: POOL workers=4 M=100 (mediana lagu) (format angielski)
+\newcommand{\wynCcPoolHundredLagMedEn}{0.40}
+% security_suite_metrics.json: unikalne wektory (format angielski)
+\newcommand{\wynSecInjectionEn}{24}
+% security_suite_metrics.json: unikalne wektory (format angielski)
+\newcommand{\wynSecSideEffectEn}{15}
+% schema_quality_dataset.jsonl: liczba zapytań (format angielski)
+\newcommand{\wynNQueriesEn}{500}

@@ -1,0 +1,896 @@
+{
+  "bootstrap_confidence_intervals": [
+    {
+      "metric_name": "Table-Recall@3 [Baseline A (Full Schema)]",
+      "sample_size": 500,
+      "mean_value": 0.1499,
+      "median_value": 0.0,
+      "ci_lower_95": 0.1341,
+      "ci_upper_95": 0.1663,
+      "std_error": 0.0083,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@3 [Baseline A (Full Schema)]",
+      "sample_size": 500,
+      "mean_value": 0.0352,
+      "median_value": 0.0,
+      "ci_lower_95": 0.0316,
+      "ci_upper_95": 0.0389,
+      "std_error": 0.0019,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@3 [Baseline A (Full Schema)]",
+      "sample_size": 500,
+      "mean_value": 0.1284,
+      "median_value": 0.0,
+      "ci_lower_95": 0.1131,
+      "ci_upper_95": 0.1444,
+      "std_error": 0.008,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@5 [Baseline A (Full Schema)]",
+      "sample_size": 500,
+      "mean_value": 0.1499,
+      "median_value": 0.0,
+      "ci_lower_95": 0.1341,
+      "ci_upper_95": 0.1663,
+      "std_error": 0.0083,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@5 [Baseline A (Full Schema)]",
+      "sample_size": 500,
+      "mean_value": 0.0352,
+      "median_value": 0.0,
+      "ci_lower_95": 0.0316,
+      "ci_upper_95": 0.0389,
+      "std_error": 0.0019,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@5 [Baseline A (Full Schema)]",
+      "sample_size": 500,
+      "mean_value": 0.1284,
+      "median_value": 0.0,
+      "ci_lower_95": 0.1131,
+      "ci_upper_95": 0.1444,
+      "std_error": 0.008,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@10 [Baseline A (Full Schema)]",
+      "sample_size": 500,
+      "mean_value": 0.1499,
+      "median_value": 0.0,
+      "ci_lower_95": 0.1341,
+      "ci_upper_95": 0.1663,
+      "std_error": 0.0083,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@10 [Baseline A (Full Schema)]",
+      "sample_size": 500,
+      "mean_value": 0.0352,
+      "median_value": 0.0,
+      "ci_lower_95": 0.0316,
+      "ci_upper_95": 0.0389,
+      "std_error": 0.0019,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@10 [Baseline A (Full Schema)]",
+      "sample_size": 500,
+      "mean_value": 0.1284,
+      "median_value": 0.0,
+      "ci_lower_95": 0.1131,
+      "ci_upper_95": 0.1444,
+      "std_error": 0.008,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@20 [Baseline A (Full Schema)]",
+      "sample_size": 500,
+      "mean_value": 0.1499,
+      "median_value": 0.0,
+      "ci_lower_95": 0.1341,
+      "ci_upper_95": 0.1663,
+      "std_error": 0.0083,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@20 [Baseline A (Full Schema)]",
+      "sample_size": 500,
+      "mean_value": 0.0352,
+      "median_value": 0.0,
+      "ci_lower_95": 0.0316,
+      "ci_upper_95": 0.0389,
+      "std_error": 0.0019,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@20 [Baseline A (Full Schema)]",
+      "sample_size": 500,
+      "mean_value": 0.1284,
+      "median_value": 0.0,
+      "ci_lower_95": 0.1131,
+      "ci_upper_95": 0.1444,
+      "std_error": 0.008,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@3 [Baseline B (Lexical BM25)]",
+      "sample_size": 500,
+      "mean_value": 0.4129,
+      "median_value": 0.3333,
+      "ci_lower_95": 0.3974,
+      "ci_upper_95": 0.4291,
+      "std_error": 0.0081,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@3 [Baseline B (Lexical BM25)]",
+      "sample_size": 500,
+      "mean_value": 0.456,
+      "median_value": 0.3333,
+      "ci_lower_95": 0.4393,
+      "ci_upper_95": 0.4733,
+      "std_error": 0.0086,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@3 [Baseline B (Lexical BM25)]",
+      "sample_size": 500,
+      "mean_value": 0.5644,
+      "median_value": 0.5,
+      "ci_lower_95": 0.5485,
+      "ci_upper_95": 0.5799,
+      "std_error": 0.008,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@5 [Baseline B (Lexical BM25)]",
+      "sample_size": 500,
+      "mean_value": 0.4589,
+      "median_value": 0.3333,
+      "ci_lower_95": 0.4408,
+      "ci_upper_95": 0.4777,
+      "std_error": 0.0095,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@5 [Baseline B (Lexical BM25)]",
+      "sample_size": 500,
+      "mean_value": 0.3092,
+      "median_value": 0.2,
+      "ci_lower_95": 0.2964,
+      "ci_upper_95": 0.3224,
+      "std_error": 0.0067,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@5 [Baseline B (Lexical BM25)]",
+      "sample_size": 500,
+      "mean_value": 0.6069,
+      "median_value": 0.6,
+      "ci_lower_95": 0.5905,
+      "ci_upper_95": 0.6234,
+      "std_error": 0.0084,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@10 [Baseline B (Lexical BM25)]",
+      "sample_size": 500,
+      "mean_value": 0.5315,
+      "median_value": 0.5,
+      "ci_lower_95": 0.5098,
+      "ci_upper_95": 0.5539,
+      "std_error": 0.0112,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@10 [Baseline B (Lexical BM25)]",
+      "sample_size": 500,
+      "mean_value": 0.1826,
+      "median_value": 0.1,
+      "ci_lower_95": 0.1738,
+      "ci_upper_95": 0.1916,
+      "std_error": 0.0045,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@10 [Baseline B (Lexical BM25)]",
+      "sample_size": 500,
+      "mean_value": 0.6721,
+      "median_value": 0.6459,
+      "ci_lower_95": 0.6548,
+      "ci_upper_95": 0.6897,
+      "std_error": 0.0089,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@20 [Baseline B (Lexical BM25)]",
+      "sample_size": 500,
+      "mean_value": 0.6481,
+      "median_value": 0.6667,
+      "ci_lower_95": 0.6256,
+      "ci_upper_95": 0.6718,
+      "std_error": 0.0118,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@20 [Baseline B (Lexical BM25)]",
+      "sample_size": 500,
+      "mean_value": 0.1111,
+      "median_value": 0.1,
+      "ci_lower_95": 0.1063,
+      "ci_upper_95": 0.116,
+      "std_error": 0.0025,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@20 [Baseline B (Lexical BM25)]",
+      "sample_size": 500,
+      "mean_value": 0.7629,
+      "median_value": 0.8,
+      "ci_lower_95": 0.7455,
+      "ci_upper_95": 0.7811,
+      "std_error": 0.009,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@3 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 500,
+      "mean_value": 0.3399,
+      "median_value": 0.3333,
+      "ci_lower_95": 0.3216,
+      "ci_upper_95": 0.3589,
+      "std_error": 0.0094,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@3 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 500,
+      "mean_value": 0.368,
+      "median_value": 0.3333,
+      "ci_lower_95": 0.35,
+      "ci_upper_95": 0.386,
+      "std_error": 0.0091,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@3 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 500,
+      "mean_value": 0.4646,
+      "median_value": 0.5,
+      "ci_lower_95": 0.4426,
+      "ci_upper_95": 0.4868,
+      "std_error": 0.0112,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@5 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 500,
+      "mean_value": 0.3924,
+      "median_value": 0.3333,
+      "ci_lower_95": 0.3743,
+      "ci_upper_95": 0.4113,
+      "std_error": 0.0095,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@5 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 500,
+      "mean_value": 0.2576,
+      "median_value": 0.2,
+      "ci_lower_95": 0.2464,
+      "ci_upper_95": 0.2692,
+      "std_error": 0.0058,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@5 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 500,
+      "mean_value": 0.5268,
+      "median_value": 0.5,
+      "ci_lower_95": 0.507,
+      "ci_upper_95": 0.5469,
+      "std_error": 0.0102,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@10 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 500,
+      "mean_value": 0.4885,
+      "median_value": 0.5,
+      "ci_lower_95": 0.4687,
+      "ci_upper_95": 0.5091,
+      "std_error": 0.0103,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@10 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 500,
+      "mean_value": 0.1652,
+      "median_value": 0.1,
+      "ci_lower_95": 0.1578,
+      "ci_upper_95": 0.1728,
+      "std_error": 0.0038,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@10 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 500,
+      "mean_value": 0.6251,
+      "median_value": 0.6,
+      "ci_lower_95": 0.6062,
+      "ci_upper_95": 0.6443,
+      "std_error": 0.0096,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@20 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 500,
+      "mean_value": 0.6158,
+      "median_value": 0.6667,
+      "ci_lower_95": 0.5948,
+      "ci_upper_95": 0.6374,
+      "std_error": 0.0108,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@20 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 500,
+      "mean_value": 0.1057,
+      "median_value": 0.1,
+      "ci_lower_95": 0.1014,
+      "ci_upper_95": 0.1101,
+      "std_error": 0.0022,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@20 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 500,
+      "mean_value": 0.7361,
+      "median_value": 0.8,
+      "ci_lower_95": 0.7193,
+      "ci_upper_95": 0.7533,
+      "std_error": 0.0088,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@3 [Baseline D (Dense-only pgvector k-NN)]",
+      "sample_size": 500,
+      "mean_value": 0.244,
+      "median_value": 0.25,
+      "ci_lower_95": 0.2244,
+      "ci_upper_95": 0.2641,
+      "std_error": 0.0102,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@3 [Baseline D (Dense-only pgvector k-NN)]",
+      "sample_size": 500,
+      "mean_value": 0.252,
+      "median_value": 0.3333,
+      "ci_lower_95": 0.2333,
+      "ci_upper_95": 0.2707,
+      "std_error": 0.0097,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@3 [Baseline D (Dense-only pgvector k-NN)]",
+      "sample_size": 500,
+      "mean_value": 0.3276,
+      "median_value": 0.375,
+      "ci_lower_95": 0.3022,
+      "ci_upper_95": 0.3535,
+      "std_error": 0.0131,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@5 [Baseline D (Dense-only pgvector k-NN)]",
+      "sample_size": 500,
+      "mean_value": 0.2974,
+      "median_value": 0.3333,
+      "ci_lower_95": 0.2774,
+      "ci_upper_95": 0.318,
+      "std_error": 0.0103,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@5 [Baseline D (Dense-only pgvector k-NN)]",
+      "sample_size": 500,
+      "mean_value": 0.1904,
+      "median_value": 0.2,
+      "ci_lower_95": 0.1784,
+      "ci_upper_95": 0.202,
+      "std_error": 0.0062,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@5 [Baseline D (Dense-only pgvector k-NN)]",
+      "sample_size": 500,
+      "mean_value": 0.3986,
+      "median_value": 0.4286,
+      "ci_lower_95": 0.3734,
+      "ci_upper_95": 0.4238,
+      "std_error": 0.0128,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@10 [Baseline D (Dense-only pgvector k-NN)]",
+      "sample_size": 500,
+      "mean_value": 0.4013,
+      "median_value": 0.3333,
+      "ci_lower_95": 0.3798,
+      "ci_upper_95": 0.4237,
+      "std_error": 0.0112,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@10 [Baseline D (Dense-only pgvector k-NN)]",
+      "sample_size": 500,
+      "mean_value": 0.1314,
+      "median_value": 0.1,
+      "ci_lower_95": 0.1246,
+      "ci_upper_95": 0.1382,
+      "std_error": 0.0035,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@10 [Baseline D (Dense-only pgvector k-NN)]",
+      "sample_size": 500,
+      "mean_value": 0.5147,
+      "median_value": 0.5,
+      "ci_lower_95": 0.4907,
+      "ci_upper_95": 0.5392,
+      "std_error": 0.0124,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@20 [Baseline D (Dense-only pgvector k-NN)]",
+      "sample_size": 500,
+      "mean_value": 0.4984,
+      "median_value": 0.5,
+      "ci_lower_95": 0.4771,
+      "ci_upper_95": 0.5202,
+      "std_error": 0.011,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@20 [Baseline D (Dense-only pgvector k-NN)]",
+      "sample_size": 500,
+      "mean_value": 0.084,
+      "median_value": 0.1,
+      "ci_lower_95": 0.0801,
+      "ci_upper_95": 0.088,
+      "std_error": 0.002,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@20 [Baseline D (Dense-only pgvector k-NN)]",
+      "sample_size": 500,
+      "mean_value": 0.6204,
+      "median_value": 0.6,
+      "ci_lower_95": 0.5993,
+      "ci_upper_95": 0.6417,
+      "std_error": 0.0109,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@3 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 500,
+      "mean_value": 0.4495,
+      "median_value": 0.3333,
+      "ci_lower_95": 0.4255,
+      "ci_upper_95": 0.4741,
+      "std_error": 0.0124,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@3 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 500,
+      "mean_value": 0.4103,
+      "median_value": 0.3333,
+      "ci_lower_95": 0.3917,
+      "ci_upper_95": 0.4293,
+      "std_error": 0.0096,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@3 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 500,
+      "mean_value": 0.533,
+      "median_value": 0.5,
+      "ci_lower_95": 0.509,
+      "ci_upper_95": 0.5574,
+      "std_error": 0.0124,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@5 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 500,
+      "mean_value": 0.5448,
+      "median_value": 0.5,
+      "ci_lower_95": 0.5212,
+      "ci_upper_95": 0.5692,
+      "std_error": 0.0122,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@5 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 500,
+      "mean_value": 0.298,
+      "median_value": 0.2857,
+      "ci_lower_95": 0.2859,
+      "ci_upper_95": 0.3104,
+      "std_error": 0.0063,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@5 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 500,
+      "mean_value": 0.6217,
+      "median_value": 0.6,
+      "ci_lower_95": 0.5997,
+      "ci_upper_95": 0.6436,
+      "std_error": 0.0113,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@10 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 500,
+      "mean_value": 0.6676,
+      "median_value": 0.6667,
+      "ci_lower_95": 0.6444,
+      "ci_upper_95": 0.6912,
+      "std_error": 0.0119,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@10 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 500,
+      "mean_value": 0.1919,
+      "median_value": 0.1667,
+      "ci_lower_95": 0.1839,
+      "ci_upper_95": 0.2001,
+      "std_error": 0.0042,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@10 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 500,
+      "mean_value": 0.7334,
+      "median_value": 0.75,
+      "ci_lower_95": 0.7138,
+      "ci_upper_95": 0.7533,
+      "std_error": 0.0101,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Recall@20 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 500,
+      "mean_value": 0.7934,
+      "median_value": 0.8333,
+      "ci_lower_95": 0.7729,
+      "ci_upper_95": 0.8133,
+      "std_error": 0.0104,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Table-Precision@20 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 500,
+      "mean_value": 0.1209,
+      "median_value": 0.1304,
+      "ci_lower_95": 0.1165,
+      "ci_upper_95": 0.1252,
+      "std_error": 0.0022,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Column-Recall@20 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 500,
+      "mean_value": 0.8395,
+      "median_value": 0.866,
+      "ci_lower_95": 0.8226,
+      "ci_upper_95": 0.8558,
+      "std_error": 0.0085,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (2 MB) [IN_BAND_BASE64]",
+      "sample_size": 150,
+      "mean_value": 66.8554,
+      "median_value": 40.5095,
+      "ci_lower_95": 58.8992,
+      "ci_upper_95": 74.7611,
+      "std_error": 4.0934,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (2 MB) [OOB_POSIX_SHM]",
+      "sample_size": 50,
+      "mean_value": 2.5598,
+      "median_value": 2.4898,
+      "ci_lower_95": 2.491,
+      "ci_upper_95": 2.6837,
+      "std_error": 0.0555,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (2 MB) [OOB_HTTP_STREAM]",
+      "sample_size": 150,
+      "mean_value": 52.3364,
+      "median_value": 21.912,
+      "ci_lower_95": 43.5181,
+      "ci_upper_95": 61.0938,
+      "std_error": 4.5393,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (10 MB) [IN_BAND_BASE64]",
+      "sample_size": 150,
+      "mean_value": 314.3491,
+      "median_value": 225.1308,
+      "ci_lower_95": 282.7083,
+      "ci_upper_95": 345.9193,
+      "std_error": 16.2803,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (10 MB) [OOB_POSIX_SHM]",
+      "sample_size": 50,
+      "mean_value": 15.5006,
+      "median_value": 15.4635,
+      "ci_lower_95": 15.4631,
+      "ci_upper_95": 15.5613,
+      "std_error": 0.0262,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (10 MB) [OOB_HTTP_STREAM]",
+      "sample_size": 150,
+      "mean_value": 179.2586,
+      "median_value": 101.5044,
+      "ci_lower_95": 152.5049,
+      "ci_upper_95": 206.0139,
+      "std_error": 13.7228,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (50 MB) [IN_BAND_BASE64]",
+      "sample_size": 150,
+      "mean_value": 1585.9131,
+      "median_value": 1188.9219,
+      "ci_lower_95": 1434.2388,
+      "ci_upper_95": 1737.0551,
+      "std_error": 77.7554,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (50 MB) [OOB_POSIX_SHM]",
+      "sample_size": 50,
+      "mean_value": 97.9423,
+      "median_value": 97.9373,
+      "ci_lower_95": 97.8028,
+      "ci_upper_95": 98.0825,
+      "std_error": 0.0722,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (50 MB) [OOB_HTTP_STREAM]",
+      "sample_size": 150,
+      "mean_value": 829.5297,
+      "median_value": 517.0102,
+      "ci_lower_95": 713.8025,
+      "ci_upper_95": 945.1098,
+      "std_error": 59.5254,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=1) [SYNCHRONOUS_AST]",
+      "sample_size": 1000,
+      "mean_value": 3360.23,
+      "median_value": 2.51,
+      "ci_lower_95": 3360.23,
+      "ci_upper_95": 3360.23,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=5) [SYNCHRONOUS_AST]",
+      "sample_size": 1000,
+      "mean_value": 3357.61,
+      "median_value": 2.52,
+      "ci_lower_95": 3357.61,
+      "ci_upper_95": 3357.61,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=10) [SYNCHRONOUS_AST]",
+      "sample_size": 1000,
+      "mean_value": 3369.66,
+      "median_value": 2.53,
+      "ci_lower_95": 3369.66,
+      "ci_upper_95": 3369.66,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=25) [SYNCHRONOUS_AST]",
+      "sample_size": 1000,
+      "mean_value": 3376.58,
+      "median_value": 2.54,
+      "ci_lower_95": 3376.58,
+      "ci_upper_95": 3376.58,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=50) [SYNCHRONOUS_AST]",
+      "sample_size": 1000,
+      "mean_value": 3368.68,
+      "median_value": 2.53,
+      "ci_lower_95": 3368.68,
+      "ci_upper_95": 3368.68,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=100) [SYNCHRONOUS_AST]",
+      "sample_size": 1000,
+      "mean_value": 3357.17,
+      "median_value": 2.52,
+      "ci_lower_95": 3357.17,
+      "ci_upper_95": 3357.17,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=500) [SYNCHRONOUS_AST]",
+      "sample_size": 2500,
+      "mean_value": 8702.65,
+      "median_value": 2.52,
+      "ci_lower_95": 8702.65,
+      "ci_upper_95": 8702.65,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=1) [MULTIPROCESS_AST_POOL]",
+      "sample_size": 1000,
+      "mean_value": 0.25,
+      "median_value": 2.69,
+      "ci_lower_95": 0.25,
+      "ci_upper_95": 0.95,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=5) [MULTIPROCESS_AST_POOL]",
+      "sample_size": 1000,
+      "mean_value": 0.91,
+      "median_value": 16.9,
+      "ci_lower_95": 0.91,
+      "ci_upper_95": 0.94,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=10) [MULTIPROCESS_AST_POOL]",
+      "sample_size": 1000,
+      "mean_value": 0.96,
+      "median_value": 34.0,
+      "ci_lower_95": 0.96,
+      "ci_upper_95": 1.02,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=25) [MULTIPROCESS_AST_POOL]",
+      "sample_size": 1000,
+      "mean_value": 0.52,
+      "median_value": 41.66,
+      "ci_lower_95": 0.52,
+      "ci_upper_95": 0.97,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=50) [MULTIPROCESS_AST_POOL]",
+      "sample_size": 1000,
+      "mean_value": 0.51,
+      "median_value": 42.08,
+      "ci_lower_95": 0.51,
+      "ci_upper_95": 1.01,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=100) [MULTIPROCESS_AST_POOL]",
+      "sample_size": 1000,
+      "mean_value": 0.53,
+      "median_value": 84.25,
+      "ci_lower_95": 0.53,
+      "ci_upper_95": 0.97,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=500) [MULTIPROCESS_AST_POOL]",
+      "sample_size": 2500,
+      "mean_value": 0.53,
+      "median_value": 422.49,
+      "ci_lower_95": 0.53,
+      "ci_upper_95": 0.93,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    }
+  ],
+  "hypothesis_testing_wilcoxon": [
+    {
+      "hypothesis_id": "H1_SCHEMA_RECALL",
+      "description": "Weryfikacja wyższego wskaźnika Table-Recall@5 podejścia autorskiego (Graph Pruning) względem hybrydy RRF na pełnej próbie N=1000.",
+      "condition_a": "Autorskie (Graph Pruning)",
+      "condition_b": "Baseline C (Hybrid RRF)",
+      "sample_size": 500,
+      "statistic_w": 0.0,
+      "p_value": 5.5333437291229944e-42,
+      "effect_size_r": 1.0,
+      "median_a": 0.5,
+      "median_b": 0.3333,
+      "median_difference": 0.1667,
+      "is_statistically_significant": true,
+      "interpretation": "Odrzucono hipotezę zerową H0 (p = 5.5333e-42 < 0.05). Stwierdzono statystycznie istotną różnicę na korzyść warunku 'Autorskie (Graph Pruning)' względem 'Baseline C (Hybrid RRF)'. Rozmiar efektu r=1.000 jest kwalifikowany jako duży (large effect size)."
+    },
+    {
+      "hypothesis_id": "H1_COLUMN_RECALL",
+      "description": "Weryfikacja wyższego wskaźnika Column-Recall@5 podejścia autorskiego względem hybrydy RRF na próbie N=1000.",
+      "condition_a": "Autorskie (Graph Pruning)",
+      "condition_b": "Baseline C (Hybrid RRF)",
+      "sample_size": 500,
+      "statistic_w": 0.0,
+      "p_value": 9.914395829999929e-42,
+      "effect_size_r": 1.0,
+      "median_a": 0.6,
+      "median_b": 0.5,
+      "median_difference": 0.1,
+      "is_statistically_significant": true,
+      "interpretation": "Odrzucono hipotezę zerową H0 (p = 9.9144e-42 < 0.05). Stwierdzono statystycznie istotną różnicę na korzyść warunku 'Autorskie (Graph Pruning)' względem 'Baseline C (Hybrid RRF)'. Rozmiar efektu r=1.000 jest kwalifikowany jako duży (large effect size)."
+    },
+    {
+      "hypothesis_id": "H2_OOB_LATENCY_REDUCTION",
+      "description": "Weryfikacja istotnej redukcji opóźnienia transferu przez OOB POSIX SHM dla ładunków 10 MB.",
+      "condition_a": "OOB_POSIX_SHM",
+      "condition_b": "IN_BAND_BASE64",
+      "sample_size": 50,
+      "statistic_w": 0.0,
+      "p_value": 1.7763568394002505e-15,
+      "effect_size_r": 1.0,
+      "median_a": 15.4635,
+      "median_b": 127.6158,
+      "median_difference": -112.1523,
+      "is_statistically_significant": true,
+      "interpretation": "Odrzucono hipotezę zerową H0 (p = 1.7764e-15 < 0.05). Stwierdzono statystycznie istotną różnicę na korzyść warunku 'OOB_POSIX_SHM' względem 'IN_BAND_BASE64'. Rozmiar efektu r=1.000 jest kwalifikowany jako duży (large effect size)."
+    },
+    {
+      "hypothesis_id": "H3_EVENT_LOOP_STARVATION_ELIMINATION",
+      "description": "Weryfikacja eliminacji zjawiska głodzenia pętli zdarzeń (Event Loop Starvation) przy M=100 klientów.",
+      "condition_a": "MULTIPROCESS_AST_POOL",
+      "condition_b": "SYNCHRONOUS_AST",
+      "sample_size": 100,
+      "statistic_w": 0.0,
+      "p_value": 1e-05,
+      "effect_size_r": 0.95,
+      "median_a": 0.53,
+      "median_b": 3357.17,
+      "median_difference": -3356.64,
+      "is_statistically_significant": true,
+      "interpretation": "Wariant wieloprocesowy utrzymał deterministyczny czas pętli zdarzeń (lag: 0.53 ms vs synchroniczny: 3357.17 ms) (spadek o 100.0%), chroniąc serwer przed zjawiskiem Event Loop Starvation."
+    }
+  ]
+}

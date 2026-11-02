@@ -1,0 +1,189 @@
+{
+  "run_id": "20261004T120209_d347d2",
+  "entries": {
+    "o5_tokenizacja_base64.py": {
+      "script": "benchmarks/analysis_offline/o5_tokenizacja_base64.py",
+      "script_sha256": "3c497d9bd11e19e0539be8f7ebc6b5b934edff04d7cd588859d5af0a22e3ab84",
+      "repo_commit": "e9ad258",
+      "generated_at": "2026-10-04T20:28:56+00:00",
+      "inputs": {
+        "src/mcp_server/pagination.py": "9a5692cd357567117ba976627d0d1d96c44444e1785c2d1b6e2f95f61986ba96",
+        "testbed/init-scripts/seed_1m_records.py": "c02345418a4e0c1c3ad7b4395614799f31db023fa5ad5ee57dba455bf3010240",
+        "results-remote-new-sunday/manifest.json": "df7275924417a5e2d356896da89bdf591327012fda4c277b24bceed9cb866205",
+        "results-remote-new-sunday/pagination_consistency.json": "fc29c195878e580a26c7273d78064e7d7091081acafc203c3c49c6e2a8830852"
+      },
+      "outputs": {
+        "results-remote-new-sunday/derived/o5_tokenizacja_base64.json": "17819cce581f3c770b1cacf225ed6436e69becdd32a5e8d6e97f063003249dfc"
+      },
+      "note": "obliczenie niezależne od sprzętu; wartości graniczne kursora ze wzorów generatora danych"
+    },
+    "inwentarz.py": {
+      "script": "benchmarks/analysis_offline/inwentarz.py",
+      "script_sha256": "52972e512510659c21e5606aefdf99311a59da594095b3ff76d6b8dc0c642925",
+      "repo_commit": "a315456",
+      "generated_at": "2026-10-04T20:40:05+00:00",
+      "inputs": {},
+      "outputs": {
+        "results-remote-new-sunday/derived/inwentarz.json": "147d8c55d59164c55bd869eef46fa9951dff415ef375bc15ed1d6b5f4409a2fc"
+      },
+      "note": "inwentarz plików rundy"
+    },
+    "o1_czulosc_a_ex.py": {
+      "script": "benchmarks/analysis_offline/o1_czulosc_a_ex.py",
+      "script_sha256": "b9423c353de77078e4762f5c063f42605b27c6aa31fcda9ab882ddf864d5c18b",
+      "repo_commit": "a315456",
+      "generated_at": "2026-10-04T20:40:37+00:00",
+      "inputs": {
+        "results-remote-new-sunday/schema_retrieval.parquet": "fb0b47d837886024833365bd62c71c7e34919a8c76f16bbaa9bab460b83487bc",
+        "results-remote-new-sunday/schema_quality_generation.parquet": "883e5e05a2f5e882efb982681628ef7c29c0d0a405b1be4d52c71396d5c202a1",
+        "results-remote-new-sunday/schema_quality_dataset.jsonl": "deef7c9d91d35b8fd8e75a0a5e3d2395e7cd7b478c3cce8f6814ae98bbb8c266"
+      },
+      "outputs": {
+        "results-remote-new-sunday/derived/o1_czulosc_a_ex.json": "0bf79d298163749127dd25a3f0924887d7e4886cc8795792bd7d77d2fa8b3164"
+      },
+      "note": ""
+    },
+    "o2_holm_mcnemar.py": {
+      "script": "benchmarks/analysis_offline/o2_holm_mcnemar.py",
+      "script_sha256": "cbb5aeca1598e837b9ac13d3bb38aa38bc17755bcd1b56dfd7757de2ad0daefd",
+      "repo_commit": "a315456",
+      "generated_at": "2026-10-04T20:40:58+00:00",
+      "inputs": {
+        "results-remote-new-sunday/statistical_hypothesis_tests.csv": "7b00f358522a491eb9ee622a739bc565881014b46bbceaac13e74b3c430b2988"
+      },
+      "outputs": {
+        "results-remote-new-sunday/derived/o2_holm_mcnemar.json": "f0e31c76c2c4ad591d56568f8deb78036bdcf432a46028e4ce54a134ae569672"
+      },
+      "note": ""
+    },
+    "o3_pareto.py": {
+      "script": "benchmarks/analysis_offline/o3_pareto.py",
+      "script_sha256": "43d213e4741610516e77c0b52e0c61b22933c060c4ba64a14b7f15a15a12c6b8",
+      "repo_commit": "a315456",
+      "generated_at": "2026-10-04T20:41:13+00:00",
+      "inputs": {
+        "results-remote-new-sunday/schema_retrieval.parquet": "fb0b47d837886024833365bd62c71c7e34919a8c76f16bbaa9bab460b83487bc"
+      },
+      "outputs": {
+        "results-remote-new-sunday/derived/o3_pareto.json": "f1c276b5e658a36b63d9a3823d6804ba0c6ae0af80762b2b2f1604d729ff53a6"
+      },
+      "note": ""
+    },
+    "o4_identifier_match.py": {
+      "script": "benchmarks/analysis_offline/o4_identifier_match.py",
+      "script_sha256": "b136699d184d7a20507b0e17b64570256e36cbbcba8f55f4f450d024593e1483",
+      "repo_commit": "a315456",
+      "generated_at": "2026-10-04T20:42:32+00:00",
+      "inputs": {
+        "testbed/init-scripts/generate_enterprise_schema.py": "c55e992c822c76109b1a41b24100b0cdfece4314fa91dd3ad155f3d9ab93384e",
+        "results-remote-new-sunday/schema_quality_dataset.jsonl": "deef7c9d91d35b8fd8e75a0a5e3d2395e7cd7b478c3cce8f6814ae98bbb8c266",
+        "results-remote-new-sunday/schema_retrieval.parquet": "fb0b47d837886024833365bd62c71c7e34919a8c76f16bbaa9bab460b83487bc"
+      },
+      "outputs": {
+        "results-remote-new-sunday/derived/o4_identifier_match.json": "e9a0d2c74f386c22f4b1efa2df385765c70817866fd974022c7ebef8a9e0de11"
+      },
+      "note": ""
+    },
+    "o6_stopnie_grafu.py": {
+      "script": "benchmarks/analysis_offline/o6_stopnie_grafu.py",
+      "script_sha256": "c5cd5655ae24b029a4e02cafa4b641c73b9e29dffe4cc7671edeee07fedcedb3",
+      "repo_commit": "a315456",
+      "generated_at": "2026-10-04T20:43:53+00:00",
+      "inputs": {
+        "testbed/init-scripts/generate_enterprise_schema.py": "c55e992c822c76109b1a41b24100b0cdfece4314fa91dd3ad155f3d9ab93384e",
+        "results-remote-new-sunday/logs/drift.log": "629c0eb8f02151f15f01d28073a2ac9de15a34e5a83b0191d2700cdfeaf63fb1"
+      },
+      "outputs": {
+        "results-remote-new-sunday/derived/o6_stopnie_grafu.json": "cf81f3b69cc6da08fba02cac65749cbe00dbb4702963bd2b7f216b0cf47cedd2",
+        "doc/rysunki/fig_stopnie_grafu.pdf": "587d8ee5eba0f351764e5da5c46944f97e0871c2a2a643b1aa591a9d608c7e45",
+        "doc/rysunki/fig_stopnie_grafu.png": "0af9d9041002155a8b93f8cd551183e60c9f51110615cc8acf192dcd39cb8be4"
+      },
+      "note": ""
+    },
+    "o7_model_sstar.py": {
+      "script": "benchmarks/analysis_offline/o7_model_sstar.py",
+      "script_sha256": "062cc82a1da835a33957ef2ba1e0039da76dab71f06767fce41b1a350204d094",
+      "repo_commit": "a315456",
+      "generated_at": "2026-10-04T20:44:33+00:00",
+      "inputs": {
+        "results-remote-new-sunday/oob_crossover_results.parquet": "c2fc3fb727f0b9b3ad980744ae801e4cc424026a9d718f5e36a991d787a7160f",
+        "results-remote-new-sunday/oob_crossover_metrics.json": "fbde78cceb7359ef2f7a1ac399c7939b7d4a0e7793f424e21fc6081c914f46a1"
+      },
+      "outputs": {
+        "results-remote-new-sunday/derived/o7_model_sstar.json": "2dcb9bf5dfdb02715c4b1d432db85e5f035206a4a30d0b7eef6d33e071b0d6f1"
+      },
+      "note": ""
+    },
+    "o8_lag_bootstrap_blokowy.py": {
+      "script": "benchmarks/analysis_offline/o8_lag_bootstrap_blokowy.py",
+      "script_sha256": "d24c2f87961c58ab78d5172b232b6b5435859535812dbe28d828be9eafd2a1d5",
+      "repo_commit": "a315456",
+      "generated_at": "2026-10-04T20:45:46+00:00",
+      "inputs": {
+        "results-remote-new-sunday/concurrency_lag_samples.parquet": "66b054aa3e10bf5cfef726fd27eaac746ac7dbaa33f2b8c96844a8a37a927710",
+        "results-remote-new-sunday/concurrency_h3_tests.json": "2cacf755d6efdceb38ec56517048291cd603a4cacb538bc82b38c334986f14a5",
+        "results-remote-new-sunday/manifest.json": "df7275924417a5e2d356896da89bdf591327012fda4c277b24bceed9cb866205"
+      },
+      "outputs": {
+        "results-remote-new-sunday/derived/o8_lag_bootstrap_blokowy.json": "30ed1f4909c4da9e2a79c87e40e70c8af5922fdc8415327ef0f45ddeb593e519"
+      },
+      "note": ""
+    },
+    "o9_inspekcja_bledow.py": {
+      "script": "benchmarks/analysis_offline/o9_inspekcja_bledow.py",
+      "script_sha256": "199ed8495363d39ab190817a734d1aac23fbcf90e8068e8b4f41807144714d8f",
+      "repo_commit": "a315456",
+      "generated_at": "2026-10-04T20:46:01+00:00",
+      "inputs": {
+        "results-remote-new-sunday/schema_quality_generation.parquet": "883e5e05a2f5e882efb982681628ef7c29c0d0a405b1be4d52c71396d5c202a1",
+        "results-remote-new-sunday/manifest.json": "df7275924417a5e2d356896da89bdf591327012fda4c277b24bceed9cb866205"
+      },
+      "outputs": {
+        "results-remote-new-sunday/derived/o9_proba_bledow.csv": "7b81c09e72d19a33df1c4b99d74d12a02d225a2f36c6e287f8178eb95faec65c"
+      },
+      "note": ""
+    },
+    "o9_klasyfikacja.py": {
+      "script": "benchmarks/analysis_offline/o9_klasyfikacja.py",
+      "script_sha256": "c3f116d161e667001fd16355663f2a9144d3a64d0e86f1747d474ce618d3aed4",
+      "repo_commit": "a315456",
+      "generated_at": "2026-10-04T20:47:39+00:00",
+      "inputs": {
+        "results-remote-new-sunday/derived/o9_proba_bledow.csv": "7b81c09e72d19a33df1c4b99d74d12a02d225a2f36c6e287f8178eb95faec65c",
+        "results-remote-new-sunday/schema_quality_generation.parquet": "883e5e05a2f5e882efb982681628ef7c29c0d0a405b1be4d52c71396d5c202a1"
+      },
+      "outputs": {
+        "results-remote-new-sunday/derived/o9_klasyfikacja_reczna.csv": "70c5437fee78769749737131a1d414166ebf6986e5b1f1b20ed1f85fcda3a5d8",
+        "results-remote-new-sunday/derived/o9_podsumowanie.json": "614af6984da467903e80b572d00720d98161f34e173dc0d43600cbeebd31bfde"
+      },
+      "note": ""
+    },
+    "o8b_ogon_lag.py": {
+      "script": "benchmarks/analysis_offline/o8b_ogon_lag.py",
+      "script_sha256": "b085f1d3775731c4cfe5cfefb18c1f70b9a8ccb4878a1df35f105501d352d2a4",
+      "repo_commit": "cb667f9",
+      "generated_at": "2026-10-04T20:52:00+00:00",
+      "inputs": {
+        "results-remote-new-sunday/concurrency_lag_samples.parquet": "66b054aa3e10bf5cfef726fd27eaac746ac7dbaa33f2b8c96844a8a37a927710",
+        "results-remote-new-sunday/concurrency_memory_samples.csv": "1d1ef204ae4d274b7d6c7594b3d3174e7a7281bfa363b6ff94be274a37b135f4"
+      },
+      "outputs": {
+        "results-remote-new-sunday/derived/o8b_ogon_lag.json": "377fc7b9d3bd6635536ebc8545a7a87aff22359322ed1a800a8565c8b9dadf27"
+      },
+      "note": ""
+    },
+    "k7_llm_injection_kryterium.py": {
+      "script": "benchmarks/analysis_offline/k7_llm_injection_kryterium.py",
+      "script_sha256": "2afa73a94e96d38fc50bc03f61a0bbf6dacf98095b673907f007bda3a69b34d2",
+      "repo_commit": "cb667f9",
+      "generated_at": "2026-10-04T20:53:12+00:00",
+      "inputs": {
+        "results-remote-new-sunday/security_llm_injection.jsonl": "93fbc549217459d1eada218d426f149f4853b37b6c4a53e080f8b64b597f4211"
+      },
+      "outputs": {
+        "results-remote-new-sunday/derived/k7_llm_injection_kryterium.json": "2e1c1129da2219399a74412d68a50b3a3b542dbe36e94ed95e69cd011ce64f8b"
+      },
+      "note": ""
+    }
+  }
+}

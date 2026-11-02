@@ -1,0 +1,2 @@
+amr_pct,fpr_pct,asr_raw_pct,asr_protected_pct,prompt_injection_mitigation_pct,ast_validation_latency_mean_ms,ast_validation_latency_p50_ms,ast_validation_latency_p95_ms,ast_validation_latency_std_dev,context_wrapping_latency_mean_ms,total_malicious_queries_tested,total_valid_queries_tested,total_injection_payloads_tested
+100.0,0.0,100.0,0.0,100.0,0.2733,0.2668,0.2782,0.0396,0.0076,100,50,50

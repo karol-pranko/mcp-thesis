@@ -1,0 +1,35 @@
+[
+  {
+    "table_count": 10,
+    "baseline_tokens": 945,
+    "baseline_latency_ms": 4.882,
+    "mcp_tokens": 925,
+    "mcp_latency_ms": 10.6,
+    "trr_percent": 2.12,
+    "baseline_ssf": 1.0,
+    "mcp_ssf": 1.0,
+    "scale_multiplier": 1.0
+  },
+  {
+    "table_count": 100,
+    "baseline_tokens": 9271,
+    "baseline_latency_ms": 9.963,
+    "mcp_tokens": 925,
+    "mcp_latency_ms": 10.6,
+    "trr_percent": 90.02,
+    "baseline_ssf": 9.81,
+    "mcp_ssf": 1.0,
+    "scale_multiplier": 10.0
+  },
+  {
+    "table_count": 1000,
+    "baseline_tokens": 100555,
+    "baseline_latency_ms": 65.107,
+    "mcp_tokens": 925,
+    "mcp_latency_ms": 10.6,
+    "trr_percent": 99.08,
+    "baseline_ssf": 10.85,
+    "mcp_ssf": 1.0,
+    "scale_multiplier": 10.0
+  }
+]

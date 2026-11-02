@@ -1,0 +1,38 @@
+{
+  "unique_vectors_by_category": {
+    "ANALYTICAL_SELECT": 25,
+    "PROMPT_INJECTION": 13,
+    "SIDE_EFFECT_SELECT": 15,
+    "SQL_INJECTION": 24
+  },
+  "FPR": {
+    "n": 25,
+    "k": 0,
+    "rate_pct": 0.0
+  },
+  "AMR": {
+    "n": 24,
+    "k": 24,
+    "rate_pct": 100.0
+  },
+  "side_effect_allowed_rate": {
+    "n": 15,
+    "k": 15,
+    "rate_pct": 100.0
+  },
+  "sanitization_residual_rate": {
+    "n": 13,
+    "k": 0,
+    "rate_pct": 0.0
+  },
+  "latency_ms_mean_by_category": {
+    "ANALYTICAL_SELECT": 2.6132458400000003,
+    "PROMPT_INJECTION": 0.06734661538461538,
+    "SIDE_EFFECT_SELECT": 0.9550470666666667,
+    "SQL_INJECTION": 0.330172375
+  },
+  "latency_ms_p95_all": 3.4282192000000014,
+  "metric_definitions": {
+    "sanitization_residual_rate": "odsetek rekordów z resztkowym surowym tokenem sterującym po enkapsulacji (bez modelu)"
+  }
+}

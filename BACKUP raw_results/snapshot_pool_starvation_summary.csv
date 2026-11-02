@@ -1,0 +1,5 @@
+concurrency_m,pool_max_size,total_requests,successful_requests,timeout_requests,pool_timeout_rate_pct,mean_acquire_latency_ms,p50_acquire_latency_ms,p95_acquire_latency_ms,p99_acquire_latency_ms,max_idle_in_tx
+5,10,5,5,0,0.0,8.01,10.28,11.79,11.87,5
+10,10,10,10,0,0.0,13.98,15.61,17.39,18.11,10
+15,10,15,10,5,33.33,342.46,15.38,1000.98,1000.98,10
+20,10,20,10,10,50.0,507.0,508.65,1000.46,1000.46,10

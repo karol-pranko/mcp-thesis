@@ -1,0 +1,21 @@
+{
+  "nodes": 1000,
+  "edges": 1174,
+  "matches_round_log": true,
+  "degree_mean": 2.348,
+  "degree_median": 2.0,
+  "degree_max": 33,
+  "isolated": 0,
+  "deg_ge_15": 20,
+  "deg_le_2_pct": 86.0,
+  "histogram": {
+    "1": 360,
+    "2": 500,
+    "3": 120,
+    "30": 2,
+    "31": 10,
+    "32": 6,
+    "33": 2
+  },
+  "components": 2
+}

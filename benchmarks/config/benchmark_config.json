@@ -1,0 +1,346 @@
+{
+  "_comment": "Jedyne źródło konfiguracji pełnej rundy pomiarowej. Sekcja quick_overrides jest nakładana w trybie --quick (jedna iteracja każdego scenariusza). Cała zawartość trafia do raw_results/manifest.json.",
+  "seeds": {
+    "query_generator": 2026,
+    "security_vectors": 42,
+    "bootstrap": 12345,
+    "streaming_producer": 7,
+    "ttft_table_sampling": 99,
+    "llm": 42,
+    "data_seeder": 42,
+    "concurrency_query_order": 11
+  },
+  "database": {
+    "host_env": "POSTGRES_HOST",
+    "host_default": "localhost",
+    "port_env": "POSTGRES_PORT",
+    "port_default": 5432,
+    "user_env": "POSTGRES_USER",
+    "user_default": "mcp_user",
+    "password_env": "POSTGRES_PASSWORD",
+    "password_default": "mcp_secret_password",
+    "name_env": "POSTGRES_DB",
+    "name_default": "analytics_db"
+  },
+  "data": {
+    "rows_per_table": 200,
+    "min_rows_required_in_gt_tables": 1
+  },
+  "llm": {
+    "base_url": "http://localhost:11434",
+    "num_ctx": 8192,
+    "temperature": 0.0,
+    "request_timeout_s": 600,
+    "possible_truncation_ratio": 0.95,
+    "profiles": {
+      "small": {
+        "model": "qwen2.5-coder:3b",
+        "num_predict": 1024
+      },
+      "large": {
+        "model": "qwen2.5-coder:7b",
+        "num_predict": 1024
+      }
+    },
+    "min_vram_mib_for_large": 10000,
+    "stop": [],
+    "_stop_comment": "Brak sekwencji stop: poprzednie [';', '\\n\\n', ...] ucinały wielowierszowy SQL. Ekstrakcja SQL odbywa się po stronie benchmarku."
+  },
+  "scenarios": {
+    "pagination": {
+      "repetitions": 10,
+      "warmup": 2,
+      "page_size": 50,
+      "offsets": [
+        0,
+        100,
+        1000,
+        10000,
+        50000,
+        100000,
+        250000,
+        500000,
+        750000,
+        950000
+      ],
+      "unindexed_max_offset": 50000,
+      "explain_offsets": [
+        10000,
+        250000,
+        950000
+      ],
+      "consistency_samples": 10000
+    },
+    "oob": {
+      "repetitions": 50,
+      "warmup": 5,
+      "payload_sizes_bytes": [
+        512,
+        2048,
+        8192,
+        32768,
+        131072,
+        524288,
+        2097152,
+        10485760,
+        52428800
+      ],
+      "h2_sizes_bytes": [
+        2048,
+        10485760
+      ],
+      "h2_min_repetitions": 30,
+      "crossover_fit_neighbours": 2,
+      "bootstrap_resamples": 2000,
+      "profiles": {
+        "lan": {
+          "rtt_ms": 1.0,
+          "jitter_ms": 0.0,
+          "bandwidth_mbps": 1000.0
+        },
+        "wan": {
+          "rtt_ms": 30.0,
+          "jitter_ms": 2.0,
+          "bandwidth_mbps": 250.0
+        }
+      }
+    },
+    "concurrency": {
+      "levels": [
+        1,
+        5,
+        10,
+        25,
+        50,
+        100,
+        500
+      ],
+      "variants": [
+        "SYNC",
+        "THREAD",
+        "POOL"
+      ],
+      "default_workers": 4,
+      "workers_grid": [
+        2,
+        4,
+        8
+      ],
+      "workers_grid_level": 100,
+      "level_duration_s": 30,
+      "level_warmup_s": 5,
+      "lag_probe_interval_ms": 10,
+      "h3_levels": [
+        100,
+        500
+      ],
+      "bootstrap_resamples": 5000
+    },
+    "streaming": {
+      "n_events": 100,
+      "mean_interarrival_s": 3.0,
+      "poll_intervals_s": [
+        1.0,
+        5.0
+      ],
+      "idle_window_s": 60,
+      "topic": "telemetry_bench_sse",
+      "gateway_port": 18765,
+      "detection_timeout_s": 30
+    },
+    "security": {
+      "llm_injection": false,
+      "llm_injection_profile": "small",
+      "llm_injection_max_vectors": null
+    },
+    "drift": {
+      "num_drift_tables": 50,
+      "num_baseline_queries": 50,
+      "num_inflight_queries": 50,
+      "num_postdrift_queries": 10
+    },
+    "ablation": {
+      "m_exp_values": [
+        0,
+        1,
+        2,
+        3,
+        5
+      ],
+      "top_k": 5,
+      "n_queries": 500,
+      "sweet_spot_rule": "najmniejsze M_exp, dla którego wzrost Table-Recall@5 względem następnej badanej wartości M_exp jest < sweet_spot_threshold_pp punktu procentowego",
+      "sweet_spot_threshold_pp": 0.5
+    },
+    "ttft_scaling": {
+      "enabled": true,
+      "ddl_token_targets": [
+        1000,
+        2000,
+        4000,
+        8000,
+        16000,
+        28000
+      ],
+      "repetitions": 30,
+      "profiles": [
+        "small",
+        "large"
+      ],
+      "ctx_margin_tokens": 2048,
+      "num_predict": 64,
+      "question": "Write a SQL query that returns the 10 most recent rows of the first table in the schema."
+    },
+    "schema_quality": {
+      "n_queries": 500,
+      "k_values": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "generation_k": 5,
+      "equal_budget": {
+        "mode": "fixed",
+        "k": 8,
+        "strategies": [
+          "BM25",
+          "RRF"
+        ]
+      },
+      "profiles": [
+        "small",
+        "large"
+      ],
+      "llm_concurrency": 4,
+      "ex_comparison": "multiset_unless_order_by",
+      "statement_timeout_ms": 10000,
+      "domain_scoped_tables": 15,
+      "generation_strategies": [
+        "DomainScoped",
+        "BM25",
+        "Dense",
+        "RRF",
+        "Graph"
+      ]
+    }
+  },
+  "quick_overrides": {
+    "data": {
+      "rows_per_table": 20
+    },
+    "scenarios": {
+      "pagination": {
+        "repetitions": 1,
+        "warmup": 0,
+        "offsets": [
+          10000
+        ],
+        "explain_offsets": [
+          10000
+        ],
+        "consistency_samples": 100,
+        "unindexed_max_offset": 10000
+      },
+      "oob": {
+        "repetitions": 1,
+        "warmup": 0,
+        "payload_sizes_bytes": [
+          8192
+        ],
+        "h2_sizes_bytes": [
+          8192
+        ],
+        "h2_min_repetitions": 1,
+        "bootstrap_resamples": 50
+      },
+      "concurrency": {
+        "levels": [
+          5
+        ],
+        "variants": [
+          "SYNC",
+          "THREAD",
+          "POOL"
+        ],
+        "workers_grid": [
+          2
+        ],
+        "workers_grid_level": 5,
+        "level_duration_s": 2,
+        "level_warmup_s": 0.5,
+        "h3_levels": [
+          5
+        ],
+        "bootstrap_resamples": 200
+      },
+      "streaming": {
+        "n_events": 1,
+        "mean_interarrival_s": 0.5,
+        "poll_intervals_s": [
+          1.0
+        ],
+        "idle_window_s": 2,
+        "detection_timeout_s": 15
+      },
+      "drift": {
+        "num_drift_tables": 2,
+        "num_baseline_queries": 1,
+        "num_inflight_queries": 1,
+        "num_postdrift_queries": 1
+      },
+      "ablation": {
+        "m_exp_values": [
+          0,
+          3
+        ],
+        "n_queries": 1
+      },
+      "ttft_scaling": {
+        "ddl_token_targets": [
+          1000
+        ],
+        "repetitions": 1,
+        "profiles": [
+          "large"
+        ]
+      },
+      "schema_quality": {
+        "n_queries": 1,
+        "k_values": [
+          5
+        ],
+        "profiles": [
+          "large"
+        ],
+        "llm_concurrency": 1,
+        "generation_strategies": [
+          "Graph"
+        ],
+        "equal_budget": {
+          "mode": "fixed",
+          "k": 8,
+          "strategies": [
+            "RRF"
+          ]
+        }
+      },
+      "security": {
+        "llm_injection_max_vectors": 1
+      }
+    },
+    "llm": {
+      "smoke_test_model_substitution": {
+        "large": "qwen2.5-coder:3b"
+      },
+      "profiles": {
+        "small": {
+          "num_predict": 256
+        },
+        "large": {
+          "num_predict": 256
+        }
+      }
+    }
+  }
+}

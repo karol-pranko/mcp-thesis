@@ -1,0 +1,53 @@
+% !TeX encoding = utf8
+% Wykaz skrótów i symboli
+
+\section*{A. Wykaz Akronimów i Skrótów Technicznych}
+
+\begin{longtable}[l]{>{\bfseries\raggedright\arraybackslash}p{2.8cm} >{\raggedright\arraybackslash}p{12.0cm}}
+API & \emph{Application Programming Interface} (Interfejs Programowania Aplikacji) \\[1.5pt]
+AST & \emph{Abstract Syntax Tree} (Abstrakcyjne Drzewo Składniowe) \\[1.5pt]
+BPE & \emph{Byte Pair Encoding} (Algorytm tokenizacji podsłów) \\[1.5pt]
+CDSS & \emph{Clinical Decision Support System} (System Wspomagania Decyzji Klinicznych) \\[1.5pt]
+CTE & \emph{Common Table Expression} (Nazwane wyrażenie tablicowe SQL) \\[1.5pt]
+DDL & \emph{Data Definition Language} (Język Definicji Danych) \\[1.5pt]
+DML & \emph{Data Manipulation Language} (Język Manipulacji Danymi) \\[1.5pt]
+DSR & \emph{Design Science Research} (Metodologia badań konstrukcyjnych w~informatyce) \\[1.5pt]
+E2E / $L_{\text{E2E}}$ & \emph{End-to-End Latency} (Całkowite opóźnienie realizacji zapytania) \\[1.5pt]
+EX & \emph{Execution Accuracy} (Dokładność wykonawcza kodu Text-to-SQL) \\[1.5pt]
+FK & \emph{Foreign Key} (Klucz obcy w~relacyjnej bazie danych) \\[1.5pt]
+HNSW & \emph{Hierarchical Navigable Small World} (Grafowy indeks wektorowy k-NN) \\[1.5pt]
+IPC & \emph{Inter-Process Communication} (Komunikacja międzyprocesowa) \\[1.5pt]
+JSON-RPC & \emph{JavaScript Object Notation Remote Procedure Call} (Protokół zdalnego wywoływania procedur) \\[1.5pt]
+LLM & \emph{Large Language Model} (Wielki Model Językowy) \\[1.5pt]
+LSP & \emph{Language Server Protocol} (Protokół serwera języka programowania) \\[1.5pt]
+MCP & \emph{Model Context Protocol} (Otwarty standard komunikacji modeli agentowych z~kontekstem) \\[1.5pt]
+MVCC & \emph{Multi-Version Concurrency Control} (Wielowersyjna kontrola współbieżności) \\[1.5pt]
+OOB & \emph{Out-of-Band} (Transmisja obiektów poza głównym pasmem sterującym) \\[1.5pt]
+POSIX SHM & \emph{POSIX Shared Memory} (Współdzielony segment pamięci operacyjnej \texttt{/dev/shm}) \\[1.5pt]
+RAG & \emph{Retrieval-Augmented Generation} (Generowanie wspomagane wyszukiwaniem) \\[1.5pt]
+RPS & \emph{Requests Per Second} (Przepustowość transakcyjna systemu) \\[1.5pt]
+RRF & \emph{Reciprocal Rank Fusion} (Algorytm fuzji rang w~wyszukiwaniu hybrydowym) \\[1.5pt]
+RTT & \emph{Round-Trip Time} (Dwukierunkowe opóźnienie propagacji pakietu sieciowego) \\[1.5pt]
+SSE & \emph{Server-Sent Events} (Jednokierunkowy strumień zdarzeń serwera HTTP) \\[1.5pt]
+TTFT & \emph{Time-to-First-Token} (Czas do wygenerowania pierwszego tokenu odpowiedzi) \\[1.5pt]
+URI & \emph{Uniform Resource Identifier} (Ujednolicony identyfikator zasobu) \\[1.5pt]
+XAI & \emph{Explainable Artificial Intelligence} (Wyjaśnialna Sztuczna Inteligencja) \\
+\end{longtable}
+
+\section*{B. Wykaz Symboli i Oznaczeń Matematycznych}
+
+\begin{longtable}[l]{>{\bfseries\raggedright\arraybackslash}p{2.8cm} >{\raggedright\arraybackslash}p{12.0cm}}
+$B_{\text{tok}}$ & Konfigurowalny budżet tokenów dla pojedynczej kwerendy \\[1.5pt]
+$B_{\text{net}}, B_{\text{shm}}$ & Przepustowość odpowiednio łącza sieciowego oraz magistrali pamięci współdzielonej \\[1.5pt]
+$d$ & Wymiarowość przestrzeni osadzeń wektorowych ($d = 384$ dla modelu \texttt{all-MiniLM-L6-v2}) \\[1.5pt]
+$\delta_{\text{OOB}}$ & Stały narzut przygotowania transferu poza pasmem (alokacja deskryptora, skrót kryptograficzny) \\[1.5pt]
+$K$ & Rozmiar strony pobieranej w~procedurze paginacji kursorowej (liczba wierszy) \\[1.5pt]
+$k_{\text{RRF}}$ & Stała stabilizująca fuzję rang Reciprocal Rank Fusion ($k_{\text{RRF}} = 60$) \\[1.5pt]
+$M$ & Liczba współbieżnych procesów agentowych / wątków klienckich \\[1.5pt]
+$M_{\text{exp}}$ & Maksymalna dopuszczalna liczba wstrzykiwanych tabel mostkujących ($M_{\text{exp}} = 3$) \\[1.5pt]
+$\mu_n, \sigma_n$ & Bieżąca estymacja średniej oraz odchylenia standardowego liczby tokenów na rekord w~algorytmie Welforda \\[1.5pt]
+$N$ & Liczebność zbioru ewaluacyjnego Text-to-SQL ($N = 500$) lub liczba rekordów w~tabeli analitycznej ($N = 1\ 000\ 000$) \\[1.5pt]
+$S$ & Rozmiar ładunku binarnego w~bajtach \\[1.5pt]
+$S^*(\text{RTT})$ & Punkt równowagi (próg opłacalności) transferu Out-of-Band w~funkcji opóźnienia sieciowego \\[1.5pt]
+$W, p, r$ & Statystyka testowa, poziom istotności oraz standaryzowana wielkość efektu w~teście sumy rangowych znaków Wilcoxona \\
+\end{longtable}

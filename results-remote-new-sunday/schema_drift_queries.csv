@@ -1,0 +1,109 @@
+phase,query_idx,query_text,latency_ms,tables_found,bridges_found,ddl_chars,is_success,error_type,error_message,timestamp_iso
+baseline,1,Pobierz faktury klientów i transakcje rozliczeniowe z departamentu finansowego,320.9352307021618,5,0,4955,True,,,2026-10-04T12:51:59.941785+00:00
+baseline,2,Znajdź stany magazynowe i zamówienia surowców u dostawców,13.721335679292679,6,1,6434,True,,,2026-10-04T12:51:59.955536+00:00
+baseline,3,Wyszukaj szanse sprzedażowe enterprise i przypisanych opiekunów klienta,12.563519179821014,6,1,6419,True,,,2026-10-04T12:51:59.968124+00:00
+baseline,4,Analiza segmentów odbiorców o wysokim ryzyku odejścia w CRM,12.394633144140244,7,2,7887,True,,,2026-10-04T12:51:59.980543+00:00
+baseline,5,Sprawdź przesyłki logistyczne oraz status śledzenia u przewoźników,15.669632703065872,7,2,8044,True,,,2026-10-04T12:51:59.996237+00:00
+baseline,6,Zestawienie wypłat pracowniczych i średnich wynagrodzeń w działach HR,11.984564363956451,5,0,5332,True,,,2026-10-04T12:52:00.008244+00:00
+baseline,7,Monitorowanie alertów telemetrycznych i zdarzeń infrastruktury serwerowej,10.632991790771484,6,1,7053,True,,,2026-10-04T12:52:00.018898+00:00
+baseline,8,Raport wydajności operacyjnej i wskaźników KPI produkcji,10.050136595964432,6,1,6562,True,,,2026-10-04T12:52:00.028969+00:00
+baseline,9,Transakcje bankowe i uzgodnienia sald międzyfirmowych,9.99661535024643,5,0,5051,True,,,2026-10-04T12:52:00.038985+00:00
+baseline,10,Historia zgłoszeń serwisowych helpdesk o statusie krytycznym,10.01659780740738,7,2,7743,True,,,2026-10-04T12:52:00.049024+00:00
+baseline,11,Pobierz faktury klientów i transakcje rozliczeniowe z departamentu finansowego,10.13469323515892,5,0,4955,True,,,2026-10-04T12:52:00.059177+00:00
+baseline,12,Znajdź stany magazynowe i zamówienia surowców u dostawców,8.725162595510483,6,1,6434,True,,,2026-10-04T12:52:00.067921+00:00
+baseline,13,Wyszukaj szanse sprzedażowe enterprise i przypisanych opiekunów klienta,8.745908737182617,6,1,6419,True,,,2026-10-04T12:52:00.076685+00:00
+baseline,14,Analiza segmentów odbiorców o wysokim ryzyku odejścia w CRM,8.561525493860245,7,2,7887,True,,,2026-10-04T12:52:00.085266+00:00
+baseline,15,Sprawdź przesyłki logistyczne oraz status śledzenia u przewoźników,11.185869574546814,7,2,8044,True,,,2026-10-04T12:52:00.096471+00:00
+baseline,16,Zestawienie wypłat pracowniczych i średnich wynagrodzeń w działach HR,8.5686594247818,5,0,5332,True,,,2026-10-04T12:52:00.105058+00:00
+baseline,17,Monitorowanie alertów telemetrycznych i zdarzeń infrastruktury serwerowej,9.533323347568512,6,1,7053,True,,,2026-10-04T12:52:00.114614+00:00
+baseline,18,Raport wydajności operacyjnej i wskaźników KPI produkcji,8.792251348495483,6,1,6562,True,,,2026-10-04T12:52:00.123427+00:00
+baseline,19,Transakcje bankowe i uzgodnienia sald międzyfirmowych,8.60598310828209,5,0,5051,True,,,2026-10-04T12:52:00.132050+00:00
+baseline,20,Historia zgłoszeń serwisowych helpdesk o statusie krytycznym,8.594881743192673,7,2,7743,True,,,2026-10-04T12:52:00.140663+00:00
+baseline,21,Pobierz faktury klientów i transakcje rozliczeniowe z departamentu finansowego,9.768534451723099,5,0,4955,True,,,2026-10-04T12:52:00.150450+00:00
+baseline,22,Znajdź stany magazynowe i zamówienia surowców u dostawców,8.92002135515213,6,1,6434,True,,,2026-10-04T12:52:00.159389+00:00
+baseline,23,Wyszukaj szanse sprzedażowe enterprise i przypisanych opiekunów klienta,8.81354883313179,6,1,6419,True,,,2026-10-04T12:52:00.168222+00:00
+baseline,24,Analiza segmentów odbiorców o wysokim ryzyku odejścia w CRM,8.620798587799072,7,2,7887,True,,,2026-10-04T12:52:00.176862+00:00
+baseline,25,Sprawdź przesyłki logistyczne oraz status śledzenia u przewoźników,11.182669550180435,7,2,8044,True,,,2026-10-04T12:52:00.188064+00:00
+baseline,26,Zestawienie wypłat pracowniczych i średnich wynagrodzeń w działach HR,8.468061685562134,5,0,5332,True,,,2026-10-04T12:52:00.196550+00:00
+baseline,27,Monitorowanie alertów telemetrycznych i zdarzeń infrastruktury serwerowej,8.455783128738403,6,1,7053,True,,,2026-10-04T12:52:00.205031+00:00
+baseline,28,Raport wydajności operacyjnej i wskaźników KPI produkcji,8.710410445928574,6,1,6562,True,,,2026-10-04T12:52:00.213760+00:00
+baseline,29,Transakcje bankowe i uzgodnienia sald międzyfirmowych,8.620642125606537,5,0,5051,True,,,2026-10-04T12:52:00.222398+00:00
+baseline,30,Historia zgłoszeń serwisowych helpdesk o statusie krytycznym,8.671525865793228,7,2,7743,True,,,2026-10-04T12:52:00.231090+00:00
+baseline,31,Pobierz faktury klientów i transakcje rozliczeniowe z departamentu finansowego,9.757865220308304,5,0,4955,True,,,2026-10-04T12:52:00.240866+00:00
+baseline,32,Znajdź stany magazynowe i zamówienia surowców u dostawców,8.601121604442596,6,1,6434,True,,,2026-10-04T12:52:00.249485+00:00
+baseline,33,Wyszukaj szanse sprzedażowe enterprise i przypisanych opiekunów klienta,8.72853770852089,6,1,6419,True,,,2026-10-04T12:52:00.258232+00:00
+baseline,34,Analiza segmentów odbiorców o wysokim ryzyku odejścia w CRM,8.56725126504898,7,2,7887,True,,,2026-10-04T12:52:00.266819+00:00
+baseline,35,Sprawdź przesyłki logistyczne oraz status śledzenia u przewoźników,11.27447560429573,7,2,8044,True,,,2026-10-04T12:52:00.278112+00:00
+baseline,36,Zestawienie wypłat pracowniczych i średnich wynagrodzeń w działach HR,8.421000093221664,5,0,5332,True,,,2026-10-04T12:52:00.286549+00:00
+baseline,37,Monitorowanie alertów telemetrycznych i zdarzeń infrastruktury serwerowej,8.443862199783325,6,1,7053,True,,,2026-10-04T12:52:00.295018+00:00
+baseline,38,Raport wydajności operacyjnej i wskaźników KPI produkcji,8.720431476831436,6,1,6562,True,,,2026-10-04T12:52:00.303757+00:00
+baseline,39,Transakcje bankowe i uzgodnienia sald międzyfirmowych,8.514255285263062,5,0,5051,True,,,2026-10-04T12:52:00.312288+00:00
+baseline,40,Historia zgłoszeń serwisowych helpdesk o statusie krytycznym,8.619628846645355,7,2,7743,True,,,2026-10-04T12:52:00.320927+00:00
+baseline,41,Pobierz faktury klientów i transakcje rozliczeniowe z departamentu finansowego,9.78730246424675,5,0,4955,True,,,2026-10-04T12:52:00.330731+00:00
+baseline,42,Znajdź stany magazynowe i zamówienia surowców u dostawców,8.575692772865295,6,1,6434,True,,,2026-10-04T12:52:00.339325+00:00
+baseline,43,Wyszukaj szanse sprzedażowe enterprise i przypisanych opiekunów klienta,8.677639067173004,6,1,6419,True,,,2026-10-04T12:52:00.348021+00:00
+baseline,44,Analiza segmentów odbiorców o wysokim ryzyku odejścia w CRM,8.494667708873749,7,2,7887,True,,,2026-10-04T12:52:00.356534+00:00
+baseline,45,Sprawdź przesyłki logistyczne oraz status śledzenia u przewoźników,11.025533080101013,7,2,8044,True,,,2026-10-04T12:52:00.367579+00:00
+baseline,46,Zestawienie wypłat pracowniczych i średnich wynagrodzeń w działach HR,8.404672145843506,5,0,5332,True,,,2026-10-04T12:52:00.376002+00:00
+baseline,47,Monitorowanie alertów telemetrycznych i zdarzeń infrastruktury serwerowej,8.456718176603317,6,1,7053,True,,,2026-10-04T12:52:00.384478+00:00
+baseline,48,Raport wydajności operacyjnej i wskaźników KPI produkcji,8.694630116224289,6,1,6562,True,,,2026-10-04T12:52:00.393191+00:00
+baseline,49,Transakcje bankowe i uzgodnienia sald międzyfirmowych,8.628811687231064,5,0,5051,True,,,2026-10-04T12:52:00.401838+00:00
+baseline,50,Historia zgłoszeń serwisowych helpdesk o statusie krytycznym,8.607961237430573,7,2,7743,True,,,2026-10-04T12:52:00.410465+00:00
+in_flight_drift,1,Znajdź stany magazynowe i zamówienia surowców u dostawców,35.790931433439255,6,1,6434,True,,,2026-10-04T12:52:00.454351+00:00
+in_flight_drift,1,Wyszukaj szanse sprzedażowe enterprise i przypisanych opiekunów klienta,29.77994829416275,6,1,6419,True,,,2026-10-04T12:52:00.454495+00:00
+in_flight_drift,1,Analiza segmentów odbiorców o wysokim ryzyku odejścia w CRM,23.62186834216118,7,2,7887,True,,,2026-10-04T12:52:00.454798+00:00
+in_flight_drift,1,Pobierz faktury klientów i transakcje rozliczeniowe z departamentu finansowego,43.578118085861206,5,0,4955,True,,,2026-10-04T12:52:00.455289+00:00
+in_flight_drift,2,Wyszukaj szanse sprzedażowe enterprise i przypisanych opiekunów klienta,34.96921434998512,6,1,6419,True,,,2026-10-04T12:52:00.495285+00:00
+in_flight_drift,2,Analiza segmentów odbiorców o wysokim ryzyku odejścia w CRM,26.555966585874557,7,2,7887,True,,,2026-10-04T12:52:00.495588+00:00
+in_flight_drift,2,Sprawdź przesyłki logistyczne oraz status śledzenia u przewoźników,20.256418734788895,7,2,8044,True,,,2026-10-04T12:52:00.495952+00:00
+in_flight_drift,2,Znajdź stany magazynowe i zamówienia surowców u dostawców,12.959972023963928,6,1,6434,True,,,2026-10-04T12:52:00.496113+00:00
+in_flight_drift,3,Sprawdź przesyłki logistyczne oraz status śledzenia u przewoźników,26.014607399702072,7,2,8044,True,,,2026-10-04T12:52:00.534237+00:00
+in_flight_drift,3,Analiza segmentów odbiorców o wysokim ryzyku odejścia w CRM,33.22351723909378,7,2,7887,True,,,2026-10-04T12:52:00.534440+00:00
+in_flight_drift,3,Zestawienie wypłat pracowniczych i średnich wynagrodzeń w działach HR,19.288040697574615,5,0,5332,True,,,2026-10-04T12:52:00.534595+00:00
+in_flight_drift,3,Wyszukaj szanse sprzedażowe enterprise i przypisanych opiekunów klienta,13.10870423913002,6,1,6419,True,,,2026-10-04T12:52:00.534820+00:00
+in_flight_drift,4,Sprawdź przesyłki logistyczne oraz status śledzenia u przewoźników,25.716271251440048,7,2,8044,True,,,2026-10-04T12:52:00.572547+00:00
+in_flight_drift,4,Zestawienie wypłat pracowniczych i średnich wynagrodzeń w działach HR,32.59237855672836,5,0,5332,True,,,2026-10-04T12:52:00.572701+00:00
+in_flight_drift,4,Monitorowanie alertów telemetrycznych i zdarzeń infrastruktury serwerowej,18.88361945748329,6,1,7053,True,,,2026-10-04T12:52:00.572933+00:00
+in_flight_drift,4,Analiza segmentów odbiorców o wysokim ryzyku odejścia w CRM,12.85378634929657,7,2,7887,True,,,2026-10-04T12:52:00.573182+00:00
+in_flight_drift,5,Monitorowanie alertów telemetrycznych i zdarzeń infrastruktury serwerowej,26.138324290513992,6,1,7053,True,,,2026-10-04T12:52:00.611124+00:00
+in_flight_drift,5,Zestawienie wypłat pracowniczych i średnich wynagrodzeń w działach HR,33.101532608270645,5,0,5332,True,,,2026-10-04T12:52:00.611308+00:00
+in_flight_drift,5,Raport wydajności operacyjnej i wskaźników KPI produkcji,20.129650831222534,6,1,6562,True,,,2026-10-04T12:52:00.611572+00:00
+in_flight_drift,5,Sprawdź przesyłki logistyczne oraz status śledzenia u przewoźników,13.825912028551102,7,2,8044,True,,,2026-10-04T12:52:00.611734+00:00
+in_flight_drift,6,Monitorowanie alertów telemetrycznych i zdarzeń infrastruktury serwerowej,23.590147495269775,6,1,7053,True,,,2026-10-04T12:52:00.647003+00:00
+in_flight_drift,6,Raport wydajności operacyjnej i wskaźników KPI produkcji,30.727215111255646,6,1,6562,True,,,2026-10-04T12:52:00.647267+00:00
+in_flight_drift,6,Transakcje bankowe i uzgodnienia sald międzyfirmowych,17.355848103761673,5,0,5051,True,,,2026-10-04T12:52:00.647434+00:00
+in_flight_drift,6,Zestawienie wypłat pracowniczych i średnich wynagrodzeń w działach HR,11.126700788736343,5,0,5332,True,,,2026-10-04T12:52:00.647564+00:00
+in_flight_drift,7,Raport wydajności operacyjnej i wskaźników KPI produkcji,32.340433448553085,6,1,6562,True,,,2026-10-04T12:52:00.685197+00:00
+in_flight_drift,7,Transakcje bankowe i uzgodnienia sald międzyfirmowych,25.44296532869339,5,0,5051,True,,,2026-10-04T12:52:00.685405+00:00
+in_flight_drift,7,Historia zgłoszeń serwisowych helpdesk o statusie krytycznym,19.250549376010895,7,2,7743,True,,,2026-10-04T12:52:00.685580+00:00
+in_flight_drift,7,Monitorowanie alertów telemetrycznych i zdarzeń infrastruktury serwerowej,13.1792351603508,6,1,7053,True,,,2026-10-04T12:52:00.685901+00:00
+in_flight_drift,8,Transakcje bankowe i uzgodnienia sald międzyfirmowych,39.73070532083511,5,0,5051,True,,,2026-10-04T12:52:00.730628+00:00
+in_flight_drift,8,Historia zgłoszeń serwisowych helpdesk o statusie krytycznym,29.576342552900314,7,2,7743,True,,,2026-10-04T12:52:00.731160+00:00
+in_flight_drift,8,Pobierz faktury klientów i transakcje rozliczeniowe z departamentu finansowego,21.781452000141144,5,0,4955,True,,,2026-10-04T12:52:00.731440+00:00
+in_flight_drift,8,Raport wydajności operacyjnej i wskaźników KPI produkcji,14.170177280902863,6,1,6562,True,,,2026-10-04T12:52:00.731677+00:00
+in_flight_drift,9,Historia zgłoszeń serwisowych helpdesk o statusie krytycznym,35.9448678791523,7,2,7743,True,,,2026-10-04T12:52:00.771720+00:00
+in_flight_drift,9,Znajdź stany magazynowe i zamówienia surowców u dostawców,20.68673074245453,6,1,6434,True,,,2026-10-04T12:52:00.771910+00:00
+in_flight_drift,9,Pobierz faktury klientów i transakcje rozliczeniowe z departamentu finansowego,28.074543923139572,5,0,4955,True,,,2026-10-04T12:52:00.772058+00:00
+in_flight_drift,9,Transakcje bankowe i uzgodnienia sald międzyfirmowych,14.223825186491013,5,0,5051,True,,,2026-10-04T12:52:00.772123+00:00
+in_flight_drift,10,Pobierz faktury klientów i transakcje rozliczeniowe z departamentu finansowego,86.72510087490082,5,0,4955,True,,,2026-10-04T12:52:00.864550+00:00
+in_flight_drift,10,Znajdź stany magazynowe i zamówienia surowców u dostawców,70.38682699203491,6,1,6434,True,,,2026-10-04T12:52:00.864866+00:00
+in_flight_drift,10,Wyszukaj szanse sprzedażowe enterprise i przypisanych opiekunów klienta,77.77032628655434,6,1,6419,True,,,2026-10-04T12:52:00.865012+00:00
+in_flight_drift,10,Historia zgłoszeń serwisowych helpdesk o statusie krytycznym,64.07853588461876,7,2,7743,True,,,2026-10-04T12:52:00.865343+00:00
+in_flight_drift,11,Wyszukaj szanse sprzedażowe enterprise i przypisanych opiekunów klienta,27.601107954978943,6,1,6419,True,,,2026-10-04T12:52:00.905716+00:00
+in_flight_drift,11,Znajdź stany magazynowe i zamówienia surowców u dostawców,35.85156053304672,6,1,6434,True,,,2026-10-04T12:52:00.905983+00:00
+in_flight_drift,11,Analiza segmentów odbiorców o wysokim ryzyku odejścia w CRM,20.7023024559021,7,2,7887,True,,,2026-10-04T12:52:00.906236+00:00
+in_flight_drift,11,Pobierz faktury klientów i transakcje rozliczeniowe z departamentu finansowego,13.444818556308746,5,0,4955,True,,,2026-10-04T12:52:00.906318+00:00
+in_flight_drift,12,Analiza segmentów odbiorców o wysokim ryzyku odejścia w CRM,34.8864309489727,7,2,7887,True,,,2026-10-04T12:52:00.945991+00:00
+in_flight_drift,12,Wyszukaj szanse sprzedażowe enterprise i przypisanych opiekunów klienta,28.09516340494156,6,1,6419,True,,,2026-10-04T12:52:00.946244+00:00
+in_flight_drift,12,Sprawdź przesyłki logistyczne oraz status śledzenia u przewoźników,20.925570279359818,7,2,8044,True,,,2026-10-04T12:52:00.946393+00:00
+in_flight_drift,12,Znajdź stany magazynowe i zamówienia surowców u dostawców,13.674627989530563,6,1,6434,True,,,2026-10-04T12:52:00.946658+00:00
+post_drift,1,Wyszukaj rozliczenia fintech settlement i transakcje z oceną ryzyka,15.86182415485382,5,0,4830,True,,,2026-10-04T12:52:01.203694+00:00
+post_drift,2,Znajdź księgę rozliczeń fintech i powiązane konta klientów enterprise,13.454638421535492,5,0,5552,True,,,2026-10-04T12:52:01.217178+00:00
+post_drift,3,Pobierz rejestr transakcji finansowych fintech z limitem scoringu,12.511759996414185,6,1,5736,True,,,2026-10-04T12:52:01.229714+00:00
+post_drift,4,Zestawienie księgi ledger fintech i audytów transakcyjnych,12.329921126365662,6,1,6853,True,,,2026-10-04T12:52:01.242067+00:00
+post_drift,5,Sprawdź zlecenia fintech oraz powiązane profile klientów CRM,12.231707572937012,6,1,6447,True,,,2026-10-04T12:52:01.254322+00:00
+post_drift,6,Wyszukaj rozliczenia fintech settlement i transakcje z oceną ryzyka,9.851422160863876,5,0,4830,True,,,2026-10-04T12:52:01.264199+00:00
+post_drift,7,Znajdź księgę rozliczeń fintech i powiązane konta klientów enterprise,9.384773671627045,5,0,5552,True,,,2026-10-04T12:52:01.273603+00:00
+post_drift,8,Pobierz rejestr transakcji finansowych fintech z limitem scoringu,9.391523897647858,6,1,5736,True,,,2026-10-04T12:52:01.283012+00:00
+post_drift,9,Zestawienie księgi ledger fintech i audytów transakcyjnych,8.133422583341599,6,1,6853,True,,,2026-10-04T12:52:01.291162+00:00
+post_drift,10,Sprawdź zlecenia fintech oraz powiązane profile klientów CRM,8.731819689273834,6,1,6447,True,,,2026-10-04T12:52:01.299910+00:00

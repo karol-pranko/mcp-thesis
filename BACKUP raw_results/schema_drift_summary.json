@@ -1,0 +1,53 @@
+{
+  "timestamp": "2026-10-03T15:31:52.906402+00:00",
+  "smoke_test": false,
+  "total_runtime_s": 2.049,
+  "num_drift_tables": 50,
+  "domain_tested": "fintech_risk",
+  "phases": {
+    "baseline": {
+      "count": 50,
+      "p50": 9.896,
+      "p95": 15.616,
+      "p99": 182.835,
+      "mean": 17.309,
+      "errors": 0
+    },
+    "in_flight_drift": {
+      "count": 48,
+      "p50": 25.142,
+      "p95": 70.145,
+      "p99": 83.076,
+      "mean": 28.505,
+      "errors": 0
+    },
+    "post_drift": {
+      "count": 10,
+      "p50": 12.521,
+      "p95": 15.551,
+      "p99": 16.474,
+      "mean": 12.443,
+      "errors": 0
+    }
+  },
+  "drift_telemetry": {
+    "num_tables_migrated": 50,
+    "num_fks_registered": 50,
+    "ddl_create_tables_ms": 319.9841007590294,
+    "ddl_create_fks_ms": 42.38259419798851,
+    "embedding_calc_ms": 52.722,
+    "embedding_cpu_ms": 63.055,
+    "db_insert_embeddings_ms": 140.782,
+    "bm25_rebuild_ms": 113.439,
+    "graph_rebuild_ms": 5.328,
+    "total_drift_reload_ms": 344.552,
+    "total_drift_cpu_ms": 236.084,
+    "nodes_before": 1000,
+    "nodes_after": 1050,
+    "edges_before": 1174,
+    "edges_after": 1224
+  },
+  "drift_tables_discovered_pct": 100.0,
+  "in_flight_error_count": 0,
+  "in_flight_error_rate_pct": 0.0
+}

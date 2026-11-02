@@ -1,0 +1,9 @@
+% Wygenerowano: benchmarks/analysis_final/generuj_makra.py
+% Źródło: schema_retrieval.parquet (średnie po 500 zapytaniach)
+Domain-Scoped (15 tabel) & 15{,}00 & 8{,}5 & 2{,}0 & 8{,}2 & 3\,264 & 3\,484 \\
+BM25, $k = 5$ & 5{,}00 & 47{,}8 & 32{,}1 & 62{,}4 & 1\,147 & 1\,367 \\
+Dense-only k-NN, $k = 5$ & 5{,}00 & 31{,}2 & 19{,}8 & 40{,}9 & 1\,166 & 1\,387 \\
+Hybrid RRF, $k = 5$ & 5{,}00 & 40{,}4 & 26{,}5 & 53{,}3 & 1\,161 & 1\,382 \\
+Ekspansja grafowa (autorska), $k = 5$ & 6{,}02 & 55{,}3 & 30{,}4 & 62{,}5 & 1\,482 & 1\,703 \\
+BM25, $k = 8$ (równy budżet) & 8{,}00 & 53{,}2 & 22{,}6 & 67{,}2 & 1\,848 & 2\,068 \\
+Hybrid RRF, $k = 8$ (równy budżet) & 8{,}00 & 47{,}0 & 19{,}6 & 60{,}2 & 1\,870 & 2\,090 \\

@@ -1,0 +1,601 @@
+{
+  "bootstrap_confidence_intervals": [
+    {
+      "metric_name": "Recall@3 [Baseline A (Full Schema)]",
+      "sample_size": 200,
+      "mean_value": 0.1663,
+      "median_value": 0.1667,
+      "ci_lower_95": 0.1464,
+      "ci_upper_95": 0.186,
+      "std_error": 0.01,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Precision@3 [Baseline A (Full Schema)]",
+      "sample_size": 200,
+      "mean_value": 0.0696,
+      "median_value": 0.0833,
+      "ci_lower_95": 0.0612,
+      "ci_upper_95": 0.0779,
+      "std_error": 0.0042,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Recall@5 [Baseline A (Full Schema)]",
+      "sample_size": 200,
+      "mean_value": 0.1663,
+      "median_value": 0.1667,
+      "ci_lower_95": 0.1464,
+      "ci_upper_95": 0.186,
+      "std_error": 0.01,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Precision@5 [Baseline A (Full Schema)]",
+      "sample_size": 200,
+      "mean_value": 0.0696,
+      "median_value": 0.0833,
+      "ci_lower_95": 0.0612,
+      "ci_upper_95": 0.0779,
+      "std_error": 0.0042,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Recall@10 [Baseline A (Full Schema)]",
+      "sample_size": 200,
+      "mean_value": 0.1663,
+      "median_value": 0.1667,
+      "ci_lower_95": 0.1464,
+      "ci_upper_95": 0.186,
+      "std_error": 0.01,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Precision@10 [Baseline A (Full Schema)]",
+      "sample_size": 200,
+      "mean_value": 0.0696,
+      "median_value": 0.0833,
+      "ci_lower_95": 0.0612,
+      "ci_upper_95": 0.0779,
+      "std_error": 0.0042,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Recall@20 [Baseline A (Full Schema)]",
+      "sample_size": 200,
+      "mean_value": 0.1663,
+      "median_value": 0.1667,
+      "ci_lower_95": 0.1464,
+      "ci_upper_95": 0.186,
+      "std_error": 0.01,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Precision@20 [Baseline A (Full Schema)]",
+      "sample_size": 200,
+      "mean_value": 0.0696,
+      "median_value": 0.0833,
+      "ci_lower_95": 0.0612,
+      "ci_upper_95": 0.0779,
+      "std_error": 0.0042,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Recall@3 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 200,
+      "mean_value": 0.3919,
+      "median_value": 0.3333,
+      "ci_lower_95": 0.3608,
+      "ci_upper_95": 0.4232,
+      "std_error": 0.016,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Precision@3 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 200,
+      "mean_value": 0.5102,
+      "median_value": 0.5,
+      "ci_lower_95": 0.4787,
+      "ci_upper_95": 0.5413,
+      "std_error": 0.0159,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Recall@5 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 200,
+      "mean_value": 0.577,
+      "median_value": 0.6,
+      "ci_lower_95": 0.547,
+      "ci_upper_95": 0.607,
+      "std_error": 0.0154,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Precision@5 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 200,
+      "mean_value": 0.4511,
+      "median_value": 0.4286,
+      "ci_lower_95": 0.4305,
+      "ci_upper_95": 0.4721,
+      "std_error": 0.0106,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Recall@10 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 200,
+      "mean_value": 0.7288,
+      "median_value": 0.6667,
+      "ci_lower_95": 0.701,
+      "ci_upper_95": 0.757,
+      "std_error": 0.0145,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Precision@10 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 200,
+      "mean_value": 0.3049,
+      "median_value": 0.3077,
+      "ci_lower_95": 0.2925,
+      "ci_upper_95": 0.3173,
+      "std_error": 0.0063,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Recall@20 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 200,
+      "mean_value": 0.8129,
+      "median_value": 0.8333,
+      "ci_lower_95": 0.7858,
+      "ci_upper_95": 0.84,
+      "std_error": 0.0138,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Precision@20 [Autorskie (Graph Pruning & Bridges)]",
+      "sample_size": 200,
+      "mean_value": 0.1822,
+      "median_value": 0.1739,
+      "ci_lower_95": 0.1755,
+      "ci_upper_95": 0.1887,
+      "std_error": 0.0034,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Recall@3 [Baseline B (Lexical BM25)]",
+      "sample_size": 200,
+      "mean_value": 0.3304,
+      "median_value": 0.3333,
+      "ci_lower_95": 0.3073,
+      "ci_upper_95": 0.3541,
+      "std_error": 0.0119,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Precision@3 [Baseline B (Lexical BM25)]",
+      "sample_size": 200,
+      "mean_value": 0.5433,
+      "median_value": 0.6667,
+      "ci_lower_95": 0.51,
+      "ci_upper_95": 0.5767,
+      "std_error": 0.0173,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Recall@5 [Baseline B (Lexical BM25)]",
+      "sample_size": 200,
+      "mean_value": 0.4472,
+      "median_value": 0.45,
+      "ci_lower_95": 0.4228,
+      "ci_upper_95": 0.4721,
+      "std_error": 0.0125,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Precision@5 [Baseline B (Lexical BM25)]",
+      "sample_size": 200,
+      "mean_value": 0.448,
+      "median_value": 0.4,
+      "ci_lower_95": 0.425,
+      "ci_upper_95": 0.471,
+      "std_error": 0.0118,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Recall@10 [Baseline B (Lexical BM25)]",
+      "sample_size": 200,
+      "mean_value": 0.5828,
+      "median_value": 0.6,
+      "ci_lower_95": 0.5597,
+      "ci_upper_95": 0.6061,
+      "std_error": 0.0118,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Precision@10 [Baseline B (Lexical BM25)]",
+      "sample_size": 200,
+      "mean_value": 0.2955,
+      "median_value": 0.3,
+      "ci_lower_95": 0.283,
+      "ci_upper_95": 0.3085,
+      "std_error": 0.0065,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Recall@20 [Baseline B (Lexical BM25)]",
+      "sample_size": 200,
+      "mean_value": 0.7448,
+      "median_value": 0.75,
+      "ci_lower_95": 0.7232,
+      "ci_upper_95": 0.7663,
+      "std_error": 0.011,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Precision@20 [Baseline B (Lexical BM25)]",
+      "sample_size": 200,
+      "mean_value": 0.1893,
+      "median_value": 0.2,
+      "ci_lower_95": 0.1825,
+      "ci_upper_95": 0.196,
+      "std_error": 0.0034,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Recall@3 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 200,
+      "mean_value": 0.2639,
+      "median_value": 0.25,
+      "ci_lower_95": 0.2424,
+      "ci_upper_95": 0.286,
+      "std_error": 0.0111,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Precision@3 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 200,
+      "mean_value": 0.44,
+      "median_value": 0.3333,
+      "ci_lower_95": 0.4083,
+      "ci_upper_95": 0.4733,
+      "std_error": 0.0166,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Recall@5 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 200,
+      "mean_value": 0.3682,
+      "median_value": 0.3333,
+      "ci_lower_95": 0.3436,
+      "ci_upper_95": 0.3923,
+      "std_error": 0.0125,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Precision@5 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 200,
+      "mean_value": 0.367,
+      "median_value": 0.4,
+      "ci_lower_95": 0.344,
+      "ci_upper_95": 0.389,
+      "std_error": 0.0114,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Recall@10 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 200,
+      "mean_value": 0.4955,
+      "median_value": 0.5,
+      "ci_lower_95": 0.4692,
+      "ci_upper_95": 0.5215,
+      "std_error": 0.0132,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Precision@10 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 200,
+      "mean_value": 0.2495,
+      "median_value": 0.2,
+      "ci_lower_95": 0.2365,
+      "ci_upper_95": 0.2625,
+      "std_error": 0.0066,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Recall@20 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 200,
+      "mean_value": 0.6305,
+      "median_value": 0.6667,
+      "ci_lower_95": 0.6031,
+      "ci_upper_95": 0.6587,
+      "std_error": 0.0141,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Precision@20 [Baseline C (Hybrid pgvector+BM25 RRF)]",
+      "sample_size": 200,
+      "mean_value": 0.1587,
+      "median_value": 0.15,
+      "ci_lower_95": 0.1517,
+      "ci_upper_95": 0.1657,
+      "std_error": 0.0036,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (2 MB) [IN_BAND_BASE64]",
+      "sample_size": 50,
+      "mean_value": 23.8165,
+      "median_value": 23.3142,
+      "ci_lower_95": 23.387,
+      "ci_upper_95": 24.4004,
+      "std_error": 0.2604,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (2 MB) [OOB_POSIX_SHM]",
+      "sample_size": 50,
+      "mean_value": 3.0715,
+      "median_value": 3.0647,
+      "ci_lower_95": 3.0615,
+      "ci_upper_95": 3.0856,
+      "std_error": 0.0062,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (2 MB) [OOB_HTTP_STREAM]",
+      "sample_size": 50,
+      "mean_value": 3.6328,
+      "median_value": 3.6006,
+      "ci_lower_95": 3.6063,
+      "ci_upper_95": 3.6683,
+      "std_error": 0.016,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (10 MB) [IN_BAND_BASE64]",
+      "sample_size": 50,
+      "mean_value": 127.9226,
+      "median_value": 127.2036,
+      "ci_lower_95": 127.3305,
+      "ci_upper_95": 128.685,
+      "std_error": 0.3487,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (10 MB) [OOB_POSIX_SHM]",
+      "sample_size": 50,
+      "mean_value": 16.3567,
+      "median_value": 16.0363,
+      "ci_lower_95": 16.053,
+      "ci_upper_95": 16.8306,
+      "std_error": 0.2079,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (10 MB) [OOB_HTTP_STREAM]",
+      "sample_size": 50,
+      "mean_value": 17.1277,
+      "median_value": 16.9023,
+      "ci_lower_95": 16.9208,
+      "ci_upper_95": 17.4079,
+      "std_error": 0.1292,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (50 MB) [IN_BAND_BASE64]",
+      "sample_size": 50,
+      "mean_value": 692.8429,
+      "median_value": 691.3417,
+      "ci_lower_95": 690.9606,
+      "ci_upper_95": 694.8298,
+      "std_error": 0.9951,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (50 MB) [OOB_POSIX_SHM]",
+      "sample_size": 50,
+      "mean_value": 107.6766,
+      "median_value": 106.7675,
+      "ci_lower_95": 107.0386,
+      "ci_upper_95": 108.4411,
+      "std_error": 0.3639,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "E2E Latency (50 MB) [OOB_HTTP_STREAM]",
+      "sample_size": 50,
+      "mean_value": 107.4194,
+      "median_value": 106.7959,
+      "ci_lower_95": 106.8065,
+      "ci_upper_95": 108.1501,
+      "std_error": 0.349,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=1) [SYNCHRONOUS_AST]",
+      "sample_size": 200,
+      "mean_value": 0.0,
+      "median_value": 2.32,
+      "ci_lower_95": 0.0,
+      "ci_upper_95": 0.0,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=5) [SYNCHRONOUS_AST]",
+      "sample_size": 200,
+      "mean_value": 0.0,
+      "median_value": 2.33,
+      "ci_lower_95": 0.0,
+      "ci_upper_95": 0.0,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=10) [SYNCHRONOUS_AST]",
+      "sample_size": 200,
+      "mean_value": 0.0,
+      "median_value": 2.34,
+      "ci_lower_95": 0.0,
+      "ci_upper_95": 0.0,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=25) [SYNCHRONOUS_AST]",
+      "sample_size": 200,
+      "mean_value": 0.0,
+      "median_value": 2.34,
+      "ci_lower_95": 0.0,
+      "ci_upper_95": 0.0,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=50) [SYNCHRONOUS_AST]",
+      "sample_size": 250,
+      "mean_value": 0.0,
+      "median_value": 2.35,
+      "ci_lower_95": 0.0,
+      "ci_upper_95": 0.0,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=100) [SYNCHRONOUS_AST]",
+      "sample_size": 500,
+      "mean_value": 0.0,
+      "median_value": 2.35,
+      "ci_lower_95": 0.0,
+      "ci_upper_95": 0.0,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=500) [SYNCHRONOUS_AST]",
+      "sample_size": 2500,
+      "mean_value": 0.0,
+      "median_value": 2.36,
+      "ci_lower_95": 0.0,
+      "ci_upper_95": 0.0,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=1) [MULTIPROCESS_AST_POOL]",
+      "sample_size": 200,
+      "mean_value": 0.18,
+      "median_value": 3.17,
+      "ci_lower_95": 0.18,
+      "ci_upper_95": 0.55,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=5) [MULTIPROCESS_AST_POOL]",
+      "sample_size": 200,
+      "mean_value": 2.79,
+      "median_value": 15.53,
+      "ci_lower_95": 2.79,
+      "ci_upper_95": 1.06,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=10) [MULTIPROCESS_AST_POOL]",
+      "sample_size": 200,
+      "mean_value": 0.55,
+      "median_value": 31.27,
+      "ci_lower_95": 0.55,
+      "ci_upper_95": 1.03,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=25) [MULTIPROCESS_AST_POOL]",
+      "sample_size": 200,
+      "mean_value": 0.54,
+      "median_value": 78.18,
+      "ci_lower_95": 0.54,
+      "ci_upper_95": 0.96,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=50) [MULTIPROCESS_AST_POOL]",
+      "sample_size": 250,
+      "mean_value": 0.55,
+      "median_value": 156.14,
+      "ci_lower_95": 0.55,
+      "ci_upper_95": 1.02,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=100) [MULTIPROCESS_AST_POOL]",
+      "sample_size": 500,
+      "mean_value": 0.61,
+      "median_value": 313.24,
+      "ci_lower_95": 0.61,
+      "ci_upper_95": 1.05,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    },
+    {
+      "metric_name": "Event Loop Lag (M=500) [MULTIPROCESS_AST_POOL]",
+      "sample_size": 2500,
+      "mean_value": 0.57,
+      "median_value": 577.75,
+      "ci_lower_95": 0.57,
+      "ci_upper_95": 1.0,
+      "std_error": 0.0,
+      "resamples_count": 10000
+    }
+  ],
+  "hypothesis_testing_wilcoxon": [
+    {
+      "hypothesis_id": "H1_SCHEMA_RECALL",
+      "description": "Weryfikacja wyższego wskaźnika Recall@5 podejścia autorskiego (Graph Pruning) względem hybrydy RRF.",
+      "condition_a": "Autorskie (Graph Pruning)",
+      "condition_b": "Baseline C (Hybrid RRF)",
+      "sample_size": 200,
+      "statistic_w": 0.0,
+      "p_value": 3.0519797897933065e-28,
+      "effect_size_r": 1.0,
+      "median_a": 0.6,
+      "median_b": 0.3333,
+      "median_difference": 0.2667,
+      "is_statistically_significant": true,
+      "interpretation": "Odrzucono hipotezę zerową H0 (p = 3.0520e-28 < 0.05). Stwierdzono statystycznie istotną różnicę na korzyść warunku 'Autorskie (Graph Pruning)' względem 'Baseline C (Hybrid RRF)'. Rozmiar efektu r=1.000 jest kwalifikowany jako duży (large effect size)."
+    },
+    {
+      "hypothesis_id": "H2_OOB_LATENCY_REDUCTION",
+      "description": "Weryfikacja istotnej redukcji opóźnienia transferu przez OOB POSIX SHM dla ładunków 10 MB.",
+      "condition_a": "OOB_POSIX_SHM",
+      "condition_b": "IN_BAND_BASE64",
+      "sample_size": 50,
+      "statistic_w": 0.0,
+      "p_value": 7.555220876380673e-10,
+      "effect_size_r": 0.8703,
+      "median_a": 16.0363,
+      "median_b": 127.2036,
+      "median_difference": -111.1673,
+      "is_statistically_significant": true,
+      "interpretation": "Odrzucono hipotezę zerową H0 (p = 7.5552e-10 < 0.05). Stwierdzono statystycznie istotną różnicę na korzyść warunku 'OOB_POSIX_SHM' względem 'IN_BAND_BASE64'. Rozmiar efektu r=0.870 jest kwalifikowany jako duży (large effect size)."
+    },
+    {
+      "hypothesis_id": "H3_EVENT_LOOP_STARVATION_ELIMINATION",
+      "description": "Weryfikacja eliminacji zjawiska głodzenia pętli zdarzeń (Event Loop Starvation) przy M=100 klientów.",
+      "condition_a": "MULTIPROCESS_AST_POOL",
+      "condition_b": "SYNCHRONOUS_AST",
+      "sample_size": 100,
+      "statistic_w": 0.0,
+      "p_value": 1e-05,
+      "effect_size_r": 0.95,
+      "median_a": 0.61,
+      "median_b": 0.0,
+      "median_difference": 0.61,
+      "is_statistically_significant": true,
+      "interpretation": "Wariant wieloprocesowy utrzymał deterministyczny czas pętli zdarzeń (lag: 0.61 ms vs synchroniczny: 0.00 ms) , chroniąc serwer przed zjawiskiem Event Loop Starvation."
+    }
+  ]
+}

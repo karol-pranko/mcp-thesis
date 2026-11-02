@@ -1,0 +1,261 @@
+{
+  "consistency": {
+    "sample_limit": 10000,
+    "exact_sequence_match": true,
+    "duplicates_count": 0,
+    "missing_records_count": 0,
+    "page_count": 51,
+    "keyset_duration_ms": 717.0951701700687
+  },
+  "snapshot_isolation": {
+    "snapshot_id": "00000004-000003F4-1",
+    "phantom_reads_prevented": true
+  },
+  "welford": {
+    "final_mean": 18996.135,
+    "final_std": 665.5010743022402,
+    "overflow_count": 40,
+    "history": [
+      {
+        "batch_idx": 1,
+        "mean_tokens_per_row": 18863.5,
+        "std_dev_tokens_per_row": 0.0,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 2,
+        "mean_tokens_per_row": 19420.38,
+        "std_dev_tokens_per_row": 787.54,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 3,
+        "mean_tokens_per_row": 19172.98,
+        "std_dev_tokens_per_row": 702.65,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 4,
+        "mean_tokens_per_row": 19065.31,
+        "std_dev_tokens_per_row": 612.79,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 5,
+        "mean_tokens_per_row": 18996.05,
+        "std_dev_tokens_per_row": 552.83,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 6,
+        "mean_tokens_per_row": 18973.96,
+        "std_dev_tokens_per_row": 497.42,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 7,
+        "mean_tokens_per_row": 19117.29,
+        "std_dev_tokens_per_row": 591.6,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 8,
+        "mean_tokens_per_row": 19116.2,
+        "std_dev_tokens_per_row": 547.72,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 9,
+        "mean_tokens_per_row": 19030.4,
+        "std_dev_tokens_per_row": 573.37,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 10,
+        "mean_tokens_per_row": 19018.24,
+        "std_dev_tokens_per_row": 541.95,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 11,
+        "mean_tokens_per_row": 18966.6,
+        "std_dev_tokens_per_row": 541.91,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 12,
+        "mean_tokens_per_row": 19097.43,
+        "std_dev_tokens_per_row": 687.31,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 13,
+        "mean_tokens_per_row": 19069.99,
+        "std_dev_tokens_per_row": 665.45,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 14,
+        "mean_tokens_per_row": 19018.14,
+        "std_dev_tokens_per_row": 668.13,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 15,
+        "mean_tokens_per_row": 19010.84,
+        "std_dev_tokens_per_row": 644.45,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 16,
+        "mean_tokens_per_row": 18975.8,
+        "std_dev_tokens_per_row": 638.18,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 17,
+        "mean_tokens_per_row": 19067.62,
+        "std_dev_tokens_per_row": 724.66,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 18,
+        "mean_tokens_per_row": 19028.73,
+        "std_dev_tokens_per_row": 722.12,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 19,
+        "mean_tokens_per_row": 19005.55,
+        "std_dev_tokens_per_row": 709.01,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 20,
+        "mean_tokens_per_row": 19017.81,
+        "std_dev_tokens_per_row": 692.27,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 21,
+        "mean_tokens_per_row": 18982.34,
+        "std_dev_tokens_per_row": 694.06,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 22,
+        "mean_tokens_per_row": 19025.81,
+        "std_dev_tokens_per_row": 707.36,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 23,
+        "mean_tokens_per_row": 19021.63,
+        "std_dev_tokens_per_row": 691.39,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 24,
+        "mean_tokens_per_row": 19003.57,
+        "std_dev_tokens_per_row": 681.95,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 25,
+        "mean_tokens_per_row": 19013.46,
+        "std_dev_tokens_per_row": 669.43,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 26,
+        "mean_tokens_per_row": 18984.97,
+        "std_dev_tokens_per_row": 671.79,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 27,
+        "mean_tokens_per_row": 19020.3,
+        "std_dev_tokens_per_row": 683.85,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 28,
+        "mean_tokens_per_row": 19018.72,
+        "std_dev_tokens_per_row": 671.11,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 29,
+        "mean_tokens_per_row": 19018.83,
+        "std_dev_tokens_per_row": 659.02,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 30,
+        "mean_tokens_per_row": 19020.66,
+        "std_dev_tokens_per_row": 647.64,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 31,
+        "mean_tokens_per_row": 18977.57,
+        "std_dev_tokens_per_row": 680.44,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 32,
+        "mean_tokens_per_row": 19005.3,
+        "std_dev_tokens_per_row": 687.51,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 33,
+        "mean_tokens_per_row": 19012.45,
+        "std_dev_tokens_per_row": 677.93,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 34,
+        "mean_tokens_per_row": 18995.52,
+        "std_dev_tokens_per_row": 674.84,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 35,
+        "mean_tokens_per_row": 18997.93,
+        "std_dev_tokens_per_row": 664.99,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 36,
+        "mean_tokens_per_row": 18980.13,
+        "std_dev_tokens_per_row": 664.07,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 37,
+        "mean_tokens_per_row": 19004.05,
+        "std_dev_tokens_per_row": 670.74,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 38,
+        "mean_tokens_per_row": 19008.02,
+        "std_dev_tokens_per_row": 662.07,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 39,
+        "mean_tokens_per_row": 18984.28,
+        "std_dev_tokens_per_row": 669.91,
+        "suggested_batch_size": 1
+      },
+      {
+        "batch_idx": 40,
+        "mean_tokens_per_row": 18996.13,
+        "std_dev_tokens_per_row": 665.5,
+        "suggested_batch_size": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,378 @@
+[
+  {
+    "query_id": "Q01_FIN_PAYMENTS_LEDGER",
+    "natural_query": "Pokaż dzienne transakcje płatności oraz dzienne wpisy księgi daily payment transactions and daily ledger entries",
+    "required_tables": [
+      "finance_payment_transactions_daily",
+      "finance_ledger_entries_daily"
+    ],
+    "retrieved_tables": [
+      "finance_payment_transactions_daily",
+      "finance_ledger_entries_daily",
+      "finance_payment_transactions_international",
+      "finance_payment_transactions_monthly",
+      "finance_payment_transactions_domestic",
+      "finance_payment_transactions_daily",
+      "finance_ledger_entries_daily",
+      "finance_payment_transactions_international",
+      "finance_payment_transactions_monthly",
+      "finance_payment_transactions_domestic"
+    ],
+    "matched_tables": [
+      "finance_ledger_entries_daily",
+      "finance_payment_transactions_daily"
+    ],
+    "precision_at_k": 0.4,
+    "recall_at_k": 1.0,
+    "k": 5,
+    "latency_ms": 11.415,
+    "std_dev": 0.0,
+    "variance": 0.0,
+    "p50_latency_ms": 11.415,
+    "p95_latency_ms": 11.415,
+    "p99_latency_ms": 11.415,
+    "raw_samples": [
+      11.415
+    ],
+    "token_count": 920,
+    "payload_bytes": 4242
+  },
+  {
+    "query_id": "Q02_TEL_TEMP_CPU",
+    "natural_query": "Pomiary telemetryczne temperatury w czasie rzeczywistym oraz odczyty procesora realtime temperature logs and realtime cpu telemetry",
+    "required_tables": [
+      "telemetry_temperature_logs_realtime",
+      "telemetry_cpu_telemetry_realtime"
+    ],
+    "retrieved_tables": [
+      "telemetry_temperature_logs_realtime",
+      "telemetry_temperature_logs_minute_aggregates",
+      "telemetry_temperature_logs_raw_stream",
+      "telemetry_temperature_logs_anomaly_detected",
+      "telemetry_temperature_logs_hourly_aggregates",
+      "telemetry_temperature_logs_realtime",
+      "telemetry_temperature_logs_minute_aggregates",
+      "telemetry_temperature_logs_raw_stream",
+      "telemetry_temperature_logs_anomaly_detected",
+      "telemetry_temperature_logs_hourly_aggregates"
+    ],
+    "matched_tables": [
+      "telemetry_temperature_logs_realtime"
+    ],
+    "precision_at_k": 0.2,
+    "recall_at_k": 0.5,
+    "k": 5,
+    "latency_ms": 11.435,
+    "std_dev": 0.0,
+    "variance": 0.0,
+    "p50_latency_ms": 11.435,
+    "p95_latency_ms": 11.435,
+    "p99_latency_ms": 11.435,
+    "raw_samples": [
+      11.435
+    ],
+    "token_count": 984,
+    "payload_bytes": 4506
+  },
+  {
+    "query_id": "Q03_CRM_ACCOUNTS_DEALS",
+    "natural_query": "Konta klientów enterprise i szanse sprzedaży dla korporacji enterprise client accounts and enterprise deal opportunities",
+    "required_tables": [
+      "crm_client_accounts_enterprise",
+      "crm_deal_opportunities_enterprise"
+    ],
+    "retrieved_tables": [
+      "crm_client_accounts_enterprise",
+      "crm_client_accounts_mid_market",
+      "crm_client_accounts_high_value",
+      "crm_deal_opportunities_enterprise",
+      "crm_client_accounts_outbound",
+      "crm_client_accounts_enterprise",
+      "crm_client_accounts_mid_market",
+      "crm_client_accounts_high_value",
+      "crm_deal_opportunities_enterprise",
+      "crm_client_accounts_outbound"
+    ],
+    "matched_tables": [
+      "crm_client_accounts_enterprise",
+      "crm_deal_opportunities_enterprise"
+    ],
+    "precision_at_k": 0.4,
+    "recall_at_k": 1.0,
+    "k": 5,
+    "latency_ms": 10.335,
+    "std_dev": 0.0,
+    "variance": 0.0,
+    "p50_latency_ms": 10.335,
+    "p95_latency_ms": 10.335,
+    "p99_latency_ms": 10.335,
+    "raw_samples": [
+      10.335
+    ],
+    "token_count": 870,
+    "payload_bytes": 3884
+  },
+  {
+    "query_id": "Q04_INV_STOCK_RECEIPTS",
+    "natural_query": "Stany magazynowe wyrobów gotowych i przyjęcia towarów gotowych finished goods stock balances and finished goods goods receipts",
+    "required_tables": [
+      "inventory_stock_balances_finished_goods",
+      "inventory_goods_receipts_finished_goods"
+    ],
+    "retrieved_tables": [
+      "inventory_stock_balances_finished_goods",
+      "inventory_goods_receipts_finished_goods",
+      "inventory_bills_of_materials_finished_goods",
+      "inventory_work_in_progress_finished_goods",
+      "inventory_goods_receipts_archived",
+      "inventory_stock_balances_finished_goods",
+      "inventory_goods_receipts_finished_goods",
+      "inventory_bills_of_materials_finished_goods",
+      "inventory_work_in_progress_finished_goods",
+      "inventory_goods_receipts_archived"
+    ],
+    "matched_tables": [
+      "inventory_stock_balances_finished_goods",
+      "inventory_goods_receipts_finished_goods"
+    ],
+    "precision_at_k": 0.4,
+    "recall_at_k": 1.0,
+    "k": 5,
+    "latency_ms": 9.264,
+    "std_dev": 0.0,
+    "variance": 0.0,
+    "p50_latency_ms": 9.264,
+    "p95_latency_ms": 9.264,
+    "p99_latency_ms": 9.264,
+    "raw_samples": [
+      9.264
+    ],
+    "token_count": 902,
+    "payload_bytes": 4137
+  },
+  {
+    "query_id": "Q05_HR_PROFILES_CONTRACTS",
+    "natural_query": "Roczne profile pracowników i roczne umowy o pracę annual employee profiles and annual labor contracts",
+    "required_tables": [
+      "hr_employee_profiles_annual",
+      "hr_labor_contracts_annual"
+    ],
+    "retrieved_tables": [
+      "hr_labor_contracts_annual",
+      "hr_labor_contracts_quarterly",
+      "hr_labor_contracts_archived",
+      "hr_labor_contracts_full_time",
+      "hr_labor_contracts_hybrid",
+      "hr_labor_contracts_annual",
+      "hr_labor_contracts_quarterly",
+      "hr_labor_contracts_archived",
+      "hr_labor_contracts_full_time",
+      "hr_labor_contracts_hybrid"
+    ],
+    "matched_tables": [
+      "hr_labor_contracts_annual"
+    ],
+    "precision_at_k": 0.2,
+    "recall_at_k": 0.5,
+    "k": 5,
+    "latency_ms": 9.151,
+    "std_dev": 0.0,
+    "variance": 0.0,
+    "p50_latency_ms": 9.151,
+    "p95_latency_ms": 9.151,
+    "p99_latency_ms": 9.151,
+    "raw_samples": [
+      9.151
+    ],
+    "token_count": 913,
+    "payload_bytes": 3928
+  },
+  {
+    "query_id": "Q06_FIN_INVOICES_BUDGET",
+    "natural_query": "Faktury należne i prognozy budżetowe transakcji międzyfirmowych intercompany invoices payable and intercompany budget forecasts",
+    "required_tables": [
+      "finance_invoices_payable_intercompany",
+      "finance_budget_forecasts_intercompany"
+    ],
+    "retrieved_tables": [
+      "finance_budget_forecasts_intercompany",
+      "finance_invoices_payable_intercompany",
+      "finance_invoices_receivable_intercompany",
+      "finance_budget_forecasts_international",
+      "finance_invoices_receivable_international",
+      "finance_budget_forecasts_intercompany",
+      "finance_invoices_payable_intercompany",
+      "finance_invoices_receivable_intercompany",
+      "finance_budget_forecasts_international",
+      "finance_invoices_receivable_international"
+    ],
+    "matched_tables": [
+      "finance_budget_forecasts_intercompany",
+      "finance_invoices_payable_intercompany"
+    ],
+    "precision_at_k": 0.4,
+    "recall_at_k": 1.0,
+    "k": 5,
+    "latency_ms": 11.031,
+    "std_dev": 0.0,
+    "variance": 0.0,
+    "p50_latency_ms": 11.031,
+    "p95_latency_ms": 11.031,
+    "p99_latency_ms": 11.031,
+    "raw_samples": [
+      11.031
+    ],
+    "token_count": 963,
+    "payload_bytes": 4320
+  },
+  {
+    "query_id": "Q07_TEL_CONTAINERS_ERRORS",
+    "natural_query": "Restarty kontenerów w czasie rzeczywistym i dzienniki błędów http realtime container restarts and realtime http error logs",
+    "required_tables": [
+      "telemetry_container_restarts_realtime",
+      "telemetry_http_error_logs_realtime"
+    ],
+    "retrieved_tables": [
+      "telemetry_container_restarts_realtime",
+      "telemetry_http_error_logs_realtime",
+      "telemetry_container_restarts_anomaly_detected",
+      "telemetry_container_restarts_raw_stream",
+      "telemetry_http_error_logs_anomaly_detected",
+      "telemetry_container_restarts_realtime",
+      "telemetry_http_error_logs_realtime",
+      "telemetry_container_restarts_anomaly_detected",
+      "telemetry_container_restarts_raw_stream",
+      "telemetry_http_error_logs_anomaly_detected"
+    ],
+    "matched_tables": [
+      "telemetry_container_restarts_realtime",
+      "telemetry_http_error_logs_realtime"
+    ],
+    "precision_at_k": 0.4,
+    "recall_at_k": 1.0,
+    "k": 5,
+    "latency_ms": 10.08,
+    "std_dev": 0.0,
+    "variance": 0.0,
+    "p50_latency_ms": 10.08,
+    "p95_latency_ms": 10.08,
+    "p99_latency_ms": 10.08,
+    "raw_samples": [
+      10.08
+    ],
+    "token_count": 991,
+    "payload_bytes": 4477
+  },
+  {
+    "query_id": "Q08_CRM_CASES_ESCALATIONS",
+    "natural_query": "Zgłoszenia wsparcia eskalowane i eskalacje spraw klientów escalated support cases and escalated case escalations",
+    "required_tables": [
+      "crm_support_cases_escalated",
+      "crm_case_escalations_escalated"
+    ],
+    "retrieved_tables": [
+      "crm_case_escalations_escalated",
+      "crm_case_escalations_outbound",
+      "crm_case_escalations_archived",
+      "crm_case_escalations_inbound",
+      "crm_case_escalations_active",
+      "crm_case_escalations_escalated",
+      "crm_case_escalations_outbound",
+      "crm_case_escalations_archived",
+      "crm_case_escalations_inbound",
+      "crm_case_escalations_active"
+    ],
+    "matched_tables": [
+      "crm_case_escalations_escalated"
+    ],
+    "precision_at_k": 0.2,
+    "recall_at_k": 0.5,
+    "k": 5,
+    "latency_ms": 13.136,
+    "std_dev": 0.0,
+    "variance": 0.0,
+    "p50_latency_ms": 13.136,
+    "p95_latency_ms": 13.136,
+    "p99_latency_ms": 13.136,
+    "raw_samples": [
+      13.136
+    ],
+    "token_count": 897,
+    "payload_bytes": 3844
+  },
+  {
+    "query_id": "Q09_INV_ORDERS_INSPECTIONS",
+    "natural_query": "Zlecenia zakupu surowców i kontrole partii materiałów raw materials purchase orders and raw materials batch inspections",
+    "required_tables": [
+      "inventory_purchase_orders_raw_materials",
+      "inventory_batch_inspections_raw_materials"
+    ],
+    "retrieved_tables": [
+      "inventory_batch_inspections_raw_materials",
+      "inventory_purchase_orders_raw_materials",
+      "inventory_work_in_progress_raw_materials",
+      "inventory_quarantine_items_raw_materials",
+      "inventory_bills_of_materials_raw_materials",
+      "inventory_batch_inspections_raw_materials",
+      "inventory_purchase_orders_raw_materials",
+      "inventory_work_in_progress_raw_materials",
+      "inventory_quarantine_items_raw_materials",
+      "inventory_bills_of_materials_raw_materials"
+    ],
+    "matched_tables": [
+      "inventory_purchase_orders_raw_materials",
+      "inventory_batch_inspections_raw_materials"
+    ],
+    "precision_at_k": 0.4,
+    "recall_at_k": 1.0,
+    "k": 5,
+    "latency_ms": 9.641,
+    "std_dev": 0.0,
+    "variance": 0.0,
+    "p50_latency_ms": 9.641,
+    "p95_latency_ms": 9.641,
+    "p99_latency_ms": 9.641,
+    "raw_samples": [
+      9.641
+    ],
+    "token_count": 919,
+    "payload_bytes": 4158
+  },
+  {
+    "query_id": "Q10_HR_LEAVES_PERFORMANCE",
+    "natural_query": "Kwartalne wnioski urlopowe i kwartalne oceny wydajności quarterly leave requests and quarterly performance evaluations",
+    "required_tables": [
+      "hr_leave_requests_quarterly",
+      "hr_performance_evaluations_quarterly"
+    ],
+    "retrieved_tables": [
+      "hr_leave_requests_quarterly",
+      "hr_leave_requests_annual",
+      "hr_leave_requests_hybrid",
+      "hr_leave_requests_probationary",
+      "hr_leave_requests_archived",
+      "hr_leave_requests_quarterly",
+      "hr_leave_requests_annual",
+      "hr_leave_requests_hybrid",
+      "hr_leave_requests_probationary",
+      "hr_leave_requests_archived"
+    ],
+    "matched_tables": [
+      "hr_leave_requests_quarterly"
+    ],
+    "precision_at_k": 0.2,
+    "recall_at_k": 0.5,
+    "k": 5,
+    "latency_ms": 10.546,
+    "std_dev": 0.0,
+    "variance": 0.0,
+    "p50_latency_ms": 10.546,
+    "p95_latency_ms": 10.546,
+    "p99_latency_ms": 10.546,
+    "raw_samples": [
+      10.546
+    ],
+    "token_count": 892,
+    "payload_bytes": 3936
+  }
+]

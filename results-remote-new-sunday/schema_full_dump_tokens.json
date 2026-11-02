@@ -1,0 +1,6 @@
+{
+  "n_tables": 1000,
+  "ddl_tokens_cl100k": 263113,
+  "ddl_chars": 987468,
+  "format": "synthesize_ddl (jednolity format Scenariusza A)"
+}

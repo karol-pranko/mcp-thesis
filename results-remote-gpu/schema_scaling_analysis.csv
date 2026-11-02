@@ -1,0 +1,4 @@
+table_count,baseline_tokens,baseline_latency_ms,mcp_tokens,mcp_latency_ms,trr_percent,baseline_ssf,mcp_ssf,scale_multiplier
+10,945,3.513,925,6.12,2.12,1.0,1.0,1.0
+100,9271,8.755,925,6.12,90.02,9.81,1.0,10.0
+1000,100555,74.389,925,6.12,99.08,10.85,1.0,10.0

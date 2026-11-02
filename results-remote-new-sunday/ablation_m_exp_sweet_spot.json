@@ -1,0 +1,7 @@
+{
+  "m_exp": 2,
+  "recall_pct": 55.123333333333335,
+  "gain_to_next_pp": 0.15666666666665918,
+  "threshold_pp": 0.5,
+  "rule": "Sweet spot M_exp = najmniejsza badana wartość M_exp, dla której wzrost Table-Recall@5 przy przejściu do następnej badanej wartości M_exp jest mniejszy niż próg (threshold_pp) punktów procentowych; jeśli taki punkt nie istnieje, wybierana jest największa badana wartość."
+}

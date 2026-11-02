@@ -1,0 +1,81 @@
+[
+  {
+    "test_name": "mcp_sse_push_ttfe",
+    "approach": "MCP_SSE_PUSH",
+    "latency_ms": 1.135,
+    "token_count": 95,
+    "payload_bytes": 214,
+    "cpu_usage_pct": 248.3,
+    "ram_usage_mb": 1012.04,
+    "success": true,
+    "error_message": null,
+    "extra_metadata": {
+      "protocol": "MCP_SSE",
+      "transport": "Server-Sent Events (Push)",
+      "kafka_topic": "telemetry_test"
+    },
+    "std_dev": 0.19,
+    "variance": 0.036,
+    "p50_latency_ms": 1.135,
+    "p95_latency_ms": 1.256,
+    "p99_latency_ms": 1.266,
+    "raw_samples": [
+      1.269,
+      1.001
+    ]
+  },
+  {
+    "test_name": "rest_polling_1s_penalty",
+    "approach": "REST_POLLING_1S",
+    "latency_ms": 66.653,
+    "token_count": 96,
+    "payload_bytes": 215,
+    "cpu_usage_pct": 7.1,
+    "ram_usage_mb": 1012.33,
+    "success": true,
+    "error_message": null,
+    "extra_metadata": {
+      "protocol": "HTTP/REST",
+      "transport": "Periodic Polling",
+      "polling_interval_s": 0.1,
+      "polling_interval_ms": 100.0,
+      "kafka_topic": "telemetry_test"
+    },
+    "std_dev": 35.444,
+    "variance": 1256.258,
+    "p50_latency_ms": 66.653,
+    "p95_latency_ms": 89.209,
+    "p99_latency_ms": 91.214,
+    "raw_samples": [
+      41.59,
+      91.715
+    ]
+  },
+  {
+    "test_name": "rest_polling_5s_penalty",
+    "approach": "REST_POLLING_5S",
+    "latency_ms": 126.594,
+    "token_count": 93,
+    "payload_bytes": 215,
+    "cpu_usage_pct": 7.5,
+    "ram_usage_mb": 1012.34,
+    "success": true,
+    "error_message": null,
+    "extra_metadata": {
+      "protocol": "HTTP/REST",
+      "transport": "Periodic Polling",
+      "polling_interval_s": 0.5,
+      "polling_interval_ms": 500.0,
+      "kafka_topic": "telemetry_test"
+    },
+    "std_dev": 26.643,
+    "variance": 709.854,
+    "p50_latency_ms": 126.594,
+    "p95_latency_ms": 143.549,
+    "p99_latency_ms": 145.056,
+    "raw_samples": [
+      107.754,
+      145.433
+    ]
+  }
+]

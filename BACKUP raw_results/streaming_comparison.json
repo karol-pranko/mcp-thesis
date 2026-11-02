@@ -1,0 +1,68 @@
+[
+  {
+    "approach": "MCP_SSE_PUSH",
+    "description": "MCP Server-Sent Events (SSE Push)",
+    "polling_interval_ms": 0.0,
+    "ttfe_mean_ms": 1.135,
+    "ttfe_std_dev": 0.19,
+    "ttfe_variance": 0.036,
+    "ttfe_p50_ms": 1.135,
+    "ttfe_p95_ms": 1.256,
+    "ttfe_p99_ms": 1.266,
+    "idle_cpu_pct": 0.0,
+    "idle_ram_mb": 1011.97,
+    "active_cpu_pct": 248.3,
+    "active_ram_mb": 1012.04,
+    "idle_queries_per_sec": 0.0,
+    "wasted_bandwidth_bytes_sec": 0.0,
+    "latency_penalty_ratio": 1.0,
+    "raw_samples": [
+      1.269,
+      1.001
+    ]
+  },
+  {
+    "approach": "REST_POLLING_1S",
+    "description": "REST Polling (Interwał 1s)",
+    "polling_interval_ms": 100.0,
+    "ttfe_mean_ms": 66.653,
+    "ttfe_std_dev": 35.444,
+    "ttfe_variance": 1256.258,
+    "ttfe_p50_ms": 66.653,
+    "ttfe_p95_ms": 89.209,
+    "ttfe_p99_ms": 91.214,
+    "idle_cpu_pct": 1.0,
+    "idle_ram_mb": 1011.98,
+    "active_cpu_pct": 7.1,
+    "active_ram_mb": 1012.33,
+    "idle_queries_per_sec": 9.94,
+    "wasted_bandwidth_bytes_sec": 4524.75,
+    "latency_penalty_ratio": 58.73,
+    "raw_samples": [
+      41.59,
+      91.715
+    ]
+  },
+  {
+    "approach": "REST_POLLING_5S",
+    "description": "REST Polling (Interwał 5s)",
+    "polling_interval_ms": 500.0,
+    "ttfe_mean_ms": 126.594,
+    "ttfe_std_dev": 26.643,
+    "ttfe_variance": 709.854,
+    "ttfe_p50_ms": 126.594,
+    "ttfe_p95_ms": 143.549,
+    "ttfe_p99_ms": 145.056,
+    "idle_cpu_pct": 1.0,
+    "idle_ram_mb": 1012.0,
+    "active_cpu_pct": 7.5,
+    "active_ram_mb": 1012.34,
+    "idle_queries_per_sec": 2.0,
+    "wasted_bandwidth_bytes_sec": 914.0,
+    "latency_penalty_ratio": 111.54,
+    "raw_samples": [
+      107.754,
+      145.433
+    ]
+  }
+]

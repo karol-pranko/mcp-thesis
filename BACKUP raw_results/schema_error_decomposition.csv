@@ -1,0 +1,53 @@
+engine_name,approach,error_category,count,percentage
+Profil A (Constrained CPU),Autorskie (Graph Pruning & Bridges),COLUMN_HALLUCINATION,716,40.134529147982065
+Profil A (Constrained CPU),Autorskie (Graph Pruning & Bridges),JOIN_CONDITION_MISMATCH,28,1.5695067264573992
+Profil A (Constrained CPU),Autorskie (Graph Pruning & Bridges),SEMANTIC_MISMATCH,24,1.345291479820628
+Profil A (Constrained CPU),Autorskie (Graph Pruning & Bridges),SYNTAX_ERROR,308,17.26457399103139
+Profil A (Constrained CPU),Autorskie (Graph Pruning & Bridges),TABLE_MISSING,172,9.641255605381167
+Profil A (Constrained CPU),Autorskie (Graph Pruning & Bridges),TRUNCATION,536,30.04484304932735
+Profil A (Constrained CPU),Baseline A (Full Schema),COLUMN_HALLUCINATION,604,31.656184486373167
+Profil A (Constrained CPU),Baseline A (Full Schema),JOIN_CONDITION_MISMATCH,8,0.41928721174004197
+Profil A (Constrained CPU),Baseline A (Full Schema),SEMANTIC_MISMATCH,48,2.515723270440252
+Profil A (Constrained CPU),Baseline A (Full Schema),SYNTAX_ERROR,256,13.417190775681343
+Profil A (Constrained CPU),Baseline A (Full Schema),TABLE_MISSING,412,21.59329140461216
+Profil A (Constrained CPU),Baseline A (Full Schema),TRUNCATION,580,30.398322851153043
+Profil A (Constrained CPU),Baseline B (Lexical BM25),COLUMN_HALLUCINATION,752,41.68514412416852
+Profil A (Constrained CPU),Baseline B (Lexical BM25),JOIN_CONDITION_MISMATCH,20,1.1086474501108647
+Profil A (Constrained CPU),Baseline B (Lexical BM25),SEMANTIC_MISMATCH,24,1.3303769401330376
+Profil A (Constrained CPU),Baseline B (Lexical BM25),SYNTAX_ERROR,396,21.951219512195124
+Profil A (Constrained CPU),Baseline B (Lexical BM25),TABLE_MISSING,20,1.1086474501108647
+Profil A (Constrained CPU),Baseline B (Lexical BM25),TRUNCATION,592,32.8159645232816
+Profil A (Constrained CPU),Baseline C (Hybrid pgvector+BM25 RRF),COLUMN_HALLUCINATION,776,43.30357142857143
+Profil A (Constrained CPU),Baseline C (Hybrid pgvector+BM25 RRF),JOIN_CONDITION_MISMATCH,24,1.3392857142857142
+Profil A (Constrained CPU),Baseline C (Hybrid pgvector+BM25 RRF),SEMANTIC_MISMATCH,8,0.4464285714285714
+Profil A (Constrained CPU),Baseline C (Hybrid pgvector+BM25 RRF),SYNTAX_ERROR,388,21.651785714285715
+Profil A (Constrained CPU),Baseline C (Hybrid pgvector+BM25 RRF),TABLE_MISSING,32,1.7857142857142856
+Profil A (Constrained CPU),Baseline C (Hybrid pgvector+BM25 RRF),TRUNCATION,564,31.473214285714285
+Profil A (Constrained CPU),Baseline D (Dense-only pgvector k-NN),COLUMN_HALLUCINATION,720,39.473684210526315
+Profil A (Constrained CPU),Baseline D (Dense-only pgvector k-NN),JOIN_CONDITION_MISMATCH,20,1.0964912280701753
+Profil A (Constrained CPU),Baseline D (Dense-only pgvector k-NN),SEMANTIC_MISMATCH,20,1.0964912280701753
+Profil A (Constrained CPU),Baseline D (Dense-only pgvector k-NN),SYNTAX_ERROR,368,20.175438596491226
+Profil A (Constrained CPU),Baseline D (Dense-only pgvector k-NN),TABLE_MISSING,148,8.114035087719298
+Profil A (Constrained CPU),Baseline D (Dense-only pgvector k-NN),TRUNCATION,548,30.043859649122805
+Profil B (Unconstrained Strong),Autorskie (Graph Pruning & Bridges),COLUMN_HALLUCINATION,1396,82.89786223277909
+Profil B (Unconstrained Strong),Autorskie (Graph Pruning & Bridges),JOIN_CONDITION_MISMATCH,8,0.4750593824228029
+Profil B (Unconstrained Strong),Autorskie (Graph Pruning & Bridges),SEMANTIC_MISMATCH,80,4.750593824228028
+Profil B (Unconstrained Strong),Autorskie (Graph Pruning & Bridges),TABLE_MISSING,200,11.87648456057007
+Profil B (Unconstrained Strong),Baseline A (Full Schema),COLUMN_HALLUCINATION,1284,68.15286624203821
+Profil B (Unconstrained Strong),Baseline A (Full Schema),SEMANTIC_MISMATCH,92,4.8832271762208075
+Profil B (Unconstrained Strong),Baseline A (Full Schema),TABLE_MISSING,508,26.963906581740975
+Profil B (Unconstrained Strong),Baseline B (Lexical BM25),COLUMN_HALLUCINATION,1572,91.3953488372093
+Profil B (Unconstrained Strong),Baseline B (Lexical BM25),JOIN_CONDITION_MISMATCH,16,0.9302325581395349
+Profil B (Unconstrained Strong),Baseline B (Lexical BM25),SEMANTIC_MISMATCH,80,4.651162790697675
+Profil B (Unconstrained Strong),Baseline B (Lexical BM25),SYNTAX_ERROR,20,1.1627906976744187
+Profil B (Unconstrained Strong),Baseline B (Lexical BM25),TABLE_MISSING,32,1.8604651162790697
+Profil B (Unconstrained Strong),Baseline C (Hybrid pgvector+BM25 RRF),COLUMN_HALLUCINATION,1544,90.39812646370024
+Profil B (Unconstrained Strong),Baseline C (Hybrid pgvector+BM25 RRF),JOIN_CONDITION_MISMATCH,4,0.234192037470726
+Profil B (Unconstrained Strong),Baseline C (Hybrid pgvector+BM25 RRF),SEMANTIC_MISMATCH,72,4.215456674473068
+Profil B (Unconstrained Strong),Baseline C (Hybrid pgvector+BM25 RRF),SYNTAX_ERROR,12,0.702576112412178
+Profil B (Unconstrained Strong),Baseline C (Hybrid pgvector+BM25 RRF),TABLE_MISSING,76,4.449648711943794
+Profil B (Unconstrained Strong),Baseline D (Dense-only pgvector k-NN),COLUMN_HALLUCINATION,1452,83.6405529953917
+Profil B (Unconstrained Strong),Baseline D (Dense-only pgvector k-NN),JOIN_CONDITION_MISMATCH,8,0.4608294930875576
+Profil B (Unconstrained Strong),Baseline D (Dense-only pgvector k-NN),SEMANTIC_MISMATCH,64,3.686635944700461
+Profil B (Unconstrained Strong),Baseline D (Dense-only pgvector k-NN),SYNTAX_ERROR,8,0.4608294930875576
+Profil B (Unconstrained Strong),Baseline D (Dense-only pgvector k-NN),TABLE_MISSING,204,11.751152073732719

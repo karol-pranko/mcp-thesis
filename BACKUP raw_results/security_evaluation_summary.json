@@ -1,0 +1,15 @@
+{
+  "amr_pct": 100.0,
+  "fpr_pct": 0.0,
+  "asr_raw_pct": 100.0,
+  "asr_protected_pct": 2.0,
+  "prompt_injection_mitigation_pct": 98.0,
+  "ast_validation_latency_mean_ms": 0.2069,
+  "ast_validation_latency_p50_ms": 0.2069,
+  "ast_validation_latency_p95_ms": 0.2111,
+  "ast_validation_latency_std_dev": 0.0066,
+  "context_wrapping_latency_mean_ms": 0.008,
+  "total_malicious_queries_tested": 100,
+  "total_valid_queries_tested": 50,
+  "total_injection_payloads_tested": 50
+}

@@ -1,0 +1,87 @@
+{
+  "network_mode": "emulated",
+  "network_mode_reason": "netem niedostępny (tc=True, net_admin=False); użyto inject_network_delay",
+  "profiles": {
+    "lan": {
+      "measurement_mode": "emulated",
+      "OOB_HTTP_STREAM": {
+        "reported": true,
+        "s_star_bytes": 125799.41043711065,
+        "s_star_kb": 122.85098675499087,
+        "ci95_bytes": [
+          124655.749433223,
+          126750.18960589699
+        ],
+        "fit_window_bytes": [
+          8192,
+          32768,
+          131072,
+          524288
+        ],
+        "bootstrap_resamples": 2000,
+        "seed": 12345,
+        "method": "przecięcie prostych L = a + b*S (MNK na powtórzeniach) w otoczeniu zmiany znaku różnicy median"
+      }
+    },
+    "loopback": {
+      "measurement_mode": "measured_loopback",
+      "OOB_POSIX_SHM": {
+        "reported": true,
+        "s_star_bytes": 13209.60650550103,
+        "s_star_kb": 12.900006353028349,
+        "ci95_bytes": [
+          12505.002778285101,
+          13866.575755884067
+        ],
+        "fit_window_bytes": [
+          2048,
+          8192,
+          32768,
+          131072
+        ],
+        "bootstrap_resamples": 2000,
+        "seed": 12345,
+        "method": "przecięcie prostych L = a + b*S (MNK na powtórzeniach) w otoczeniu zmiany znaku różnicy median"
+      },
+      "OOB_HTTP_STREAM": {
+        "reported": true,
+        "s_star_bytes": 25864.399813713026,
+        "s_star_kb": 25.258202943079127,
+        "ci95_bytes": [
+          25061.190417622485,
+          26732.24246554467
+        ],
+        "fit_window_bytes": [
+          2048,
+          8192,
+          32768,
+          131072
+        ],
+        "bootstrap_resamples": 2000,
+        "seed": 12345,
+        "method": "przecięcie prostych L = a + b*S (MNK na powtórzeniach) w otoczeniu zmiany znaku różnicy median"
+      }
+    },
+    "wan": {
+      "measurement_mode": "emulated",
+      "OOB_HTTP_STREAM": {
+        "reported": true,
+        "s_star_bytes": 1608001.6412633436,
+        "s_star_kb": 1570.314102796234,
+        "ci95_bytes": [
+          1592216.9607538828,
+          1623762.9514887286
+        ],
+        "fit_window_bytes": [
+          131072,
+          524288,
+          2097152,
+          10485760
+        ],
+        "bootstrap_resamples": 2000,
+        "seed": 12345,
+        "method": "przecięcie prostych L = a + b*S (MNK na powtórzeniach) w otoczeniu zmiany znaku różnicy median"
+      }
+    }
+  }
+}

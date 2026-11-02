@@ -1,0 +1,147 @@
+# Pliki tymczasowe i skompilowany kod Pythona
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Pakiety i dystrybucja
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Środowiska wirtualne
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Menedżer pakietów uv
+.uv/
+
+# Testy, analiza statyczna i raporty pokrycia kodu
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+
+# Wagi modeli, pamięć podręczna uczenia maszynowego
+.cache/
+hf_cache/
+.huggingface/
+torch_cache/
+*.pt
+*.bin
+*.onnx
+
+# Zmienne środowiskowe, poświadczenia i klucze
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.secret
+
+# Pliki baz danych i wolumeny lokalne
+pgdata/
+*.db
+*.sqlite3
+
+# Pliki dziennika zdarzeń (logi) i identyfikatory procesów
+*.log
+logs/
+*.pid
+
+# Konfiguracja edytorów, IDE oraz systemów operacyjnych
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+
+# Wygenerowane wyniki benchmarków (z zachowaniem pliku .gitkeep)
+benchmarks/raw_results/*
+!benchmarks/raw_results/.gitkeep
+results/
+
+# Archiwa i pliki spakowane
+*.zip
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+# LaTeX - pliki pomocnicze, tymczasowe i pośrednie kompilacji
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.lot
+*.lof
+*.xdv
+*.glo
+*.ist
+*.slo
+*.acn
+*.acr
+*.alg
+*.glg
+*.gls
+*.app
+*.sls
+*.nav
+*.snm
+*.vrb
+*.idx
+*.ilg
+*.ind
+*.tdo
+*.mw
+*.upa
+*.upb
+*.bbl-SAVE-ERROR
+*.maf
+*.mtc*
+_minted*
+*.pyg
+.latex_build/
+
+
+
+# Wyniki lokalnych testów dymnych (nie są wynikami pracy)
+benchmarks/smoke_results/
+benchmarks/results_*.tar.gz
+benchmarks/raw_results_archive/

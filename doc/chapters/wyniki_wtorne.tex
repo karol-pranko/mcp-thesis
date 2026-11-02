@@ -1,0 +1,161 @@
+% Wygenerowano: benchmarks/analysis_offline/makra_wtorne.py -- NIE EDYTOWAĆ RĘCZNIE.
+% Analizy wtórne danych rundy 20261004T120209_d347d2 (results-remote-new-sunday/derived/, manifest: derived/MANIFEST.json).
+
+% derived/o5_tokenizacja_base64.json (analiza wtórna, niezależna od sprzętu): min tokenów cl100k_base na bajt danych binarnych
+\newcommand{\wynOfiveTokPerByteMin}{0{,}94}
+% derived/o5_tokenizacja_base64.json (analiza wtórna, niezależna od sprzętu): max tokenów na bajt
+\newcommand{\wynOfiveTokPerByteMax}{0{,}97}
+% derived/o5_tokenizacja_base64.json (analiza wtórna, niezależna od sprzętu): tokenów na znak Base64 (środek zakresu)
+\newcommand{\wynOfiveTokPerChar}{0{,}71}
+% derived/o5_tokenizacja_base64.json (analiza wtórna, niezależna od sprzętu): tokeny dla 1 MiB
+\newcommand{\wynOfiveTokOneMiB}{1\,002\,242}
+% derived/o5_tokenizacja_base64.json (analiza wtórna, niezależna od sprzętu): długość przykładowego tokenu kursora
+\newcommand{\wynOfiveCursorChars}{617}
+% derived/o5_tokenizacja_base64.json (analiza wtórna, niezależna od sprzętu): tokeny przykładowego kursora
+\newcommand{\wynOfiveCursorTokens}{418}
+% derived/o1_czulosc_a_ex.json (analiza wtórna): odsetek zapytań z Table-Recall = 1, Graph@5
+\newcommand{\wynOoneFullGraph}{20{,}2}
+% derived/o1_czulosc_a_ex.json (analiza wtórna): odsetek zapytań z Table-Recall = 1, BM25@8
+\newcommand{\wynOoneFullBmEight}{11{,}2}
+% derived/o1_czulosc_a_ex.json (analiza wtórna): odsetek zapytań z Table-Recall = 1, RRF@8
+\newcommand{\wynOoneFullRrfEight}{8{,}0}
+% derived/o1_czulosc_a_ex.json (analiza wtórna): EX przy pełnej czułości, small Graph@5
+\newcommand{\wynOoneExFullGraphSmall}{50{,}5}
+% derived/o1_czulosc_a_ex.json (analiza wtórna): 95% CI Cloppera-Pearsona
+\newcommand{\wynOoneExFullCiGraphSmall}{[40{,}4; 60{,}6]}
+% derived/o1_czulosc_a_ex.json (analiza wtórna): EX przy pełnej czułości, small BM25@8
+\newcommand{\wynOoneExFullBmEightSmall}{67{,}9}
+% derived/o1_czulosc_a_ex.json (analiza wtórna): EX przy pełnej czułości, large Graph@5
+\newcommand{\wynOoneExFullGraphLarge}{43{,}6}
+% derived/o1_czulosc_a_ex.json (analiza wtórna): 95% CI Cloppera-Pearsona
+\newcommand{\wynOoneExFullCiGraphLarge}{[33{,}7; 53{,}8]}
+% derived/o1_czulosc_a_ex.json (analiza wtórna): EX przy pełnej czułości, large BM25@8
+\newcommand{\wynOoneExFullBmEightLarge}{58{,}9}
+% derived/o1_czulosc_a_ex.json (analiza wtórna): EX Graph@5, 3B, ścieżki 2-tabelowe
+\newcommand{\wynOoneExGraphLenTwoSmall}{90{,}7}
+% derived/o1_czulosc_a_ex.json (analiza wtórna): EX Graph@5, 7B, ścieżki 2-tabelowe
+\newcommand{\wynOoneExGraphLenTwoLarge}{82{,}7}
+% derived/o1_czulosc_a_ex.json (analiza wtórna): EX Graph@5, 3B, ścieżki 3-tabelowe
+\newcommand{\wynOoneExGraphLenThreeSmall}{8{,}5}
+% derived/o1_czulosc_a_ex.json (analiza wtórna): EX Graph@5, 7B, ścieżki 3-tabelowe
+\newcommand{\wynOoneExGraphLenThreeLarge}{7{,}0}
+% derived/o2_holm_mcnemar.json (analiza wtórna, korekta Holma w rodzinie 6 testów McNemara na profil): EX[large]: Graph@5 vs BM25@8 (equal_budget)
+\newcommand{\wynOtwoHolmBmEightLarge}{\ensuremath{0{,}147}}
+% derived/o3_pareto.json (analiza wtórna; interpolacja liniowa między zmierzonymi punktami k): czułość BM25 przy liczbie tokenów DDL Graph@5
+\newcommand{\wynOthreeInterpBm}{50{,}4}
+% derived/o3_pareto.json (analiza wtórna; interpolacja liniowa między zmierzonymi punktami k): czułość RRF przy liczbie tokenów DDL Graph@5
+\newcommand{\wynOthreeInterpRrf}{43{,}4}
+% derived/o4_identifier_match.json (analiza wtórna, bez LLM i bez bazy): Table-Recall Identifier-Match
+\newcommand{\wynOfourImRecall}{100{,}0}
+% derived/o4_identifier_match.json (analiza wtórna, bez LLM i bez bazy): Table-Precision Identifier-Match
+\newcommand{\wynOfourImPrecision}{100{,}0}
+% derived/o4_identifier_match.json (analiza wtórna, bez LLM i bez bazy): odsetek pełnej czułości Identifier-Match
+\newcommand{\wynOfourImFull}{100{,}0}
+% derived/o4_identifier_match.json (analiza wtórna, bez LLM i bez bazy): średnia liczba tabel Identifier-Match
+\newcommand{\wynOfourImTables}{3{,}49}
+% derived/o4_identifier_match.json (analiza wtórna, bez LLM i bez bazy): Table-Recall ekspansji nałożonej na BM25@5
+\newcommand{\wynOfourGobRecall}{63{,}0}
+% derived/o4_identifier_match.json (analiza wtórna, bez LLM i bez bazy): Table-Precision ekspansji na BM25@5
+\newcommand{\wynOfourGobPrecision}{36{,}0}
+% derived/o4_identifier_match.json (analiza wtórna, bez LLM i bez bazy): pełna czułość ekspansji na BM25@5
+\newcommand{\wynOfourGobFull}{25{,}2}
+% derived/o4_identifier_match.json (analiza wtórna, bez LLM i bez bazy): średnia liczba tabel ekspansji na BM25@5
+\newcommand{\wynOfourGobTables}{5{,}90}
+% derived/o4_identifier_match.json (analiza wtórna, bez LLM i bez bazy): zgodność replikacji ekspansji z Graph@5 (na 500)
+\newcommand{\wynOfourReplica}{491}
+% derived/o6_stopnie_grafu.json (analiza wtórna, deterministyczny generator schematu): liczba tabel o stopniu >= 15
+\newcommand{\wynOsixHubs}{20}
+% derived/o6_stopnie_grafu.json (analiza wtórna, deterministyczny generator schematu): min stopień tabel centralnych
+\newcommand{\wynOsixHubMin}{30}
+% derived/o6_stopnie_grafu.json (analiza wtórna, deterministyczny generator schematu): max stopień
+\newcommand{\wynOsixHubMax}{33}
+% derived/o6_stopnie_grafu.json (analiza wtórna, deterministyczny generator schematu): liczba pozostałych tabel
+\newcommand{\wynOsixPeriph}{980}
+% derived/o6_stopnie_grafu.json (analiza wtórna, deterministyczny generator schematu): max stopień pozostałych tabel
+\newcommand{\wynOsixPeriphMax}{3}
+% derived/o6_stopnie_grafu.json (analiza wtórna, deterministyczny generator schematu): odsetek tabel o stopniu <= 2
+\newcommand{\wynOsixLeTwo}{86{,}0}
+% derived/o7_model_sstar.json (analiza wtórna, MNK na medianach składowych 512 B - 128 KiB): S* z modelu (22)
+\newcommand{\wynOsevenModel}{12{,}85}
+% derived/o7_model_sstar.json (analiza wtórna, MNK na medianach składowych 512 B - 128 KiB): S* z modelu z weryfikacją SHA w SHM
+\newcommand{\wynOsevenModelVerify}{14{,}1}
+% derived/o7_model_sstar.json (analiza wtórna, MNK na medianach składowych 512 B - 128 KiB): udział składnika resztowego w koszcie jednostkowym In-Band [%]
+\newcommand{\wynOsevenResidShare}{44{,}3}
+% derived/o7_model_sstar.json (analiza wtórna, MNK na medianach składowych 512 B - 128 KiB): przepustowość enc [MiB/s]
+\newcommand{\wynOsevenVEnc}{909}
+% derived/o7_model_sstar.json (analiza wtórna, MNK na medianach składowych 512 B - 128 KiB): przepustowość dec [MiB/s]
+\newcommand{\wynOsevenVDec}{428}
+% derived/o7_model_sstar.json (analiza wtórna, MNK na medianach składowych 512 B - 128 KiB): przepustowość sha_ib [MiB/s]
+\newcommand{\wynOsevenVSha}{1\,583}
+% derived/o7_model_sstar.json (analiza wtórna, MNK na medianach składowych 512 B - 128 KiB): przepustowość copy [MiB/s]
+\newcommand{\wynOsevenVCopy}{2\,508}
+% derived/o7_model_sstar.json (analiza wtórna, MNK na medianach składowych 512 B - 128 KiB): przepustowość read [MiB/s]
+\newcommand{\wynOsevenVRead}{13\,229}
+% derived/o7_model_sstar.json (analiza wtórna, MNK na medianach składowych 512 B - 128 KiB): przepustowość resid_ib [MiB/s]
+\newcommand{\wynOsevenVJson}{268}
+% derived/o7_model_sstar.json (analiza wtórna, MNK na medianach składowych 512 B - 128 KiB): stały narzut In-Band [us]
+\newcommand{\wynOsevenDeltaIb}{13{,}4}
+% derived/o7_model_sstar.json (analiza wtórna, MNK na medianach składowych 512 B - 128 KiB): stały narzut SHM [us]
+\newcommand{\wynOsevenDeltaShm}{103{,}5}
+% derived/o8_lag_bootstrap_blokowy.json (analiza wtórna, ruchome bloki, B = 5000): 95% CI różnicy median POOL-SYNC, M=100 [ms]
+\newcommand{\wynOeightCiHundred}{[-995; -972]}
+% derived/o8_lag_bootstrap_blokowy.json (analiza wtórna, ruchome bloki, B = 5000): autokorelacja rzędu 1 próbek POOL, M=100
+\newcommand{\wynOeightAcfPoolHundred}{-0{,}02}
+% derived/o8_lag_bootstrap_blokowy.json (analiza wtórna, ruchome bloki, B = 5000): 95% CI różnicy median POOL-SYNC, M=500 [ms]
+\newcommand{\wynOeightCiFivehundred}{[-5\,037; -4\,846]}
+% derived/o8b_ogon_lag.json (analiza wtórna; wykluczenie próbek sondy do 20 ms po próbce pamięci): próbki > 50 ms, POOL|4|100
+\newcommand{\wynObSpikesHundred}{46}
+% derived/o8b_ogon_lag.json (analiza wtórna; wykluczenie próbek sondy do 20 ms po próbce pamięci): p99 po wykluczeniu [ms], POOL|4|100
+\newcommand{\wynObPnnExclHundred}{1{,}07}
+% derived/o8b_ogon_lag.json (analiza wtórna; wykluczenie próbek sondy do 20 ms po próbce pamięci): p99 wszystkich próbek [ms], POOL|4|100
+\newcommand{\wynObPnnAllHundred}{148}
+% derived/o8b_ogon_lag.json (analiza wtórna; wykluczenie próbek sondy do 20 ms po próbce pamięci): odsetek wykluczonych próbek, POOL|4|100
+\newcommand{\wynObExclPctHundred}{4{,}1}
+% derived/o8b_ogon_lag.json (analiza wtórna; wykluczenie próbek sondy do 20 ms po próbce pamięci): liczba procesów potomnych, POOL|4|100
+\newcommand{\wynObChildrenHundred}{6}
+% derived/o8b_ogon_lag.json (analiza wtórna; wykluczenie próbek sondy do 20 ms po próbce pamięci): próbki > 50 ms, POOL|4|500
+\newcommand{\wynObSpikesFivehundred}{49}
+% derived/o8b_ogon_lag.json (analiza wtórna; wykluczenie próbek sondy do 20 ms po próbce pamięci): w tym pokrywające się z próbką pamięci, POOL|4|500
+\newcommand{\wynObSpikesNearFivehundred}{47}
+% derived/o8b_ogon_lag.json (analiza wtórna; wykluczenie próbek sondy do 20 ms po próbce pamięci): p99 po wykluczeniu [ms], POOL|4|500
+\newcommand{\wynObPnnExclFivehundred}{1{,}06}
+% derived/o8b_ogon_lag.json (analiza wtórna; wykluczenie próbek sondy do 20 ms po próbce pamięci): p99 wszystkich próbek [ms], POOL|8|100
+\newcommand{\wynObPnnAllEightHundred}{239}
+% derived/o8b_ogon_lag.json (analiza wtórna; wykluczenie próbek sondy do 20 ms po próbce pamięci): liczba procesów potomnych, POOL|8|100
+\newcommand{\wynObChildrenEightHundred}{10}
+% derived/o8b_ogon_lag.json (analiza wtórna; wykluczenie próbek sondy do 20 ms po próbce pamięci): p99 wszystkich próbek [ms], POOL|2|100
+\newcommand{\wynObPnnAllTwoHundred}{99}
+% derived/o8b_ogon_lag.json (analiza wtórna; wykluczenie próbek sondy do 20 ms po próbce pamięci): liczba procesów potomnych, POOL|2|100
+\newcommand{\wynObChildrenTwoHundred}{4}
+% derived/k7_llm_injection_kryterium.json (analiza wtórna zapisanych odpowiedzi modelu): wywołania narzędzia, wariant surowy
+\newcommand{\wynKsevenCallsRaw}{0}
+% derived/k7_llm_injection_kryterium.json (analiza wtórna zapisanych odpowiedzi modelu): wywołania narzędzia, wariant XML
+\newcommand{\wynKsevenCallsXml}{0}
+% derived/k7_llm_injection_kryterium.json (analiza wtórna zapisanych odpowiedzi modelu): wywołania destrukcyjne (oba warianty)
+\newcommand{\wynKsevenDestr}{0}
+% derived/k7_llm_injection_kryterium.json (analiza wtórna zapisanych odpowiedzi modelu): liczba odpowiedzi (oba warianty)
+\newcommand{\wynKsevenN}{26}
+% derived/o9_podsumowanie.json (analiza wtórna): EX zapytań prostych (wszystkie strategie i profile)
+\newcommand{\wynOnineExSimple}{48{,}4}
+% derived/o9_podsumowanie.json (analiza wtórna): EX zapytań średnich
+\newcommand{\wynOnineExMedium}{0{,}0}
+% derived/o9_podsumowanie.json (analiza wtórna): EX zapytań złożonych
+\newcommand{\wynOnineExComplex}{0{,}2}
+% derived/o9_podsumowanie.json (analiza wtórna): liczba rekordów zapytań średnich
+\newcommand{\wynOnineMediumN}{3\,500}
+% derived/o9_podsumowanie.json (analiza wtórna): Valid SQL wśród rekordów średnich
+\newcommand{\wynOnineMediumValid}{3}
+% derived/o9_podsumowanie.json (analiza wtórna): odsetek zapytań średnich z aliasem w HAVING
+\newcommand{\wynOnineHavingPct}{99{,}6}
+% derived/o9_podsumowanie.json (analiza wtórna): odsetek TABLE_MISSING z błędem kolumny w PostgreSQL
+\newcommand{\wynOnineTableMissingColumn}{99{,}0}
+% derived/o9_podsumowanie.json (analiza wtórna): rekordy próby z przyczyną A
+\newcommand{\wynOnineSampleA}{22}
+% derived/o9_podsumowanie.json (analiza wtórna): rekordy próby z przyczyną B
+\newcommand{\wynOnineSampleB}{27}
+% derived/o9_podsumowanie.json (analiza wtórna): rekordy próby z przyczyną C
+\newcommand{\wynOnineSampleC}{5}
+% derived/o9_podsumowanie.json (analiza wtórna): rekordy próby z przyczyną D
+\newcommand{\wynOnineSampleD}{3}
+% derived/o9_podsumowanie.json (analiza wtórna): rekordy próby z przyczyną E
+\newcommand{\wynOnineSampleE}{5}

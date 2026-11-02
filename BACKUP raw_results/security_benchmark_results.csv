@@ -1,0 +1,5 @@
+test_name,approach,latency_ms,token_count,payload_bytes,cpu_usage_pct,ram_usage_mb,success,error_message,extra_metadata,std_dev,variance,p50_latency_ms,p95_latency_ms,p99_latency_ms,raw_samples,engine_name
+sql_sanitizer_amr_evaluation,SQL_AST_SANITIZER,20.689,24,62,106.8,1057.61,True,,"{""test_type"": ""SQL_SANITIZER_AMR"", ""dataset_size"": 100, ""engine"": ""sqlglot_ast_parser""}",0.664,0.441,20.689,21.111,21.149,"[21.158, 20.219]",
+sql_sanitizer_fpr_evaluation,SQL_AST_SANITIZER,40.837,25,59,102.2,1058.34,True,,"{""test_type"": ""SQL_SANITIZER_FPR"", ""dataset_size"": 50, ""engine"": ""sqlglot_ast_parser""}",0.67,0.448,40.837,41.264,41.302,"[41.311, 40.364]",
+prompt_injection_raw_asr,PROMPT_INJECTION_RAW,0.011,26,66,204.7,1058.35,True,,"{""test_type"": ""PROMPT_INJECTION_ASR_RAW"", ""protection"": ""NONE_RAW_TEXT"", ""dataset_size"": 50}",0.008,0.0,0.011,0.015,0.016,"[0.016, 0.005]",
+prompt_injection_protected_asr,CONTEXT_DELIMITERS_PROTECTED,0.399,26,63,0.0,1058.35,True,,"{""test_type"": ""PROMPT_INJECTION_ASR_PROTECTED"", ""protection"": ""CONTEXT_DELIMITERS_XML"", ""dataset_size"": 50}",0.04,0.002,0.399,0.424,0.426,"[0.427, 0.371]",

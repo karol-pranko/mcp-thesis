@@ -1,0 +1,96 @@
+=== (1) Warianty i liczności ===
+top_k       3    5    10   20
+eng s                        
+A   A      500  500  500  500
+    BM25   500  500  500  500
+    Dense  500  500  500  500
+    Graph  500  500  500  500
+    RRF    500  500  500  500
+B   A      500  500  500  500
+    BM25   500  500  500  500
+    Dense  500  500  500  500
+    Graph  500  500  500  500
+    RRF    500  500  500  500
+
+Średnia liczba tokenów promptu (prompt_tokens == ddl_tokens: instrukcja + DDL + pytanie):
+True
+top_k      3       5       10      20
+s                                    
+A      1032.2  1032.2  1032.2  1032.2
+BM25    381.2   492.1   784.3  1435.4
+Dense   380.9   491.8   783.5  1393.9
+Graph  1486.1  2218.8  3977.5  7247.7
+RRF     381.3   493.7   789.6  1423.2
+
+Min/max tokenów promptu Baseline A: {'min': 945, 'max': 1136}
+
+schema_scaling_analysis.csv (pełny zrzut DDL, benchmark_schema.py):
+  table_count  baseline_tokens  baseline_latency_ms  mcp_tokens  mcp_latency_ms  trr_percent  baseline_ssf  mcp_ssf  scale_multiplier
+          10              945                4.882         925            10.6         2.12          1.00      1.0               1.0
+         100             9271                9.963         925            10.6        90.02          9.81      1.0              10.0
+        1000           100555               65.107         925            10.6        99.08         10.85      1.0              10.0
+Redukcja względem pełnego zrzutu: 1 - 2218.8/100555 = 97.79%
+
+=== (2) Czy wyniki LLM dla k != 5 są kopiami k = 5? ===
+  generated_sql: identyczne we wszystkich 10 grupach = True
+  valid_sql: identyczne we wszystkich 10 grupach = True
+  ex_match: identyczne we wszystkich 10 grupach = True
+  error_category: identyczne we wszystkich 10 grupach = True
+  latency_ms: identyczne we wszystkich 10 grupach = True
+
+=== (3) Ablacja M_exp vs wyniki główne ===
+ m_exp  table_recall_at_5  avg_ddl_tokens  avg_graph_latency_ms  num_queries
+     0             0.3924          1622.5                 21.97          500
+     1             0.5243          1894.1                 20.68          500
+     2             0.5448          1988.0                 20.72          500
+     3             0.5448          1998.4                 20.60          500
+     5             0.5448          1999.0                 20.62          500
+  RRF@5 recall = 0.3924 (ablacja M_exp=0: 0.3924)
+  Graph@5 recall = 0.5448 (ablacja M_exp=3: 0.5448)
+  Graph@5 prompt_tokens = 2218.8; ablacja M_exp=3 avg_ddl_tokens (sam blok DDL) = 1998.4; różnica = instrukcja + pytanie
+  Uwaga: ablacja liczy count_tokens(ddl) bez instrukcji i pytania (bench_schema_quality.py l. 1364), a tabela 7 liczy cały prompt (l. 883, 1217); baseline'y B/C/D używają _format_ddl_for_tables (do 10 kolumn typu TEXT), wariant autorski _format_compact_enterprise_ddl (opisy, wszystkie kolumny, typy, FK).
+
+=== (4) Pochodzenie llm_inference_latencies.csv (rys. 10) ===
+  ttft_mcp: max |plik - np.random(seed=2026)| = 0.000000
+  le2e_mcp: max |plik - np.random(seed=2026)| = 0.000000
+  ttft_base: max |plik - np.random(seed=2026)| = 0.000000
+  le2e_base: max |plik - np.random(seed=2026)| = 0.000000
+  Mediany w pliku: TTFT 34.652 vs 1382.6644999999999 ; L_E2E 348.2425 vs 2428.4665
+
+=== (5) Odrzucenia 'vacuous truth' (GT bez wierszy) ===
+   0 z 20000
+   EX = True (k = 5, oba profile, wszystkie strategie): 539
+   Liczba wierszy GT w komunikatach SEMANTIC_MISMATCH (k = 5): n = 128, min = 5, mediana = 33, max = 50 (zapytania GT mają LIMIT 50)
+
+=== (5b) Tokeny promptu przy k = 5 a okno kontekstu (num_ctx nie ustawiono) ===
+         mean   max
+s                  
+A      1032.2  1136
+BM25    492.1   635
+Dense   491.8   665
+Graph  2218.8  3085
+RRF     493.7   686
+   prompty > 2048 tokenów: {'A': 0, 'BM25': 0, 'Dense': 0, 'Graph': 361, 'RRF': 0}
+   prompty > 4096 tokenów: {'A': 0, 'BM25': 0, 'Dense': 0, 'Graph': 0, 'RRF': 0}
+
+=== (5c) Czas wywołania LLM latency_ms przy k = 5 [ms] (jedyny rzeczywisty pomiar czasu w Scenariuszu A) ===
+eng  s    
+A    A        11400.4
+     BM25     12606.6
+     Dense    12546.0
+     Graph    12704.9
+     RRF      12508.8
+B    A        17303.7
+     BM25     18094.6
+     Dense    18495.1
+     Graph    19096.0
+     RRF      18294.5
+Name: latency_ms, dtype: float64
+
+=== (6) |T_final| wariantu autorskiego ===
+       count    mean    std   min   25%   50%   75%   max
+top_k                                                    
+3      500.0   3.552  0.623   3.0   3.0   3.0   4.0   5.0
+5      500.0   6.044  0.784   5.0   5.0   6.0   7.0   8.0
+10     500.0  11.918  0.875  10.0  11.0  12.0  13.0  13.0
+20     500.0  22.706  0.590  20.0  23.0  23.0  23.0  23.0

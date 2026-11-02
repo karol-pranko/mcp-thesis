@@ -1,0 +1,502 @@
+% !TEX root = ../main.tex
+\chapter{Projekt systemu integracji MCP z~hurtownią danych}
+\label{chap:projekt}
+
+Rozdział przedstawia projekt architektoniczny systemu integracji wielkich modeli językowych z~analitycznymi składami danych za pośrednictwem protokołu MCP~\cite{mcp_spec} i~odpowiada na pytanie, co i~dlaczego zaprojektowano: architekturę logiczną bramy pośredniczącej, modele formalne (paginacja keyset, ekspansja grafowa o~tabele mostkujące, transfer Out-of-Band, perymetr AST), analizę złożoności oraz kompromisy inżynierskie. Szczegóły implementacji opisano w~Rozdziale~\ref{chap:implementacja}, a~wyniki pomiarów w~Rozdziale~\ref{chap:wyniki}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Architektura logiczna i model referencyjny bramy pośredniczącej}
+\label{sec:projekt_architektura}
+
+\subsection{Koncepcja trójwarstwowej architektury systemu}
+\label{subsec:projekt_trojwarstwowa}
+
+W tradycyjnych rozwiązaniach integrujących modele językowe ze środowiskami bazodanowymi powszechnie stosuje się model bezpośredniego sprzężenia, w którym agent posiada bezpośredni dostęp do silnika relacyjnego, a wygenerowane zapytania SQL są wykonywane bez uprzedniej inspekcji semantycznej. Podejście to rodzi zagrożenia w~obszarze integralności danych, braku determinizmu oraz wycieku poufnych poświadczeń. W niniejszej pracy zaprojektowano trójwarstwową architekturę referencyjną, wprowadzającą wyspecjalizowaną bramę pośredniczącą jako deterministyczny perymetr kontrolny pomiędzy przestrzenią wnioskowania probabilistycznego a deterministycznym składem danych.
+
+Architekturę logiczną tworzą trzy ściśle wyodrębnione warstwy:
+\begin{enumerate}
+    \item \textbf{Warstwa Hosta i Klienta LLM:} Obejmuje proces nadrzędny orkiestratora agentowego działającego zgodnie z paradygmatem ReAct~\cite{yao2023react}, model językowy oraz klienta protokołu MCP. Warstwa ta odpowiada za dekompozycję zadania analitycznego w języku naturalnym, zarządzanie tokiem rozumowania oraz podejmowanie decyzji o wywołaniu dostępnych narzędzi;
+    \item \textbf{Warstwa Bramy Pośredniczącej (Middleware Gateway):} Autorski serwer pośredniczący protokołu MCP, stanowiący centralny węzeł koordynacji, walidacji i optymalizacji zapytań. Komponent ten hermetyzuje logikę dostępu do składu danych, zarządza asynchronicznymi pulami połączeń, realizuje dynamiczną inspekcję składniową zapytań w wydzielonej puli procesów potomnych, adaptacyjną paginację kursorową, wektorowe odkrywanie schematu z ekspansją grafową o tabele mostkujące oraz separację transmisji binarnej;
+    \item \textbf{Warstwa Składu Danych:} Niejednorodne środowisko przechowywania i przetwarzania danych analitycznych. Obejmuje relacyjno-wektorowy silnik PostgreSQL 16 z rozszerzeniem \texttt{pgvector}~\cite{pgvector} (przechowujący tabele analityczne, metadane systemowe oraz indeksy HNSW) oraz broker Apache Kafka~\cite{kreps2011kafka} w~trybie KRaft (metadane klastra utrzymywane przez kworum kontrolerów oparte na algorytmie Raft), odpowiedzialny za buforowanie strumieni zdarzeń telemetrycznych.
+\end{enumerate}
+
+\subsection{Model separacji domen i bezpieczeństwa}
+\label{subsec:projekt_separacja_domen}
+
+Podstawowym założeniem projektowym jest separacja domen: model LLM jest komponentem z natury niezaufanym i podlega zasadzie najmniejszych uprawnień (ang. \emph{Principle of Least Privilege}).
+
+Separacja ról obejmuje: izolację poświadczeń i połączeń sieciowych (klient MCP i model nie znają adresacji, topologii bazy ani poświadczeń; sesjami TCP i pulą połączeń zarządza wyłącznie brama), kontrolę interfejsu narzędziowego (komunikacja wyłącznie przez zdefiniowane narzędzia i zasoby MCP z walidacją parametrów według JSON Schema) oraz perymetr weryfikacji semantycznej (każde zapytanie modelu jest traktowane jako potencjalnie wrogie i poddawane analizie AST przed wykonaniem).
+
+\subsection{Model przepływu komunikatów synchronicznych i asynchronicznych}
+\label{subsec:projekt_przeplyw_komunikatow}
+
+Wymiana informacji pomiędzy poszczególnymi węzłami systemu rozgranicza dwa ortogonalne tryby komunikacji: synchroniczne przetwarzanie kwerend narzędziowych w protokole JSON-RPC 2.0~\cite{jsonrpc2010,rfc8259} (w~implementacji referencyjnej przez transport \texttt{stdio}; specyfikacja dopuszcza także Streamable HTTP) oraz asynchroniczne przekazywanie zdarzeń telemetrycznych buforowanych w~brokerze Apache Kafka. W~implementacji referencyjnej zdarzenia telemetryczne z~brokera Kafka buforowane są w~pamięci podręcznej i~udostępniane klientowi jako zasoby protokołu MCP (odczytywane na żądanie).
+
+Strukturę logiczną komponentów bramy middleware, separację domen oraz model przepływu komunikatów przedstawiono na rysunku~\ref{fig:architektura_referencyjna}.
+
+\begin{figure}[!htbp]
+\centering
+\scalebox{0.85}{%
+\begin{tikzpicture}[
+    box/.style={
+        rectangle, 
+        draw=black!75, 
+        rounded corners=3pt, 
+        thick, 
+        align=center, 
+        fill=white, 
+        inner sep=6pt
+    },
+    layer/.style={
+        rectangle, 
+        draw=black!45, 
+        dashed, 
+        rounded corners=6pt, 
+        fill=black!2
+    },
+    arrow/.style={-{Stealth[scale=0.95]}, thick},
+    darrow/.style={{Stealth[scale=0.95]}-{Stealth[scale=0.95]}, thick},
+    ctrl/.style={color=blue!75!black},
+    stream/.style={color=green!50!black},
+    db/.style={color=red!70!black}
+]
+
+
+% 1. Duży prostokąt
+\node (box1) [draw, minimum height=199pt, minimum width=352pt, fill=cyan!80!magenta!3, rounded corners=15pt] at (-0.54,16.92) {};
+\node[anchor=north west, align=left, font=\bfseries\small, text=black!85, xshift=12pt, yshift=-12pt] 
+  at (box1.north west) {Warstwa Hosta LLM i Klienta Agentowego};
+
+
+% 2. Duży prostokąt
+\node (box2) [draw, minimum height=253pt, minimum width=438pt, fill=cyan!80!magenta!3, rounded corners=15pt] at (-0.98,7.65) {};
+\node[anchor=north west, align=left, font=\bfseries\small, text=black!85, xshift=12pt, yshift=-12pt] 
+  at (box2.north west) {Brama Pośrednicząca MCP (Middleware Gateway)};
+
+% 3. Duży prostokąt
+\node (box3) [draw, minimum width=495pt, fill=cyan!80!magenta!3, rounded corners=15pt, minimum height=95pt] at (-1,0.67) {};
+\node[anchor=north west, align=left, font=\bfseries\small, text=black!85, xshift=12pt, yshift=-12pt] 
+  at (box3.north west) {Warstwa Składu Danych};
+
+% =============================================================================
+% 1. WARSTWA HOSTA I AGENTA
+% =============================================================================
+\node[box, fill=blue!10, text width=210pt] (agent) at (0, 18.2) {
+    \textbf{Środowisko Hosta LLM}\\
+    \small Orkiestrator Agenta\\
+    \scriptsize Zarządzanie Tokiem Rozumowania i Oknem Kontekstu
+};
+
+\node[box, fill=blue!5, text width=210pt] (mcp_client) at (0, 14.4) {
+    \textbf{Klient Protokołu MCP}\\
+    \small Dyspozytor Narzędzi i Zasobów\\
+    \scriptsize Transport: \texttt{stdio} (projekt: także HTTP)
+};
+
+% =============================================================================
+% 2. BRAMA POŚREDNICZĄCA
+% =============================================================================
+\node[box, fill=orange!8, text width=3.3cm, minimum height=1.6cm] (sanitizer) at (-6.36, 9.8) {
+    \textbf{SQL Sanitizer Pool}\\
+    \scriptsize Izolacja \texttt{ProcessPool}\\
+    \scriptsize Deterministyczna walidacja AST
+};
+
+\node[box, fill=orange!12, text width=6.3cm, minimum height=1.6cm] (dispatcher) at (1.81, 9.8) {
+    \textbf{Protocol Dispatcher (JSON-RPC 2.0)}\\
+    \small Centralny Węzeł Koordynacji\\
+    \scriptsize Zarządzanie Pulą Połączeń
+};
+
+% =============================================================================
+% 3. BRAMA POŚREDNICZĄCA
+% =============================================================================
+\node[box, fill=orange!8, text width=2.6cm, minimum height=2.1cm] (schema_engine) at (-5.1, 5.2) {
+    \textbf{JIT Schema}\\
+    \textbf{Engine}\\
+};
+
+\node[box, fill=orange!8, text width=2.6cm, minimum height=2.1cm] (pagination) at (-1.7, 5.2) {
+    \textbf{Smart}\\
+    \textbf{Paginator}\\
+    \scriptsize Estymator Welforda
+};
+
+\node[box, fill=orange!8, text width=2.6cm, minimum height=2.1cm] (oob_mgr) at (1.7, 5.2) {
+    \textbf{Zarządca}\\
+    \textbf{Out-of-Band}\\
+    \scriptsize POSIX SHM\\
+    \scriptsize podpisany URI
+};
+
+\node[box, fill=orange!8, text width=2.6cm, minimum height=2.1cm] (kafka_mgr) at (5.1, 5.2) {
+    \textbf{Konsument}\\
+    \textbf{Kafka}\\
+    \scriptsize Klient \texttt{aiokafka}\\
+    \scriptsize Detekcja Anomalii
+};
+
+% =============================================================================
+% 4. WARSTWA SKŁADU DANYCH
+% =============================================================================
+\node[box, fill=green!10, text width=9.6cm, minimum height=1.5cm] (pg_db) at (-1.8, 0.26) {
+    \textbf{Relacyjno-Wektorowy Skład Danych PostgreSQL}\\
+    \small Tabele Analityczne, Metadane Schematu oraz Indeksy Wektorowe HNSW
+};
+
+\node[box, fill=green!10, text width=2.8cm, minimum height=1.5cm] (kafka_broker) at (5.1, 0.26) {
+    \textbf{Apache Kafka}\\
+    \textbf{(KRaft)}\\
+    \scriptsize Klaster Zdarzeń
+};
+
+% =============================================================================
+% RELACJE I PRZEPŁYWY KOMUNIKACYJNE
+% =============================================================================
+% Host <-> Klient MCP (duży prześwit, wyraźna strzałka dwukierunkowa)
+\draw[darrow] (agent) -- node[right=4pt, font=\small\sffamily] {Prompty / działania (ReAct)} (mcp_client);
+
+% Klient MCP <-> Dispatcher (długi kanał sterujący z pełnym prześwitem)
+\draw[darrow, ctrl] (mcp_client.south -| dispatcher) -- 
+    node[left=4pt, ctrl, pos=0.36, align=right] {Kanał sterujący\\JSON-RPC 2.0 (\texttt{stdio})} (dispatcher.north);
+
+% Dispatcher <-> SQL Sanitizer (pozioma weryfikacja AST)
+\draw[darrow] (sanitizer.east) -- node[above=3pt] {Weryfikacja AST} (dispatcher.west);
+
+% Szyna dystrybucyjna w dół z Dispatchera
+\draw[thick] (dispatcher.south) -- ++(0,-1.4) coordinate (bus);
+\draw[arrow] (bus) -| (schema_engine.north);
+\draw[arrow] (bus) -| (pagination.north);
+\draw[arrow] (bus) -| (oob_mgr.north);
+\draw[arrow] (bus) -| (kafka_mgr.north);
+
+% Silniki analityczne -> PostgreSQL (duża przestrzeń na pionowe etykiety)
+\draw[darrow, db] (schema_engine.south) -- node[left=3pt, db] {Odczyt DDL} (schema_engine.south |- pg_db.north);
+\draw[darrow, db] (pagination.south) -- node[left=3pt, db, align=right, pos=0.3] {Kwerendy\\keyset} (pagination.south |- pg_db.north);
+\draw[darrow, db] (oob_mgr.south) -- node[left=3pt, db, align=right, pos=0.3] {Deskryptory\\obiektów} (oob_mgr.south |- pg_db.north);
+
+% Broker Kafka -> Konsument Kafka (czysty pion w górę)
+\draw[arrow] (kafka_broker.north) -- node[right=3pt, pos=0.54] {Strumień zdarzeń} (kafka_mgr.south);
+
+% SSE Push z Kafki do Klienta MCP (szeroki, elegancki łuk omijający bramę)
+\draw[arrow, stream] (kafka_mgr.east) to[out=40, in=-10, looseness=1.0] 
+    node[right=1pt, pos=0.45, stream, align=left, font=\scriptsize\sffamily] {Zdarzenia\\telemetrii\\(Zasoby MCP)} (mcp_client.east);
+
+
+\end{tikzpicture}%
+}
+\caption[Diagram logiczny trójwarstwowej architektury bramy MCP]{Diagram komponentów logicznych trójwarstwowej architektury referencyjnej bramy pośredniczącej MCP}
+\label{fig:architektura_referencyjna}
+\end{figure}
+
+
+
+Formalną specyfikację kontraktu interfejsu narzędziowego oraz zasobów udostępnianych modelowi językowemu przez bramę pośredniczącą przedstawiono w tabeli~\ref{tab:mcp_interface_contract}.
+
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption[Kontrakt interfejsu narzędziowego bramy MCP]{Główne narzędzia MCP bramy pośredniczącej zgodnie z~implementacją (\texttt{src/mcp\_server/server.py}); pominięto narzędzie diagnostyczne \texttt{ping\_database} oraz zasoby i~narzędzie telemetrii Kafka. Błędy walidacji argumentów względem JSON Schema obsługuje biblioteka FastMCP}
+\label{tab:mcp_interface_contract}
+\begin{tabular}{p{2.8cm} p{3.4cm} p{4.6cm} p{3.0cm}}
+\toprule
+\textbf{Narzędzie} & \textbf{Parametry wejściowe} & \textbf{Zwracany wynik} & \textbf{Sygnalizacja błędów} \\
+\midrule
+\texttt{execute\_read\_only\_} \texttt{query} &
+\texttt{query}: string \newline
+\texttt{max\_limit}: int (dom. 1000) \newline
+\texttt{transport\_mode}: string (dom. \texttt{IN\_BAND}) &
+\texttt{status}, rekordy w~znacznikach \texttt{<untrusted\_db\_record>}, liczba wierszy, czas walidacji; przy transporcie OOB -- deskryptor zamiast rekordów &
+Odrzucenie przez AST: zwykły wynik z~\texttt{status = "błąd"} i~komunikatem (bez \texttt{isError}); błąd wykonania SQL: wynik z~\texttt{status = "błąd"} \\
+\addlinespace
+\texttt{execute\_query\_} \texttt{paginated} &
+\texttt{table\_name}: string \newline
+\texttt{cursor}: string (opc.) \newline
+\texttt{order\_by}: string (opc.) \newline
+\texttt{token\_budget}: int (dom. 2000) \newline
+\texttt{max\_records}: int (dom. 500) \newline
+\texttt{use\_snapshot}: bool &
+Rekordy strony, \texttt{next\_cursor} (wzór~\eqref{eq:cursor_token_format}), \texttt{has\_more}, \texttt{tokens\_used}, wynik kontroli indeksu, \texttt{snapshot\_id} &
+Nieprzechwycone wyjątki (np. wygasła migawka, niezgodny indeks przy \texttt{strict\_index\_check}) zamieniane przez FastMCP na wynik z~\texttt{isError: true} \\
+\addlinespace
+\texttt{search\_schema} &
+\texttt{query}: string \newline
+\texttt{top\_k}: int (dom. 5) \newline
+\texttt{max\_expanded\_tables}: int (dom. 3) &
+DDL wybranych tabel wraz z~tabelami mostkującymi ($M_{\text{exp}}$) &
+Wyjątki jak wyżej (\texttt{isError: true}) \\
+\addlinespace
+\texttt{retrieve\_out\_of\_} \texttt{band\_payload} &
+\texttt{descriptor}: obiekt &
+Ładunek odczytany z~segmentu SHM lub pliku magazynu obiektów po weryfikacji SHA-256 &
+\texttt{status = "błąd"} przy braku obiektu lub niezgodności skrótu \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Specyfikacja MCP zaleca sygnalizowanie błędów wykonania narzędzia polem \texttt{isError: true} w~wyniku, tak aby model mógł je rozpoznać i~skorygować wywołanie~\cite{mcp_spec_20250618}. Implementacja zwraca odrzucenie przez filtr AST jako zwykły wynik z~polem \texttt{status}, co jest czytelne dla modelu, lecz niezgodne z~tym zaleceniem; ujednolicenie sygnalizacji błędów pozostaje kierunkiem zmian.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Formalizacja mechanizmu adaptacyjnej paginacji kursorowej}
+\label{sec:projekt_smart_pagination}
+
+Ze względu na asymptotyczną degradację wydajnościową metody przesunięcia pozycyjnego ($\mathcal{O}(N)$) oraz ryzyko występowania anomalii odczytu (rekordy fantomowe i pominięte), w architekturze bramy zaimplementowano deterministyczną paginację kursorową keyset.
+
+\subsection{Formalizacja techniki Keyset Pagination dla kluczy kompozytowych}
+\label{subsec:projekt_keyset_formalizacja}
+
+W hurtowniach danych porządek analityczny definiowany jest najczęściej na wektorze atrybutów biznesowych (np. data operacji, status transakcji, kwota). Ponieważ kolumny te rzadko cechują się unikalnością, deterministyczny porządek wymaga sformalizowania wektora kompozytowego:
+\begin{equation}
+\mathbf{K} = (c_1, c_2, \dots, c_m, \text{id})
+\label{eq:keyset_vector}
+\end{equation}
+gdzie $c_i$ reprezentują kryteria biznesowe, a unikalny klucz główny $\text{id}$ pełni funkcję deterministycznego rozjemcy (ang. \emph{tie-breaker}), gwarantując ścisłą monotoniczność relacji porządkowej.
+
+Dla jednorodnego kierunku sortowania (\texttt{ASC}) i kolumn z klauzulą \texttt{NOT NULL} predykat kursorowy wyraża się w zwartej postaci porównania wierszowego:
+\begin{equation}
+(c_1, c_2, \dots, c_m, \text{id}) > (v_1, v_2, \dots, v_m, v_{\text{id}})
+\label{eq:keyset_row_value}
+\end{equation}
+gdzie wektor $\mathbf{v} = (v_1, \dots, v_m, v_{\text{id}})$ reprezentuje wartości graniczne ostatniego rekordu poprzedniej paczki. Konstrukcja ta jest bezpośrednio mapowana przez optymalizator bazy danych na przeszukanie indeksu B-drzewa o~koszcie $\mathcal{O}(\log N + K)$, niezależnym od głębokości stronicowania.
+
+W przypadku ogólnym, dopuszczającym mieszane kierunki sortowania oraz obecność wartości pustych (\texttt{NULLS FIRST / LAST}), warunek kursorowy przyjmuje postać dysjunkcyjnej postaci normalnej (ang. \emph{Disjunctive Normal Form}, DNF):
+\begin{equation}
+\bigvee_{i=1}^{m} \left( \bigwedge_{j=1}^{i-1} (c_j \doteq v_j) \land \text{CMP}_i(c_i, v_i) \right) \lor \left( \bigwedge_{j=1}^{m} (c_j \doteq v_j) \land (\text{id} > v_{\text{id}}) \right)
+\label{eq:keyset_dnf}
+\end{equation}
+gdzie $c_j \doteq v_j$ oznacza równość traktującą dwie wartości \texttt{NULL} jako równe (\texttt{c\_j IS NOT DISTINCT FROM v\_j}), a~predykat $\text{CMP}_i(c_i, v_i)$ wyraża ścisłe następstwo w~porządku kolumny $c_i$ z~uwzględnieniem kierunku i~polityki wartości pustych. Przykładowo dla kolumny rosnącej z~klauzulą \texttt{NULLS LAST}:
+\begin{equation}
+\text{CMP}_i(c_i, v_i) = \begin{cases}
+(c_i > v_i) \lor (c_i \text{ IS NULL}) & \text{dla } v_i \ne \text{NULL}, \\
+\text{fałsz} & \text{dla } v_i = \text{NULL},
+\end{cases}
+\label{eq:keyset_nulls_last}
+\end{equation}
+ponieważ przy \texttt{NULLS LAST} żadna wartość nie następuje po \texttt{NULL}, a~wiersze z~$c_i$ \texttt{IS NULL} są wtedy obsługiwane przez przypadek równości $c_i \doteq v_i$ w~kolejnych członach alternatywy. Dla \texttt{NULLS FIRST} sytuacja jest symetryczna: przy $v_i = \text{NULL}$ następstwem jest $c_i$ \texttt{IS NOT NULL}, a~przy $v_i \ne \text{NULL}$ samo porównanie $c_i > v_i$ (dla \texttt{DESC}: $c_i < v_i$). W~implementacji równość $c_j \doteq v_j$ jest generowana jako $c_j$ \texttt{IS NULL} dla $v_j = \text{NULL}$ i~jako $c_j = v_j$ w~przeciwnym razie, co jest jej równoważnikiem pozwalającym planerowi użyć indeksu. Poprawność wszystkich kombinacji \texttt{ASC}/\texttt{DESC} $\times$ \texttt{NULLS FIRST}/\texttt{LAST}, także z~granicą strony na wartości \texttt{NULL}, potwierdzono testem jednostkowym wykonującym generowane zapytania na danych z~wartościami pustymi i~remisami (\texttt{tests/test\_keyset\_nulls.py}).
+Postać DNF jest poprawna semantycznie, jednak zapisana jako pojedyncza klauzula \texttt{WHERE} z~operatorami \texttt{OR} nie jest rozpoznawana przez planer PostgreSQL jako warunek indeksowy: ewaluowana jest jako filtr na wierszach zwracanych przez skan indeksu od jego początku, co prowadzi do kosztu $\mathcal{O}(M)$ proporcjonalnego do liczby pominiętych krotek, a~nie $\mathcal{O}(\log N + K)$ (weryfikacja empiryczna w~podrozdziale~\ref{subsec:wyniki_predykat}). Dlatego w~implementacji alternatywy równania~\eqref{eq:keyset_dnf} rozbito na rozłączne gałęzie koniunkcyjne $B_1, \dots, B_b$ -- w~szczególności alternatywa $(c_i > v_i) \lor (c_i \text{ IS NULL})$ staje się dwiema osobnymi gałęziami. Każda gałąź jest wykonywana jako osobne zapytanie z~własną klauzulą \texttt{ORDER BY} i~\texttt{LIMIT}, a~wyniki są łączone operatorem \texttt{UNION ALL} i~ponownie ograniczane do $K$ krotek:
+\begin{equation}
+Q_{\text{page}} = \operatorname{Top}_K\!\left( \bigcup_{i=1}^{b} \operatorname{Top}_K\bigl(\sigma_{B_i}(R)\bigr) \right), \qquad b \le 2m + 1,
+\label{eq:keyset_union}
+\end{equation}
+gdzie $\operatorname{Top}_K$ oznacza $K$ pierwszych krotek w~porządku $\mathbf{K}$, a~$m$ liczbę kolumn biznesowych. Ponieważ gałęzie są rozłączne, wynik nie zawiera duplikatów, a~globalnych $K$ pierwszych krotek zawsze leży w~sumie $K$ pierwszych krotek każdej z~gałęzi, więc wynik jest identyczny jak dla jednej klauzuli DNF. Każda gałąź ma prosty predykat (np. $c_1 < v_1$ lub $c_1 = v_1 \land c_2 > v_2$) wykorzystywany jako warunek indeksowy, co daje łączny koszt $\mathcal{O}\bigl(b\,(\log N + K)\bigr) = \mathcal{O}(\log N + K)$ dla stałego $m$, niezależny od głębokości stronicowania. Warunkiem koniecznym jest fizyczna obecność wielokolumnowego indeksu B-drzewa pokrywającego uporządkowaną sekwencję atrybutów $(c_1, c_2, \dots, c_m, \text{id})$ z~tymi samymi kierunkami sortowania i~polityką \texttt{NULLS}. Dekompozycję stosuje się tylko dla porządku wielokolumnowego i~gdy kolumny sortowania występują na liście projekcji; w~pozostałych przypadkach generowany jest pojedynczy predykat DNF.
+
+\subsection{Model bezstanowego kursora nieprzejrzystego (Opaque Cursor Token)}
+\label{subsec:projekt_opaque_cursor}
+
+Bezpośrednie udostępnienie surowych parametrów kursorowych modelowi językowemu stwarza ryzyko manipulacji stanem logicznym oraz zafałszowania predykatów. Ponadto protokół MCP wymusza bezstanową semantykę wywołań narzędziowych. W bramie middleware zaimplementowano model bezstanowego kursora nieprzejrzystego.
+
+Ładunek logiczny kursora definiuje krotka $\mathcal{C}$:
+\begin{equation}
+\mathcal{C} = \langle \mathbf{c}, \mathbf{v}, \mathbf{dir}, \mathcal{H}(Q), \tau, \text{snapshot\_id} \rangle
+\label{eq:cursor_payload}
+\end{equation}
+gdzie $\mathbf{c}$ to wektor kolumn, $\mathbf{v}$ to wektor wartości progowych, $\mathbf{dir}$ oznacza kierunki sortowania, $\tau \in \mathbb{N}$ jest znacznikiem czasu utworzenia tokena, $\text{snapshot\_id}$ to identyfikator migawki transakcyjnej, a $\mathcal{H}(Q) = \text{SHA-256}(\text{table} \,\|\, \mathbf{c} \,\|\, \mathbf{dir})$ stanowi odcisk zapytania bazowego, uniemożliwiający użycie tokena w~kontekście innej relacji lub innego porządku. Odcisk nie obejmuje predykatów filtrujących: narzędzie \texttt{execute\_query\_paginated} nie przyjmuje klauzuli \texttt{WHERE}, a~ewentualne rozszerzenie o~filtry wymagałoby włączenia ich do $\mathcal{H}(Q)$. W~wersji implementacji użytej w~rundzie pomiarowej $\mathcal{H}(Q)$ jest zapisywany w~kursorze, lecz nie jest porównywany z~bieżącym zapytaniem, a~funkcja dekodująca akceptuje też niepodpisany kursor starszego formatu (sam identyfikator ostatniego wiersza); obie wady wykazały testy jednostkowe (\texttt{tests/test\_mechanizmy\_bez\_ewaluacji.py}), a~ich poprawka powstała po rundzie pomiarowej i~nie była weryfikowana pomiarem.
+
+Integralność stanu gwarantuje podpis HMAC-SHA256 z kluczem tajnym serwera $K_{\text{secret}}$:
+\begin{equation}
+\sigma = \text{HMAC-SHA256}_{K_{\text{secret}}}(\text{Base64Url}(\text{JSON}(\mathcal{C})))
+\label{eq:cursor_signature}
+\end{equation}
+Token przekazywany modelowi LLM przyjmuje zwartą postać:
+\begin{equation}
+\text{Token} = \text{Base64Url}(\text{JSON}(\mathcal{C})) \,\|\, \text{"."} \,\|\, \sigma
+\label{eq:cursor_token_format}
+\end{equation}
+Weryfikacja tokena po stronie serwera odbywa się funkcją \texttt{hmac.compare\_digest} (porównanie w~czasie niezależnym od treści), a~stan paginacji nie jest przechowywany w~bramie. Token ma koszt tokenowy, ponieważ model musi go przepisać w~kolejnym wywołaniu: przykładowy token dla porządku trójkolumnowego z~Rozdziału~\ref{chap:wyniki} (wartości graniczne typu znacznik czasu, liczba dziesiętna i~identyfikator oraz \texttt{snapshot\_id}) liczy \wynOfiveCursorChars{} znaków, czyli \wynOfiveCursorTokens{} tokenów \texttt{cl100k\_base} (analiza wtórna, skrypt \texttt{o5\_tokenizacja\_base64.py}). Przepisywanie długiego ciągu Base64 przez model niesie też ryzyko błędu kopiowania, który podpis HMAC wykrywa, lecz nie naprawia.
+
+\subsection{Izolacja snapshotowa w paginacji bezstanowej}
+\label{subsec:projekt_snapshot_isolation}
+
+Podczas wieloetapowego dialogu agenta równoległe procesy ETL mogą modyfikować stan hurtowni. Standardowy poziom izolacji \emph{Read Committed} prowadzi do anomalii odczytu niepowtarzalnego oraz odczytu fantomów. Aby pogodzić bezstanową naturę wywołań \texttt{tools/call} z gwarancją spójności migawkowej, w architekturze bramy zaimplementowano mechanizm eksportu i importu snapshotów silnika PostgreSQL:
+\begin{enumerate}
+    \item \textbf{Eksport migawki:} Przy pobieraniu pierwszej strony ($v_{\text{offset}} = 0$) serwer inicjuje transakcję \texttt{REPEATABLE READ} i wykonuje funkcję systemową \texttt{pg\_export\_snapshot()}. Wygenerowany identyfikator $\text{snapshot\_id}$ reprezentuje spójny stan widoczności MVCC, a dedykowane połączenie podtrzymujące snapshot jest rejestrowane w menedżerze \texttt{TransactionSnapshotManager} z czasem życia $\text{TTL}_{\text{snap}}$ (domyślnie 300~s);
+    \item \textbf{Import w kolejnych krokach:} Zwracany identyfikator $\text{snapshot\_id}$ włączany jest do tokena $\mathcal{C}$ podpisanego HMAC. Przy kolejnym żądaniu brama pobiera dowolne wolne połączenie z puli \texttt{asyncpg}, otwiera transakcję i wykonuje klauzulę:
+    \begin{equation}
+    \text{SET TRANSACTION SNAPSHOT } \text{snapshot\_id};
+    \label{eq:set_transaction_snapshot}
+    \end{equation}
+    zamrażając logiczny widok danych dokładnie w punkcie czasowym pierwszej iteracji;
+    \item \textbf{Zwalnianie zasobów:} Połączenie podtrzymujące migawkę jest zwalniane (z~zakończeniem transakcji) po odebraniu ostatniej strony ($\text{has\_more} = \text{false}$). Migawki starsze niż $\text{TTL}_{\text{snap}}$ są usuwane przy tworzeniu kolejnej migawki (metoda \texttt{cleanup\_expired}); w~implementacji nie ma osobnego zadania okresowego. Użycie tokena z~wygasłą migawką kończy się wyjątkiem \texttt{SnapshotExpiredError}, który FastMCP przekazuje jako wynik narzędzia z~\texttt{isError: true}.
+\end{enumerate}
+
+\paragraph{Kompromis utrzymywania migawek.}
+Mechanizm migawek jest świadomym odstępstwem od zasady unikania długich transakcji (podrozdziały~\ref{subsec:teoria_acid_base_cap} i~\ref{subsec:protokoly_dwoistosc_stanowa}) i~ma trzy koszty. Po pierwsze, każda aktywna migawka utrzymuje otwartą transakcję \texttt{REPEATABLE READ} nawet przez $\text{TTL}_{\text{snap}} = 300$~s, przez co wstrzymuje horyzont $x_{\text{min}}$ i~opóźnia usuwanie martwych wersji wierszy przez \texttt{VACUUM}. Po drugie, każda migawka zajmuje jedno połączenie z~puli bramy (\texttt{max\_size} = 10), a~każda kolejna strona -- drugie połączenie importujące migawkę; pula jest przy tym znacznie mniejsza od limitu \texttt{max\_connections} serwera (100 w~rundzie pomiarowej). Po trzecie, \texttt{TransactionSnapshotManager} nie ogranicza liczby jednoczesnych migawek: przy wielu agentach paginujących równocześnie (np. $M = 500$) migawki mogą zająć wszystkie połączenia puli, a~pobranie połączenia nie ma domyślnie limitu czasu (\texttt{acquire\_timeout = None}), więc kolejne żądania oczekują do zwolnienia połączenia. Dlatego migawki są w~narzędziu opcjonalne (\texttt{use\_snapshot}), a~ich bezpieczne użycie wymaga limitu liczby migawek, krótszego $\text{TTL}_{\text{snap}}$ i~limitu czasu pobrania połączenia (podrozdział~\ref{sec:podsumowanie_ograniczenia}).
+
+\subsection{Algorytm adaptacyjnej estymacji budżetu tokenów Welforda}
+\label{subsec:projekt_welford_estymator}
+
+Zróżnicowana długość rekordów tekstowych i struktur JSONB w analitycznych składach danych sprawia, że operowanie stałą liczbą wierszy $K$ prowadzi do nieprzewidywalnego narzutu pamięciowego. Zamiast kosztownej tokenizacji BPE każdego rekordu w pętli, zaimplementowano stabilny numerycznie estymator Welforda~\cite{welford1962}, aktualizujący parametry rozkładu długości online:
+\begin{equation}
+\mu_n = \mu_{n-1} + \frac{x_n - \mu_{n-1}}{n}, \qquad M_{2,n} = M_{2,n-1} + (x_n - \mu_{n-1})(x_n - \mu_n)
+\label{eq:welford_mean_m2}
+\end{equation}
+\begin{equation}
+s_n^2 = \frac{M_{2,n}}{n - 1} \quad (n > 1), \qquad \sigma_n = \sqrt{s_n^2}
+\label{eq:welford_variance}
+\end{equation}
+gdzie $x_n$ oznacza zaobserwowaną średnią liczbę tokenów przypadających na wiersz w~$n$-tej paczce. Estymator śledzi zatem rozkład średnich paczkowych, a~nie pojedynczych wierszy: $\sigma_n$ opisuje rozrzut średnich między paczkami i~jest mniejsze od rozrzutu długości pojedynczych wierszy.
+
+Dla zadanego budżetu tokenów $B_{\text{tok}}$ oraz dopuszczalnego limitu rekordów $K_{\max}$, optymalny rozmiar kolejnej strony $K$ wyznacza reguła konserwatywna:
+\begin{equation}
+K = \max\left(1, \min\left(K_{\max}, \left\lfloor \frac{B_{\text{tok}}}{\mu_n + z \cdot \sigma_n} \cdot \alpha \right\rfloor\right)\right)
+\label{eq:welford_k_estimate}
+\end{equation}
+gdzie $z = 0{,}5$ jest mnożnikiem odchylenia standardowego, a~$\alpha = 0{,}95$ marginesem na nagłówki ramki JSON-RPC. Wartość $z = 0{,}5$ przyjęto heurystycznie, bez optymalizacji: przy w~przybliżeniu normalnym rozkładzie średnich paczkowych odpowiada ona ok. 69.~percentylowi, a~więc dopuszcza przekroczenie estymaty w~części paczek. Przekroczenie budżetu jest dlatego dodatkowo kontrolowane po pobraniu danych: jeśli zagregowana paczka przekracza $B_{\text{tok}}$, implementacja przycina ją proporcjonalnie (z~marginesem 0,95) i~ustawia znacznik kolejnej strony. Przed pierwszą aktualizacją ($n = 0$) estymator przyjmuje stałą wartość początkową $\mu_0 = 85$ tokenów na wiersz. Pełna tokenizacja BPE wykonywana jest raz na zagregowanej odpowiedzi, a~nie dla każdego rekordu osobno.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Koncepcja progresywnego odkrywania schematu (JIT Schema Discovery)}
+\label{sec:projekt_schema_discovery}
+
+\subsection{Model grafowy schematu relacyjnego}
+\label{subsec:projekt_graf_bezskalowy}
+
+Wstrzyknięcie pełnego kodu DDL wszystkich tabel do promptu systemowego w hurtowni o $N_T \ge 1000$ tabelach generuje narzut rzędu $T_{\text{DDL}} \approx N_T \cdot \bar{T}_{\text{table}}$, co dla $N_T = 1000$ wynosi w~pomiarze \wynFullDumpTokens{} tokenów (format DDL stosowany w~pracy, tokenizer \texttt{cl100k\_base}), wywołując degradację uwagi modelu (zjawisko \emph{Lost in the Middle}~\cite{liu2024lostinthemiddle}).
+
+Generator schematu syntetycznego użytego w~pracy stanowi syntetyczny, deterministyczny schemat referencyjny o~kontrolowanej topologii, inspirowany sieciami bezskalowymi~\cite{barabasi1999}. Uzyskany graf nie ma rozkładu potęgowego: składa się z~\wynOsixHubs{} tabel centralnych o~stopniu \wynOsixHubMin--\wynOsixHubMax{} i~\wynOsixPeriph{} tabel peryferyjnych o~stopniu 1--\wynOsixPeriphMax{} (podrozdział~\ref{sec:architektura_srodowiska}). Taka konstrukcja zapewnia powtarzalną kontrolę topologii i~umożliwia ocenę algorytmów na złożonym grafie referencyjnym; przeniesienie wniosków na inne schematy wymaga osobnej walidacji. Bazę danych modelujemy jako graf skierowany $G = (V, E)$, gdzie zbiór wierzchołków $V = \{t_1, t_2, \dots, t_{N_T}\}$ reprezentuje tabele, a zbiór krawędzi $E \subseteq V \times V$ wynika z relacji kluczy obcych:
+\begin{equation}
+e = (u, v) \in E \iff \exists \text{ FK: tabela } u \text{ odwołuje się do klucza głównego tabeli } v
+\label{eq:fk_edge_definition}
+\end{equation}
+W~sieciach bezskalowych rozkład stopni opisuje zależność potęgowa $P(k) \propto k^{-\gamma}$ (zwykle $2 < \gamma < 3$), co oznacza istnienie nielicznych tabel centralnych o~bardzo wysokiej łączności (węzłów typu \emph{Hub}, np. tabel faktów) oraz licznych tabel peryferyjnych. Algorytm selekcji opisany dalej nie zakłada konkretnego rozkładu stopni.
+
+\subsection{Problem utraty relacji asocjacyjnych w wyszukiwaniu leksykalno-semantycznym}
+\label{subsec:projekt_ograniczenia_wyszukiwania}
+
+Niezależne odpytywanie schematu metodami leksykalnymi (BM25) oraz semantycznymi (k-NN na wektorach \texttt{pgvector}) skutecznie odnajduje tabele odpowiadające pojęciom skrajnym z zapytania użytkownika, lecz systematycznie pomija pośredniczące tabele mostkujące relacje wielokrotne ($N:M$). W konsekwencji model językowy nie jest w stanie wygenerować poprawnych klauzul \texttt{JOIN} łączących wyselekcjonowane encje.
+
+\subsection{Model fuzji rankingów Reciprocal Rank Fusion}
+\label{subsec:projekt_rrf_model}
+
+W celu połączenia zalet wyszukiwania leksykalnego i semantycznego bez konieczności kłopotliwej normalizacji niejednorodnych miar odległości zastosowano algorytm \emph{Reciprocal Rank Fusion} (RRF)~\cite{cormack2009rrf}:
+\begin{equation}
+\text{RRF\_Score}(d) = \sum_{m \in \{\text{BM25}, \text{Dense}\}} \frac{1}{k_{\text{RRF}} + r_m(d)}
+\label{eq:rrf_formal}
+\end{equation}
+gdzie $r_m(d) \in \{1, 2, \dots\}$ oznacza pozycję tabeli $d$ w rankingu metody $m$, a stała wygładzająca wynosi $k_{\text{RRF}} = 60$.
+
+\subsection{Algorytm ekspansji grafowej o~tabele mostkujące}
+\label{subsec:projekt_graph_pruning}
+
+W~celu uzupełnienia brakujących tabel pośrednich zaprojektowano algorytm ekspansji grafowej (\emph{FK bridge expansion}). Działa on w~czterech krokach: (1) pobiera $k$ tabel o~najwyższym wyniku RRF; (2) przeszukuje graf kluczy obcych dla każdej pary kandydatów; (3) zlicza nie wybrane węzły pośrednie na ścieżkach długości dwóch; (4) dołącza najwyżej $M_{\text{exp}}$ najczęstszych tabel i~syntezuje ich DDL. Implementację \texttt{SchemaEngine.discover\_schema\_with\_graph\_pruning} zamieszczono w~załączniku.
+
+Ograniczenie do ścieżek o~długości $\text{dist}(u, v) = 2$ (ścieżka trójelementowa $[u, w, v]$) odpowiada typowemu przypadkowi relacji $N:M$ realizowanej przez pojedynczą tabelę asocjacyjną; ścieżki dłuższe nie są uzupełniane. Funkcja \texttt{nx.shortest\_path} zwraca jedną z~równorzędnych najkrótszych ścieżek, więc gdy dwa kandydaty łączy kilka tabel pośrednich, algorytm uwzględnia tylko jedną z~nich (wybór zależy od kolejności krawędzi w~grafie). Procedura $\text{SynthesizeDDL}$ dokonuje rzutowania wyselekcjonowanego podgrafu na zwięzłą sygnaturę strukturalną SQL (nazwy atrybutów, typy danych oraz deklaracje ograniczeń kluczy obcych), z pominięciem zbędnych z perspektywy wnioskowania LLM metadanych fizycznych (takich jak parametry przestrzeni tabel, definicje indeksów wtórnych czy reguły buforowania).
+
+\subsubsection*{Analiza złożoności obliczeniowej algorytmu ekspansji}
+Złożoność asymptotyczną procedury ekspansji determinuje liczba tabel kandydackich $k = |T_{\text{cand}}|$ oraz parametry grafu relacji $G = (V, E)$, gdzie $|V| = N_T$ oznacza liczbę tabel w schemacie, a $|E|$ liczbę ograniczeń kluczy obcych:
+Generowanie par kandydackich kosztuje $\mathcal{O}(k^2)$, wyszukiwanie najkrótszych ścieżek o głębokości $d \le 2$ metodą BFS dla każdej pary w pesymistycznym przypadku $\mathcal{O}(|V| + |E|)$ , selekcja $M_{\text{exp}}$ najczęstszych węzłów mostkujących $\mathcal{O}(k^2 \log M_{\text{exp}})$, a synteza DDL jest liniowa względem wyselekcjonowanego podgrafu.
+Całkowita złożoność czasowa wynosi $\mathcal{O}(k^2 \cdot (|V| + |E|))$, a ponieważ w praktyce $k \ll |V|$ ($k \in [3, 10]$ przy $|V| \ge 1000$), koszt analizy grafu jest niewielki: w~badaniu ablacyjnym przy $M_{\text{exp}} = 3$ mediana czasu wyszukiwania mostków wyniosła \wynTBridgeMed~ms, a~mediana czasu pełnego wywołania selekcji (wraz z~fuzją RRF i~syntezą DDL) \wynTTotalMed~ms (podrozdział~\ref{subsec:wyniki_ablation_mexp}). Wpływ wartości $M_{\text{exp}}$ na czułość i~objętość DDL zbadano w~tym samym eksperymencie.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Analityczny model transferu binarnego Out-of-Band (Crossover Model)}
+\label{sec:projekt_oob}
+
+\subsection{Problem narzutu kodowania binarnego w JSON-RPC}
+\label{subsec:projekt_narzut_base64}
+
+Jak wykazano w Rozdziale~\ref{chap:protokoly}, transmisja ładunków binarnych wewnątrz tekstowych ramek JSON-RPC 2.0 z~użyciem kodowania Base64 zwiększa ich objętość o~33,33\%, a~gdyby ładunek trafił do kontekstu modelu, kosztowałby \wynOfiveTokPerByteMin--\wynOfiveTokPerByteMax{} tokenu \texttt{cl100k\_base} na bajt danych binarnych (podrozdział~\ref{subsec:protokoly_narzut_bpe}). Transfer pozapasmowy ma przede wszystkim skrócić czas i~koszt przekazania danych do hosta; dane binarne nie powinny trafiać do okna kontekstu niezależnie od trybu transferu.
+
+\subsection{Separacja pasma sterującego od pasma danych}
+\label{subsec:projekt_separacja_pasm}
+
+W celu eliminacji tego zjawiska zaprojektowano separację kanału sterującego od kanału danych:
+\begin{enumerate}
+    \item \textbf{Pasmo sterujące:} Standardowy kanał JSON-RPC 2.0 (stdio lub HTTP POST), przesyłający wyłącznie metadane oraz lekki deskryptor zasobu o rozmiarze rzędu kilkuset bajtów;
+    \item \textbf{Pasmo danych:} Ortogonalny kanał binarny realizowany dwutorowo:
+    \begin{itemize}
+        \item \emph{Komunikacja lokalna:} współdzielony segment pamięci POSIX Shared Memory (\texttt{/dev/shm}) -- transfer bez kodowania Base64, z~jednokrotnym kopiowaniem danych do segmentu;
+        \item \emph{Komunikacja rozproszona:} zapis obiektu w~magazynie i~przekazanie deskryptora z~podpisanym (HMAC) adresem URI o~ograniczonym czasie ważności. W~implementacji referencyjnej obiekt trafia do lokalnego katalogu, a~adres URI jest generowany, lecz brama nie udostępnia punktu końcowego HTTP do jego pobrania; odbiorca w~tym samym węźle odczytuje plik bezpośrednio. Pobieranie przez sieć jest elementem projektu, który nie został zaimplementowany.
+    \end{itemize}
+\end{enumerate}
+
+Deskryptor OOB zwracany w kanale sterującym ma formalną postać:
+\begin{equation}
+\mathcal{D}_{\text{OOB}} = \langle \text{blob\_id}, \text{transport}, S, \text{SHA-256}(D), \text{uri}, \tau_{\text{exp}} \rangle
+\label{eq:oob_descriptor_formal}
+\end{equation}
+gdzie $S$ to rozmiar ładunku w bajtach, a skrót $\text{SHA-256}(D)$ gwarantuje integralność danych odebranych poza pasmem MCP.
+
+\subsection{Analityczny model punktu przecięcia (Break-even Latency Model)}
+\label{subsec:projekt_crossover_model}
+
+W~celu automatycznego przełączania pomiędzy transferem wewnątrzpasmowym a~poza pasmem sformułowano model czasu przekazania ładunku w~funkcji jego rozmiaru $S$ oraz opóźnienia sieciowego $\text{RTT}$ (ang. \emph{Round-Trip Time}). Składniki modelu odpowiadają operacjom wykonywanym przez implementację (moduł \texttt{out\_of\_band.py}); $v_x$ oznacza przepustowość operacji $x$ w~B/s, a~$\delta_x$ -- stały narzut niezależny od $S$.
+
+Czas przekazania wewnątrzpasmowego $L_{\text{IB}}(S)$ obejmuje kodowanie Base64 i~obliczenie skrótu SHA-256 po stronie nadawcy, serializację i~parsowanie ramki JSON-RPC o~rozmiarze $(1+\rho_{\text{Base64}})S$, dekodowanie i~weryfikację skrótu po stronie odbiorcy oraz -- w~środowisku sieciowym -- jedną rundę sieciową i~przesłanie ramki:
+\begin{equation}
+L_{\text{IB}}(S) = \delta_{\text{IB}} + S \left( \frac{1}{v_{\text{enc}}} + \frac{1}{v_{\text{dec}}} + \frac{2}{v_{\text{sha}}} + \frac{1+\rho_{\text{Base64}}}{v_{\text{json}}} \right) + \underbrace{\text{RTT} + \frac{(1+\rho_{\text{Base64}})\,S}{B_{\text{net}}}}_{\text{tylko w~sieci}}
+\label{eq:latency_in_band}
+\end{equation}
+gdzie $\rho_{\text{Base64}} = 1/3$, a~$B_{\text{net}}$ oznacza przepustowość łącza.
+
+Dla transferu Out-of-Band model uwzględnia dwa scenariusze:
+\begin{enumerate}
+    \item \textbf{Scenariusz lokalny (POSIX Shared Memory):} nadawca oblicza skrót SHA-256, alokuje segment i~kopiuje do niego ładunek, a~odbiorca odczytuje (kopiuje) dane z~segmentu:
+    \begin{equation}
+    L_{\text{SHM}}(S) = \delta_{\text{SHM}} + S \left( \frac{1}{v_{\text{sha}}} + \frac{1}{v_{\text{copy}}} + \frac{1}{v_{\text{read}}} \right)
+    \label{eq:latency_oob_shm}
+    \end{equation}
+    Transfer nie wymaga kodowania Base64, lecz nie jest bezkopiowy: dane są kopiowane jednokrotnie do segmentu i~jednokrotnie z~niego odczytywane. W~ścieżce odczytu użytej w~pomiarze (funkcja \texttt{read\_posix\_shm}) skrót nie jest ponownie weryfikowany; ogólna funkcja odbioru \texttt{retrieve} wykonuje weryfikację, co dodaje składnik $S / v_{\text{sha}}$.
+    \item \textbf{Scenariusz rozproszony (deskryptor z~podpisanym URI, projekt):} nadawca oblicza skrót i~zapisuje ładunek w~magazynie obiektów, a~w~kanale sterującym przekazuje deskryptor; odbiorca pobiera obiekt osobnym żądaniem i~weryfikuje skrót:
+    \begin{equation}
+    L_{\text{OOB, net}}(S, \text{RTT}) = \delta_{\text{desc}} + S \left( \frac{2}{v_{\text{sha}}} + \frac{1}{v_{\text{write}}} + \frac{1}{v_{\text{fetch}}} \right) + 2\,\text{RTT} + \frac{S}{B_{\text{net}}}
+    \label{eq:latency_oob_net}
+    \end{equation}
+    gdzie pierwsza runda sieciowa przenosi deskryptor, a~druga -- ładunek.
+\end{enumerate}
+
+Punkt przecięcia $S^*$ to rozmiar ładunku, dla którego oba czasy są równe:
+
+\paragraph{1. Scenariusz lokalny (POSIX Shared Memory):}
+\begin{equation}
+L_{\text{IB}}(S^*_{\text{SHM}}) = L_{\text{SHM}}(S^*_{\text{SHM}})
+\label{eq:crossover_shm_equality}
+\end{equation}
+Podstawienie zależności~\eqref{eq:latency_in_band} (bez składników sieciowych) oraz~\eqref{eq:latency_oob_shm} daje:
+\begin{equation}
+S^*_{\text{SHM}} = \frac{\delta_{\text{SHM}} - \delta_{\text{IB}}}{\Delta_{\text{SHM}}}, \qquad
+\Delta_{\text{SHM}} = \left( \frac{1}{v_{\text{enc}}} + \frac{1}{v_{\text{dec}}} + \frac{1}{v_{\text{sha}}} + \frac{1+\rho_{\text{Base64}}}{v_{\text{json}}} \right) - \left( \frac{1}{v_{\text{copy}}} + \frac{1}{v_{\text{read}}} \right)
+\label{eq:crossover_shm_formula}
+\end{equation}
+Wzór ma sens tylko przy $\Delta_{\text{SHM}} > 0$ i~$\delta_{\text{SHM}} > \delta_{\text{IB}}$, czyli gdy koszt jednostkowy ścieżki wewnątrzpasmowej jest większy, a~jej stały narzut mniejszy niż w~transferze przez pamięć współdzieloną; przy $\Delta_{\text{SHM}} \le 0$ transfer przez SHM nie byłby szybszy dla żadnego rozmiaru. Empiryczne wyznaczenie progu i~porównanie z~modelem przedstawiono w~podrozdziale~\ref{sec:wyniki_scenariusz_b1}.
+
+\paragraph{2. Scenariusz rozproszony:} warunek $L_{\text{IB}}(S^*) = L_{\text{OOB, net}}(S^*, \text{RTT})$ daje
+\begin{equation}
+S^*(\text{RTT}) = \frac{\delta_{\text{desc}} - \delta_{\text{IB}} + \text{RTT}}{\Delta_{\text{net}}}, \qquad
+\Delta_{\text{net}} = \left( \frac{1}{v_{\text{enc}}} + \frac{1}{v_{\text{dec}}} + \frac{1+\rho_{\text{Base64}}}{v_{\text{json}}} + \frac{\rho_{\text{Base64}}}{B_{\text{net}}} \right) - \left( \frac{1}{v_{\text{write}}} + \frac{1}{v_{\text{fetch}}} \right)
+\label{eq:crossover_threshold_formula}
+\end{equation}
+(składniki SHA-256 występują w~obu ścieżkach dwukrotnie i~się redukują). Analogicznie wzór wymaga $\Delta_{\text{net}} > 0$. Przy stałych pozostałych parametrach próg jest liniową, rosnącą funkcją $\text{RTT}$: każda dodatkowa runda sieciowa transferu OOB musi zostać zamortyzowana oszczędnością na kodowaniu i~objętości ramki. Próg dla profilu lokalnego zmierzono, a~progi dla profili LAN i~WAN wyznaczono z~modelu przy założonych parametrach sieci (podrozdział~\ref{sec:wyniki_scenariusz_b1}).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Architektura bezpieczeństwa i izolacji współbieżnej pętli zdarzeń}
+\label{sec:projekt_bezpieczenstwo}
+
+\subsection{Założenia perymetru bezpieczeństwa w systemach bazodanowych Agentic AI}
+\label{subsec:projekt_model_zagrozen}
+
+Zgodnie z analizą z podrozdziału~\ref{sec:protokoly_bezpieczenstwo} model językowy traktowany jest jako komponent z natury niezaufany, a brama MCP stanowi deterministyczny perymetr weryfikacyjny kwerend generowanych przez agenta.
+
+\subsection{Projekt wielopoziomowego perymetru ochronnego AST}
+\label{subsec:projekt_perymetr_ochronny}
+
+Perymetr bezpieczeństwa oparto na deterministycznej analizie drzewa składniowego AST:
+\begin{enumerate}
+    \item \textbf{Izolacja pojedynczej instrukcji:} Wymuszenie obecności dokładnie jednego węzła w drzewie AST ($|\text{Statements}(\mathcal{T}_{\text{AST}})| = 1$), co blokuje kwerendy wielokrotne rozdzielane średnikiem;
+    \item \textbf{Niezmiennik czystego odczytu:} Węzeł główny musi należeć do operacji odczytu: $\text{Root}(\mathcal{T}_{\text{AST}}) \in \{ \text{Select}, \text{SetOperation} \}$, gdzie \texttt{SetOperation} obejmuje operacje teoriomnogościowe (\texttt{UNION ALL}, \texttt{INTERSECT}, \texttt{EXCEPT});
+    \item \textbf{Rekurencyjne blokowanie operacji mutujących:} Wszystkie węzły drzewa $\mathcal{T}_{\text{AST}}$ podlegają przeszukaniu: $\forall v \in V(\mathcal{T}_{\text{AST}}): \text{Type}(v) \notin \mathcal{F}_{\text{forbidden}}$, gdzie zbiór $\mathcal{F}_{\text{forbidden}}$ obejmuje instrukcje modyfikacji danych i schematu (\texttt{Insert}, \texttt{Update}, \texttt{Delete} i~inne; pełna lista w podrozdziale~\ref{sec:bezpieczenstwo_zapytan}). Reguła ta uniemożliwia ukrycie mutacji wewnątrz klauzul CTE (np. \texttt{WITH d AS (DELETE ...) SELECT * ...});
+    \item \textbf{Enkapsulacja rekordów przeciw wstrzykiwaniu drugiego rzędu:} Dane wynikowe są oczyszczane ze znaków sterujących XML i tokenów specjalnych LLM, a następnie zamykane w bloku \texttt{<untrusted\_db\_record role="data\_only" execution\_forbidden="true">}, co zapobiega interpretacji danych jako poleceń sterujących modelu w kolejnych iteracjach wnioskowania.
+\end{enumerate}
+
+\subsection{Model izolacji współbieżnej pętli zdarzeń}
+\label{subsec:projekt_starvation_model}
+
+W systemach wieloagentowych synchroniczne parsowanie AST w jednowątkowej pętli \texttt{asyncio} blokuje obsługę ramek I/O i prowadzi do narostu opóźnień. Dlatego pętla deleguje parsowanie do puli procesów \texttt{ProcessPoolExecutor} powoływanej z kontekstem \texttt{forkserver}:
+\begin{equation}
+\text{Future}_{\text{validation}} = \text{loop.run\_in\_executor}(\text{Pool}_{\text{workers}}, \text{ValidateAST}, Q)
+\label{eq:executor_delegation}
+\end{equation}
+Kontekst \texttt{forkserver} (zamiast \texttt{fork} lub \texttt{spawn}) pozwala uniknąć zakleszczeń przy bibliotekach w języku C w procesie wielowątkowym oraz narzutu zimnego startu interpretera, a przekazanie zadania do kolejki IPC redukuje narzut pętli do stałego czasu przełączenia kontekstu $\mathcal{O}(1)$, umożliwiając równoległe wykorzystanie rdzeni procesora.

@@ -1,0 +1,16 @@
+{
+  "raw": {
+    "n": 13,
+    "regex_success": 7,
+    "tool_calls_any": 0,
+    "tool_calls_destructive": 0,
+    "regex_success_without_tool_call": 7
+  },
+  "xml_encapsulated": {
+    "n": 13,
+    "regex_success": 8,
+    "tool_calls_any": 0,
+    "tool_calls_destructive": 0,
+    "regex_success_without_tool_call": 8
+  }
+}

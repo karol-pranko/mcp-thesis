@@ -1,0 +1,55 @@
+variant,depth_k,offset_rows,page_size,iteration,latency_ms,records_retrieved,index_used,execution_plan_type,tokens_consumed
+Indexed Keyset B-Tree,1,0,50,1,0.465,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2424
+Indexed Keyset B-Tree,1,0,50,2,0.266,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2424
+Indexed Keyset B-Tree,1,0,50,3,0.263,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2424
+Indexed Keyset B-Tree,10,450,50,1,0.687,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2424
+Indexed Keyset B-Tree,10,450,50,2,0.426,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2424
+Indexed Keyset B-Tree,10,450,50,3,0.418,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2424
+Indexed Keyset B-Tree,50,2450,50,1,1.165,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2423
+Indexed Keyset B-Tree,50,2450,50,2,0.792,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2423
+Indexed Keyset B-Tree,50,2450,50,3,0.831,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2423
+Indexed Keyset B-Tree,100,4950,50,1,1.628,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2424
+Indexed Keyset B-Tree,100,4950,50,2,1.233,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2424
+Indexed Keyset B-Tree,100,4950,50,3,1.196,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2424
+Indexed Keyset B-Tree,500,24950,50,1,8.95,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2424
+Indexed Keyset B-Tree,500,24950,50,2,6.326,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2424
+Indexed Keyset B-Tree,500,24950,50,3,5.703,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2424
+Indexed Keyset B-Tree,1000,49950,50,1,13.885,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2373
+Indexed Keyset B-Tree,1000,49950,50,2,16.079,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2373
+Indexed Keyset B-Tree,1000,49950,50,3,15.097,50,idx_analytics_orders_multi,Index Scan / Point Lookup,2373
+Unindexed Keyset,1,0,50,1,169.106,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2424
+Unindexed Keyset,1,0,50,2,168.985,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2424
+Unindexed Keyset,1,0,50,3,168.129,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2424
+Unindexed Keyset,10,450,50,1,343.75,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2424
+Unindexed Keyset,10,450,50,2,193.958,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2424
+Unindexed Keyset,10,450,50,3,189.288,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2424
+Unindexed Keyset,50,2450,50,1,190.869,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2423
+Unindexed Keyset,50,2450,50,2,199.363,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2423
+Unindexed Keyset,50,2450,50,3,189.414,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2423
+Unindexed Keyset,100,4950,50,1,189.755,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2424
+Unindexed Keyset,100,4950,50,2,199.822,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2424
+Unindexed Keyset,100,4950,50,3,202.526,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2424
+Unindexed Keyset,500,24950,50,1,190.822,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2424
+Unindexed Keyset,500,24950,50,2,187.814,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2424
+Unindexed Keyset,500,24950,50,3,195.053,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2424
+Unindexed Keyset,1000,49950,50,1,196.124,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2373
+Unindexed Keyset,1000,49950,50,2,187.004,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2373
+Unindexed Keyset,1000,49950,50,3,186.952,50,NONE (Seq Scan),Parallel Seq Scan + Top-N Sort,2373
+Offset/Limit,1,0,50,1,0.588,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2424
+Offset/Limit,1,0,50,2,0.273,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2424
+Offset/Limit,1,0,50,3,0.26,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2424
+Offset/Limit,10,450,50,1,0.391,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2424
+Offset/Limit,10,450,50,2,0.335,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2424
+Offset/Limit,10,450,50,3,0.35,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2424
+Offset/Limit,50,2450,50,1,0.924,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2423
+Offset/Limit,50,2450,50,2,0.691,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2423
+Offset/Limit,50,2450,50,3,0.656,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2423
+Offset/Limit,100,4950,50,1,1.459,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2424
+Offset/Limit,100,4950,50,2,1.097,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2424
+Offset/Limit,100,4950,50,3,1.063,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2424
+Offset/Limit,500,24950,50,1,7.779,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2424
+Offset/Limit,500,24950,50,2,4.769,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2424
+Offset/Limit,500,24950,50,3,4.621,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2424
+Offset/Limit,1000,49950,50,1,13.422,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2373
+Offset/Limit,1000,49950,50,2,13.901,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2373
+Offset/Limit,1000,49950,50,3,13.313,50,idx_analytics_orders_multi (Skip Scan),Index Scan with OFFSET discard,2373

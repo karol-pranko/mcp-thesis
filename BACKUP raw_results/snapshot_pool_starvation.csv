@@ -1,0 +1,51 @@
+concurrency_m,agent_id,pool_acquire_latency_ms,pool_timeout,idle_in_transaction_count,think_time_s,pool_max_size,success,snapshot_id,error_message
+5,1,3.67,False,5,2.0,10,True,00000004-00000AAF-1,
+5,2,2.834,False,5,2.0,10,True,00000005-00000C4D-1,
+5,3,11.894,False,5,2.0,10,True,00000007-000001DA-1,
+5,4,11.399,False,5,2.0,10,True,00000008-00000005-1,
+5,5,10.276,False,5,2.0,10,True,00000006-000008DA-1,
+10,1,5.834,False,10,2.0,10,True,00000004-00000AB2-1,
+10,2,5.647,False,10,2.0,10,True,00000005-00000C50-1,
+10,3,16.286,False,10,2.0,10,True,00000006-000008DD-1,
+10,4,15.786,False,10,2.0,10,True,00000008-00000008-1,
+10,5,15.518,False,10,2.0,10,True,00000007-000001DD-1,
+10,6,16.237,False,10,2.0,10,True,00000009-00000002-1,
+10,7,14.975,False,10,2.0,10,True,0000000A-00000002-1,
+10,8,15.548,False,10,2.0,10,True,0000000B-00000002-1,
+10,9,15.663,False,10,2.0,10,True,0000000C-00000002-1,
+10,10,18.294,False,10,2.0,10,True,0000000D-00000002-1,
+15,1,5.871,False,10,2.0,10,True,00000004-00000AB5-1,
+15,2,5.691,False,10,2.0,10,True,00000005-00000C53-1,
+15,3,15.917,False,10,2.0,10,True,00000006-000008E0-1,
+15,4,14.907,False,10,2.0,10,True,00000007-000001E0-1,
+15,5,15.193,False,10,2.0,10,True,00000009-00000005-1,
+15,6,14.748,False,10,2.0,10,True,00000008-0000000B-1,
+15,7,14.549,False,10,2.0,10,True,0000000A-00000005-1,
+15,8,15.818,False,10,2.0,10,True,0000000C-00000005-1,
+15,9,14.099,False,10,2.0,10,True,0000000B-00000005-1,
+15,10,15.378,False,10,2.0,10,True,0000000D-00000005-1,
+15,11,1000.91,True,10,2.0,10,False,,PoolTimeoutError: przekroczono limit czasu puli (1.00 s)
+15,12,1000.963,True,10,2.0,10,False,,PoolTimeoutError: przekroczono limit czasu puli (1.00 s)
+15,13,1000.969,True,10,2.0,10,False,,PoolTimeoutError: przekroczono limit czasu puli (1.00 s)
+15,14,1000.975,True,10,2.0,10,False,,PoolTimeoutError: przekroczono limit czasu puli (1.00 s)
+15,15,1000.983,True,10,2.0,10,False,,PoolTimeoutError: przekroczono limit czasu puli (1.00 s)
+20,1,5.962,False,10,2.0,10,True,00000004-00000AB8-1,
+20,2,5.942,False,10,2.0,10,True,00000005-00000C56-1,
+20,3,16.955,False,10,2.0,10,True,00000006-000008E3-1,
+20,4,16.169,False,10,2.0,10,True,00000008-0000000E-1,
+20,5,15.782,False,10,2.0,10,True,00000007-000001E3-1,
+20,6,15.675,False,10,2.0,10,True,0000000B-00000008-1,
+20,7,15.082,False,10,2.0,10,True,00000009-00000008-1,
+20,8,14.681,False,10,2.0,10,True,0000000A-00000008-1,
+20,9,14.901,False,10,2.0,10,True,0000000C-00000008-1,
+20,10,14.776,False,10,2.0,10,True,0000000D-00000008-1,
+20,11,1000.353,True,10,2.0,10,False,,PoolTimeoutError: przekroczono limit czasu puli (1.00 s)
+20,12,1000.378,True,10,2.0,10,False,,PoolTimeoutError: przekroczono limit czasu puli (1.00 s)
+20,13,1000.391,True,10,2.0,10,False,,PoolTimeoutError: przekroczono limit czasu puli (1.00 s)
+20,14,1000.404,True,10,2.0,10,False,,PoolTimeoutError: przekroczono limit czasu puli (1.00 s)
+20,15,1000.416,True,10,2.0,10,False,,PoolTimeoutError: przekroczono limit czasu puli (1.00 s)
+20,16,1000.426,True,10,2.0,10,False,,PoolTimeoutError: przekroczono limit czasu puli (1.00 s)
+20,17,1000.437,True,10,2.0,10,False,,PoolTimeoutError: przekroczono limit czasu puli (1.00 s)
+20,18,1000.448,True,10,2.0,10,False,,PoolTimeoutError: przekroczono limit czasu puli (1.00 s)
+20,19,1000.459,True,10,2.0,10,False,,PoolTimeoutError: przekroczono limit czasu puli (1.00 s)
+20,20,1000.462,True,10,2.0,10,False,,PoolTimeoutError: przekroczono limit czasu puli (1.00 s)

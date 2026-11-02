@@ -1,0 +1,11 @@
+engine_name,approach,num_queries,total_prompt_tokens,total_completion_tokens,total_tokens_all,avg_prompt_tokens,avg_completion_tokens,avg_total_tokens,react_turns_total,avg_latency_ms,avg_turns_per_query
+Profil A (Constrained CPU),Autorskie (Graph Pruning & Bridges),500,7465022,232856,7697878,3732.511,116.428,3848.939,2000,12821.8887,4.0
+Profil A (Constrained CPU),Baseline A (Full Schema),500,2064472,232764,2297236,1032.236,116.382,1148.618,2000,11256.4694,4.0
+Profil A (Constrained CPU),Baseline B (Lexical BM25),500,1546483,232208,1778691,773.2415,116.104,889.3455,2000,12162.9792,4.0
+Profil A (Constrained CPU),Baseline C (Hybrid pgvector+BM25 RRF),500,1543908,232696,1776604,771.954,116.348,888.302,2000,12175.3791,4.0
+Profil A (Constrained CPU),Baseline D (Dense-only pgvector k-NN),500,1525011,232856,1757867,762.5055,116.428,878.9335,2000,12189.34238,4.0
+Profil B (Unconstrained Strong),Autorskie (Graph Pruning & Bridges),500,7465022,379336,7844358,3732.511,189.668,3922.179,2000,20186.059940000003,4.0
+Profil B (Unconstrained Strong),Baseline A (Full Schema),500,2064472,380088,2444560,1032.236,190.044,1222.28,2000,17692.4212,4.0
+Profil B (Unconstrained Strong),Baseline B (Lexical BM25),500,1546483,381240,1927723,773.2415,190.62,963.8615,2000,18885.56572,4.0
+Profil B (Unconstrained Strong),Baseline C (Hybrid pgvector+BM25 RRF),500,1543908,380296,1924204,771.954,190.148,962.102,2000,19118.71722,4.0
+Profil B (Unconstrained Strong),Baseline D (Dense-only pgvector k-NN),500,1525011,381992,1907003,762.5055,190.996,953.5015,2000,19281.876940000002,4.0

@@ -1,0 +1,41 @@
+profile,query_id,difficulty,error_category,przyczyna,blad_postgresql
+small,174,medium,TABLE_MISSING,A+B,column ite.fk_goods_id does not exist
+small,220,simple,COLUMN_HALLUCINATION,C,column hr_grievance_filings_quarterly.fk_benefit_id does not exist
+small,254,medium,TABLE_MISSING,A+B,column hr_grievance_filings_executive.fk_leave_id does not exist
+small,353,medium,TABLE_MISSING,A+B,column ccs.fk_client_id does not exist
+small,366,medium,TABLE_MISSING,A+B,column crm_client_interactions_active.client_id does not exist
+small,328,simple,SEMANTIC_MISMATCH,E,
+small,200,complex,TABLE_MISSING,D,column b.base_id does not exist
+small,257,medium,TABLE_MISSING,A+B,column hr_grievance_filings_archived.fk_time_id does not exist
+small,469,medium,TABLE_MISSING,A+B,column telemetry_api_response_times_daily_aggregates.fk_edge_id does not exist
+small,155,medium,TABLE_MISSING,A+B,column ibma.fk_internal_id does not exist
+small,124,simple,COLUMN_HALLUCINATION,C,column inventory_inventory_adjustments_perishable.fk_purchase_id does not exist
+small,397,complex,TABLE_MISSING,D,column b.base_id does not exist
+small,226,simple,TABLE_MISSING,B,column hr_recruitment_postings_executive.fk_employee_id does not exist
+small,8,simple,TABLE_MISSING,B,column finance_escrow_deposits_quarterly.fk_payment_id does not exist
+small,188,complex,TABLE_MISSING,D,column b.base_id does not exist
+small,120,simple,SEMANTIC_MISMATCH,E,
+small,370,medium,TABLE_MISSING,A+B,column crm_sales_targets_smb.fk_deal_id does not exist
+small,164,medium,TABLE_MISSING,A+B,column inventory_dispatch_manifests_perishable.fk_dispatch_id does not exist
+small,411,simple,TABLE_MISSING,B,column telemetry_host_servers_datacenter_a.fk_host_id does not exist
+small,50,medium,TABLE_MISSING,A+B,column fed.fk_payment_id does not exist
+large,412,simple,COLUMN_HALLUCINATION,C,column t1.fk_stream_id does not exist
+large,218,simple,COLUMN_HALLUCINATION,C,column hc.fk_labor_id does not exist
+large,71,medium,TABLE_MISSING,A+B,"column ""total_count"" does not exist"
+large,343,medium,TABLE_MISSING,A+B,column ccar.customer_account_id does not exist
+large,132,medium,TABLE_MISSING,A+B,column iwpie.fk_bills_id does not exist
+large,167,medium,TABLE_MISSING,A+B,"column ""total_count"" does not exist"
+large,80,medium,TABLE_MISSING,A+B,column fddi.fk_invoices_id does not exist
+large,196,complex,SEMANTIC_MISMATCH,E,
+large,485,complex,TABLE_MISSING,B,column s.fk_host_id does not exist
+large,332,medium,TABLE_MISSING,A+B,column o.fk_audience_id does not exist
+large,78,medium,COLUMN_HALLUCINATION,A+C,column fadd.fk_asset_id does not exist
+large,488,complex,SEMANTIC_MISMATCH,E,
+large,331,medium,TABLE_MISSING,A+B,column cio.fk_case_id does not exist
+large,179,medium,TABLE_MISSING,A+B,"column ""total_count"" does not exist"
+large,4,simple,TABLE_MISSING,B,column fel.fk_budget_id does not exist
+large,383,complex,SEMANTIC_MISMATCH,E,
+large,262,medium,TABLE_MISSING,A+B,column e.fk_employee_id does not exist
+large,112,simple,TABLE_MISSING,B,column isr.fk_stock_id does not exist
+large,52,medium,TABLE_MISSING,A+B,column fpd.fk_cash_flow_id does not exist
+large,54,medium,TABLE_MISSING,A+B,column fcfph.fk_invoices_id does not exist

@@ -1,0 +1,6 @@
+page_number,rows_in_page,first_id,last_id,tokens_used,latency_ms,has_more,cursor_in,cursor_out,duplicates_detected,monotonic
+1,21,1,21,1998,3.83,True,START,eyJsYXN0X2lkIjoy...,0,True
+2,20,22,41,1911,4.64,True,eyJsYXN0X2lkIjoy...,eyJsYXN0X2lkIjo0...,0,True
+3,20,42,61,1930,4.1,True,eyJsYXN0X2lkIjo0...,eyJsYXN0X2lkIjo2...,0,True
+4,20,62,81,1920,4.08,True,eyJsYXN0X2lkIjo2...,eyJsYXN0X2lkIjo4...,0,True
+5,20,82,101,1947,4.04,True,eyJsYXN0X2lkIjo4...,eyJsYXN0X2lkIjox...,0,True

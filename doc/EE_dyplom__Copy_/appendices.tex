@@ -1,0 +1,73 @@
+\begin{easyappendix}{Kod źródłowy implementacji referencyjnej oraz środowiska badawczego}
+\label{app:kod_zrodlowy}
+
+Integralną część niniejszej pracy magisterskiej stanowi załącznik w~postaci skompresowanego archiwum ZIP (\texttt{mcp-master-thesis-source.zip}), zawierający kompletny kod źródłowy opracowanego systemu, środowisko badawcze oraz skrypty powtarzalnych eksperymentów ewaluacyjnych.
+
+\section*{Struktura zawartości archiwum}
+
+Poniżej przedstawiono logiczną strukturę katalogów i~plików wchodzących w~skład dołączonego pakietu programistycznego:
+
+\begin{itemize}
+    \item \textbf{\texttt{src/mcp\_server/}} -- kod źródłowy autorskiej bramy pośredniczącej protokołu Model Context Protocol:
+    \begin{itemize}
+        \item \texttt{server.py} -- główny moduł serwera FastMCP pod Pythonem 3.12, rejestracja narzędzi analitycznych, zasobów kontekstowych oraz obsługa cyklu życia sesji;
+        \item \texttt{schema\_engine.py} -- silnik progresywnego odkrywania schematu (JIT Schema Discovery) z~wykorzystaniem wektorowej bazy PostgreSQL/pgvector;
+        \item \texttt{pagination.py} -- algorytm adaptacyjnej paginacji kursorowej (Smart Pagination) z~dynamiczną estymacją budżetu tokenów (tiktoken BPE);
+        \item \texttt{streaming.py} -- moduł asynchronicznego strumieniowania zdarzeń telemetrycznych Server-Sent Events (SSE) powiązany z~brokerem Apache Kafka;
+        \item \texttt{security.py} -- wielowarstwowa zapora bezpieczeństwa zapytań SQL Sanitizer oparta na weryfikacji drzew składniowych AST (SQLGlot).
+    \end{itemize}
+    \item \textbf{\texttt{testbed/}} -- definicje infrastruktury badawczej i~zasilania danymi:
+    \begin{itemize}
+        \item \texttt{docker-compose.yml} -- plik orkiestracji kontenerów PostgreSQL 16 (z~rozszerzeniem \texttt{pgvector}) oraz Apache Kafka w~bezstanowym trybie konsensusu KRaft;
+        \item \texttt{init-scripts/} -- skrypty DDL oraz generatory syntetycznych struktur hurtowni danych (do 1000 relacji) oraz wolumenu 1~miliona rekordów analitycznych.
+    \end{itemize}
+    \item \textbf{\texttt{benchmarks/}} -- aparatura pomiarowa i~narzędzia ewaluacyjne:
+    \begin{itemize}
+        \item \texttt{harness.py} -- modularny silnik testowy realizujący automatyczne, wielopróbkowe pomiary czasów TTFT, latencji E2E, zużycia pamięci i~tokenów;
+        \item \texttt{scenarios/} -- implementacje czterech scenariuszy pomiarowych (Scenariusz A: skalowalność schematu, Scenariusz B: paginacja i~Out-of-Band, Scenariusz C: asynchroniczne strumieniowanie SSE, Scenariusz D: odporność na ataki Prompt Injection);
+        \item \texttt{plot\_generators/} -- zautomatyzowane skrypty generujące wykresy wektorowe PDF prezentowane w~rozdziale badawczym.
+    \end{itemize}
+    \item \textbf{\texttt{doc/}} -- kompletne pliki źródłowe tekstu pracy w~systemie \LaTeX{}, arkusze stylów \texttt{EE-dyplom.cls}, pliki bibliograficzne Bib\LaTeX{} oraz materiały graficzne;
+    \item \textbf{\texttt{pyproject.toml} / \texttt{requirements.txt}} -- specyfikacja zależności bibliotecznych środowiska Python 3.12;
+    \item \textbf{\texttt{README.md}} -- szczegółowa instrukcja techniczna dotycząca instalacji, konfiguracji środowiska wirtualnego oraz procedury reprodukcji wyników eksperymentalnych.
+\end{itemize}
+
+\section*{Wymagania systemowe i instrukcja uruchomienia}
+
+W~celu odtworzenia środowiska badawczego oraz uruchomienia harnessu pomiarowego wymagane są następujące komponenty programowe:
+\begin{itemize}
+    \item System operacyjny klasy Linux (rekomendowana dystrybucja Ubuntu 22.04 LTS lub nowsza);
+    \item Środowisko Python w~wersji 3.12 lub wyższej;
+    \item Środowisko kontenerowe Docker Engine 24.0+ oraz Docker Compose v2.20+;
+    \item Minimum 16~GB pamięci operacyjnej RAM oraz 20~GB wolnej przestrzeni dyskowej na wolumeny bazodanowe.
+\end{itemize}
+
+Procedura uruchomienia krok po kroku:
+\begin{enumerate}
+    \item Rozpakowanie archiwum do wybranego katalogu roboczego:
+    \begin{center}
+        \texttt{unzip mcp-master-thesis-source.zip -d mcp-thesis}
+    \end{center}
+    \item Utworzenie i~aktywacja dedykowanego środowiska wirtualnego:
+    \begin{center}
+        \texttt{python3.12 -m venv .venv \&\& source .venv/bin/activate}
+    \end{center}
+    \item Instalacja wymaganych bibliotek i~zależności środowiskowych:
+    \begin{center}
+        \texttt{pip install -r requirements.txt}
+    \end{center}
+    \item Uruchomienie kontenerów bazodanowych PostgreSQL i~brokera Kafka:
+    \begin{center}
+        \texttt{docker compose -f testbed/docker-compose.yml up -d}
+    \end{center}
+    \item Generowanie danych syntetycznych oraz wektorowych indeksów HNSW:
+    \begin{center}
+        \texttt{python testbed/init-scripts/seed\_1m\_records.py}
+    \end{center}
+    \item Uruchomienie pełnego pakietu scenariuszy benchmarkowych:
+    \begin{center}
+        \texttt{python benchmarks/harness.py --scenario all}
+    \end{center}
+\end{enumerate}
+
+\end{easyappendix}

@@ -1,0 +1,1805 @@
+profile,query_id,difficulty,question,gt_sql,gt_tables,retrieved_tables,raw_response,generated_sql,exec_error,error_category,valid_sql,n_rows_pred,n_rows_gt,done_reason,eval_count
+small,174,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania inventory_reorder_thresholds_expedited.warehouse_id, liczebność grupy COUNT(inventory_reorder_thresholds_expedited.id) AS total_count oraz zagregowaną metrykę analityczną (SUM(public.inventory_reorder_thresholds_expedited.quantity) AS aggregate_metric), łącząc tabelę inventory_reorder_thresholds_expedited z tabelami (inventory_dispatch_manifests_perishable, inventory_goods_receipts_finished_goods, inventory_batch_inspections_raw_materials), filtrując rekordy o inventory_reorder_thresholds_expedited.id > 0, grupując po inventory_reorder_thresholds_expedited.warehouse_id z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.inventory_reorder_thresholds_expedited.warehouse_id, COUNT(public.inventory_reorder_thresholds_expedited.id) AS total_count, SUM(public.inventory_reorder_thresholds_expedited.quantity) AS aggregate_metric FROM public.inventory_reorder_thresholds_expedited JOIN public.inventory_dispatch_manifests_perishable ON public.inventory_reorder_thresholds_expedited.fk_dispatch_id = public.inventory_dispatch_manifests_perishable.id JOIN public.inventory_goods_receipts_finished_goods ON public.inventory_dispatch_manifests_perishable.fk_goods_id = public.inventory_goods_receipts_finished_goods.id JOIN public.inventory_batch_inspections_raw_materials ON public.inventory_goods_receipts_finished_goods.id = public.inventory_batch_inspections_raw_materials.fk_goods_id WHERE public.inventory_reorder_thresholds_expedited.id > 0 GROUP BY public.inventory_reorder_thresholds_expedited.warehouse_id HAVING COUNT(public.inventory_reorder_thresholds_expedited.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""inventory_reorder_thresholds_expedited"", ""inventory_dispatch_manifests_perishable"", ""inventory_goods_receipts_finished_goods"", ""inventory_batch_inspections_raw_materials""]","[""inventory_reorder_thresholds_finished_goods"", ""inventory_reorder_thresholds_expedited"", ""inventory_reorder_thresholds_raw_materials"", ""inventory_reorder_thresholds_in_transit"", ""inventory_reorder_thresholds_components"", ""inventory_bills_of_materials_components""]","```sql
+SELECT 
+    ite.warehouse_id,
+    COUNT(ite.id) AS total_count,
+    SUM(ite.quantity) AS aggregate_metric
+FROM 
+    inventory_reorder_thresholds_expedited ite
+JOIN 
+    inventory_dispatch_manifests_perishable idmp ON ite.fk_dispatch_id = idmp.id
+JOIN 
+    inventory_goods_receipts_finished_goods igrf ON ite.fk_goods_id = igrf.id
+JOIN 
+    inventory_batch_inspections_raw_materials ibirm ON ite.fk_internal_id = ibirm.id
+WHERE 
+    ite.id > 0
+GROUP BY 
+    ite.warehouse_id
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    ite.warehouse_id,
+    COUNT(ite.id) AS total_count,
+    SUM(ite.quantity) AS aggregate_metric
+FROM 
+    inventory_reorder_thresholds_expedited ite
+JOIN 
+    inventory_dispatch_manifests_perishable idmp ON ite.fk_dispatch_id = idmp.id
+JOIN 
+    inventory_goods_receipts_finished_goods igrf ON ite.fk_goods_id = igrf.id
+JOIN 
+    inventory_batch_inspections_raw_materials ibirm ON ite.fk_internal_id = ibirm.id
+WHERE 
+    ite.id > 0
+GROUP BY 
+    ite.warehouse_id
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;","column ite.fk_goods_id does not exist
+HINT:  Perhaps you meant to reference the column ""idmp.fk_goods_id"".",TABLE_MISSING,False,,15,stop,163
+small,220,simple,"Pobierz jawne atrybuty biznesowe: identyfikator hr_grievance_filings_quarterly.id AS hr_grievance_filings_quarterly_id, znacznik czasu hr_grievance_filings_quarterly.created_at, identyfikator powiązany hr_labor_contracts_annual.id AS hr_labor_contracts_annual_id, identyfikator powiązany hr_benefit_plans_quarterly.id AS hr_benefit_plans_quarterly_id poprzez relacyjne złączenie tabeli bazowej hr_grievance_filings_quarterly oraz encji powiązanych (hr_labor_contracts_annual, hr_benefit_plans_quarterly), filtrując rekordy o hr_grievance_filings_quarterly.id > 0 (LIMIT 50).","SELECT public.hr_grievance_filings_quarterly.id AS hr_grievance_filings_quarterly_id, public.hr_grievance_filings_quarterly.created_at, public.hr_labor_contracts_annual.id AS hr_labor_contracts_annual_id, public.hr_benefit_plans_quarterly.id AS hr_benefit_plans_quarterly_id FROM public.hr_grievance_filings_quarterly JOIN public.hr_labor_contracts_annual ON public.hr_grievance_filings_quarterly.fk_labor_id = public.hr_labor_contracts_annual.id JOIN public.hr_benefit_plans_quarterly ON public.hr_labor_contracts_annual.id = public.hr_benefit_plans_quarterly.fk_labor_id WHERE public.hr_grievance_filings_quarterly.id > 0 LIMIT 50;","[""hr_grievance_filings_quarterly"", ""hr_labor_contracts_annual"", ""hr_benefit_plans_quarterly""]","[""hr_grievance_filings_quarterly"", ""hr_labor_contracts_quarterly"", ""hr_grievance_filings_internship"", ""hr_grievance_filings_hybrid"", ""hr_benefit_plans_quarterly"", ""hr_labor_contracts_annual""]","```sql
+SELECT 
+    hr_grievance_filings_quarterly.id AS hr_grievance_filings_quarterly_id,
+    hr_grievance_filings_quarterly.created_at,
+    hr_labor_contracts_annual.id AS hr_labor_contracts_annual_id,
+    hr_benefit_plans_quarterly.id AS hr_benefit_plans_quarterly_id
+FROM 
+    hr_grievance_filings_quarterly
+JOIN 
+    hr_labor_contracts_annual ON hr_grievance_filings_quarterly.fk_labor_id = hr_labor_contracts_annual.id
+JOIN 
+    hr_benefit_plans_quarterly ON hr_grievance_filings_quarterly.fk_benefit_id = hr_benefit_plans_quarterly.id
+WHERE 
+    hr_grievance_filings_quarterly.id > 0
+LIMIT 50;
+```","SELECT 
+    hr_grievance_filings_quarterly.id AS hr_grievance_filings_quarterly_id,
+    hr_grievance_filings_quarterly.created_at,
+    hr_labor_contracts_annual.id AS hr_labor_contracts_annual_id,
+    hr_benefit_plans_quarterly.id AS hr_benefit_plans_quarterly_id
+FROM 
+    hr_grievance_filings_quarterly
+JOIN 
+    hr_labor_contracts_annual ON hr_grievance_filings_quarterly.fk_labor_id = hr_labor_contracts_annual.id
+JOIN 
+    hr_benefit_plans_quarterly ON hr_grievance_filings_quarterly.fk_benefit_id = hr_benefit_plans_quarterly.id
+WHERE 
+    hr_grievance_filings_quarterly.id > 0
+LIMIT 50;",column hr_grievance_filings_quarterly.fk_benefit_id does not exist,COLUMN_HALLUCINATION,False,,26,stop,197
+small,254,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania hr_leave_requests_internship.department_code, liczebność grupy COUNT(hr_leave_requests_internship.id) AS total_count oraz zagregowaną metrykę analityczną (COUNT(public.hr_leave_requests_internship.employee_id) AS aggregate_metric), łącząc tabelę hr_leave_requests_internship z tabelami (hr_department_units_full_time, hr_grievance_filings_executive, hr_exit_interviews_contractor), filtrując rekordy o hr_leave_requests_internship.id > 0, grupując po hr_leave_requests_internship.department_code z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.hr_leave_requests_internship.department_code, COUNT(public.hr_leave_requests_internship.id) AS total_count, COUNT(public.hr_leave_requests_internship.employee_id) AS aggregate_metric FROM public.hr_leave_requests_internship JOIN public.hr_department_units_full_time ON public.hr_leave_requests_internship.fk_department_id = public.hr_department_units_full_time.id JOIN public.hr_grievance_filings_executive ON public.hr_department_units_full_time.id = public.hr_grievance_filings_executive.fk_department_id JOIN public.hr_exit_interviews_contractor ON public.hr_grievance_filings_executive.id = public.hr_exit_interviews_contractor.fk_grievance_id WHERE public.hr_leave_requests_internship.id > 0 GROUP BY public.hr_leave_requests_internship.department_code HAVING COUNT(public.hr_leave_requests_internship.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""hr_leave_requests_internship"", ""hr_department_units_full_time"", ""hr_grievance_filings_executive"", ""hr_exit_interviews_contractor""]","[""hr_leave_requests_internship"", ""hr_leave_requests_quarterly"", ""hr_leave_requests_full_time"", ""hr_performance_evaluations_internship"", ""hr_leave_requests_probationary"", ""hr_department_units_full_time""]","```sql
+SELECT 
+    hr_leave_requests_internship.department_code,
+    COUNT(hr_leave_requests_internship.id) AS total_count,
+    COUNT(public.hr_leave_requests_internship.employee_id) AS aggregate_metric
+FROM 
+    public.hr_leave_requests_internship
+JOIN 
+    public.hr_department_units_full_time ON hr_leave_requests_internship.fk_department_id = hr_department_units_full_time.id
+LEFT JOIN 
+    public.hr_grievance_filings_executive ON hr_leave_requests_internship.id = public.hr_grievance_filings_executive.fk_leave_id
+LEFT JOIN 
+    public.hr_exit_interviews_contractor ON hr_leave_requests_internship.id = public.hr_exit_interviews_contractor.fk_leave_id
+WHERE 
+    hr_leave_requests_internship.id > 0
+GROUP BY 
+    hr_leave_requests_internship.department_code
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    hr_leave_requests_internship.department_code,
+    COUNT(hr_leave_requests_internship.id) AS total_count,
+    COUNT(public.hr_leave_requests_internship.employee_id) AS aggregate_metric
+FROM 
+    public.hr_leave_requests_internship
+JOIN 
+    public.hr_department_units_full_time ON hr_leave_requests_internship.fk_department_id = hr_department_units_full_time.id
+LEFT JOIN 
+    public.hr_grievance_filings_executive ON hr_leave_requests_internship.id = public.hr_grievance_filings_executive.fk_leave_id
+LEFT JOIN 
+    public.hr_exit_interviews_contractor ON hr_leave_requests_internship.id = public.hr_exit_interviews_contractor.fk_leave_id
+WHERE 
+    hr_leave_requests_internship.id > 0
+GROUP BY 
+    hr_leave_requests_internship.department_code
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;",column hr_grievance_filings_executive.fk_leave_id does not exist,TABLE_MISSING,False,,6,stop,208
+small,353,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania crm_client_accounts_smb.stage, liczebność grupy COUNT(crm_client_accounts_smb.id) AS total_count oraz zagregowaną metrykę analityczną (AVG(public.crm_client_accounts_smb.deal_value) AS aggregate_metric), łącząc tabelę crm_client_accounts_smb z tabelami (crm_client_accounts_active, crm_pipeline_stages_retention_risk), filtrując rekordy o crm_client_accounts_smb.id > 0, grupując po crm_client_accounts_smb.stage z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.crm_client_accounts_smb.stage, COUNT(public.crm_client_accounts_smb.id) AS total_count, AVG(public.crm_client_accounts_smb.deal_value) AS aggregate_metric FROM public.crm_client_accounts_smb JOIN public.crm_client_accounts_active ON public.crm_client_accounts_smb.id = public.crm_client_accounts_active.fk_client_id JOIN public.crm_pipeline_stages_retention_risk ON public.crm_client_accounts_active.id = public.crm_pipeline_stages_retention_risk.fk_client_id WHERE public.crm_client_accounts_smb.id > 0 GROUP BY public.crm_client_accounts_smb.stage HAVING COUNT(public.crm_client_accounts_smb.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""crm_client_accounts_smb"", ""crm_client_accounts_active"", ""crm_pipeline_stages_retention_risk""]","[""crm_case_escalations_smb"", ""crm_deal_opportunities_smb"", ""crm_client_accounts_active"", ""crm_satisfaction_surveys_smb"", ""crm_sales_targets_smb"", ""crm_client_accounts_mid_market""]","```sql
+SELECT 
+    ccs.stage,
+    COUNT(ccs.id) AS total_count,
+    AVG(ccs.deal_value) AS aggregate_metric
+FROM 
+    public.crm_client_accounts_smb ccs
+JOIN 
+    public.crm_client_accounts_active cca ON ccs.fk_client_id = cca.id
+JOIN 
+    public.crm_pipeline_stages_retention_risk cprs ON ccs.stage = cprs.stage
+WHERE 
+    ccs.id > 0
+GROUP BY 
+    ccs.stage
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    ccs.stage,
+    COUNT(ccs.id) AS total_count,
+    AVG(ccs.deal_value) AS aggregate_metric
+FROM 
+    public.crm_client_accounts_smb ccs
+JOIN 
+    public.crm_client_accounts_active cca ON ccs.fk_client_id = cca.id
+JOIN 
+    public.crm_pipeline_stages_retention_risk cprs ON ccs.stage = cprs.stage
+WHERE 
+    ccs.id > 0
+GROUP BY 
+    ccs.stage
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;","column ccs.fk_client_id does not exist
+HINT:  Perhaps you meant to reference the column ""cca.fk_client_id"".",TABLE_MISSING,False,,5,stop,132
+small,366,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania crm_email_deliveries_smb.stage, liczebność grupy COUNT(crm_email_deliveries_smb.id) AS total_count oraz zagregowaną metrykę analityczną (AVG(public.crm_email_deliveries_smb.deal_value) AS aggregate_metric), łącząc tabelę crm_email_deliveries_smb z tabelami (crm_client_accounts_inbound, crm_client_interactions_active, crm_client_accounts_enterprise), filtrując rekordy o crm_email_deliveries_smb.id > 0, grupując po crm_email_deliveries_smb.stage z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.crm_email_deliveries_smb.stage, COUNT(public.crm_email_deliveries_smb.id) AS total_count, AVG(public.crm_email_deliveries_smb.deal_value) AS aggregate_metric FROM public.crm_email_deliveries_smb JOIN public.crm_client_accounts_inbound ON public.crm_email_deliveries_smb.fk_client_id = public.crm_client_accounts_inbound.id JOIN public.crm_client_interactions_active ON public.crm_client_accounts_inbound.fk_client_id = public.crm_client_interactions_active.id JOIN public.crm_client_accounts_enterprise ON public.crm_client_interactions_active.id = public.crm_client_accounts_enterprise.fk_client_id WHERE public.crm_email_deliveries_smb.id > 0 GROUP BY public.crm_email_deliveries_smb.stage HAVING COUNT(public.crm_email_deliveries_smb.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""crm_email_deliveries_smb"", ""crm_client_accounts_inbound"", ""crm_client_interactions_active"", ""crm_client_accounts_enterprise""]","[""crm_email_deliveries_smb"", ""crm_email_deliveries_escalated"", ""crm_email_deliveries_high_value"", ""crm_email_deliveries_archived"", ""crm_satisfaction_surveys_outbound""]","```sql
+SELECT 
+    crm_email_deliveries_smb.stage,
+    COUNT(crm_email_deliveries_smb.id) AS total_count,
+    AVG(crm_email_deliveries_smb.deal_value) AS aggregate_metric
+FROM 
+    crm_email_deliveries_smb
+JOIN 
+    crm_client_accounts_inbound ON crm_email_deliveries_smb.fk_client_id = crm_client_accounts_inbound.id
+JOIN 
+    crm_client_interactions_active ON crm_email_deliveries_smb.fk_client_id = crm_client_interactions_active.client_id
+JOIN 
+    crm_client_accounts_enterprise ON crm_email_deliveries_smb.fk_client_id = crm_client_accounts_enterprise.id
+WHERE 
+    crm_email_deliveries_smb.id > 0
+GROUP BY 
+    crm_email_deliveries_smb.stage
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    crm_email_deliveries_smb.stage,
+    COUNT(crm_email_deliveries_smb.id) AS total_count,
+    AVG(crm_email_deliveries_smb.deal_value) AS aggregate_metric
+FROM 
+    crm_email_deliveries_smb
+JOIN 
+    crm_client_accounts_inbound ON crm_email_deliveries_smb.fk_client_id = crm_client_accounts_inbound.id
+JOIN 
+    crm_client_interactions_active ON crm_email_deliveries_smb.fk_client_id = crm_client_interactions_active.client_id
+JOIN 
+    crm_client_accounts_enterprise ON crm_email_deliveries_smb.fk_client_id = crm_client_accounts_enterprise.id
+WHERE 
+    crm_email_deliveries_smb.id > 0
+GROUP BY 
+    crm_email_deliveries_smb.stage
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;",column crm_client_interactions_active.client_id does not exist,TABLE_MISSING,False,,5,stop,211
+small,328,simple,"Pobierz jawne atrybuty biznesowe: identyfikator crm_marketing_campaigns_enterprise.id AS crm_marketing_campaigns_enterprise_id, znacznik czasu crm_marketing_campaigns_enterprise.created_at, identyfikator powiązany crm_client_accounts_mid_market.id AS crm_client_accounts_mid_market_id, identyfikator powiązany crm_client_accounts_escalated.id AS crm_client_accounts_escalated_id poprzez relacyjne złączenie tabeli bazowej crm_marketing_campaigns_enterprise oraz encji powiązanych (crm_client_accounts_mid_market, crm_client_accounts_escalated), filtrując rekordy o crm_marketing_campaigns_enterprise.id > 0 (LIMIT 50).","SELECT public.crm_marketing_campaigns_enterprise.id AS crm_marketing_campaigns_enterprise_id, public.crm_marketing_campaigns_enterprise.created_at, public.crm_client_accounts_mid_market.id AS crm_client_accounts_mid_market_id, public.crm_client_accounts_escalated.id AS crm_client_accounts_escalated_id FROM public.crm_marketing_campaigns_enterprise JOIN public.crm_client_accounts_mid_market ON public.crm_marketing_campaigns_enterprise.fk_client_id = public.crm_client_accounts_mid_market.id JOIN public.crm_client_accounts_escalated ON public.crm_client_accounts_mid_market.id = public.crm_client_accounts_escalated.fk_client_id WHERE public.crm_marketing_campaigns_enterprise.id > 0 LIMIT 50;","[""crm_marketing_campaigns_enterprise"", ""crm_client_accounts_mid_market"", ""crm_client_accounts_escalated""]","[""crm_marketing_campaigns_enterprise"", ""crm_marketing_campaigns_smb"", ""crm_client_accounts_escalated"", ""crm_marketing_campaigns_archived"", ""crm_client_accounts_outbound"", ""crm_client_accounts_mid_market""]","```sql
+SELECT 
+    crm_marketing_campaigns_enterprise.id AS crm_marketing_campaigns_enterprise_id,
+    crm_marketing_campaigns_enterprise.created_at,
+    crm_client_accounts_mid_market.id AS crm_client_accounts_mid_market_id,
+    crm_client_accounts_escalated.id AS crm_client_accounts_escalated_id
+FROM 
+    public.crm_marketing_campaigns_enterprise
+JOIN 
+    public.crm_client_accounts_mid_market ON crm_marketing_campaigns_enterprise.fk_client_id = crm_client_accounts_mid_market.id
+JOIN 
+    public.crm_client_accounts_escalated ON crm_marketing_campaigns_enterprise.fk_client_id = crm_client_accounts_escalated.id
+WHERE 
+    crm_marketing_campaigns_enterprise.id > 0
+LIMIT 50;
+```","SELECT 
+    crm_marketing_campaigns_enterprise.id AS crm_marketing_campaigns_enterprise_id,
+    crm_marketing_campaigns_enterprise.created_at,
+    crm_client_accounts_mid_market.id AS crm_client_accounts_mid_market_id,
+    crm_client_accounts_escalated.id AS crm_client_accounts_escalated_id
+FROM 
+    public.crm_marketing_campaigns_enterprise
+JOIN 
+    public.crm_client_accounts_mid_market ON crm_marketing_campaigns_enterprise.fk_client_id = crm_client_accounts_mid_market.id
+JOIN 
+    public.crm_client_accounts_escalated ON crm_marketing_campaigns_enterprise.fk_client_id = crm_client_accounts_escalated.id
+WHERE 
+    crm_marketing_campaigns_enterprise.id > 0
+LIMIT 50;",,SEMANTIC_MISMATCH,True,11.0,13,stop,173
+small,200,complex,"Sporządź zaawansowane zapytanie analityczne CTE bazujące na tabeli inventory_cycle_counts_finished_goods zwracające jawne kolumny: b.base_id (inventory_cycle_counts_finished_goods.id), b.warehouse_id, b.metric_val (wartość agregacji), inventory_return_authorizations_archived_id (public.inventory_return_authorizations_archived.id), inventory_stock_balances_finished_goods_id (public.inventory_stock_balances_finished_goods.id), inventory_quarantine_items_in_transit_id (public.inventory_quarantine_items_in_transit.id), inventory_stock_balances_allocated_id (public.inventory_stock_balances_allocated.id), integrujące relacje z tabelami (inventory_return_authorizations_archived, inventory_stock_balances_finished_goods, inventory_quarantine_items_in_transit, inventory_stock_balances_allocated), filtrując b.metric_val IS NOT NULL z sortowaniem ORDER BY b.base_id ASC (LIMIT 50).","WITH base_summary AS (
+    SELECT public.inventory_cycle_counts_finished_goods.id AS base_id, public.inventory_cycle_counts_finished_goods.warehouse_id, SUM(public.inventory_cycle_counts_finished_goods.quantity) AS metric_val
+    FROM public.inventory_cycle_counts_finished_goods
+    WHERE public.inventory_cycle_counts_finished_goods.id > 0
+    GROUP BY public.inventory_cycle_counts_finished_goods.id, public.inventory_cycle_counts_finished_goods.warehouse_id
+)
+SELECT b.base_id, b.warehouse_id, b.metric_val, public.inventory_return_authorizations_archived.id AS inventory_return_authorizations_archived_id, public.inventory_stock_balances_finished_goods.id AS inventory_stock_balances_finished_goods_id, public.inventory_quarantine_items_in_transit.id AS inventory_quarantine_items_in_transit_id, public.inventory_stock_balances_allocated.id AS inventory_stock_balances_allocated_id
+FROM base_summary b
+JOIN public.inventory_cycle_counts_finished_goods ON b.base_id = public.inventory_cycle_counts_finished_goods.id
+JOIN public.inventory_return_authorizations_archived ON public.inventory_cycle_counts_finished_goods.fk_return_id = public.inventory_return_authorizations_archived.id JOIN public.inventory_stock_balances_finished_goods ON public.inventory_return_authorizations_archived.fk_stock_id = public.inventory_stock_balances_finished_goods.id JOIN public.inventory_quarantine_items_in_transit ON public.inventory_stock_balances_finished_goods.id = public.inventory_quarantine_items_in_transit.fk_stock_id JOIN public.inventory_stock_balances_allocated ON public.inventory_quarantine_items_in_transit.id = public.inventory_stock_balances_allocated.fk_quarantine_id
+WHERE b.metric_val IS NOT NULL
+ORDER BY b.base_id ASC
+LIMIT 50;","[""inventory_cycle_counts_finished_goods"", ""inventory_return_authorizations_archived"", ""inventory_stock_balances_finished_goods"", ""inventory_quarantine_items_in_transit"", ""inventory_stock_balances_allocated""]","[""inventory_return_authorizations_archived"", ""inventory_stock_balances_allocated"", ""inventory_return_authorizations_perishable"", ""inventory_quarantine_items_in_transit"", ""inventory_stock_balances_raw_materials"", ""inventory_stock_balances_finished_goods""]","```sql
+WITH CTE AS (
+    SELECT 
+        b.base_id,
+        b.warehouse_id,
+        b.metric_val,
+        ra.id AS inventory_return_authorizations_archived_id,
+        sb.id AS inventory_stock_balances_finished_goods_id,
+        qiit.id AS inventory_quarantine_items_in_transit_id,
+        sba.id AS inventory_stock_balances_allocated_id
+    FROM 
+        inventory_cycle_counts_finished_goods b
+    LEFT JOIN 
+        inventory_return_authorizations_archived ra ON b.base_id = ra.id
+    LEFT JOIN 
+        inventory_stock_balances_finished_goods sb ON b.base_id = sb.id
+    LEFT JOIN 
+        inventory_quarantine_items_in_transit qiit ON b.base_id = qiit.id
+    LEFT JOIN 
+        inventory_stock_balances_allocated sba ON b.base_id = sba.id
+    WHERE 
+        b.metric_val IS NOT NULL
+)
+SELECT 
+    base_id,
+    warehouse_id,
+    metric_val,
+    inventory_return_authorizations_archived_id,
+    inventory_stock_balances_finished_goods_id,
+    inventory_quarantine_items_in_transit_id,
+    inventory_stock_balances_allocated_id
+FROM 
+    CTE
+ORDER BY 
+    base_id ASC
+LIMIT 50;
+```","WITH CTE AS (
+    SELECT 
+        b.base_id,
+        b.warehouse_id,
+        b.metric_val,
+        ra.id AS inventory_return_authorizations_archived_id,
+        sb.id AS inventory_stock_balances_finished_goods_id,
+        qiit.id AS inventory_quarantine_items_in_transit_id,
+        sba.id AS inventory_stock_balances_allocated_id
+    FROM 
+        inventory_cycle_counts_finished_goods b
+    LEFT JOIN 
+        inventory_return_authorizations_archived ra ON b.base_id = ra.id
+    LEFT JOIN 
+        inventory_stock_balances_finished_goods sb ON b.base_id = sb.id
+    LEFT JOIN 
+        inventory_quarantine_items_in_transit qiit ON b.base_id = qiit.id
+    LEFT JOIN 
+        inventory_stock_balances_allocated sba ON b.base_id = sba.id
+    WHERE 
+        b.metric_val IS NOT NULL
+)
+SELECT 
+    base_id,
+    warehouse_id,
+    metric_val,
+    inventory_return_authorizations_archived_id,
+    inventory_stock_balances_finished_goods_id,
+    inventory_quarantine_items_in_transit_id,
+    inventory_stock_balances_allocated_id
+FROM 
+    CTE
+ORDER BY 
+    base_id ASC
+LIMIT 50;",column b.base_id does not exist,TABLE_MISSING,False,,23,stop,258
+small,257,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania hr_time_attendance_full_time.department_code, liczebność grupy COUNT(hr_time_attendance_full_time.id) AS total_count oraz zagregowaną metrykę analityczną (COUNT(public.hr_time_attendance_full_time.employee_id) AS aggregate_metric), łącząc tabelę hr_time_attendance_full_time z tabelami (hr_leave_requests_remote, hr_grievance_filings_archived), filtrując rekordy o hr_time_attendance_full_time.id > 0, grupując po hr_time_attendance_full_time.department_code z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.hr_time_attendance_full_time.department_code, COUNT(public.hr_time_attendance_full_time.id) AS total_count, COUNT(public.hr_time_attendance_full_time.employee_id) AS aggregate_metric FROM public.hr_time_attendance_full_time JOIN public.hr_leave_requests_remote ON public.hr_time_attendance_full_time.id = public.hr_leave_requests_remote.fk_time_id JOIN public.hr_grievance_filings_archived ON public.hr_leave_requests_remote.id = public.hr_grievance_filings_archived.fk_leave_id WHERE public.hr_time_attendance_full_time.id > 0 GROUP BY public.hr_time_attendance_full_time.department_code HAVING COUNT(public.hr_time_attendance_full_time.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""hr_time_attendance_full_time"", ""hr_leave_requests_remote"", ""hr_grievance_filings_archived""]","[""hr_time_attendance_full_time"", ""hr_time_attendance_remote"", ""hr_time_attendance_annual"", ""hr_salary_reviews_full_time"", ""hr_leave_requests_remote"", ""hr_employee_profiles_full_time""]","```sql
+SELECT 
+    hr_time_attendance_full_time.department_code,
+    COUNT(hr_time_attendance_full_time.id) AS total_count,
+    COUNT(public.hr_time_attendance_full_time.employee_id) AS aggregate_metric
+FROM 
+    public.hr_time_attendance_full_time
+LEFT JOIN 
+    public.hr_leave_requests_remote ON hr_time_attendance_full_time.id = public.hr_leave_requests_remote.fk_time_id
+LEFT JOIN 
+    public.hr_grievance_filings_archived ON hr_time_attendance_full_time.id = public.hr_grievance_filings_archived.fk_time_id
+WHERE 
+    hr_time_attendance_full_time.id > 0
+GROUP BY 
+    hr_time_attendance_full_time.department_code
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    hr_time_attendance_full_time.department_code,
+    COUNT(hr_time_attendance_full_time.id) AS total_count,
+    COUNT(public.hr_time_attendance_full_time.employee_id) AS aggregate_metric
+FROM 
+    public.hr_time_attendance_full_time
+LEFT JOIN 
+    public.hr_leave_requests_remote ON hr_time_attendance_full_time.id = public.hr_leave_requests_remote.fk_time_id
+LEFT JOIN 
+    public.hr_grievance_filings_archived ON hr_time_attendance_full_time.id = public.hr_grievance_filings_archived.fk_time_id
+WHERE 
+    hr_time_attendance_full_time.id > 0
+GROUP BY 
+    hr_time_attendance_full_time.department_code
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;",column hr_grievance_filings_archived.fk_time_id does not exist,TABLE_MISSING,False,,6,stop,174
+small,469,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania telemetry_api_response_times_daily_aggregates.sensor_type, liczebność grupy COUNT(telemetry_api_response_times_daily_aggregates.id) AS total_count oraz zagregowaną metrykę analityczną (AVG(public.telemetry_api_response_times_daily_aggregates.metric_value) AS aggregate_metric), łącząc tabelę telemetry_api_response_times_daily_aggregates z tabelami (telemetry_mesh_latencies_raw_stream, telemetry_edge_appliances_edge_node), filtrując rekordy o telemetry_api_response_times_daily_aggregates.id > 0, grupując po telemetry_api_response_times_daily_aggregates.sensor_type z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.telemetry_api_response_times_daily_aggregates.sensor_type, COUNT(public.telemetry_api_response_times_daily_aggregates.id) AS total_count, AVG(public.telemetry_api_response_times_daily_aggregates.metric_value) AS aggregate_metric FROM public.telemetry_api_response_times_daily_aggregates JOIN public.telemetry_mesh_latencies_raw_stream ON public.telemetry_api_response_times_daily_aggregates.fk_mesh_id = public.telemetry_mesh_latencies_raw_stream.id JOIN public.telemetry_edge_appliances_edge_node ON public.telemetry_mesh_latencies_raw_stream.fk_edge_id = public.telemetry_edge_appliances_edge_node.id WHERE public.telemetry_api_response_times_daily_aggregates.id > 0 GROUP BY public.telemetry_api_response_times_daily_aggregates.sensor_type HAVING COUNT(public.telemetry_api_response_times_daily_aggregates.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""telemetry_api_response_times_daily_aggregates"", ""telemetry_mesh_latencies_raw_stream"", ""telemetry_edge_appliances_edge_node""]","[""telemetry_memory_consumption_daily_aggregates"", ""telemetry_api_response_times_daily_aggregates"", ""telemetry_api_response_times_hourly_aggregates"", ""telemetry_stream_offsets_datacenter_a"", ""telemetry_api_response_times_anomaly_detected""]","```sql
+SELECT 
+    telemetry_api_response_times_daily_aggregates.sensor_type,
+    COUNT(telemetry_api_response_times_daily_aggregates.id) AS total_count,
+    AVG(telemetry_api_response_times_daily_aggregates.metric_value) AS aggregate_metric
+FROM 
+    telemetry_api_response_times_daily_aggregates
+LEFT JOIN 
+    telemetry_mesh_latencies_raw_stream ON telemetry_api_response_times_daily_aggregates.fk_mesh_id = telemetry_mesh_latencies_raw_stream.id
+LEFT JOIN 
+    telemetry_edge_appliances_edge_node ON telemetry_api_response_times_daily_aggregates.fk_edge_id = telemetry_edge_appliances_edge_node.id
+WHERE 
+    telemetry_api_response_times_daily_aggregates.id > 0
+GROUP BY 
+    telemetry_api_response_times_daily_aggregates.sensor_type
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    telemetry_api_response_times_daily_aggregates.sensor_type,
+    COUNT(telemetry_api_response_times_daily_aggregates.id) AS total_count,
+    AVG(telemetry_api_response_times_daily_aggregates.metric_value) AS aggregate_metric
+FROM 
+    telemetry_api_response_times_daily_aggregates
+LEFT JOIN 
+    telemetry_mesh_latencies_raw_stream ON telemetry_api_response_times_daily_aggregates.fk_mesh_id = telemetry_mesh_latencies_raw_stream.id
+LEFT JOIN 
+    telemetry_edge_appliances_edge_node ON telemetry_api_response_times_daily_aggregates.fk_edge_id = telemetry_edge_appliances_edge_node.id
+WHERE 
+    telemetry_api_response_times_daily_aggregates.id > 0
+GROUP BY 
+    telemetry_api_response_times_daily_aggregates.sensor_type
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;",column telemetry_api_response_times_daily_aggregates.fk_edge_id does not exist,TABLE_MISSING,False,,5,stop,186
+small,155,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania inventory_internal_transfers_bonded.warehouse_id, liczebność grupy COUNT(inventory_internal_transfers_bonded.id) AS total_count oraz zagregowaną metrykę analityczną (SUM(public.inventory_internal_transfers_bonded.quantity) AS aggregate_metric), łącząc tabelę inventory_internal_transfers_bonded z tabelami (inventory_purchase_orders_raw_materials, inventory_bills_of_materials_archived), filtrując rekordy o inventory_internal_transfers_bonded.id > 0, grupując po inventory_internal_transfers_bonded.warehouse_id z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.inventory_internal_transfers_bonded.warehouse_id, COUNT(public.inventory_internal_transfers_bonded.id) AS total_count, SUM(public.inventory_internal_transfers_bonded.quantity) AS aggregate_metric FROM public.inventory_internal_transfers_bonded JOIN public.inventory_purchase_orders_raw_materials ON public.inventory_internal_transfers_bonded.id = public.inventory_purchase_orders_raw_materials.fk_internal_id JOIN public.inventory_bills_of_materials_archived ON public.inventory_purchase_orders_raw_materials.fk_bills_id = public.inventory_bills_of_materials_archived.id WHERE public.inventory_internal_transfers_bonded.id > 0 GROUP BY public.inventory_internal_transfers_bonded.warehouse_id HAVING COUNT(public.inventory_internal_transfers_bonded.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""inventory_internal_transfers_bonded"", ""inventory_purchase_orders_raw_materials"", ""inventory_bills_of_materials_archived""]","[""inventory_internal_transfers_components"", ""inventory_purchase_orders_raw_materials"", ""inventory_internal_transfers_spare_parts"", ""inventory_picking_lists_bonded"", ""inventory_return_authorizations_finished_goods"", ""inventory_internal_transfers_bonded"", ""inventory_stock_balances_finished_goods""]","```sql
+SELECT 
+    itb.warehouse_id,
+    COUNT(itb.id) AS total_count,
+    SUM(itb.quantity) AS aggregate_metric
+FROM 
+    public.inventory_internal_transfers_bonded itb
+LEFT JOIN 
+    public.inventory_purchase_orders_raw_materials iporm ON itb.id = iporm.fk_internal_id
+LEFT JOIN 
+    public.inventory_bills_of_materials_archived ibma ON itb.id = ibma.fk_internal_id
+WHERE 
+    itb.id > 0
+GROUP BY 
+    itb.warehouse_id
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    itb.warehouse_id,
+    COUNT(itb.id) AS total_count,
+    SUM(itb.quantity) AS aggregate_metric
+FROM 
+    public.inventory_internal_transfers_bonded itb
+LEFT JOIN 
+    public.inventory_purchase_orders_raw_materials iporm ON itb.id = iporm.fk_internal_id
+LEFT JOIN 
+    public.inventory_bills_of_materials_archived ibma ON itb.id = ibma.fk_internal_id
+WHERE 
+    itb.id > 0
+GROUP BY 
+    itb.warehouse_id
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;",column ibma.fk_internal_id does not exist,TABLE_MISSING,False,,15,stop,143
+small,124,simple,"Pobierz jawne atrybuty biznesowe: identyfikator inventory_inventory_adjustments_perishable.id AS inventory_inventory_adjustments_perishable_id, znacznik czasu inventory_inventory_adjustments_perishable.created_at, identyfikator powiązany inventory_work_in_progress_expedited.id AS inventory_work_in_progress_expedited_id, identyfikator powiązany inventory_purchase_orders_raw_materials.id AS inventory_purchase_orders_raw_materials_id poprzez relacyjne złączenie tabeli bazowej inventory_inventory_adjustments_perishable oraz encji powiązanych (inventory_work_in_progress_expedited, inventory_purchase_orders_raw_materials), filtrując rekordy o inventory_inventory_adjustments_perishable.id > 0 (LIMIT 50).","SELECT public.inventory_inventory_adjustments_perishable.id AS inventory_inventory_adjustments_perishable_id, public.inventory_inventory_adjustments_perishable.created_at, public.inventory_work_in_progress_expedited.id AS inventory_work_in_progress_expedited_id, public.inventory_purchase_orders_raw_materials.id AS inventory_purchase_orders_raw_materials_id FROM public.inventory_inventory_adjustments_perishable JOIN public.inventory_work_in_progress_expedited ON public.inventory_inventory_adjustments_perishable.fk_work_id = public.inventory_work_in_progress_expedited.id JOIN public.inventory_purchase_orders_raw_materials ON public.inventory_work_in_progress_expedited.id = public.inventory_purchase_orders_raw_materials.fk_work_id WHERE public.inventory_inventory_adjustments_perishable.id > 0 LIMIT 50;","[""inventory_inventory_adjustments_perishable"", ""inventory_work_in_progress_expedited"", ""inventory_purchase_orders_raw_materials""]","[""inventory_inventory_adjustments_perishable"", ""inventory_work_in_progress_finished_goods"", ""inventory_purchase_orders_raw_materials"", ""inventory_work_in_progress_perishable"", ""inventory_dispatch_manifests_spare_parts"", ""inventory_work_in_progress_expedited""]","```sql
+SELECT 
+    inventory_inventory_adjustments_perishable.id AS inventory_inventory_adjustments_perishable_id,
+    inventory_inventory_adjustments_perishable.created_at,
+    inventory_work_in_progress_expedited.id AS inventory_work_in_progress_expedited_id,
+    inventory_purchase_orders_raw_materials.id AS inventory_purchase_orders_raw_materials_id
+FROM 
+    inventory_inventory_adjustments_perishable
+JOIN 
+    inventory_work_in_progress_expedited ON inventory_inventory_adjustments_perishable.fk_work_id = inventory_work_in_progress_expedited.id
+JOIN 
+    inventory_purchase_orders_raw_materials ON inventory_inventory_adjustments_perishable.fk_purchase_id = inventory_purchase_orders_raw_materials.id
+WHERE 
+    inventory_inventory_adjustments_perishable.id > 0
+LIMIT 50;
+```","SELECT 
+    inventory_inventory_adjustments_perishable.id AS inventory_inventory_adjustments_perishable_id,
+    inventory_inventory_adjustments_perishable.created_at,
+    inventory_work_in_progress_expedited.id AS inventory_work_in_progress_expedited_id,
+    inventory_purchase_orders_raw_materials.id AS inventory_purchase_orders_raw_materials_id
+FROM 
+    inventory_inventory_adjustments_perishable
+JOIN 
+    inventory_work_in_progress_expedited ON inventory_inventory_adjustments_perishable.fk_work_id = inventory_work_in_progress_expedited.id
+JOIN 
+    inventory_purchase_orders_raw_materials ON inventory_inventory_adjustments_perishable.fk_purchase_id = inventory_purchase_orders_raw_materials.id
+WHERE 
+    inventory_inventory_adjustments_perishable.id > 0
+LIMIT 50;",column inventory_inventory_adjustments_perishable.fk_purchase_id does not exist,COLUMN_HALLUCINATION,False,,50,stop,166
+small,397,complex,"Sporządź zaawansowane zapytanie analityczne CTE bazujące na tabeli crm_email_deliveries_inbound zwracające jawne kolumny: b.base_id (crm_email_deliveries_inbound.id), b.stage, b.metric_val (wartość agregacji), crm_service_agreements_retention_risk_id (public.crm_service_agreements_retention_risk.id), crm_client_accounts_mid_market_id (public.crm_client_accounts_mid_market.id), crm_contact_persons_smb_id (public.crm_contact_persons_smb.id), crm_satisfaction_surveys_active_id (public.crm_satisfaction_surveys_active.id), integrujące relacje z tabelami (crm_service_agreements_retention_risk, crm_client_accounts_mid_market, crm_contact_persons_smb, crm_satisfaction_surveys_active), filtrując b.metric_val IS NOT NULL z sortowaniem ORDER BY b.base_id ASC (LIMIT 50).","WITH base_summary AS (
+    SELECT public.crm_email_deliveries_inbound.id AS base_id, public.crm_email_deliveries_inbound.stage, AVG(public.crm_email_deliveries_inbound.deal_value) AS metric_val
+    FROM public.crm_email_deliveries_inbound
+    WHERE public.crm_email_deliveries_inbound.id > 0
+    GROUP BY public.crm_email_deliveries_inbound.id, public.crm_email_deliveries_inbound.stage
+)
+SELECT b.base_id, b.stage, b.metric_val, public.crm_service_agreements_retention_risk.id AS crm_service_agreements_retention_risk_id, public.crm_client_accounts_mid_market.id AS crm_client_accounts_mid_market_id, public.crm_contact_persons_smb.id AS crm_contact_persons_smb_id, public.crm_satisfaction_surveys_active.id AS crm_satisfaction_surveys_active_id
+FROM base_summary b
+JOIN public.crm_email_deliveries_inbound ON b.base_id = public.crm_email_deliveries_inbound.id
+JOIN public.crm_service_agreements_retention_risk ON public.crm_email_deliveries_inbound.fk_service_id = public.crm_service_agreements_retention_risk.id JOIN public.crm_client_accounts_mid_market ON public.crm_service_agreements_retention_risk.fk_client_id = public.crm_client_accounts_mid_market.id JOIN public.crm_contact_persons_smb ON public.crm_client_accounts_mid_market.id = public.crm_contact_persons_smb.fk_client_id JOIN public.crm_satisfaction_surveys_active ON public.crm_contact_persons_smb.fk_satisfaction_id = public.crm_satisfaction_surveys_active.id
+WHERE b.metric_val IS NOT NULL
+ORDER BY b.base_id ASC
+LIMIT 50;","[""crm_email_deliveries_inbound"", ""crm_service_agreements_retention_risk"", ""crm_client_accounts_mid_market"", ""crm_contact_persons_smb"", ""crm_satisfaction_surveys_active""]","[""crm_contact_persons_smb"", ""crm_satisfaction_surveys_smb"", ""crm_service_agreements_retention_risk"", ""crm_satisfaction_surveys_mid_market"", ""crm_satisfaction_surveys_active"", ""crm_client_accounts_mid_market""]","```sql
+WITH aggregated_data AS (
+    SELECT
+        b.base_id,
+        b.stage,
+        b.metric_val,
+        sa.id AS crm_service_agreements_retention_risk_id,
+        c.id AS crm_client_accounts_mid_market_id,
+        cp.id AS crm_contact_persons_smb_id,
+        cs.id AS crm_satisfaction_surveys_active_id
+    FROM
+        crm_email_deliveries_inbound b
+    LEFT JOIN
+        crm_service_agreements_retention_risk sa ON b.base_id = sa.id
+    LEFT JOIN
+        crm_client_accounts_mid_market c ON b.base_id = c.id
+    LEFT JOIN
+        crm_contact_persons_smb cp ON b.base_id = cp.id
+    LEFT JOIN
+        crm_satisfaction_surveys_active cs ON b.base_id = cs.id
+)
+SELECT
+    base_id,
+    stage,
+    metric_val,
+    crm_service_agreements_retention_risk_id,
+    crm_client_accounts_mid_market_id,
+    crm_contact_persons_smb_id,
+    crm_satisfaction_surveys_active_id
+FROM
+    aggregated_data
+WHERE
+    metric_val IS NOT NULL
+ORDER BY
+    base_id ASC
+LIMIT 50;
+```","WITH aggregated_data AS (
+    SELECT
+        b.base_id,
+        b.stage,
+        b.metric_val,
+        sa.id AS crm_service_agreements_retention_risk_id,
+        c.id AS crm_client_accounts_mid_market_id,
+        cp.id AS crm_contact_persons_smb_id,
+        cs.id AS crm_satisfaction_surveys_active_id
+    FROM
+        crm_email_deliveries_inbound b
+    LEFT JOIN
+        crm_service_agreements_retention_risk sa ON b.base_id = sa.id
+    LEFT JOIN
+        crm_client_accounts_mid_market c ON b.base_id = c.id
+    LEFT JOIN
+        crm_contact_persons_smb cp ON b.base_id = cp.id
+    LEFT JOIN
+        crm_satisfaction_surveys_active cs ON b.base_id = cs.id
+)
+SELECT
+    base_id,
+    stage,
+    metric_val,
+    crm_service_agreements_retention_risk_id,
+    crm_client_accounts_mid_market_id,
+    crm_contact_persons_smb_id,
+    crm_satisfaction_surveys_active_id
+FROM
+    aggregated_data
+WHERE
+    metric_val IS NOT NULL
+ORDER BY
+    base_id ASC
+LIMIT 50;",column b.base_id does not exist,TABLE_MISSING,False,,26,stop,262
+small,226,simple,"Pobierz jawne atrybuty biznesowe: identyfikator hr_recruitment_postings_executive.id AS hr_recruitment_postings_executive_id, znacznik czasu hr_recruitment_postings_executive.created_at, identyfikator powiązany hr_salary_reviews_annual.id AS hr_salary_reviews_annual_id, identyfikator powiązany hr_employee_profiles_full_time.id AS hr_employee_profiles_full_time_id poprzez relacyjne złączenie tabeli bazowej hr_recruitment_postings_executive oraz encji powiązanych (hr_salary_reviews_annual, hr_employee_profiles_full_time), filtrując rekordy o hr_recruitment_postings_executive.id > 0 (LIMIT 50).","SELECT public.hr_recruitment_postings_executive.id AS hr_recruitment_postings_executive_id, public.hr_recruitment_postings_executive.created_at, public.hr_salary_reviews_annual.id AS hr_salary_reviews_annual_id, public.hr_employee_profiles_full_time.id AS hr_employee_profiles_full_time_id FROM public.hr_recruitment_postings_executive JOIN public.hr_salary_reviews_annual ON public.hr_recruitment_postings_executive.fk_salary_id = public.hr_salary_reviews_annual.id JOIN public.hr_employee_profiles_full_time ON public.hr_salary_reviews_annual.fk_employee_id = public.hr_employee_profiles_full_time.id WHERE public.hr_recruitment_postings_executive.id > 0 LIMIT 50;","[""hr_recruitment_postings_executive"", ""hr_salary_reviews_annual"", ""hr_employee_profiles_full_time""]","[""hr_recruitment_postings_executive"", ""hr_department_units_executive"", ""hr_recruitment_postings_archived"", ""hr_recruitment_postings_quarterly"", ""hr_recruitment_postings_full_time""]","```sql
+SELECT 
+    hr_recruitment_postings_executive.id AS hr_recruitment_postings_executive_id,
+    hr_recruitment_postings_executive.created_at,
+    hr_salary_reviews_annual.id AS hr_salary_reviews_annual_id,
+    hr_employee_profiles_full_time.id AS hr_employee_profiles_full_time_id
+FROM 
+    public.hr_recruitment_postings_executive
+LEFT JOIN 
+    public.hr_salary_reviews_annual ON hr_recruitment_postings_executive.fk_salary_id = hr_salary_reviews_annual.id
+LEFT JOIN 
+    public.hr_employee_profiles_full_time ON hr_recruitment_postings_executive.fk_employee_id = hr_employee_profiles_full_time.id
+WHERE 
+    hr_recruitment_postings_executive.id > 0
+LIMIT 50;
+```","SELECT 
+    hr_recruitment_postings_executive.id AS hr_recruitment_postings_executive_id,
+    hr_recruitment_postings_executive.created_at,
+    hr_salary_reviews_annual.id AS hr_salary_reviews_annual_id,
+    hr_employee_profiles_full_time.id AS hr_employee_profiles_full_time_id
+FROM 
+    public.hr_recruitment_postings_executive
+LEFT JOIN 
+    public.hr_salary_reviews_annual ON hr_recruitment_postings_executive.fk_salary_id = hr_salary_reviews_annual.id
+LEFT JOIN 
+    public.hr_employee_profiles_full_time ON hr_recruitment_postings_executive.fk_employee_id = hr_employee_profiles_full_time.id
+WHERE 
+    hr_recruitment_postings_executive.id > 0
+LIMIT 50;","column hr_recruitment_postings_executive.fk_employee_id does not exist
+HINT:  Perhaps you meant to reference the column ""hr_recruitment_postings_executive.employee_id"".",TABLE_MISSING,False,,28,stop,159
+small,8,simple,"Pobierz jawne atrybuty biznesowe: identyfikator finance_escrow_deposits_quarterly.id AS finance_escrow_deposits_quarterly_id, znacznik czasu finance_escrow_deposits_quarterly.created_at, identyfikator powiązany finance_ledger_entries_monthly.id AS finance_ledger_entries_monthly_id, identyfikator powiązany finance_payment_transactions_daily.id AS finance_payment_transactions_daily_id poprzez relacyjne złączenie tabeli bazowej finance_escrow_deposits_quarterly oraz encji powiązanych (finance_ledger_entries_monthly, finance_payment_transactions_daily), filtrując rekordy o finance_escrow_deposits_quarterly.id > 0 (LIMIT 50).","SELECT public.finance_escrow_deposits_quarterly.id AS finance_escrow_deposits_quarterly_id, public.finance_escrow_deposits_quarterly.created_at, public.finance_ledger_entries_monthly.id AS finance_ledger_entries_monthly_id, public.finance_payment_transactions_daily.id AS finance_payment_transactions_daily_id FROM public.finance_escrow_deposits_quarterly JOIN public.finance_ledger_entries_monthly ON public.finance_escrow_deposits_quarterly.fk_ledger_id = public.finance_ledger_entries_monthly.id JOIN public.finance_payment_transactions_daily ON public.finance_ledger_entries_monthly.fk_payment_id = public.finance_payment_transactions_daily.id WHERE public.finance_escrow_deposits_quarterly.id > 0 LIMIT 50;","[""finance_escrow_deposits_quarterly"", ""finance_ledger_entries_monthly"", ""finance_payment_transactions_daily""]","[""finance_escrow_deposits_quarterly"", ""finance_escrow_deposits_consolidated"", ""finance_escrow_deposits_international"", ""finance_escrow_deposits_annual"", ""finance_escrow_deposits_intercompany"", ""finance_payment_transactions_daily""]","```sql
+SELECT 
+    finance_escrow_deposits_quarterly.id AS finance_escrow_deposits_quarterly_id,
+    finance_escrow_deposits_quarterly.created_at,
+    finance_ledger_entries_monthly.id AS finance_ledger_entries_monthly_id,
+    finance_payment_transactions_daily.id AS finance_payment_transactions_daily_id
+FROM 
+    finance_escrow_deposits_quarterly
+JOIN 
+    finance_ledger_entries_monthly ON finance_escrow_deposits_quarterly.fk_ledger_id = finance_ledger_entries_monthly.id
+JOIN 
+    finance_payment_transactions_daily ON finance_escrow_deposits_quarterly.fk_payment_id = finance_payment_transactions_daily.id
+WHERE 
+    finance_escrow_deposits_quarterly.id > 0
+LIMIT 50;
+```","SELECT 
+    finance_escrow_deposits_quarterly.id AS finance_escrow_deposits_quarterly_id,
+    finance_escrow_deposits_quarterly.created_at,
+    finance_ledger_entries_monthly.id AS finance_ledger_entries_monthly_id,
+    finance_payment_transactions_daily.id AS finance_payment_transactions_daily_id
+FROM 
+    finance_escrow_deposits_quarterly
+JOIN 
+    finance_ledger_entries_monthly ON finance_escrow_deposits_quarterly.fk_ledger_id = finance_ledger_entries_monthly.id
+JOIN 
+    finance_payment_transactions_daily ON finance_escrow_deposits_quarterly.fk_payment_id = finance_payment_transactions_daily.id
+WHERE 
+    finance_escrow_deposits_quarterly.id > 0
+LIMIT 50;",column finance_escrow_deposits_quarterly.fk_payment_id does not exist,TABLE_MISSING,False,,17,stop,169
+small,188,complex,"Sporządź zaawansowane zapytanie analityczne CTE bazujące na tabeli inventory_storage_zones_allocated zwracające jawne kolumny: b.base_id (inventory_storage_zones_allocated.id), b.warehouse_id, b.metric_val (wartość agregacji), inventory_stock_balances_finished_goods_id (public.inventory_stock_balances_finished_goods.id), inventory_supplier_shipments_finished_goods_id (public.inventory_supplier_shipments_finished_goods.id), inventory_purchase_orders_archived_id (public.inventory_purchase_orders_archived.id), inventory_work_in_progress_archived_id (public.inventory_work_in_progress_archived.id), integrujące relacje z tabelami (inventory_stock_balances_finished_goods, inventory_supplier_shipments_finished_goods, inventory_purchase_orders_archived, inventory_work_in_progress_archived), filtrując b.metric_val IS NOT NULL z sortowaniem ORDER BY b.base_id ASC (LIMIT 50).","WITH base_summary AS (
+    SELECT public.inventory_storage_zones_allocated.id AS base_id, public.inventory_storage_zones_allocated.warehouse_id, SUM(public.inventory_storage_zones_allocated.quantity) AS metric_val
+    FROM public.inventory_storage_zones_allocated
+    WHERE public.inventory_storage_zones_allocated.id > 0
+    GROUP BY public.inventory_storage_zones_allocated.id, public.inventory_storage_zones_allocated.warehouse_id
+)
+SELECT b.base_id, b.warehouse_id, b.metric_val, public.inventory_stock_balances_finished_goods.id AS inventory_stock_balances_finished_goods_id, public.inventory_supplier_shipments_finished_goods.id AS inventory_supplier_shipments_finished_goods_id, public.inventory_purchase_orders_archived.id AS inventory_purchase_orders_archived_id, public.inventory_work_in_progress_archived.id AS inventory_work_in_progress_archived_id
+FROM base_summary b
+JOIN public.inventory_storage_zones_allocated ON b.base_id = public.inventory_storage_zones_allocated.id
+JOIN public.inventory_stock_balances_finished_goods ON public.inventory_storage_zones_allocated.fk_stock_id = public.inventory_stock_balances_finished_goods.id JOIN public.inventory_supplier_shipments_finished_goods ON public.inventory_stock_balances_finished_goods.id = public.inventory_supplier_shipments_finished_goods.fk_stock_id JOIN public.inventory_purchase_orders_archived ON public.inventory_supplier_shipments_finished_goods.id = public.inventory_purchase_orders_archived.fk_supplier_id JOIN public.inventory_work_in_progress_archived ON public.inventory_purchase_orders_archived.id = public.inventory_work_in_progress_archived.fk_purchase_id
+WHERE b.metric_val IS NOT NULL
+ORDER BY b.base_id ASC
+LIMIT 50;","[""inventory_storage_zones_allocated"", ""inventory_stock_balances_finished_goods"", ""inventory_supplier_shipments_finished_goods"", ""inventory_purchase_orders_archived"", ""inventory_work_in_progress_archived""]","[""inventory_storage_zones_allocated"", ""inventory_supplier_shipments_finished_goods"", ""inventory_storage_zones_expedited"", ""inventory_stock_balances_expedited"", ""inventory_stock_balances_raw_materials"", ""inventory_stock_balances_finished_goods"", ""inventory_goods_receipts_finished_goods""]","```sql
+WITH aggregated_stock AS (
+    SELECT
+        b.base_id,
+        b.warehouse_id,
+        SUM(b.metric_val) AS metric_val,
+        ibfg.id AS inventory_stock_balances_finished_goods_id,
+        isfg.id AS inventory_supplier_shipments_finished_goods_id,
+        ipoa.id AS inventory_purchase_orders_archived_id,
+        iwpa.id AS inventory_work_in_progress_archived_id
+    FROM
+        inventory_storage_zones_allocated b
+    LEFT JOIN
+        inventory_stock_balances_finished_goods ibfg ON b.fk_stock_id = ibfg.id
+    LEFT JOIN
+        inventory_supplier_shipments_finished_goods isfg ON b.fk_stock_id = isfg.id
+    LEFT JOIN
+        inventory_purchase_orders_archived ipoa ON b.fk_stock_id = ipoa.id
+    LEFT JOIN
+        inventory_work_in_progress_archived iwpa ON b.fk_stock_id = iwpa.id
+    WHERE
+        b.metric_val IS NOT NULL
+    GROUP BY
+        b.base_id, b.warehouse_id, ibfg.id, isfg.id, ipoa.id, iwpa.id
+)
+SELECT
+    base_id,
+    warehouse_id,
+    metric_val,
+    inventory_stock_balances_finished_goods_id,
+    inventory_supplier_shipments_finished_goods_id,
+    inventory_purchase_orders_archived_id,
+    inventory_work_in_progress_archived_id
+FROM
+    aggregated_stock
+ORDER BY
+    base_id ASC
+LIMIT 50;
+```","WITH aggregated_stock AS (
+    SELECT
+        b.base_id,
+        b.warehouse_id,
+        SUM(b.metric_val) AS metric_val,
+        ibfg.id AS inventory_stock_balances_finished_goods_id,
+        isfg.id AS inventory_supplier_shipments_finished_goods_id,
+        ipoa.id AS inventory_purchase_orders_archived_id,
+        iwpa.id AS inventory_work_in_progress_archived_id
+    FROM
+        inventory_storage_zones_allocated b
+    LEFT JOIN
+        inventory_stock_balances_finished_goods ibfg ON b.fk_stock_id = ibfg.id
+    LEFT JOIN
+        inventory_supplier_shipments_finished_goods isfg ON b.fk_stock_id = isfg.id
+    LEFT JOIN
+        inventory_purchase_orders_archived ipoa ON b.fk_stock_id = ipoa.id
+    LEFT JOIN
+        inventory_work_in_progress_archived iwpa ON b.fk_stock_id = iwpa.id
+    WHERE
+        b.metric_val IS NOT NULL
+    GROUP BY
+        b.base_id, b.warehouse_id, ibfg.id, isfg.id, ipoa.id, iwpa.id
+)
+SELECT
+    base_id,
+    warehouse_id,
+    metric_val,
+    inventory_stock_balances_finished_goods_id,
+    inventory_supplier_shipments_finished_goods_id,
+    inventory_purchase_orders_archived_id,
+    inventory_work_in_progress_archived_id
+FROM
+    aggregated_stock
+ORDER BY
+    base_id ASC
+LIMIT 50;",column b.base_id does not exist,TABLE_MISSING,False,,40,stop,304
+small,120,simple,"Pobierz jawne atrybuty biznesowe: identyfikator inventory_bills_of_materials_raw_materials.id AS inventory_bills_of_materials_raw_materials_id, znacznik czasu inventory_bills_of_materials_raw_materials.created_at, identyfikator powiązany inventory_goods_receipts_finished_goods.id AS inventory_goods_receipts_finished_goods_id, identyfikator powiązany inventory_serial_trackers_finished_goods.id AS inventory_serial_trackers_finished_goods_id poprzez relacyjne złączenie tabeli bazowej inventory_bills_of_materials_raw_materials oraz encji powiązanych (inventory_goods_receipts_finished_goods, inventory_serial_trackers_finished_goods), filtrując rekordy o inventory_bills_of_materials_raw_materials.id > 0 (LIMIT 50).","SELECT public.inventory_bills_of_materials_raw_materials.id AS inventory_bills_of_materials_raw_materials_id, public.inventory_bills_of_materials_raw_materials.created_at, public.inventory_goods_receipts_finished_goods.id AS inventory_goods_receipts_finished_goods_id, public.inventory_serial_trackers_finished_goods.id AS inventory_serial_trackers_finished_goods_id FROM public.inventory_bills_of_materials_raw_materials JOIN public.inventory_goods_receipts_finished_goods ON public.inventory_bills_of_materials_raw_materials.fk_goods_id = public.inventory_goods_receipts_finished_goods.id JOIN public.inventory_serial_trackers_finished_goods ON public.inventory_goods_receipts_finished_goods.id = public.inventory_serial_trackers_finished_goods.fk_goods_id WHERE public.inventory_bills_of_materials_raw_materials.id > 0 LIMIT 50;","[""inventory_bills_of_materials_raw_materials"", ""inventory_goods_receipts_finished_goods"", ""inventory_serial_trackers_finished_goods""]","[""inventory_quarantine_items_raw_materials"", ""inventory_bills_of_materials_raw_materials"", ""inventory_goods_receipts_raw_materials"", ""inventory_warehouse_bins_finished_goods"", ""inventory_serial_trackers_expedited"", ""inventory_goods_receipts_finished_goods"", ""inventory_bills_of_materials_components""]","```sql
+SELECT 
+    inventory_bills_of_materials_raw_materials.id AS inventory_bills_of_materials_raw_materials_id,
+    inventory_bills_of_materials_raw_materials.created_at,
+    inventory_goods_receipts_finished_goods.id AS inventory_goods_receipts_finished_goods_id,
+    inventory_serial_trackers_finished_goods.id AS inventory_serial_trackers_finished_goods_id
+FROM 
+    public.inventory_bills_of_materials_raw_materials
+LEFT JOIN 
+    public.inventory_goods_receipts_finished_goods ON inventory_bills_of_materials_raw_materials.fk_goods_id = inventory_goods_receipts_finished_goods.id
+LEFT JOIN 
+    public.inventory_serial_trackers_finished_goods ON inventory_bills_of_materials_raw_materials.fk_goods_id = inventory_serial_trackers_finished_goods.id
+WHERE 
+    inventory_bills_of_materials_raw_materials.id > 0
+LIMIT 50;
+```","SELECT 
+    inventory_bills_of_materials_raw_materials.id AS inventory_bills_of_materials_raw_materials_id,
+    inventory_bills_of_materials_raw_materials.created_at,
+    inventory_goods_receipts_finished_goods.id AS inventory_goods_receipts_finished_goods_id,
+    inventory_serial_trackers_finished_goods.id AS inventory_serial_trackers_finished_goods_id
+FROM 
+    public.inventory_bills_of_materials_raw_materials
+LEFT JOIN 
+    public.inventory_goods_receipts_finished_goods ON inventory_bills_of_materials_raw_materials.fk_goods_id = inventory_goods_receipts_finished_goods.id
+LEFT JOIN 
+    public.inventory_serial_trackers_finished_goods ON inventory_bills_of_materials_raw_materials.fk_goods_id = inventory_serial_trackers_finished_goods.id
+WHERE 
+    inventory_bills_of_materials_raw_materials.id > 0
+LIMIT 50;",,SEMANTIC_MISMATCH,True,44.0,36,stop,181
+small,370,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania crm_deal_opportunities_high_value.stage, liczebność grupy COUNT(crm_deal_opportunities_high_value.id) AS total_count oraz zagregowaną metrykę analityczną (AVG(public.crm_deal_opportunities_high_value.deal_value) AS aggregate_metric), łącząc tabelę crm_deal_opportunities_high_value z tabelami (crm_client_accounts_mid_market, crm_sales_targets_smb, crm_sales_leads_enterprise), filtrując rekordy o crm_deal_opportunities_high_value.id > 0, grupując po crm_deal_opportunities_high_value.stage z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.crm_deal_opportunities_high_value.stage, COUNT(public.crm_deal_opportunities_high_value.id) AS total_count, AVG(public.crm_deal_opportunities_high_value.deal_value) AS aggregate_metric FROM public.crm_deal_opportunities_high_value JOIN public.crm_client_accounts_mid_market ON public.crm_deal_opportunities_high_value.fk_client_id = public.crm_client_accounts_mid_market.id JOIN public.crm_sales_targets_smb ON public.crm_client_accounts_mid_market.id = public.crm_sales_targets_smb.fk_client_id JOIN public.crm_sales_leads_enterprise ON public.crm_sales_targets_smb.fk_sales_id = public.crm_sales_leads_enterprise.id WHERE public.crm_deal_opportunities_high_value.id > 0 GROUP BY public.crm_deal_opportunities_high_value.stage HAVING COUNT(public.crm_deal_opportunities_high_value.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""crm_deal_opportunities_high_value"", ""crm_client_accounts_mid_market"", ""crm_sales_targets_smb"", ""crm_sales_leads_enterprise""]","[""crm_sales_targets_high_value"", ""crm_deal_opportunities_high_value"", ""crm_sales_leads_high_value"", ""crm_deal_opportunities_retention_risk"", ""crm_sales_targets_escalated"", ""crm_client_accounts_mid_market""]","```sql
+SELECT 
+    crm_deal_opportunities_high_value.stage,
+    COUNT(crm_deal_opportunities_high_value.id) AS total_count,
+    AVG(crm_deal_opportunities_high_value.deal_value) AS aggregate_metric
+FROM 
+    crm_deal_opportunities_high_value
+JOIN 
+    crm_client_accounts_mid_market ON crm_deal_opportunities_high_value.fk_client_id = crm_client_accounts_mid_market.id
+JOIN 
+    crm_sales_targets_smb ON crm_deal_opportunities_high_value.id = crm_sales_targets_smb.fk_deal_id
+JOIN 
+    crm_sales_leads_enterprise ON crm_deal_opportunities_high_value.id = crm_sales_leads_enterprise.fk_client_id
+WHERE 
+    crm_deal_opportunities_high_value.id > 0
+GROUP BY 
+    crm_deal_opportunities_high_value.stage
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    crm_deal_opportunities_high_value.stage,
+    COUNT(crm_deal_opportunities_high_value.id) AS total_count,
+    AVG(crm_deal_opportunities_high_value.deal_value) AS aggregate_metric
+FROM 
+    crm_deal_opportunities_high_value
+JOIN 
+    crm_client_accounts_mid_market ON crm_deal_opportunities_high_value.fk_client_id = crm_client_accounts_mid_market.id
+JOIN 
+    crm_sales_targets_smb ON crm_deal_opportunities_high_value.id = crm_sales_targets_smb.fk_deal_id
+JOIN 
+    crm_sales_leads_enterprise ON crm_deal_opportunities_high_value.id = crm_sales_leads_enterprise.fk_client_id
+WHERE 
+    crm_deal_opportunities_high_value.id > 0
+GROUP BY 
+    crm_deal_opportunities_high_value.stage
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;",column crm_sales_targets_smb.fk_deal_id does not exist,TABLE_MISSING,False,,5,stop,222
+small,164,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania inventory_dispatch_manifests_perishable.warehouse_id, liczebność grupy COUNT(inventory_dispatch_manifests_perishable.id) AS total_count oraz zagregowaną metrykę analityczną (SUM(public.inventory_dispatch_manifests_perishable.quantity) AS aggregate_metric), łącząc tabelę inventory_dispatch_manifests_perishable z tabelami (inventory_goods_receipts_finished_goods, inventory_supplier_shipments_in_transit, inventory_inventory_adjustments_in_transit), filtrując rekordy o inventory_dispatch_manifests_perishable.id > 0, grupując po inventory_dispatch_manifests_perishable.warehouse_id z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.inventory_dispatch_manifests_perishable.warehouse_id, COUNT(public.inventory_dispatch_manifests_perishable.id) AS total_count, SUM(public.inventory_dispatch_manifests_perishable.quantity) AS aggregate_metric FROM public.inventory_dispatch_manifests_perishable JOIN public.inventory_goods_receipts_finished_goods ON public.inventory_dispatch_manifests_perishable.fk_goods_id = public.inventory_goods_receipts_finished_goods.id JOIN public.inventory_supplier_shipments_in_transit ON public.inventory_goods_receipts_finished_goods.id = public.inventory_supplier_shipments_in_transit.fk_goods_id JOIN public.inventory_inventory_adjustments_in_transit ON public.inventory_supplier_shipments_in_transit.fk_inventory_id = public.inventory_inventory_adjustments_in_transit.id WHERE public.inventory_dispatch_manifests_perishable.id > 0 GROUP BY public.inventory_dispatch_manifests_perishable.warehouse_id HAVING COUNT(public.inventory_dispatch_manifests_perishable.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""inventory_dispatch_manifests_perishable"", ""inventory_goods_receipts_finished_goods"", ""inventory_supplier_shipments_in_transit"", ""inventory_inventory_adjustments_in_transit""]","[""inventory_dispatch_manifests_spare_parts"", ""inventory_dispatch_manifests_allocated"", ""inventory_dispatch_manifests_perishable"", ""inventory_purchase_orders_raw_materials"", ""inventory_dispatch_manifests_raw_materials"", ""inventory_goods_receipts_finished_goods""]","```sql
+SELECT 
+    inventory_dispatch_manifests_perishable.warehouse_id,
+    COUNT(inventory_dispatch_manifests_perishable.id) AS total_count,
+    SUM(inventory_dispatch_manifests_perishable.quantity) AS aggregate_metric
+FROM 
+    inventory_dispatch_manifests_perishable
+JOIN 
+    inventory_goods_receipts_finished_goods ON inventory_dispatch_manifests_perishable.fk_goods_id = inventory_goods_receipts_finished_goods.id
+JOIN 
+    inventory_supplier_shipments_in_transit ON inventory_dispatch_manifests_perishable.fk_dispatch_id = inventory_supplier_shipments_in_transit.id
+JOIN 
+    inventory_inventory_adjustments_in_transit ON inventory_dispatch_manifests_perishable.fk_dispatch_id = inventory_inventory_adjustments_in_transit.id
+WHERE 
+    inventory_dispatch_manifests_perishable.id > 0
+GROUP BY 
+    inventory_dispatch_manifests_perishable.warehouse_id
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    inventory_dispatch_manifests_perishable.warehouse_id,
+    COUNT(inventory_dispatch_manifests_perishable.id) AS total_count,
+    SUM(inventory_dispatch_manifests_perishable.quantity) AS aggregate_metric
+FROM 
+    inventory_dispatch_manifests_perishable
+JOIN 
+    inventory_goods_receipts_finished_goods ON inventory_dispatch_manifests_perishable.fk_goods_id = inventory_goods_receipts_finished_goods.id
+JOIN 
+    inventory_supplier_shipments_in_transit ON inventory_dispatch_manifests_perishable.fk_dispatch_id = inventory_supplier_shipments_in_transit.id
+JOIN 
+    inventory_inventory_adjustments_in_transit ON inventory_dispatch_manifests_perishable.fk_dispatch_id = inventory_inventory_adjustments_in_transit.id
+WHERE 
+    inventory_dispatch_manifests_perishable.id > 0
+GROUP BY 
+    inventory_dispatch_manifests_perishable.warehouse_id
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;",column inventory_dispatch_manifests_perishable.fk_dispatch_id does not exist,TABLE_MISSING,False,,15,stop,209
+small,411,simple,"Pobierz jawne atrybuty biznesowe: identyfikator telemetry_edge_appliances_cold_storage.id AS telemetry_edge_appliances_cold_storage_id, znacznik czasu telemetry_edge_appliances_cold_storage.recorded_at, identyfikator powiązany telemetry_host_servers_datacenter_a.id AS telemetry_host_servers_datacenter_a_id poprzez relacyjne złączenie tabeli bazowej telemetry_edge_appliances_cold_storage oraz encji powiązanych (telemetry_host_servers_datacenter_a), filtrując rekordy o telemetry_edge_appliances_cold_storage.id > 0 (LIMIT 50).","SELECT public.telemetry_edge_appliances_cold_storage.id AS telemetry_edge_appliances_cold_storage_id, public.telemetry_edge_appliances_cold_storage.recorded_at, public.telemetry_host_servers_datacenter_a.id AS telemetry_host_servers_datacenter_a_id FROM public.telemetry_edge_appliances_cold_storage JOIN public.telemetry_host_servers_datacenter_a ON public.telemetry_edge_appliances_cold_storage.id = public.telemetry_host_servers_datacenter_a.fk_edge_id WHERE public.telemetry_edge_appliances_cold_storage.id > 0 LIMIT 50;","[""telemetry_edge_appliances_cold_storage"", ""telemetry_host_servers_datacenter_a""]","[""telemetry_edge_appliances_cold_storage"", ""telemetry_host_servers_cold_storage"", ""telemetry_firmware_stats_cold_storage"", ""telemetry_edge_appliances_minute_aggregates"", ""telemetry_vibration_samples_hourly_aggregates""]","```sql
+SELECT 
+    telemetry_edge_appliances_cold_storage.id AS telemetry_edge_appliances_cold_storage_id,
+    telemetry_edge_appliances_cold_storage.recorded_at,
+    telemetry_host_servers_datacenter_a.id AS telemetry_host_servers_datacenter_a_id
+FROM 
+    telemetry_edge_appliances_cold_storage
+JOIN 
+    telemetry_host_servers_datacenter_a ON telemetry_edge_appliances_cold_storage.id = telemetry_host_servers_datacenter_a.fk_host_id
+WHERE 
+    telemetry_edge_appliances_cold_storage.id > 0
+LIMIT 50;
+```","SELECT 
+    telemetry_edge_appliances_cold_storage.id AS telemetry_edge_appliances_cold_storage_id,
+    telemetry_edge_appliances_cold_storage.recorded_at,
+    telemetry_host_servers_datacenter_a.id AS telemetry_host_servers_datacenter_a_id
+FROM 
+    telemetry_edge_appliances_cold_storage
+JOIN 
+    telemetry_host_servers_datacenter_a ON telemetry_edge_appliances_cold_storage.id = telemetry_host_servers_datacenter_a.fk_host_id
+WHERE 
+    telemetry_edge_appliances_cold_storage.id > 0
+LIMIT 50;","column telemetry_host_servers_datacenter_a.fk_host_id does not exist
+HINT:  Perhaps you meant to reference the column ""telemetry_host_servers_datacenter_a.fk_disk_id"" or the column ""telemetry_host_servers_datacenter_a.fk_http_id"".",TABLE_MISSING,False,,27,stop,122
+small,50,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania finance_payment_transactions_intercompany.status, liczebność grupy COUNT(finance_payment_transactions_intercompany.id) AS total_count oraz zagregowaną metrykę analityczną (SUM(public.finance_payment_transactions_intercompany.amount) AS aggregate_metric), łącząc tabelę finance_payment_transactions_intercompany z tabelami (finance_payment_transactions_daily, finance_audit_records_consolidated, finance_escrow_deposits_domestic), filtrując rekordy o finance_payment_transactions_intercompany.id > 0, grupując po finance_payment_transactions_intercompany.status z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.finance_payment_transactions_intercompany.status, COUNT(public.finance_payment_transactions_intercompany.id) AS total_count, SUM(public.finance_payment_transactions_intercompany.amount) AS aggregate_metric FROM public.finance_payment_transactions_intercompany JOIN public.finance_payment_transactions_daily ON public.finance_payment_transactions_intercompany.fk_payment_id = public.finance_payment_transactions_daily.id JOIN public.finance_audit_records_consolidated ON public.finance_payment_transactions_daily.id = public.finance_audit_records_consolidated.fk_payment_id JOIN public.finance_escrow_deposits_domestic ON public.finance_audit_records_consolidated.id = public.finance_escrow_deposits_domestic.fk_audit_id WHERE public.finance_payment_transactions_intercompany.id > 0 GROUP BY public.finance_payment_transactions_intercompany.status HAVING COUNT(public.finance_payment_transactions_intercompany.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""finance_payment_transactions_intercompany"", ""finance_payment_transactions_daily"", ""finance_audit_records_consolidated"", ""finance_escrow_deposits_domestic""]","[""finance_payment_transactions_intercompany"", ""finance_payment_transactions_domestic"", ""finance_escrow_deposits_intercompany"", ""finance_payment_transactions_daily"", ""finance_payment_transactions_quarterly""]","```sql
+SELECT 
+    fti.status,
+    COUNT(fti.id) AS total_count,
+    SUM(fti.amount) AS aggregate_metric
+FROM 
+    finance_payment_transactions_intercompany fti
+JOIN 
+    finance_payment_transactions_daily ftd ON fti.fk_payment_id = ftd.id
+JOIN 
+    finance_audit_records_consolidated fac ON fti.id = fac.fk_payment_id
+JOIN 
+    finance_escrow_deposits_domestic fed ON fti.id = fed.fk_payment_id
+WHERE 
+    fti.id > 0
+GROUP BY 
+    fti.status
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    fti.status,
+    COUNT(fti.id) AS total_count,
+    SUM(fti.amount) AS aggregate_metric
+FROM 
+    finance_payment_transactions_intercompany fti
+JOIN 
+    finance_payment_transactions_daily ftd ON fti.fk_payment_id = ftd.id
+JOIN 
+    finance_audit_records_consolidated fac ON fti.id = fac.fk_payment_id
+JOIN 
+    finance_escrow_deposits_domestic fed ON fti.id = fed.fk_payment_id
+WHERE 
+    fti.id > 0
+GROUP BY 
+    fti.status
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;","column fed.fk_payment_id does not exist
+HINT:  Perhaps you meant to reference the column ""fti.fk_payment_id"" or the column ""fac.fk_payment_id"".",TABLE_MISSING,False,,5,stop,149
+large,412,simple,"Pobierz jawne atrybuty biznesowe: identyfikator telemetry_api_response_times_cold_storage.id AS telemetry_api_response_times_cold_storage_id, znacznik czasu telemetry_api_response_times_cold_storage.recorded_at, identyfikator powiązany telemetry_container_restarts_datacenter_b.id AS telemetry_container_restarts_datacenter_b_id, identyfikator powiązany telemetry_stream_offsets_daily_aggregates.id AS telemetry_stream_offsets_daily_aggregates_id poprzez relacyjne złączenie tabeli bazowej telemetry_api_response_times_cold_storage oraz encji powiązanych (telemetry_container_restarts_datacenter_b, telemetry_stream_offsets_daily_aggregates), filtrując rekordy o telemetry_api_response_times_cold_storage.id > 0 (LIMIT 50).","SELECT public.telemetry_api_response_times_cold_storage.id AS telemetry_api_response_times_cold_storage_id, public.telemetry_api_response_times_cold_storage.recorded_at, public.telemetry_container_restarts_datacenter_b.id AS telemetry_container_restarts_datacenter_b_id, public.telemetry_stream_offsets_daily_aggregates.id AS telemetry_stream_offsets_daily_aggregates_id FROM public.telemetry_api_response_times_cold_storage JOIN public.telemetry_container_restarts_datacenter_b ON public.telemetry_api_response_times_cold_storage.fk_container_id = public.telemetry_container_restarts_datacenter_b.id JOIN public.telemetry_stream_offsets_daily_aggregates ON public.telemetry_container_restarts_datacenter_b.fk_stream_id = public.telemetry_stream_offsets_daily_aggregates.id WHERE public.telemetry_api_response_times_cold_storage.id > 0 LIMIT 50;","[""telemetry_api_response_times_cold_storage"", ""telemetry_container_restarts_datacenter_b"", ""telemetry_stream_offsets_daily_aggregates""]","[""telemetry_api_response_times_cold_storage"", ""telemetry_stream_offsets_datacenter_a"", ""telemetry_container_restarts_datacenter_b"", ""telemetry_container_restarts_cold_storage"", ""telemetry_host_servers_cold_storage""]","```sql
+SELECT 
+    t1.id AS telemetry_api_response_times_cold_storage_id,
+    t1.recorded_at,
+    t2.id AS telemetry_container_restarts_datacenter_b_id,
+    t3.id AS telemetry_stream_offsets_daily_aggregates_id
+FROM 
+    public.telemetry_api_response_times_cold_storage t1
+LEFT JOIN 
+    public.telemetry_container_restarts_datacenter_b t2 ON t1.fk_container_id = t2.id
+LEFT JOIN 
+    public.telemetry_stream_offsets_datacenter_a t3 ON t1.fk_stream_id = t3.id
+WHERE 
+    t1.id > 0
+LIMIT 50;
+```","SELECT 
+    t1.id AS telemetry_api_response_times_cold_storage_id,
+    t1.recorded_at,
+    t2.id AS telemetry_container_restarts_datacenter_b_id,
+    t3.id AS telemetry_stream_offsets_daily_aggregates_id
+FROM 
+    public.telemetry_api_response_times_cold_storage t1
+LEFT JOIN 
+    public.telemetry_container_restarts_datacenter_b t2 ON t1.fk_container_id = t2.id
+LEFT JOIN 
+    public.telemetry_stream_offsets_datacenter_a t3 ON t1.fk_stream_id = t3.id
+WHERE 
+    t1.id > 0
+LIMIT 50;","column t1.fk_stream_id does not exist
+HINT:  Perhaps you meant to reference the column ""t2.fk_stream_id"".",COLUMN_HALLUCINATION,False,,23,stop,139
+large,218,simple,"Pobierz jawne atrybuty biznesowe: identyfikator hr_labor_contracts_contractor.id AS hr_labor_contracts_contractor_id, znacznik czasu hr_labor_contracts_contractor.created_at, identyfikator powiązany hr_employee_profiles_archived.id AS hr_employee_profiles_archived_id, identyfikator powiązany hr_labor_contracts_annual.id AS hr_labor_contracts_annual_id poprzez relacyjne złączenie tabeli bazowej hr_labor_contracts_contractor oraz encji powiązanych (hr_employee_profiles_archived, hr_labor_contracts_annual), filtrując rekordy o hr_labor_contracts_contractor.id > 0 (LIMIT 50).","SELECT public.hr_labor_contracts_contractor.id AS hr_labor_contracts_contractor_id, public.hr_labor_contracts_contractor.created_at, public.hr_employee_profiles_archived.id AS hr_employee_profiles_archived_id, public.hr_labor_contracts_annual.id AS hr_labor_contracts_annual_id FROM public.hr_labor_contracts_contractor JOIN public.hr_employee_profiles_archived ON public.hr_labor_contracts_contractor.fk_employee_id = public.hr_employee_profiles_archived.id JOIN public.hr_labor_contracts_annual ON public.hr_employee_profiles_archived.fk_labor_id = public.hr_labor_contracts_annual.id WHERE public.hr_labor_contracts_contractor.id > 0 LIMIT 50;","[""hr_labor_contracts_contractor"", ""hr_employee_profiles_archived"", ""hr_labor_contracts_annual""]","[""hr_labor_contracts_contractor"", ""hr_employee_profiles_archived"", ""hr_department_units_hybrid"", ""hr_leave_requests_contractor"", ""hr_labor_contracts_executive"", ""hr_labor_contracts_annual""]","```sql
+SELECT 
+    hc.id AS hr_labor_contracts_contractor_id,
+    hc.created_at,
+    hpa.id AS hr_employee_profiles_archived_id,
+    hla.id AS hr_labor_contracts_annual_id
+FROM 
+    public.hr_labor_contracts_contractor hc
+JOIN 
+    public.hr_employee_profiles_archived hpa ON hc.fk_employee_id = hpa.id
+JOIN 
+    public.hr_labor_contracts_annual hla ON hc.fk_labor_id = hla.id
+WHERE 
+    hc.id > 0
+LIMIT 50;
+```","SELECT 
+    hc.id AS hr_labor_contracts_contractor_id,
+    hc.created_at,
+    hpa.id AS hr_employee_profiles_archived_id,
+    hla.id AS hr_labor_contracts_annual_id
+FROM 
+    public.hr_labor_contracts_contractor hc
+JOIN 
+    public.hr_employee_profiles_archived hpa ON hc.fk_employee_id = hpa.id
+JOIN 
+    public.hr_labor_contracts_annual hla ON hc.fk_labor_id = hla.id
+WHERE 
+    hc.id > 0
+LIMIT 50;","column hc.fk_labor_id does not exist
+HINT:  Perhaps you meant to reference the column ""hpa.fk_labor_id"".",COLUMN_HALLUCINATION,False,,49,stop,125
+large,71,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania finance_corporate_bonds_annual.status, liczebność grupy COUNT(finance_corporate_bonds_annual.id) AS total_count oraz zagregowaną metrykę analityczną (SUM(public.finance_corporate_bonds_annual.amount) AS aggregate_metric), łącząc tabelę finance_corporate_bonds_annual z tabelami (finance_payment_transactions_daily, finance_ledger_entries_consolidated), filtrując rekordy o finance_corporate_bonds_annual.id > 0, grupując po finance_corporate_bonds_annual.status z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.finance_corporate_bonds_annual.status, COUNT(public.finance_corporate_bonds_annual.id) AS total_count, SUM(public.finance_corporate_bonds_annual.amount) AS aggregate_metric FROM public.finance_corporate_bonds_annual JOIN public.finance_payment_transactions_daily ON public.finance_corporate_bonds_annual.fk_payment_id = public.finance_payment_transactions_daily.id JOIN public.finance_ledger_entries_consolidated ON public.finance_payment_transactions_daily.id = public.finance_ledger_entries_consolidated.fk_payment_id WHERE public.finance_corporate_bonds_annual.id > 0 GROUP BY public.finance_corporate_bonds_annual.status HAVING COUNT(public.finance_corporate_bonds_annual.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""finance_corporate_bonds_annual"", ""finance_payment_transactions_daily"", ""finance_ledger_entries_consolidated""]","[""finance_corporate_bonds_domestic"", ""finance_corporate_bonds_annual"", ""finance_corporate_bonds_monthly"", ""finance_corporate_bonds_consolidated"", ""finance_corporate_bonds_quarterly"", ""finance_payment_transactions_daily""]","```sql
+SELECT 
+    fca.status,
+    COUNT(fca.id) AS total_count,
+    SUM(fca.amount) AS aggregate_metric
+FROM 
+    public.finance_corporate_bonds_annual fca
+JOIN 
+    public.finance_payment_transactions_daily fptd ON fca.fk_payment_id = fptd.id
+JOIN 
+    public.finance_ledger_entries_consolidated flec ON fptd.ledger_id = flec.id
+WHERE 
+    fca.id > 0
+GROUP BY 
+    fca.status
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    fca.status,
+    COUNT(fca.id) AS total_count,
+    SUM(fca.amount) AS aggregate_metric
+FROM 
+    public.finance_corporate_bonds_annual fca
+JOIN 
+    public.finance_payment_transactions_daily fptd ON fca.fk_payment_id = fptd.id
+JOIN 
+    public.finance_ledger_entries_consolidated flec ON fptd.ledger_id = flec.id
+WHERE 
+    fca.id > 0
+GROUP BY 
+    fca.status
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;","column ""total_count"" does not exist",TABLE_MISSING,False,,5,stop,139
+large,343,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania crm_churn_indicators_inbound.stage, liczebność grupy COUNT(crm_churn_indicators_inbound.id) AS total_count oraz zagregowaną metrykę analityczną (AVG(public.crm_churn_indicators_inbound.deal_value) AS aggregate_metric), łącząc tabelę crm_churn_indicators_inbound z tabelami (crm_support_cases_escalated, crm_client_accounts_retention_risk), filtrując rekordy o crm_churn_indicators_inbound.id > 0, grupując po crm_churn_indicators_inbound.stage z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.crm_churn_indicators_inbound.stage, COUNT(public.crm_churn_indicators_inbound.id) AS total_count, AVG(public.crm_churn_indicators_inbound.deal_value) AS aggregate_metric FROM public.crm_churn_indicators_inbound JOIN public.crm_support_cases_escalated ON public.crm_churn_indicators_inbound.fk_support_id = public.crm_support_cases_escalated.id JOIN public.crm_client_accounts_retention_risk ON public.crm_support_cases_escalated.id = public.crm_client_accounts_retention_risk.fk_support_id WHERE public.crm_churn_indicators_inbound.id > 0 GROUP BY public.crm_churn_indicators_inbound.stage HAVING COUNT(public.crm_churn_indicators_inbound.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""crm_churn_indicators_inbound"", ""crm_support_cases_escalated"", ""crm_client_accounts_retention_risk""]","[""crm_churn_indicators_inbound"", ""crm_churn_indicators_high_value"", ""crm_churn_indicators_retention_risk"", ""crm_churn_indicators_smb"", ""crm_churn_indicators_escalated"", ""crm_support_cases_escalated""]","```sql
+SELECT 
+    ci.stage,
+    COUNT(ci.id) AS total_count,
+    AVG(ci.deal_value) AS aggregate_metric
+FROM 
+    public.crm_churn_indicators_inbound ci
+JOIN 
+    public.crm_support_cases_escalated cse ON ci.fk_support_id = cse.id
+JOIN 
+    public.crm_client_accounts_retention_risk ccar ON cse.customer_account_id = ccar.customer_account_id
+WHERE 
+    ci.id > 0
+GROUP BY 
+    ci.stage
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    ci.stage,
+    COUNT(ci.id) AS total_count,
+    AVG(ci.deal_value) AS aggregate_metric
+FROM 
+    public.crm_churn_indicators_inbound ci
+JOIN 
+    public.crm_support_cases_escalated cse ON ci.fk_support_id = cse.id
+JOIN 
+    public.crm_client_accounts_retention_risk ccar ON cse.customer_account_id = ccar.customer_account_id
+WHERE 
+    ci.id > 0
+GROUP BY 
+    ci.stage
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;","column ccar.customer_account_id does not exist
+HINT:  Perhaps you meant to reference the column ""cse.customer_account_id"".",TABLE_MISSING,False,,5,stop,132
+large,132,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania inventory_bills_of_materials_archived.warehouse_id, liczebność grupy COUNT(inventory_bills_of_materials_archived.id) AS total_count oraz zagregowaną metrykę analityczną (SUM(public.inventory_bills_of_materials_archived.quantity) AS aggregate_metric), łącząc tabelę inventory_bills_of_materials_archived z tabelami (inventory_purchase_orders_raw_materials, inventory_work_in_progress_expedited, inventory_inventory_adjustments_perishable), filtrując rekordy o inventory_bills_of_materials_archived.id > 0, grupując po inventory_bills_of_materials_archived.warehouse_id z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.inventory_bills_of_materials_archived.warehouse_id, COUNT(public.inventory_bills_of_materials_archived.id) AS total_count, SUM(public.inventory_bills_of_materials_archived.quantity) AS aggregate_metric FROM public.inventory_bills_of_materials_archived JOIN public.inventory_purchase_orders_raw_materials ON public.inventory_bills_of_materials_archived.id = public.inventory_purchase_orders_raw_materials.fk_bills_id JOIN public.inventory_work_in_progress_expedited ON public.inventory_purchase_orders_raw_materials.fk_work_id = public.inventory_work_in_progress_expedited.id JOIN public.inventory_inventory_adjustments_perishable ON public.inventory_work_in_progress_expedited.id = public.inventory_inventory_adjustments_perishable.fk_work_id WHERE public.inventory_bills_of_materials_archived.id > 0 GROUP BY public.inventory_bills_of_materials_archived.warehouse_id HAVING COUNT(public.inventory_bills_of_materials_archived.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""inventory_bills_of_materials_archived"", ""inventory_purchase_orders_raw_materials"", ""inventory_work_in_progress_expedited"", ""inventory_inventory_adjustments_perishable""]","[""inventory_supplier_shipments_archived"", ""inventory_inventory_adjustments_archived"", ""inventory_bills_of_materials_spare_parts"", ""inventory_purchase_orders_raw_materials"", ""inventory_cycle_counts_perishable"", ""inventory_bills_of_materials_components""]","```sql
+SELECT 
+    iwa.warehouse_id,
+    COUNT(iwa.id) AS total_count,
+    SUM(iwa.quantity) AS aggregate_metric
+FROM 
+    public.inventory_bills_of_materials_archived iwa
+JOIN 
+    public.inventory_purchase_orders_raw_materials iporm ON iwa.id = iporm.fk_bills_id
+JOIN 
+    public.inventory_work_in_progress_expedited iwpie ON iwa.id = iwpie.fk_bills_id
+JOIN 
+    public.inventory_inventory_adjustments_perishable iiap ON iwa.id = iiap.fk_bills_id
+WHERE 
+    iwa.id > 0
+GROUP BY 
+    iwa.warehouse_id
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    iwa.warehouse_id,
+    COUNT(iwa.id) AS total_count,
+    SUM(iwa.quantity) AS aggregate_metric
+FROM 
+    public.inventory_bills_of_materials_archived iwa
+JOIN 
+    public.inventory_purchase_orders_raw_materials iporm ON iwa.id = iporm.fk_bills_id
+JOIN 
+    public.inventory_work_in_progress_expedited iwpie ON iwa.id = iwpie.fk_bills_id
+JOIN 
+    public.inventory_inventory_adjustments_perishable iiap ON iwa.id = iiap.fk_bills_id
+WHERE 
+    iwa.id > 0
+GROUP BY 
+    iwa.warehouse_id
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;",column iwpie.fk_bills_id does not exist,TABLE_MISSING,False,,11,stop,171
+large,167,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania inventory_packaging_materials_bonded.warehouse_id, liczebność grupy COUNT(inventory_packaging_materials_bonded.id) AS total_count oraz zagregowaną metrykę analityczną (SUM(public.inventory_packaging_materials_bonded.quantity) AS aggregate_metric), łącząc tabelę inventory_packaging_materials_bonded z tabelami (inventory_batch_inspections_perishable, inventory_bills_of_materials_components), filtrując rekordy o inventory_packaging_materials_bonded.id > 0, grupując po inventory_packaging_materials_bonded.warehouse_id z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.inventory_packaging_materials_bonded.warehouse_id, COUNT(public.inventory_packaging_materials_bonded.id) AS total_count, SUM(public.inventory_packaging_materials_bonded.quantity) AS aggregate_metric FROM public.inventory_packaging_materials_bonded JOIN public.inventory_batch_inspections_perishable ON public.inventory_packaging_materials_bonded.fk_batch_id = public.inventory_batch_inspections_perishable.id JOIN public.inventory_bills_of_materials_components ON public.inventory_batch_inspections_perishable.fk_bills_id = public.inventory_bills_of_materials_components.id WHERE public.inventory_packaging_materials_bonded.id > 0 GROUP BY public.inventory_packaging_materials_bonded.warehouse_id HAVING COUNT(public.inventory_packaging_materials_bonded.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""inventory_packaging_materials_bonded"", ""inventory_batch_inspections_perishable"", ""inventory_bills_of_materials_components""]","[""inventory_packaging_materials_in_transit"", ""inventory_packaging_materials_bonded"", ""inventory_purchase_orders_raw_materials"", ""inventory_quarantine_items_bonded"", ""inventory_supplier_shipments_bonded"", ""inventory_goods_receipts_finished_goods""]","```sql
+SELECT 
+    iwb.warehouse_id,
+    COUNT(iwb.id) AS total_count,
+    SUM(iwb.quantity) AS aggregate_metric
+FROM 
+    public.inventory_packaging_materials_bonded iwb
+JOIN 
+    public.inventory_batch_inspections_perishable ibip ON iwb.fk_batch_id = ibip.id
+JOIN 
+    public.inventory_bills_of_materials_components ibomc ON iwb.fk_batch_id = ibomc.id
+WHERE 
+    iwb.id > 0
+GROUP BY 
+    iwb.warehouse_id
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    iwb.warehouse_id,
+    COUNT(iwb.id) AS total_count,
+    SUM(iwb.quantity) AS aggregate_metric
+FROM 
+    public.inventory_packaging_materials_bonded iwb
+JOIN 
+    public.inventory_batch_inspections_perishable ibip ON iwb.fk_batch_id = ibip.id
+JOIN 
+    public.inventory_bills_of_materials_components ibomc ON iwb.fk_batch_id = ibomc.id
+WHERE 
+    iwb.id > 0
+GROUP BY 
+    iwb.warehouse_id
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;","column ""total_count"" does not exist",TABLE_MISSING,False,,15,stop,145
+large,80,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania finance_invoices_receivable_historical.status, liczebność grupy COUNT(finance_invoices_receivable_historical.id) AS total_count oraz zagregowaną metrykę analityczną (SUM(public.finance_invoices_receivable_historical.amount) AS aggregate_metric), łącząc tabelę finance_invoices_receivable_historical z tabelami (finance_dividend_distributions_international, finance_expense_claims_international, finance_budget_forecasts_intercompany), filtrując rekordy o finance_invoices_receivable_historical.id > 0, grupując po finance_invoices_receivable_historical.status z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.finance_invoices_receivable_historical.status, COUNT(public.finance_invoices_receivable_historical.id) AS total_count, SUM(public.finance_invoices_receivable_historical.amount) AS aggregate_metric FROM public.finance_invoices_receivable_historical JOIN public.finance_dividend_distributions_international ON public.finance_invoices_receivable_historical.fk_dividend_id = public.finance_dividend_distributions_international.id JOIN public.finance_expense_claims_international ON public.finance_dividend_distributions_international.fk_expense_id = public.finance_expense_claims_international.id JOIN public.finance_budget_forecasts_intercompany ON public.finance_expense_claims_international.id = public.finance_budget_forecasts_intercompany.fk_expense_id WHERE public.finance_invoices_receivable_historical.id > 0 GROUP BY public.finance_invoices_receivable_historical.status HAVING COUNT(public.finance_invoices_receivable_historical.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""finance_invoices_receivable_historical"", ""finance_dividend_distributions_international"", ""finance_expense_claims_international"", ""finance_budget_forecasts_intercompany""]","[""finance_accounts_receivable_historical"", ""finance_invoices_receivable_annual"", ""finance_invoices_receivable_quarterly"", ""finance_invoices_receivable_reconciled"", ""finance_invoices_receivable_daily""]","```sql
+SELECT 
+    fih.status,
+    COUNT(fih.id) AS total_count,
+    SUM(fih.amount) AS aggregate_metric
+FROM 
+    public.finance_invoices_receivable_historical fih
+JOIN 
+    public.finance_dividend_distributions_international fddi ON fih.id = fddi.fk_invoices_id
+JOIN 
+    public.finance_expense_claims_international feci ON fih.id = feci.fk_invoices_id
+JOIN 
+    public.finance_budget_forecasts_intercompany fbfi ON fih.id = fbfi.fk_invoices_id
+WHERE 
+    fih.id > 0
+GROUP BY 
+    fih.status
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    fih.status,
+    COUNT(fih.id) AS total_count,
+    SUM(fih.amount) AS aggregate_metric
+FROM 
+    public.finance_invoices_receivable_historical fih
+JOIN 
+    public.finance_dividend_distributions_international fddi ON fih.id = fddi.fk_invoices_id
+JOIN 
+    public.finance_expense_claims_international feci ON fih.id = feci.fk_invoices_id
+JOIN 
+    public.finance_budget_forecasts_intercompany fbfi ON fih.id = fbfi.fk_invoices_id
+WHERE 
+    fih.id > 0
+GROUP BY 
+    fih.status
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;",column fddi.fk_invoices_id does not exist,TABLE_MISSING,False,,5,stop,171
+large,196,complex,"Sporządź zaawansowane zapytanie analityczne CTE bazujące na tabeli inventory_reorder_thresholds_spare_parts zwracające jawne kolumny: b.base_id (inventory_reorder_thresholds_spare_parts.id), b.warehouse_id, b.metric_val (wartość agregacji), inventory_purchase_orders_raw_materials_id (public.inventory_purchase_orders_raw_materials.id), inventory_dispatch_manifests_spare_parts_id (public.inventory_dispatch_manifests_spare_parts.id), inventory_purchase_orders_perishable_id (public.inventory_purchase_orders_perishable.id), integrujące relacje z tabelami (inventory_purchase_orders_raw_materials, inventory_dispatch_manifests_spare_parts, inventory_purchase_orders_perishable), filtrując b.metric_val IS NOT NULL z sortowaniem ORDER BY b.base_id ASC (LIMIT 50).","WITH base_summary AS (
+    SELECT public.inventory_reorder_thresholds_spare_parts.id AS base_id, public.inventory_reorder_thresholds_spare_parts.warehouse_id, SUM(public.inventory_reorder_thresholds_spare_parts.quantity) AS metric_val
+    FROM public.inventory_reorder_thresholds_spare_parts
+    WHERE public.inventory_reorder_thresholds_spare_parts.id > 0
+    GROUP BY public.inventory_reorder_thresholds_spare_parts.id, public.inventory_reorder_thresholds_spare_parts.warehouse_id
+)
+SELECT b.base_id, b.warehouse_id, b.metric_val, public.inventory_purchase_orders_raw_materials.id AS inventory_purchase_orders_raw_materials_id, public.inventory_dispatch_manifests_spare_parts.id AS inventory_dispatch_manifests_spare_parts_id, public.inventory_purchase_orders_perishable.id AS inventory_purchase_orders_perishable_id
+FROM base_summary b
+JOIN public.inventory_reorder_thresholds_spare_parts ON b.base_id = public.inventory_reorder_thresholds_spare_parts.id
+JOIN public.inventory_purchase_orders_raw_materials ON public.inventory_reorder_thresholds_spare_parts.id = public.inventory_purchase_orders_raw_materials.fk_reorder_id JOIN public.inventory_dispatch_manifests_spare_parts ON public.inventory_purchase_orders_raw_materials.id = public.inventory_dispatch_manifests_spare_parts.fk_purchase_id JOIN public.inventory_purchase_orders_perishable ON public.inventory_dispatch_manifests_spare_parts.fk_purchase_id = public.inventory_purchase_orders_perishable.id
+WHERE b.metric_val IS NOT NULL
+ORDER BY b.base_id ASC
+LIMIT 50;","[""inventory_reorder_thresholds_spare_parts"", ""inventory_purchase_orders_raw_materials"", ""inventory_dispatch_manifests_spare_parts"", ""inventory_purchase_orders_perishable""]","[""inventory_purchase_orders_spare_parts"", ""inventory_dispatch_manifests_spare_parts"", ""inventory_purchase_orders_raw_materials"", ""inventory_purchase_orders_finished_goods"", ""inventory_inventory_adjustments_spare_parts"", ""inventory_goods_receipts_finished_goods""]","```sql
+WITH CTE AS (
+    SELECT 
+        i.id AS base_id,
+        i.warehouse_id,
+        SUM(i.quantity) AS metric_val,
+        i.fk_purchase_id AS inventory_purchase_orders_raw_materials_id,
+        i.fk_dispatch_id AS inventory_dispatch_manifests_spare_parts_id,
+        i.fk_quarantine_id AS inventory_purchase_orders_perishable_id
+    FROM 
+        public.inventory_purchase_orders_raw_materials i
+    JOIN 
+        public.inventory_dispatch_manifests_spare_parts d ON i.id = d.fk_purchase_id
+    JOIN 
+        public.inventory_purchase_orders_perishable p ON i.id = p.id
+    GROUP BY 
+        i.id, i.warehouse_id, i.fk_purchase_id, i.fk_dispatch_id, i.fk_quarantine_id
+    HAVING 
+        SUM(i.quantity) IS NOT NULL
+)
+SELECT 
+    base_id,
+    warehouse_id,
+    metric_val,
+    inventory_purchase_orders_raw_materials_id,
+    inventory_dispatch_manifests_spare_parts_id,
+    inventory_purchase_orders_perishable_id
+FROM 
+    CTE
+ORDER BY 
+    base_id ASC
+LIMIT 50;
+```","WITH CTE AS (
+    SELECT 
+        i.id AS base_id,
+        i.warehouse_id,
+        SUM(i.quantity) AS metric_val,
+        i.fk_purchase_id AS inventory_purchase_orders_raw_materials_id,
+        i.fk_dispatch_id AS inventory_dispatch_manifests_spare_parts_id,
+        i.fk_quarantine_id AS inventory_purchase_orders_perishable_id
+    FROM 
+        public.inventory_purchase_orders_raw_materials i
+    JOIN 
+        public.inventory_dispatch_manifests_spare_parts d ON i.id = d.fk_purchase_id
+    JOIN 
+        public.inventory_purchase_orders_perishable p ON i.id = p.id
+    GROUP BY 
+        i.id, i.warehouse_id, i.fk_purchase_id, i.fk_dispatch_id, i.fk_quarantine_id
+    HAVING 
+        SUM(i.quantity) IS NOT NULL
+)
+SELECT 
+    base_id,
+    warehouse_id,
+    metric_val,
+    inventory_purchase_orders_raw_materials_id,
+    inventory_dispatch_manifests_spare_parts_id,
+    inventory_purchase_orders_perishable_id
+FROM 
+    CTE
+ORDER BY 
+    base_id ASC
+LIMIT 50;",,SEMANTIC_MISMATCH,True,20.0,20,stop,246
+large,485,complex,"Sporządź zaawansowane zapytanie analityczne CTE bazujące na tabeli telemetry_pressure_records_cold_storage zwracające jawne kolumny: b.base_id (telemetry_pressure_records_cold_storage.id), b.sensor_type, b.metric_val (wartość agregacji), telemetry_disk_throughput_hourly_aggregates_id (public.telemetry_disk_throughput_hourly_aggregates.id), telemetry_host_servers_datacenter_b_id (public.telemetry_host_servers_datacenter_b.id), telemetry_api_response_times_realtime_id (public.telemetry_api_response_times_realtime.id), telemetry_smart_meter_readings_realtime_id (public.telemetry_smart_meter_readings_realtime.id), integrujące relacje z tabelami (telemetry_disk_throughput_hourly_aggregates, telemetry_host_servers_datacenter_b, telemetry_api_response_times_realtime, telemetry_smart_meter_readings_realtime), filtrując b.metric_val IS NOT NULL z sortowaniem ORDER BY b.base_id ASC (LIMIT 50).","WITH base_summary AS (
+    SELECT public.telemetry_pressure_records_cold_storage.id AS base_id, public.telemetry_pressure_records_cold_storage.sensor_type, AVG(public.telemetry_pressure_records_cold_storage.metric_value) AS metric_val
+    FROM public.telemetry_pressure_records_cold_storage
+    WHERE public.telemetry_pressure_records_cold_storage.id > 0
+    GROUP BY public.telemetry_pressure_records_cold_storage.id, public.telemetry_pressure_records_cold_storage.sensor_type
+)
+SELECT b.base_id, b.sensor_type, b.metric_val, public.telemetry_disk_throughput_hourly_aggregates.id AS telemetry_disk_throughput_hourly_aggregates_id, public.telemetry_host_servers_datacenter_b.id AS telemetry_host_servers_datacenter_b_id, public.telemetry_api_response_times_realtime.id AS telemetry_api_response_times_realtime_id, public.telemetry_smart_meter_readings_realtime.id AS telemetry_smart_meter_readings_realtime_id
+FROM base_summary b
+JOIN public.telemetry_pressure_records_cold_storage ON b.base_id = public.telemetry_pressure_records_cold_storage.id
+JOIN public.telemetry_disk_throughput_hourly_aggregates ON public.telemetry_pressure_records_cold_storage.fk_disk_id = public.telemetry_disk_throughput_hourly_aggregates.id JOIN public.telemetry_host_servers_datacenter_b ON public.telemetry_disk_throughput_hourly_aggregates.fk_host_id = public.telemetry_host_servers_datacenter_b.id JOIN public.telemetry_api_response_times_realtime ON public.telemetry_host_servers_datacenter_b.id = public.telemetry_api_response_times_realtime.fk_host_id JOIN public.telemetry_smart_meter_readings_realtime ON public.telemetry_api_response_times_realtime.id = public.telemetry_smart_meter_readings_realtime.fk_api_id
+WHERE b.metric_val IS NOT NULL
+ORDER BY b.base_id ASC
+LIMIT 50;","[""telemetry_pressure_records_cold_storage"", ""telemetry_disk_throughput_hourly_aggregates"", ""telemetry_host_servers_datacenter_b"", ""telemetry_api_response_times_realtime"", ""telemetry_smart_meter_readings_realtime""]","[""telemetry_pressure_records_cold_storage"", ""telemetry_disk_throughput_hourly_aggregates"", ""telemetry_smart_meter_readings_cold_storage"", ""telemetry_battery_discharges_realtime"", ""telemetry_disk_throughput_daily_aggregates"", ""telemetry_host_servers_datacenter_b"", ""telemetry_host_servers_datacenter_a""]","```sql
+WITH cte AS (
+    SELECT 
+        p.id AS base_id,
+        p.sensor_type,
+        p.metric_value AS metric_val,
+        d.id AS telemetry_disk_throughput_hourly_aggregates_id,
+        h.id AS telemetry_host_servers_datacenter_b_id,
+        a.id AS telemetry_api_response_times_realtime_id,
+        s.id AS telemetry_smart_meter_readings_realtime_id
+    FROM 
+        public.telemetry_pressure_records_cold_storage p
+    JOIN 
+        public.telemetry_disk_throughput_hourly_aggregates d ON p.fk_disk_id = d.id
+    JOIN 
+        public.telemetry_host_servers_datacenter_b h ON p.fk_host_id = h.id
+    LEFT JOIN 
+        public.telemetry_api_response_times_realtime a ON h.id = a.fk_host_id
+    LEFT JOIN 
+        public.telemetry_smart_meter_readings_realtime s ON h.id = s.fk_host_id
+    WHERE 
+        p.metric_value IS NOT NULL
+)
+SELECT 
+    base_id,
+    sensor_type,
+    metric_val,
+    telemetry_disk_throughput_hourly_aggregates_id,
+    telemetry_host_servers_datacenter_b_id,
+    telemetry_api_response_times_realtime_id,
+    telemetry_smart_meter_readings_realtime_id
+FROM 
+    cte
+ORDER BY 
+    base_id ASC
+LIMIT 50;
+```","WITH cte AS (
+    SELECT 
+        p.id AS base_id,
+        p.sensor_type,
+        p.metric_value AS metric_val,
+        d.id AS telemetry_disk_throughput_hourly_aggregates_id,
+        h.id AS telemetry_host_servers_datacenter_b_id,
+        a.id AS telemetry_api_response_times_realtime_id,
+        s.id AS telemetry_smart_meter_readings_realtime_id
+    FROM 
+        public.telemetry_pressure_records_cold_storage p
+    JOIN 
+        public.telemetry_disk_throughput_hourly_aggregates d ON p.fk_disk_id = d.id
+    JOIN 
+        public.telemetry_host_servers_datacenter_b h ON p.fk_host_id = h.id
+    LEFT JOIN 
+        public.telemetry_api_response_times_realtime a ON h.id = a.fk_host_id
+    LEFT JOIN 
+        public.telemetry_smart_meter_readings_realtime s ON h.id = s.fk_host_id
+    WHERE 
+        p.metric_value IS NOT NULL
+)
+SELECT 
+    base_id,
+    sensor_type,
+    metric_val,
+    telemetry_disk_throughput_hourly_aggregates_id,
+    telemetry_host_servers_datacenter_b_id,
+    telemetry_api_response_times_realtime_id,
+    telemetry_smart_meter_readings_realtime_id
+FROM 
+    cte
+ORDER BY 
+    base_id ASC
+LIMIT 50;",column s.fk_host_id does not exist,TABLE_MISSING,False,,36,stop,282
+large,332,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania crm_audience_segments_archived.stage, liczebność grupy COUNT(crm_audience_segments_archived.id) AS total_count oraz zagregowaną metrykę analityczną (AVG(public.crm_audience_segments_archived.deal_value) AS aggregate_metric), łącząc tabelę crm_audience_segments_archived z tabelami (crm_price_quotes_retention_risk, crm_audience_segments_outbound, crm_support_cases_escalated), filtrując rekordy o crm_audience_segments_archived.id > 0, grupując po crm_audience_segments_archived.stage z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.crm_audience_segments_archived.stage, COUNT(public.crm_audience_segments_archived.id) AS total_count, AVG(public.crm_audience_segments_archived.deal_value) AS aggregate_metric FROM public.crm_audience_segments_archived JOIN public.crm_price_quotes_retention_risk ON public.crm_audience_segments_archived.fk_price_id = public.crm_price_quotes_retention_risk.id JOIN public.crm_audience_segments_outbound ON public.crm_price_quotes_retention_risk.fk_audience_id = public.crm_audience_segments_outbound.id JOIN public.crm_support_cases_escalated ON public.crm_audience_segments_outbound.fk_support_id = public.crm_support_cases_escalated.id WHERE public.crm_audience_segments_archived.id > 0 GROUP BY public.crm_audience_segments_archived.stage HAVING COUNT(public.crm_audience_segments_archived.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""crm_audience_segments_archived"", ""crm_price_quotes_retention_risk"", ""crm_audience_segments_outbound"", ""crm_support_cases_escalated""]","[""crm_price_quotes_retention_risk"", ""crm_audience_segments_retention_risk"", ""crm_price_quotes_smb"", ""crm_case_escalations_enterprise"", ""crm_churn_indicators_active""]","```sql
+SELECT 
+    a.stage,
+    COUNT(a.id) AS total_count,
+    AVG(p.deal_value) AS aggregate_metric
+FROM 
+    public.crm_audience_segments_archived a
+JOIN 
+    public.crm_price_quotes_retention_risk p ON a.id = p.fk_audience_id
+JOIN 
+    public.crm_audience_segments_outbound o ON a.id = o.fk_audience_id
+JOIN 
+    public.crm_support_cases_escalated s ON a.id = s.fk_audience_id
+WHERE 
+    a.id > 0
+GROUP BY 
+    a.stage
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    a.stage,
+    COUNT(a.id) AS total_count,
+    AVG(p.deal_value) AS aggregate_metric
+FROM 
+    public.crm_audience_segments_archived a
+JOIN 
+    public.crm_price_quotes_retention_risk p ON a.id = p.fk_audience_id
+JOIN 
+    public.crm_audience_segments_outbound o ON a.id = o.fk_audience_id
+JOIN 
+    public.crm_support_cases_escalated s ON a.id = s.fk_audience_id
+WHERE 
+    a.id > 0
+GROUP BY 
+    a.stage
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;","column o.fk_audience_id does not exist
+HINT:  Perhaps you meant to reference the column ""p.fk_audience_id"".",TABLE_MISSING,False,,5,stop,154
+large,78,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania finance_asset_depreciations_international.status, liczebność grupy COUNT(finance_asset_depreciations_international.id) AS total_count oraz zagregowaną metrykę analityczną (SUM(public.finance_asset_depreciations_international.amount) AS aggregate_metric), łącząc tabelę finance_asset_depreciations_international z tabelami (finance_payment_transactions_daily, finance_asset_depreciations_domestic, finance_treasury_positions_consolidated), filtrując rekordy o finance_asset_depreciations_international.id > 0, grupując po finance_asset_depreciations_international.status z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.finance_asset_depreciations_international.status, COUNT(public.finance_asset_depreciations_international.id) AS total_count, SUM(public.finance_asset_depreciations_international.amount) AS aggregate_metric FROM public.finance_asset_depreciations_international JOIN public.finance_payment_transactions_daily ON public.finance_asset_depreciations_international.fk_payment_id = public.finance_payment_transactions_daily.id JOIN public.finance_asset_depreciations_domestic ON public.finance_payment_transactions_daily.id = public.finance_asset_depreciations_domestic.fk_payment_id JOIN public.finance_treasury_positions_consolidated ON public.finance_asset_depreciations_domestic.id = public.finance_treasury_positions_consolidated.fk_asset_id WHERE public.finance_asset_depreciations_international.id > 0 GROUP BY public.finance_asset_depreciations_international.status HAVING COUNT(public.finance_asset_depreciations_international.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""finance_asset_depreciations_international"", ""finance_payment_transactions_daily"", ""finance_asset_depreciations_domestic"", ""finance_treasury_positions_consolidated""]","[""finance_asset_depreciations_quarterly"", ""finance_asset_depreciations_international"", ""finance_asset_depreciations_domestic"", ""finance_asset_depreciations_consolidated"", ""finance_treasury_positions_consolidated"", ""finance_payment_transactions_daily"", ""finance_accounts_payable_consolidated""]","```sql
+SELECT 
+    fas.status,
+    COUNT(fai.id) AS total_count,
+    SUM(fai.amount) AS aggregate_metric
+FROM 
+    public.finance_asset_depreciations_international fai
+JOIN 
+    public.finance_payment_transactions_daily fptd ON fai.fk_payment_id = fptd.id
+JOIN 
+    public.finance_asset_depreciations_domestic fadd ON fai.fk_payment_id = fadd.fk_payment_id
+JOIN 
+    public.finance_treasury_positions_consolidated ftprc ON fadd.fk_asset_id = ftprc.fk_asset_id
+WHERE 
+    fai.id > 0
+GROUP BY 
+    fas.status
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    fas.status,
+    COUNT(fai.id) AS total_count,
+    SUM(fai.amount) AS aggregate_metric
+FROM 
+    public.finance_asset_depreciations_international fai
+JOIN 
+    public.finance_payment_transactions_daily fptd ON fai.fk_payment_id = fptd.id
+JOIN 
+    public.finance_asset_depreciations_domestic fadd ON fai.fk_payment_id = fadd.fk_payment_id
+JOIN 
+    public.finance_treasury_positions_consolidated ftprc ON fadd.fk_asset_id = ftprc.fk_asset_id
+WHERE 
+    fai.id > 0
+GROUP BY 
+    fas.status
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;",column fadd.fk_asset_id does not exist,COLUMN_HALLUCINATION,False,,5,stop,172
+large,488,complex,"Sporządź zaawansowane zapytanie analityczne CTE bazujące na tabeli telemetry_host_servers_datacenter_a zwracające jawne kolumny: b.base_id (telemetry_host_servers_datacenter_a.id), b.sensor_type, b.metric_val (wartość agregacji), telemetry_security_signals_edge_node_id (public.telemetry_security_signals_edge_node.id), telemetry_host_servers_datacenter_b_id (public.telemetry_host_servers_datacenter_b.id), telemetry_pressure_records_cold_storage_id (public.telemetry_pressure_records_cold_storage.id), telemetry_disk_throughput_hourly_aggregates_id (public.telemetry_disk_throughput_hourly_aggregates.id), integrujące relacje z tabelami (telemetry_security_signals_edge_node, telemetry_host_servers_datacenter_b, telemetry_pressure_records_cold_storage, telemetry_disk_throughput_hourly_aggregates), filtrując b.metric_val IS NOT NULL z sortowaniem ORDER BY b.base_id ASC (LIMIT 50).","WITH base_summary AS (
+    SELECT public.telemetry_host_servers_datacenter_a.id AS base_id, public.telemetry_host_servers_datacenter_a.sensor_type, AVG(public.telemetry_host_servers_datacenter_a.metric_value) AS metric_val
+    FROM public.telemetry_host_servers_datacenter_a
+    WHERE public.telemetry_host_servers_datacenter_a.id > 0
+    GROUP BY public.telemetry_host_servers_datacenter_a.id, public.telemetry_host_servers_datacenter_a.sensor_type
+)
+SELECT b.base_id, b.sensor_type, b.metric_val, public.telemetry_security_signals_edge_node.id AS telemetry_security_signals_edge_node_id, public.telemetry_host_servers_datacenter_b.id AS telemetry_host_servers_datacenter_b_id, public.telemetry_pressure_records_cold_storage.id AS telemetry_pressure_records_cold_storage_id, public.telemetry_disk_throughput_hourly_aggregates.id AS telemetry_disk_throughput_hourly_aggregates_id
+FROM base_summary b
+JOIN public.telemetry_host_servers_datacenter_a ON b.base_id = public.telemetry_host_servers_datacenter_a.id
+JOIN public.telemetry_security_signals_edge_node ON public.telemetry_host_servers_datacenter_a.id = public.telemetry_security_signals_edge_node.fk_host_id JOIN public.telemetry_host_servers_datacenter_b ON public.telemetry_security_signals_edge_node.fk_host_id = public.telemetry_host_servers_datacenter_b.id JOIN public.telemetry_pressure_records_cold_storage ON public.telemetry_host_servers_datacenter_b.id = public.telemetry_pressure_records_cold_storage.fk_host_id JOIN public.telemetry_disk_throughput_hourly_aggregates ON public.telemetry_pressure_records_cold_storage.fk_disk_id = public.telemetry_disk_throughput_hourly_aggregates.id
+WHERE b.metric_val IS NOT NULL
+ORDER BY b.base_id ASC
+LIMIT 50;","[""telemetry_host_servers_datacenter_a"", ""telemetry_security_signals_edge_node"", ""telemetry_host_servers_datacenter_b"", ""telemetry_pressure_records_cold_storage"", ""telemetry_disk_throughput_hourly_aggregates""]","[""telemetry_pressure_records_cold_storage"", ""telemetry_security_signals_hourly_aggregates"", ""telemetry_security_signals_edge_node"", ""telemetry_host_servers_datacenter_a"", ""telemetry_security_signals_daily_aggregates"", ""telemetry_host_servers_datacenter_b""]","```sql
+WITH AggregatedData AS (
+    SELECT
+        a.id AS base_id,
+        a.sensor_type,
+        a.metric_value AS metric_val,
+        esn.id AS telemetry_security_signals_edge_node_id,
+        hsb.id AS telemetry_host_servers_datacenter_b_id,
+        prcs.id AS telemetry_pressure_records_cold_storage_id,
+        dtha.id AS telemetry_disk_throughput_hourly_aggregates_id
+    FROM
+        public.telemetry_host_servers_datacenter_a a
+    LEFT JOIN
+        public.telemetry_security_signals_edge_node esn ON a.id = esn.fk_host_id
+    LEFT JOIN
+        public.telemetry_host_servers_datacenter_b hsb ON esn.fk_host_id = hsb.id
+    LEFT JOIN
+        public.telemetry_pressure_records_cold_storage prcs ON hsb.id = prcs.fk_host_id
+    LEFT JOIN
+        public.telemetry_disk_throughput_hourly_aggregates dtha ON prcs.fk_disk_id = dtha.id
+    WHERE
+        a.metric_value IS NOT NULL
+)
+SELECT
+    base_id,
+    sensor_type,
+    metric_val,
+    telemetry_security_signals_edge_node_id,
+    telemetry_host_servers_datacenter_b_id,
+    telemetry_pressure_records_cold_storage_id,
+    telemetry_disk_throughput_hourly_aggregates_id
+FROM
+    AggregatedData
+ORDER BY
+    base_id ASC
+LIMIT 50;
+```","WITH AggregatedData AS (
+    SELECT
+        a.id AS base_id,
+        a.sensor_type,
+        a.metric_value AS metric_val,
+        esn.id AS telemetry_security_signals_edge_node_id,
+        hsb.id AS telemetry_host_servers_datacenter_b_id,
+        prcs.id AS telemetry_pressure_records_cold_storage_id,
+        dtha.id AS telemetry_disk_throughput_hourly_aggregates_id
+    FROM
+        public.telemetry_host_servers_datacenter_a a
+    LEFT JOIN
+        public.telemetry_security_signals_edge_node esn ON a.id = esn.fk_host_id
+    LEFT JOIN
+        public.telemetry_host_servers_datacenter_b hsb ON esn.fk_host_id = hsb.id
+    LEFT JOIN
+        public.telemetry_pressure_records_cold_storage prcs ON hsb.id = prcs.fk_host_id
+    LEFT JOIN
+        public.telemetry_disk_throughput_hourly_aggregates dtha ON prcs.fk_disk_id = dtha.id
+    WHERE
+        a.metric_value IS NOT NULL
+)
+SELECT
+    base_id,
+    sensor_type,
+    metric_val,
+    telemetry_security_signals_edge_node_id,
+    telemetry_host_servers_datacenter_b_id,
+    telemetry_pressure_records_cold_storage_id,
+    telemetry_disk_throughput_hourly_aggregates_id
+FROM
+    AggregatedData
+ORDER BY
+    base_id ASC
+LIMIT 50;",,SEMANTIC_MISMATCH,True,27.0,17,stop,295
+large,331,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania crm_support_cases_retention_risk.stage, liczebność grupy COUNT(crm_support_cases_retention_risk.id) AS total_count oraz zagregowaną metrykę analityczną (AVG(public.crm_support_cases_retention_risk.deal_value) AS aggregate_metric), łącząc tabelę crm_support_cases_retention_risk z tabelami (crm_client_interactions_outbound, crm_recurring_subscriptions_escalated), filtrując rekordy o crm_support_cases_retention_risk.id > 0, grupując po crm_support_cases_retention_risk.stage z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.crm_support_cases_retention_risk.stage, COUNT(public.crm_support_cases_retention_risk.id) AS total_count, AVG(public.crm_support_cases_retention_risk.deal_value) AS aggregate_metric FROM public.crm_support_cases_retention_risk JOIN public.crm_client_interactions_outbound ON public.crm_support_cases_retention_risk.fk_client_id = public.crm_client_interactions_outbound.id JOIN public.crm_recurring_subscriptions_escalated ON public.crm_client_interactions_outbound.id = public.crm_recurring_subscriptions_escalated.fk_client_id WHERE public.crm_support_cases_retention_risk.id > 0 GROUP BY public.crm_support_cases_retention_risk.stage HAVING COUNT(public.crm_support_cases_retention_risk.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""crm_support_cases_retention_risk"", ""crm_client_interactions_outbound"", ""crm_recurring_subscriptions_escalated""]","[""crm_churn_indicators_retention_risk"", ""crm_client_accounts_retention_risk"", ""crm_sales_leads_retention_risk"", ""crm_client_accounts_enterprise"", ""crm_support_cases_retention_risk"", ""crm_support_cases_escalated""]","```sql
+SELECT 
+    scrs.stage,
+    COUNT(scrs.id) AS total_count,
+    AVG(scrs.deal_value) AS aggregate_metric
+FROM 
+    public.crm_support_cases_retention_risk scr
+JOIN 
+    public.crm_client_interactions_outbound cio ON scr.id = cio.fk_case_id
+JOIN 
+    public.crm_recurring_subscriptions_escalated crs ON scr.id = crs.fk_case_id
+WHERE 
+    scr.id > 0
+GROUP BY 
+    scr.stage
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    scrs.stage,
+    COUNT(scrs.id) AS total_count,
+    AVG(scrs.deal_value) AS aggregate_metric
+FROM 
+    public.crm_support_cases_retention_risk scr
+JOIN 
+    public.crm_client_interactions_outbound cio ON scr.id = cio.fk_case_id
+JOIN 
+    public.crm_recurring_subscriptions_escalated crs ON scr.id = crs.fk_case_id
+WHERE 
+    scr.id > 0
+GROUP BY 
+    scr.stage
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;",column cio.fk_case_id does not exist,TABLE_MISSING,False,,5,stop,136
+large,179,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania inventory_goods_receipts_perishable.warehouse_id, liczebność grupy COUNT(inventory_goods_receipts_perishable.id) AS total_count oraz zagregowaną metrykę analityczną (SUM(public.inventory_goods_receipts_perishable.quantity) AS aggregate_metric), łącząc tabelę inventory_goods_receipts_perishable z tabelami (inventory_shrinkage_records_components, inventory_dispatch_manifests_raw_materials), filtrując rekordy o inventory_goods_receipts_perishable.id > 0, grupując po inventory_goods_receipts_perishable.warehouse_id z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.inventory_goods_receipts_perishable.warehouse_id, COUNT(public.inventory_goods_receipts_perishable.id) AS total_count, SUM(public.inventory_goods_receipts_perishable.quantity) AS aggregate_metric FROM public.inventory_goods_receipts_perishable JOIN public.inventory_shrinkage_records_components ON public.inventory_goods_receipts_perishable.fk_shrinkage_id = public.inventory_shrinkage_records_components.id JOIN public.inventory_dispatch_manifests_raw_materials ON public.inventory_shrinkage_records_components.id = public.inventory_dispatch_manifests_raw_materials.fk_shrinkage_id WHERE public.inventory_goods_receipts_perishable.id > 0 GROUP BY public.inventory_goods_receipts_perishable.warehouse_id HAVING COUNT(public.inventory_goods_receipts_perishable.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""inventory_goods_receipts_perishable"", ""inventory_shrinkage_records_components"", ""inventory_dispatch_manifests_raw_materials""]","[""inventory_goods_receipts_archived"", ""inventory_stock_balances_perishable"", ""inventory_goods_receipts_perishable"", ""inventory_storage_zones_expedited"", ""inventory_goods_receipts_finished_goods"", ""inventory_shrinkage_records_components""]","```sql
+SELECT 
+    i.warehouse_id,
+    COUNT(i.id) AS total_count,
+    SUM(i.quantity) AS aggregate_metric
+FROM 
+    public.inventory_goods_receipts_perishable i
+JOIN 
+    public.inventory_shrinkage_records_components s ON i.fk_shrinkage_id = s.id
+JOIN 
+    public.inventory_dispatch_manifests_raw_materials d ON s.fk_goods_id = d.id
+WHERE 
+    i.id > 0
+GROUP BY 
+    i.warehouse_id
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    i.warehouse_id,
+    COUNT(i.id) AS total_count,
+    SUM(i.quantity) AS aggregate_metric
+FROM 
+    public.inventory_goods_receipts_perishable i
+JOIN 
+    public.inventory_shrinkage_records_components s ON i.fk_shrinkage_id = s.id
+JOIN 
+    public.inventory_dispatch_manifests_raw_materials d ON s.fk_goods_id = d.id
+WHERE 
+    i.id > 0
+GROUP BY 
+    i.warehouse_id
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;","column ""total_count"" does not exist",TABLE_MISSING,False,,11,stop,130
+large,4,simple,"Pobierz jawne atrybuty biznesowe: identyfikator finance_ledger_entries_international.id AS finance_ledger_entries_international_id, znacznik czasu finance_ledger_entries_international.created_at, identyfikator powiązany finance_invoices_receivable_international.id AS finance_invoices_receivable_international_id, identyfikator powiązany finance_budget_forecasts_domestic.id AS finance_budget_forecasts_domestic_id poprzez relacyjne złączenie tabeli bazowej finance_ledger_entries_international oraz encji powiązanych (finance_invoices_receivable_international, finance_budget_forecasts_domestic), filtrując rekordy o finance_ledger_entries_international.id > 0 (LIMIT 50).","SELECT public.finance_ledger_entries_international.id AS finance_ledger_entries_international_id, public.finance_ledger_entries_international.created_at, public.finance_invoices_receivable_international.id AS finance_invoices_receivable_international_id, public.finance_budget_forecasts_domestic.id AS finance_budget_forecasts_domestic_id FROM public.finance_ledger_entries_international JOIN public.finance_invoices_receivable_international ON public.finance_ledger_entries_international.fk_invoices_id = public.finance_invoices_receivable_international.id JOIN public.finance_budget_forecasts_domestic ON public.finance_invoices_receivable_international.fk_budget_id = public.finance_budget_forecasts_domestic.id WHERE public.finance_ledger_entries_international.id > 0 LIMIT 50;","[""finance_ledger_entries_international"", ""finance_invoices_receivable_international"", ""finance_budget_forecasts_domestic""]","[""finance_invoices_receivable_reconciled"", ""finance_ledger_entries_intercompany"", ""finance_credit_memos_daily"", ""finance_ledger_entries_daily"", ""finance_ledger_entries_international""]","```sql
+SELECT 
+    fel.id AS finance_ledger_entries_international_id,
+    fel.created_at,
+    fir.id AS finance_invoices_receivable_international_id,
+    fbf.id AS finance_budget_forecasts_domestic_id
+FROM 
+    public.finance_ledger_entries_international fel
+LEFT JOIN 
+    public.finance_invoices_receivable_international fir ON fel.fk_invoices_id = fir.id
+LEFT JOIN 
+    public.finance_budget_forecasts_domestic fbf ON fel.fk_budget_id = fbf.id
+WHERE 
+    fel.id > 0
+LIMIT 50;
+```","SELECT 
+    fel.id AS finance_ledger_entries_international_id,
+    fel.created_at,
+    fir.id AS finance_invoices_receivable_international_id,
+    fbf.id AS finance_budget_forecasts_domestic_id
+FROM 
+    public.finance_ledger_entries_international fel
+LEFT JOIN 
+    public.finance_invoices_receivable_international fir ON fel.fk_invoices_id = fir.id
+LEFT JOIN 
+    public.finance_budget_forecasts_domestic fbf ON fel.fk_budget_id = fbf.id
+WHERE 
+    fel.id > 0
+LIMIT 50;","column fel.fk_budget_id does not exist
+HINT:  Perhaps you meant to reference the column ""fir.fk_budget_id"".",TABLE_MISSING,False,,24,stop,129
+large,383,complex,"Sporządź zaawansowane zapytanie analityczne CTE bazujące na tabeli crm_churn_indicators_retention_risk zwracające jawne kolumny: b.base_id (crm_churn_indicators_retention_risk.id), b.stage, b.metric_val (wartość agregacji), crm_support_cases_escalated_id (public.crm_support_cases_escalated.id), crm_case_escalations_active_id (public.crm_case_escalations_active.id), crm_client_accounts_enterprise_id (public.crm_client_accounts_enterprise.id), crm_sales_leads_escalated_id (public.crm_sales_leads_escalated.id), crm_deal_opportunities_retention_risk_id (public.crm_deal_opportunities_retention_risk.id), integrujące relacje z tabelami (crm_support_cases_escalated, crm_case_escalations_active, crm_client_accounts_enterprise, crm_sales_leads_escalated, crm_deal_opportunities_retention_risk), filtrując b.metric_val IS NOT NULL z sortowaniem ORDER BY b.base_id ASC (LIMIT 50).","WITH base_summary AS (
+    SELECT public.crm_churn_indicators_retention_risk.id AS base_id, public.crm_churn_indicators_retention_risk.stage, AVG(public.crm_churn_indicators_retention_risk.deal_value) AS metric_val
+    FROM public.crm_churn_indicators_retention_risk
+    WHERE public.crm_churn_indicators_retention_risk.id > 0
+    GROUP BY public.crm_churn_indicators_retention_risk.id, public.crm_churn_indicators_retention_risk.stage
+)
+SELECT b.base_id, b.stage, b.metric_val, public.crm_support_cases_escalated.id AS crm_support_cases_escalated_id, public.crm_case_escalations_active.id AS crm_case_escalations_active_id, public.crm_client_accounts_enterprise.id AS crm_client_accounts_enterprise_id, public.crm_sales_leads_escalated.id AS crm_sales_leads_escalated_id, public.crm_deal_opportunities_retention_risk.id AS crm_deal_opportunities_retention_risk_id
+FROM base_summary b
+JOIN public.crm_churn_indicators_retention_risk ON b.base_id = public.crm_churn_indicators_retention_risk.id
+JOIN public.crm_support_cases_escalated ON public.crm_churn_indicators_retention_risk.fk_support_id = public.crm_support_cases_escalated.id JOIN public.crm_case_escalations_active ON public.crm_support_cases_escalated.id = public.crm_case_escalations_active.fk_support_id JOIN public.crm_client_accounts_enterprise ON public.crm_case_escalations_active.fk_client_id = public.crm_client_accounts_enterprise.id JOIN public.crm_sales_leads_escalated ON public.crm_client_accounts_enterprise.fk_sales_id = public.crm_sales_leads_escalated.id JOIN public.crm_deal_opportunities_retention_risk ON public.crm_sales_leads_escalated.id = public.crm_deal_opportunities_retention_risk.fk_sales_id
+WHERE b.metric_val IS NOT NULL
+ORDER BY b.base_id ASC
+LIMIT 50;","[""crm_churn_indicators_retention_risk"", ""crm_support_cases_escalated"", ""crm_case_escalations_active"", ""crm_client_accounts_enterprise"", ""crm_sales_leads_escalated"", ""crm_deal_opportunities_retention_risk""]","[""crm_client_accounts_retention_risk"", ""crm_churn_indicators_retention_risk"", ""crm_sales_leads_retention_risk"", ""crm_client_accounts_enterprise"", ""crm_contact_persons_enterprise"", ""crm_support_cases_escalated""]","```sql
+WITH base AS (
+    SELECT 
+        c.id AS base_id,
+        c.stage,
+        COUNT(*) AS metric_val,
+        c.fk_support_id AS crm_support_cases_escalated_id,
+        NULL AS crm_case_escalations_active_id,
+        NULL AS crm_client_accounts_enterprise_id,
+        NULL AS crm_sales_leads_escalated_id,
+        NULL AS crm_deal_opportunities_retention_risk_id
+    FROM 
+        public.crm_churn_indicators_retention_risk c
+    GROUP BY 
+        c.id, c.stage, c.fk_support_id
+    HAVING 
+        COUNT(*) IS NOT NULL
+)
+SELECT 
+    b.base_id,
+    b.stage,
+    b.metric_val,
+    b.crm_support_cases_escalated_id,
+    b.crm_case_escalations_active_id,
+    b.crm_client_accounts_enterprise_id,
+    b.crm_sales_leads_escalated_id,
+    b.crm_deal_opportunities_retention_risk_id
+FROM 
+    base b
+ORDER BY 
+    b.base_id ASC
+LIMIT 50;
+```","WITH base AS (
+    SELECT 
+        c.id AS base_id,
+        c.stage,
+        COUNT(*) AS metric_val,
+        c.fk_support_id AS crm_support_cases_escalated_id,
+        NULL AS crm_case_escalations_active_id,
+        NULL AS crm_client_accounts_enterprise_id,
+        NULL AS crm_sales_leads_escalated_id,
+        NULL AS crm_deal_opportunities_retention_risk_id
+    FROM 
+        public.crm_churn_indicators_retention_risk c
+    GROUP BY 
+        c.id, c.stage, c.fk_support_id
+    HAVING 
+        COUNT(*) IS NOT NULL
+)
+SELECT 
+    b.base_id,
+    b.stage,
+    b.metric_val,
+    b.crm_support_cases_escalated_id,
+    b.crm_case_escalations_active_id,
+    b.crm_client_accounts_enterprise_id,
+    b.crm_sales_leads_escalated_id,
+    b.crm_deal_opportunities_retention_risk_id
+FROM 
+    base b
+ORDER BY 
+    b.base_id ASC
+LIMIT 50;",,SEMANTIC_MISMATCH,True,36.0,48,stop,233
+large,262,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania hr_employee_profiles_executive.department_code, liczebność grupy COUNT(hr_employee_profiles_executive.id) AS total_count oraz zagregowaną metrykę analityczną (COUNT(public.hr_employee_profiles_executive.employee_id) AS aggregate_metric), łącząc tabelę hr_employee_profiles_executive z tabelami (hr_employee_profiles_annual, hr_performance_evaluations_archived, hr_training_modules_probationary), filtrując rekordy o hr_employee_profiles_executive.id > 0, grupując po hr_employee_profiles_executive.department_code z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.hr_employee_profiles_executive.department_code, COUNT(public.hr_employee_profiles_executive.id) AS total_count, COUNT(public.hr_employee_profiles_executive.employee_id) AS aggregate_metric FROM public.hr_employee_profiles_executive JOIN public.hr_employee_profiles_annual ON public.hr_employee_profiles_executive.id = public.hr_employee_profiles_annual.fk_employee_id JOIN public.hr_performance_evaluations_archived ON public.hr_employee_profiles_annual.id = public.hr_performance_evaluations_archived.fk_employee_id JOIN public.hr_training_modules_probationary ON public.hr_performance_evaluations_archived.fk_training_id = public.hr_training_modules_probationary.id WHERE public.hr_employee_profiles_executive.id > 0 GROUP BY public.hr_employee_profiles_executive.department_code HAVING COUNT(public.hr_employee_profiles_executive.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""hr_employee_profiles_executive"", ""hr_employee_profiles_annual"", ""hr_performance_evaluations_archived"", ""hr_training_modules_probationary""]","[""hr_exit_interviews_executive"", ""hr_performance_evaluations_contractor"", ""hr_employee_profiles_hybrid"", ""hr_employee_profiles_annual"", ""hr_performance_evaluations_archived"", ""hr_employee_profiles_full_time""]","```sql
+SELECT 
+    e.department_code,
+    COUNT(e.id) AS total_count,
+    COUNT(e.employee_id) AS aggregate_metric
+FROM 
+    public.hr_employee_profiles_executive e
+JOIN 
+    public.hr_employee_profiles_annual a ON e.fk_employee_id = a.id
+JOIN 
+    public.hr_performance_evaluations_archived p ON e.fk_performance_id = p.id
+JOIN 
+    public.hr_training_modules_probationary t ON p.fk_training_id = t.id
+WHERE 
+    e.id > 0
+GROUP BY 
+    e.department_code
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    e.department_code,
+    COUNT(e.id) AS total_count,
+    COUNT(e.employee_id) AS aggregate_metric
+FROM 
+    public.hr_employee_profiles_executive e
+JOIN 
+    public.hr_employee_profiles_annual a ON e.fk_employee_id = a.id
+JOIN 
+    public.hr_performance_evaluations_archived p ON e.fk_performance_id = p.id
+JOIN 
+    public.hr_training_modules_probationary t ON p.fk_training_id = t.id
+WHERE 
+    e.id > 0
+GROUP BY 
+    e.department_code
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;","column e.fk_employee_id does not exist
+HINT:  Perhaps you meant to reference the column ""a.fk_employee_id"".",TABLE_MISSING,False,,6,stop,144
+large,112,simple,"Pobierz jawne atrybuty biznesowe: identyfikator inventory_shrinkage_records_finished_goods.id AS inventory_shrinkage_records_finished_goods_id, znacznik czasu inventory_shrinkage_records_finished_goods.created_at, identyfikator powiązany inventory_bills_of_materials_allocated.id AS inventory_bills_of_materials_allocated_id, identyfikator powiązany inventory_stock_balances_finished_goods.id AS inventory_stock_balances_finished_goods_id poprzez relacyjne złączenie tabeli bazowej inventory_shrinkage_records_finished_goods oraz encji powiązanych (inventory_bills_of_materials_allocated, inventory_stock_balances_finished_goods), filtrując rekordy o inventory_shrinkage_records_finished_goods.id > 0 (LIMIT 50).","SELECT public.inventory_shrinkage_records_finished_goods.id AS inventory_shrinkage_records_finished_goods_id, public.inventory_shrinkage_records_finished_goods.created_at, public.inventory_bills_of_materials_allocated.id AS inventory_bills_of_materials_allocated_id, public.inventory_stock_balances_finished_goods.id AS inventory_stock_balances_finished_goods_id FROM public.inventory_shrinkage_records_finished_goods JOIN public.inventory_bills_of_materials_allocated ON public.inventory_shrinkage_records_finished_goods.fk_bills_id = public.inventory_bills_of_materials_allocated.id JOIN public.inventory_stock_balances_finished_goods ON public.inventory_bills_of_materials_allocated.fk_stock_id = public.inventory_stock_balances_finished_goods.id WHERE public.inventory_shrinkage_records_finished_goods.id > 0 LIMIT 50;","[""inventory_shrinkage_records_finished_goods"", ""inventory_bills_of_materials_allocated"", ""inventory_stock_balances_finished_goods""]","[""inventory_shrinkage_records_finished_goods"", ""inventory_shrinkage_records_spare_parts"", ""inventory_shrinkage_records_archived"", ""inventory_goods_receipts_archived"", ""inventory_inventory_adjustments_finished_goods"", ""inventory_stock_balances_finished_goods""]","```sql
+SELECT 
+    isr.id AS inventory_shrinkage_records_finished_goods_id,
+    isr.created_at,
+    ibma.id AS inventory_bills_of_materials_allocated_id,
+    isbg.id AS inventory_stock_balances_finished_goods_id
+FROM 
+    public.inventory_shrinkage_records_finished_goods isr
+LEFT JOIN 
+    public.inventory_bills_of_materials_allocated ibma ON isr.fk_bills_id = ibma.id
+LEFT JOIN 
+    public.inventory_stock_balances_finished_goods isbg ON isr.fk_stock_id = isbg.id
+WHERE 
+    isr.id > 0
+LIMIT 50;
+```","SELECT 
+    isr.id AS inventory_shrinkage_records_finished_goods_id,
+    isr.created_at,
+    ibma.id AS inventory_bills_of_materials_allocated_id,
+    isbg.id AS inventory_stock_balances_finished_goods_id
+FROM 
+    public.inventory_shrinkage_records_finished_goods isr
+LEFT JOIN 
+    public.inventory_bills_of_materials_allocated ibma ON isr.fk_bills_id = ibma.id
+LEFT JOIN 
+    public.inventory_stock_balances_finished_goods isbg ON isr.fk_stock_id = isbg.id
+WHERE 
+    isr.id > 0
+LIMIT 50;","column isr.fk_stock_id does not exist
+HINT:  Perhaps you meant to reference the column ""ibma.fk_stock_id"".",TABLE_MISSING,False,,22,stop,129
+large,52,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania finance_payroll_disbursements_international.status, liczebność grupy COUNT(finance_payroll_disbursements_international.id) AS total_count oraz zagregowaną metrykę analityczną (SUM(public.finance_payroll_disbursements_international.amount) AS aggregate_metric), łącząc tabelę finance_payroll_disbursements_international z tabelami (finance_budget_forecasts_monthly, finance_cash_flow_projections_quarterly, finance_payment_transactions_daily), filtrując rekordy o finance_payroll_disbursements_international.id > 0, grupując po finance_payroll_disbursements_international.status z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.finance_payroll_disbursements_international.status, COUNT(public.finance_payroll_disbursements_international.id) AS total_count, SUM(public.finance_payroll_disbursements_international.amount) AS aggregate_metric FROM public.finance_payroll_disbursements_international JOIN public.finance_budget_forecasts_monthly ON public.finance_payroll_disbursements_international.fk_budget_id = public.finance_budget_forecasts_monthly.id JOIN public.finance_cash_flow_projections_quarterly ON public.finance_budget_forecasts_monthly.fk_cash_id = public.finance_cash_flow_projections_quarterly.id JOIN public.finance_payment_transactions_daily ON public.finance_cash_flow_projections_quarterly.fk_payment_id = public.finance_payment_transactions_daily.id WHERE public.finance_payroll_disbursements_international.id > 0 GROUP BY public.finance_payroll_disbursements_international.status HAVING COUNT(public.finance_payroll_disbursements_international.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""finance_payroll_disbursements_international"", ""finance_budget_forecasts_monthly"", ""finance_cash_flow_projections_quarterly"", ""finance_payment_transactions_daily""]","[""finance_payroll_disbursements_international"", ""finance_payroll_disbursements_monthly"", ""finance_payroll_disbursements_quarterly"", ""finance_payroll_disbursements_daily"", ""finance_invoices_receivable_quarterly""]","```sql
+SELECT 
+    fpd.status,
+    COUNT(fpd.id) AS total_count,
+    SUM(fpd.amount) AS aggregate_metric
+FROM 
+    public.finance_payroll_disbursements_international fpd
+JOIN 
+    public.finance_budget_forecasts_monthly fbfm ON fpd.fk_budget_id = fbfm.id
+JOIN 
+    public.finance_cash_flow_projections_quarterly fccpq ON fpd.fk_cash_flow_id = fccpq.id
+JOIN 
+    public.finance_payment_transactions_daily fptd ON fpd.fk_payment_id = fptd.id
+WHERE 
+    fpd.id > 0
+GROUP BY 
+    fpd.status
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    fpd.status,
+    COUNT(fpd.id) AS total_count,
+    SUM(fpd.amount) AS aggregate_metric
+FROM 
+    public.finance_payroll_disbursements_international fpd
+JOIN 
+    public.finance_budget_forecasts_monthly fbfm ON fpd.fk_budget_id = fbfm.id
+JOIN 
+    public.finance_cash_flow_projections_quarterly fccpq ON fpd.fk_cash_flow_id = fccpq.id
+JOIN 
+    public.finance_payment_transactions_daily fptd ON fpd.fk_payment_id = fptd.id
+WHERE 
+    fpd.id > 0
+GROUP BY 
+    fpd.status
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;",column fpd.fk_cash_flow_id does not exist,TABLE_MISSING,False,,5,stop,169
+large,54,medium,"Wyznacz zestawienie atrybutów biznesowych: wymiar grupowania finance_invoices_receivable_consolidated.status, liczebność grupy COUNT(finance_invoices_receivable_consolidated.id) AS total_count oraz zagregowaną metrykę analityczną (SUM(public.finance_invoices_receivable_consolidated.amount) AS aggregate_metric), łącząc tabelę finance_invoices_receivable_consolidated z tabelami (finance_cash_flow_projections_historical, finance_currency_hedges_quarterly, finance_cash_flow_projections_domestic), filtrując rekordy o finance_invoices_receivable_consolidated.id > 0, grupując po finance_invoices_receivable_consolidated.status z warunkiem HAVING total_count >= 1 i sortowaniem malejącym ORDER BY total_count DESC (LIMIT 50).","SELECT public.finance_invoices_receivable_consolidated.status, COUNT(public.finance_invoices_receivable_consolidated.id) AS total_count, SUM(public.finance_invoices_receivable_consolidated.amount) AS aggregate_metric FROM public.finance_invoices_receivable_consolidated JOIN public.finance_cash_flow_projections_historical ON public.finance_invoices_receivable_consolidated.fk_cash_id = public.finance_cash_flow_projections_historical.id JOIN public.finance_currency_hedges_quarterly ON public.finance_cash_flow_projections_historical.fk_currency_id = public.finance_currency_hedges_quarterly.id JOIN public.finance_cash_flow_projections_domestic ON public.finance_currency_hedges_quarterly.id = public.finance_cash_flow_projections_domestic.fk_currency_id WHERE public.finance_invoices_receivable_consolidated.id > 0 GROUP BY public.finance_invoices_receivable_consolidated.status HAVING COUNT(public.finance_invoices_receivable_consolidated.id) >= 1 ORDER BY total_count DESC LIMIT 50;","[""finance_invoices_receivable_consolidated"", ""finance_cash_flow_projections_historical"", ""finance_currency_hedges_quarterly"", ""finance_cash_flow_projections_domestic""]","[""finance_invoices_receivable_quarterly"", ""finance_invoices_receivable_annual"", ""finance_invoices_receivable_intercompany"", ""finance_invoices_receivable_daily"", ""finance_revenue_recognition_consolidated"", ""finance_accounts_payable_consolidated""]","```sql
+SELECT 
+    firc.status,
+    COUNT(firc.id) AS total_count,
+    SUM(firc.amount) AS aggregate_metric
+FROM 
+    public.finance_invoices_receivable_consolidated firc
+JOIN 
+    public.finance_cash_flow_projections_historical fcfph ON firc.id = fcfph.fk_invoices_id
+JOIN 
+    public.finance_currency_hedges_quarterly fchq ON firc.id = fchq.fk_invoices_id
+JOIN 
+    public.finance_cash_flow_projections_domestic fcfpd ON firc.id = fcfpd.fk_invoices_id
+WHERE 
+    firc.id > 0
+GROUP BY 
+    firc.status
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;
+```","SELECT 
+    firc.status,
+    COUNT(firc.id) AS total_count,
+    SUM(firc.amount) AS aggregate_metric
+FROM 
+    public.finance_invoices_receivable_consolidated firc
+JOIN 
+    public.finance_cash_flow_projections_historical fcfph ON firc.id = fcfph.fk_invoices_id
+JOIN 
+    public.finance_currency_hedges_quarterly fchq ON firc.id = fchq.fk_invoices_id
+JOIN 
+    public.finance_cash_flow_projections_domestic fcfpd ON firc.id = fcfpd.fk_invoices_id
+WHERE 
+    firc.id > 0
+GROUP BY 
+    firc.status
+HAVING 
+    total_count >= 1
+ORDER BY 
+    total_count DESC
+LIMIT 50;",column fcfph.fk_invoices_id does not exist,TABLE_MISSING,False,,5,stop,177

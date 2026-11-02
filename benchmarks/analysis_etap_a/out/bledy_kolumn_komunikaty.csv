@@ -1,0 +1,11 @@
+eng,s,alias total_count w HAVING,b.base_id (CTE),inna kolumna,kolumna FK fk_*
+A,A,2,0,60,89
+A,BM25,3,0,83,102
+A,Dense,0,0,73,107
+A,Graph,8,0,91,80
+A,RRF,1,0,78,115
+B,A,42,42,73,164
+B,BM25,81,14,52,246
+B,Dense,67,16,41,239
+B,Graph,61,8,60,220
+B,RRF,73,13,40,260

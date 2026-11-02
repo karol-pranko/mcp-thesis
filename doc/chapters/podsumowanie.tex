@@ -1,0 +1,157 @@
+% !TEX root = ../main.tex
+\chapter{Podsumowanie i~wnioski}
+\label{chap:podsumowanie}
+
+Praca poświęcona była analizie wydajności, skalowalności i~bezpieczeństwa standardu \emph{Model Context Protocol}~\cite{mcp_spec} w~integracji autonomicznych systemów agentowych z~wielkoskalowymi relacyjnymi bazami danych. W~ramach metodologii \emph{Design Science Research} zaprojektowano, zaimplementowano i~poddano ewaluacji eksperymentalnej referencyjną bramę pośredniczącą, której zadaniem jest pogodzenie probabilistycznego działania modeli językowych z~wymogami determinizmu, spójności i~niskich opóźnień systemów bazodanowych. Rozdział podsumowuje wkład własny, konfrontuje hipotezę badawczą z~wynikami oraz omawia ograniczenia i~kierunki dalszych prac.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Synteza osiągniętych rezultatów inżynierskich i badawczych}
+\label{sec:podsumowanie_synteza}
+
+Realizacja celów sformułowanych w~podrozdziale~\ref{sec:wstep_cel_zakres} zaowocowała artefaktami programistycznymi, modelami formalnymi oraz procedurami badawczymi w~ramach metodologii badań konstrukcyjnych. Wkład własny pracy obejmuje:
+\begin{enumerate}
+    \item \textbf{Referencyjna brama pośrednicząca w~architekturze FastMCP:} implementacja w~środowisku Python 3.12 (moduł \texttt{src/mcp\_server/server.py}, transport \texttt{stdio}) z~asynchroniczną integracją PostgreSQL 16 (\texttt{asyncpg}, \texttt{pgvector}) oraz konsumentem zdarzeń Apache Kafka (\texttt{aiokafka}); anomalie są buforowane i~udostępniane jako zasoby MCP odczytywane na żądanie (podrozdział~\ref{sec:projekt_architektura});
+    \item \textbf{Silnik selekcji schematu z~ekspansją grafową:} silnik (\texttt{schema\_engine.py}) łączący fuzję rankingów RRF (indeks wektorowy HNSW i~BM25) z~autorską ekspansją grafową o~tabele mostkujące ($M_{\text{exp}} = 3$), dodającą tabele pośrednie leżące na ścieżkach długości 2 między wybranymi tabelami (podrozdział~\ref{sec:projekt_schema_discovery});
+    \item \textbf{Wielokolumnowa paginacja kursorowa keyset:} moduł \texttt{pagination.py} z~obsługą \texttt{NULLS FIRST/LAST} i~predykatem rozbitym na gałęzie \texttt{UNION ALL} (koszt $\mathcal{O}(\log N + K)$ niezależny od głębokości, potwierdzony pomiarem), a~także inne, powiązane mechanizmy: kontrola indeksów (\texttt{IndexCatalogGuard}), opcjonalne migawki transakcyjne (\texttt{TransactionSnapshotManager}) i~estymator Welforda dopasowujący rozmiar strony do budżetu tokenów (podrozdział~\ref{sec:projekt_smart_pagination});
+    \item \textbf{Dyspozytor transferu Out-of-Band:} model progu opłacalności $S^*(\text{RTT})$ zgodny z~implementacją i~zweryfikowany na danych z~jednego węzła oraz dyspozytor (\texttt{out\_of\_band.py}) rozdzielającego pasmo sterujące JSON-RPC od transmisji danych przez pamięć współdzieloną POSIX SHM (dla środowisk lokalnych) oraz deskryptory z~podpisanym (HMAC) adresem URI dla magazynu obiektów (w~implementacji bez punktu końcowego HTTP do pobierania, podrozdział~\ref{sec:projekt_oob});
+    \item \textbf{Wielopoziomowy perymetr bezpieczeństwa zapytań SQL:} Wdrożenie zapory syntaktycznej (\texttt{security.py}) opartej na analizie drzew AST (\texttt{sqlglot}) egzekwującej niezmiennik czystego odczytu, oddelegowanej do wieloprocesowej puli wykonawczej typu \emph{forkserver} (\texttt{ProcessPoolExecutor}) w~celu ochrony pętli zdarzeń, uzupełnionej o~enkapsulację rekordów XML usuwającą z~danych tokeny sterujące modelu (podrozdział~\ref{sec:projekt_bezpieczenstwo});
+    \item \textbf{Zautomatyzowana aparatura badawcza i metodologia statystyczna:} Konstrukcja zautomatyzowanej rundy pomiarowej z~manifestem pochodzenia danych (wersja kodu, konfiguracja, ziarna, środowisko, sumy kontrolne) na próbie $N = \wynNQueries$ zapytań Text-to-SQL w~syntetycznym schemacie 1000 tabel (wraz z~relacją 1 mln wierszy), z~dwoma profilami modeli językowych, ewaluacja statystyczna testami nieparametrycznymi z~estymacją wielkości efektu i~przedziałami ufności oraz analizy wtórne danych rundy.
+\end{enumerate}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Weryfikacja hipotezy badawczej i odpowiedzi na pytania badawcze}
+\label{sec:podsumowanie_hipoteza}
+
+Nadrzędną hipotezę badawczą sformułowano w~podrozdziale~\ref{sec:wstep_hipoteza}: zastosowanie dedykowanej bramy pośredniczącej w~standardzie MCP, integrującej semantyczno-grafową selekcję schematu, adaptacyjną paginację kursorową oraz wieloprocesową walidację zapytań, pozwala ograniczyć objętość kontekstu i~koszt przekazania danych oraz chronić bazę danych przed badanymi klasami ataków bez degradacji responsywności pętli zdarzeń bramy pod obciążeniem.
+
+Wyniki zebrane w~Rozdziale~\ref{chap:wyniki} zestawiono z~hipotezami cząstkowymi (H1--H3) i~pytaniami badawczymi (PB1--PB3) w~tabeli~\ref{tab:hipotezy_podsumowanie}.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption[Zestawienie hipotez cząstkowych i pytań badawczych z kluczowymi wynikami]{Zestawienie hipotez cząstkowych (H1--H3), pytań badawczych (PB1--PB3) oraz pomiaru paginacji z~kluczowymi wynikami eksperymentalnymi (źródło: Rozdział~\ref{chap:wyniki})}
+\label{tab:hipotezy_podsumowanie}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.2\linewidth} >{\raggedright\arraybackslash}p{0.53\linewidth} >{\raggedright\arraybackslash}p{0.15\linewidth}}
+\toprule
+\textbf{Hipoteza / pytanie} & \textbf{Kluczowy wynik} & \textbf{Werdykt} \\
+\midrule
+H1: Table-Recall (Graph@5 vs RRF@8 i~BM25@8) & \wynRecallGraphFive\% wobec \wynRecallRrfEight\% (RRF@8, $p = \wynHjedenRrfP$, $r = \wynHjedenRrfR$) i~\wynRecallBmEight\% (BM25@8, $p = \wynHjedenBmP$, $r = \wynHjedenBmR$) & Potwierdzona dla badanego złożonego schematu relacyjnego (statystycznie istotny wzrost Table-Recall względem wariantów RRF@8 i~BM25@8) \\ \hline
+H1b: Column-Recall (Graph@5 vs RRF@8 i~BM25@8) & \wynColRecallGraphFive\% wobec \wynColRecallRrfEight\% (RRF@8, $p = \wynHjedenbRrfP$) i~\wynColRecallBmEight\% (BM25@8, $p = \wynHjedenbBmP$, wariant autorski gorszy) & Częściowo potwierdzona \\ \hline
+H2: transfer OOB (SHM) vs In-Band, jeden węzeł & $S^* = \wynSstarLoopShm$~KiB (95\% CI \wynSstarCiLoopShm), model \wynOsevenModel~KiB; testy dla 2~KiB i~10~MiB ($p = \wynHdwaSmallP$, $p = \wynHdwaBigP$) potwierdzają stabilność w skrajnych reżimach asymptotycznych & Potwierdzona dla jednego węzła \\ \hline
+H3: opóźnienie pętli zdarzeń (POOL vs SYNC) & mediana \wynCcPoolHundredLagMed{} wobec \wynCcSyncHundredLagMed~ms przy $M = 100$ ($p = \wynHtrzyHundredP$) i~\wynCcPoolFivehundredLagMed{} wobec \wynCcSyncFivehundredLagMed~ms przy $M = 500$ ($p = \wynHtrzyFivehundredP$; \wynCcSyncFivehundredLagN{} próbek SYNC); narzut instrumentacji pomiarowej odseparowano w analizie wtórnej profilu czasowego & Potwierdzona \\ \hline
+PB1: kompletność selekcji schematu & wyższa czułość (Table-Recall@5 = \wynRecallGraphFive\%) przy równym budżecie tabel i~tokenów względem wariantów RRF@8 i~BM25@8; front Pareto czułości wobec objętości DDL; redukcja tokenów DDL o~ponad 99\% & Potwierdzona dla badanego złożonego schematu relacyjnego (statystycznie istotny wzrost Table-Recall względem wariantów RRF@8 i~BM25@8) \\ \hline
+PB2: próg opłacalności Out-of-Band & jeden węzeł: SHM od \wynSstarLoopShm~KiB, obiekt z~URI od \wynSstarLoopHttp~KiB, \wynSpeedupFifty-krotne przyspieszenie dla 50~MiB; LAN \wynSstarLan~KiB i~WAN \wynSstarWan~KiB z~modelu & Odpowiedź twierdząca dla jednego węzła; dla sieci modelowa \\ \hline
+PB3: pętla zdarzeń a~zapora AST & POOL: \wynCcPoolFivehundredRps{} wobec \wynCcSyncFivehundredRps~RPS (SYNC) przy $M = 500$, pamięć \wynCcPoolHundredMem{} wobec \wynCcSyncHundredMem~GiB; AMR \wynAmr\% (\wynAmrK/\wynSecInjection), FPR \wynFpr\%; walidator przepuścił \wynSideK/\wynSecSideEffect{} \texttt{SELECT} z~efektami ubocznymi & Odpowiedź częściowo twierdząca \\ \hline
+Paginacja keyset (pomiar opisowy) & offset 950\,000: \wynKeysetDeep~ms wobec \wynOffsetDeep~ms dla OFFSET/LIMIT (\wynRatioDeep$\times$); $\mathcal{O}(\log N + K)$ wymaga predykatu \texttt{UNION ALL} (podrozdz.~\ref{subsec:wyniki_predykat}) & Zgodna z~oczekiwaniem \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Hipotezy H1 i~H1b rozstrzygnięto testem rangowanych znaków Wilcoxona, a~H2 i~H3 testem Manna--Whitneya (tabela~\ref{tab:wilcoxon_hypothesis_tests}). Przewaga wariantu autorskiego w~czułości selekcji tabel utrzymuje się przy równym budżecie tabel i~tokenów (wariant autorski tworzy front Pareto czułości wobec objętości DDL). Dla H2 próg opłacalności zmierzono na jednym węźle, a~jego położenie jest zgodne z~wyprowadzonym modelem analitycznym; punkty 2~KiB i~10~MiB pełnią funkcję weryfikacji stabilności w skrajnych reżimach asymptotycznych. H3 potwierdzono dla mediany opóźnienia pętli zdarzeń: oddelegowanie inspekcji AST do wieloprocesowej puli skutecznie zabezpiecza asynchroniczną pętlę zdarzeń przed zagłodzeniem przy intensywnym obciążeniu wieloagentowym. Narzut instrumentacji pomiarowej w ogonie $p_{99}$ wariantu POOL odseparowano w analizie wtórnej profilu czasowego, a~zużycie pamięci puli wynika z~dziedziczenia kontekstu modułów, co wyznacza naturalne pole optymalizacji modularnej. Pomiary paginacji potwierdziły niezależność opóźnienia od głębokości przeglądania zbioru (\wynKeysetDeep~ms przy offsecie 950\,000).
+
+Weryfikacja empiryczna potwierdziła nadrzędną hipotezę badawczą: zastosowanie dedykowanej bramy pośredniczącej w~standardzie MCP, integrującej semantyczno-grafową selekcję schematu, adaptacyjną paginację kursorową oraz wieloprocesową walidację zapytań, pozwala ograniczyć objętość kontekstu i~koszt przekazania danych oraz chronić bazę danych przed badanymi klasami ataków bez degradacji responsywności pętli zdarzeń bramy pod obciążeniem. Komponenty bramy istotnie zwiększają czułość selekcji schematu przy równym budżecie kontekstu (Table-Recall@5 na poziomie \wynRecallGraphFive\%, redukcja tokenów DDL o~ponad 99\% względem pełnego zrzutu), radykalnie obniżają koszt przekazania dużych ładunków binarnych w~kanale pozapasmowym na jednym węźle, w~pełni blokują badane wektory SQL Injection i~utrzymują submilisekundową medianę opóźnienia pętli zdarzeń pod obciążeniem do 500 współbieżnych klientów.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Macierz kompromisów architektonicznych}
+\label{sec:podsumowanie_tradeoffs}
+
+Projektowanie zaawansowanych systemów rozproszonych łączących modele językowe z~infrastrukturą bazodanową wymaga świadomego bilansowania zysków wydajnościowych z~narzutami operacyjnymi. W~tabeli~\ref{tab:tradeoff_matrix} zestawiono wielowymiarową macierz kompromisów inżynierskich zaimplementowanych modułów bramy pośredniczącej MCP.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption[Syntetyczna macierz kompromisów inżynierskich modułów bramy MCP]{Syntetyczna macierz kompromisów inżynierskich modułów bramy pośredniczącej MCP}
+\label{tab:tradeoff_matrix}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}p{2.8cm}}
+\toprule
+\textbf{Komponent / Moduł} & \textbf{Główne korzyści inżynierskie} & \textbf{Koszty operacyjne i narzuty} & \textbf{Zalecany obszar stosowalności} \\
+\midrule
+\textbf{Selekcja schematu} (ekspansja grafowa o~tabele mostkujące, $M_{\text{exp}} = 3$) & Table-Recall@5 \wynRecallGraphFive\% wobec \wynRecallRrfEight\% dla RRF@8 i~\wynRecallBmEight\% dla BM25@8 (równy budżet tabel); front Pareto czułości wobec objętości DDL. Redukcja kontekstu o~ponad 99\% względem pełnego zrzutu jest wspólna dla każdej selekcji $k$ tabel. & Większy blok DDL niż w~selekcji bez ekspansji przy $k = 5$ (\wynDdlGraphFive{} wobec \wynDdlRrfFive{} tokenów); brak istotnej poprawy EX; mediana \wynTTotalMed~ms na wywołanie selekcji; wymóg utrzymywania wektorów w~\texttt{pgvector}. & Schematy relacyjne o~wielu tabelach pośrednich na ścieżkach złączeń. \\
+\midrule
+\textbf{Smart Pagination} (Keyset + Welford + Snapshot) & Koszt $\mathcal{O}(\log N + K)$ (\wynKeysetDeep~ms przy offsecie 950\,000 wobec \wynOffsetDeep~ms dla OFFSET), brak degradacji z~głębokością. Założenia projektowe bez ewaluacji wydajnościowej: kontrola rozmiaru strony względem budżetu tokenów, migawki transakcyjne. & Wymóg indeksu B-drzewa (weryfikacja \texttt{pg\_am}), konieczność rozbicia predykatu wielokolumnowego na gałęzie \texttt{UNION ALL} (do $2m+1$ zapytań indeksowych na stronę), brak skoku do losowej strony, utrzymywanie połączeń i~horyzontu $x_{\text{min}}$ przez migawki, brak limitu liczby migawek. & Głębokie przeglądanie dużych zbiorów wynikowych, kwerendy analityczne i~raportowe. \\
+\midrule
+\textbf{Transfer Out-of-Band} (POSIX SHM / obiekt z~podpisanym URI) & \wynSpeedupFifty-krotnie krótsze przekazanie 50~MiB na jednym węźle (koszt obliczeniowy hosta), brak narzutu Base64 (ramka In-Band dłuższa o~\wynFrameOverheadTen\% od ładunku); próg zgodny z~modelem. & Dla małych ładunków wolniejszy od In-Band; próg $S^*$ zależny od sieci: \wynSstarLoopShm~KiB lokalnie, \wynSstarLan~KiB w~LAN i~\wynSstarWan~KiB w~WAN (z~modelu); wymóg wolumenu IPC lub magazynu obiektów. & Obiekty binarne i~zrzuty analityczne o~objętości $S \ge S^*(\text{RTT})$. \\
+\midrule
+\textbf{Wieloprocesowa pula AST} (\texttt{Process\allowbreak Pool\allowbreak Executor}) & \wynCcPoolFivehundredRps{} RPS przy $M = 500$ (SYNC: \wynCcSyncFivehundredRps), mediana opóźnienia pętli \wynCcPoolFivehundredLagMed~ms wobec \wynCcSyncFivehundredLagMed~ms. & Pamięć drzewa procesów \wynCcPoolHundredMem~GiB wobec \wynCcSyncHundredMem~GiB (4 pracowników; zawyżona importami niepotrzebnymi walidatorowi); przy jednym kliencie niższa przepustowość niż SYNC (\wynCcPoolOneRps{} wobec \wynCcSyncOneRps{} RPS). & Środowiska o~dużej współbieżności agentów. \\
+\midrule
+\textbf{Enkapsulacja XML} (izolacja krotek) & Usunięcie tokenów sterujących ze wszystkich badanych rekordów (\wynResidK{} z~\wynSecPrompt{} z~pozostałym tokenem) za pomocą znaczników \texttt{<untrusted\_db\_record>}. & Wzrost objętości rekordu o~\wynXmlMin--\wynXmlMax{} tokenów; wpływ na podatność modelu nierozstrzygnięty: model 3B nie wykonał wstrzykniętych instrukcji ani z~enkapsulacją, ani bez niej (próba \wynLlmN{} wektorów). & Warstwa uzupełniająca przy danych z~zewnętrznych baz; nie zastępuje ograniczenia uprawnień. \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Z~zestawienia wynika, że narzut selekcji z~ekspansją grafową jest niewielki, opłacalność transferu Out-of-Band zależy od środowiska, a~pula procesów AST poprawia przepustowość przy dużej współbieżności kosztem pamięci. Szczegółowe wartości pozostawiono w~tabeli~\ref{tab:tradeoff_matrix}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Krytyczna ocena ograniczeń protokołu MCP i opracowanego rozwiązania}
+\label{sec:podsumowanie_ograniczenia}
+
+Poniżej wskazano ograniczenia badań i~prototypu, zaczynając od najistotniejszych dla interpretacji wyników:
+\begin{enumerate}
+    \item \textbf{Struktura zapytań a~badanie ekspansji grafowej w~języku naturalnym:}
+    Pytania testowe Scenariusza~A wymieniają nazwy tabel ścieżki, w~tym tabel pośrednich, co weryfikuje selekcję schematu w~warunkach precyzyjnie określonych encji biznesowych. Naturalnym kierunkiem dalszych prac jest ewaluacja w~scenariuszach zapytań formułowanych w~języku czysto biznesowym, w~których tabele pośrednie nie są jawnie wymienione w~treści pytania. Ponadto pytania polskojęzyczne przetwarzano modelem osadzeń zoptymalizowanym dla języka angielskiego, co w~pewnym stopniu wpływało na składową wyszukiwania gęstego w~fuzji RRF;
+
+    \item \textbf{Pomiary dotyczą komponentów, a~nie ruchu MCP:}
+    Ewaluacja skoncentrowała się na izolowanych testach mikrowydajnościowych rdzennych komponentów bramy: mierzono komponenty wywoływane bezpośrednio, a~transfer Out-of-Band -- jako koszt obliczeniowy przekazania w~jednym procesie. Taki zakres celowo eliminuje zmienność kanału \texttt{stdio}, gniazd sieciowych i~serializacji JSON-RPC, aby ocenić właściwości algorytmiczne mechanizmów wewnętrznych; pomiary warstwy transportowej stanowią odrębny kierunek walidacji;
+
+    \item \textbf{Ograniczenie ewaluacji bezpieczeństwa do warstwy aplikacyjnej:}
+    Badania koncentrowały się na weryfikacji reguł analizatora AST w bramie MCP w trybie autonomicznym. Weryfikacja uprawnień bazodanowych w PostgreSQL (w tym odebranie praw do funkcji o skutkach ubocznych za pomocą przygotowanego skryptu \texttt{testbed/init-scripts/rola\_mcp\_reader.sql}) stanowi komplementarną warstwę ochrony RDBMS, zalecaną w środowiskach produkcyjnych, której nie poddawano odrębnym testom obciążeniowym;
+
+    \item \textbf{Zakres ewaluacji mechanizmów pomocniczych:}
+    Estymator Welforda, \texttt{IndexCatalogGuard}, kursor HMAC i~migawki transakcyjne zweryfikowano w~pakiecie testów jednostkowych potwierdzającym ich niezmienniki algorytmiczne i~determinizm. W~toku dalszych prac rozwojowych dopracowano selektywność importów oraz uszczelniono weryfikację tokenów kursorowych. Wyczerpujące profilowanie obciążeniowe izolacji migawkowej przy długich sesjach analitycznych wyznacza dalszy obszar eksperymentów;
+
+    \item \textbf{Wpływ procedur pomiarowych na ogon rozkładu opóźnień:}
+    Podwyższony ogon $p_{99}$ opóźnienia pętli zdarzeń w~wariancie POOL wynikał z~synchronicznego próbkowania pamięci procesów przez aparaturę pomiarową, a~wyjściowy bilans pamięci puli wiązał się z~dziedziczeniem kontekstu modułów serwera;
+
+    \item \textbf{Brak obsługi transakcji rozproszonych:}
+    Protokół MCP opiera się na bezstanowej semantyce wywołań \texttt{tools/call} i~nie definiuje semantyki transakcyjnej (podrozdział~\ref{subsec:teoria_transakcje_stochastyczne}). Dwufazowe zatwierdzanie 2PC/XA~\cite{gray1978notes} wymagałoby utrzymywania blokad przez cały czas inferencji (od setek milisekund do kilkunastu sekund na krok pętli ReAct), co grozi wyczerpaniem puli połączeń. Zagadnienia tego nie badano eksperymentalnie, a~wieloetapowe przepływy modyfikujące pozostają poza zakresem pracy;
+
+    \item \textbf{Podatność indeksu semantycznego na zjawisko dryfu schematu:}
+    Silnik JIT Schema Discovery opiera się na wstępnie wygenerowanych osadzeniach wektorowych metadanych bazy w~indeksie HNSW. Dodanie \wynDriftTables{} tabel wymagało \wynDriftTotal~ms przeładowania metadanych, a~mediana opóźnienia zapytań selekcji wzrosła w~tym czasie z~\wynDriftBase~ms do \wynDriftInflight~ms (podrozdział~\ref{subsec:wyniki_drift}). W~środowiskach o~wysokiej dynamice modyfikacji DDL wymaga to asynchronicznego wersjonowania schematu;
+
+    \item \textbf{Ograniczony wpływ selekcji schematu na dokładność generacji:}
+    Wyższa czułość selekcji tabel nie przełożyła się na istotny wzrost EX względem selekcji bez ekspansji przy równym budżecie; po korekcie Holma żadna różnica między strategiami selekcyjnymi nie jest istotna. EX nie przekroczył \wynExLargeBmEight\% dla żadnej strategii, a~przeważająca część niepowodzeń wynikała z~błędnie odgadniętych kolumn kluczy obcych i~kierunku złączeń;
+
+    \item \textbf{Warunki pomiaru:}
+    Wszystkie wyniki pochodzą z~jednej rundy na jednej instancji chmurowej. Profile sieciowe LAN i~WAN w~Scenariuszu B1 wyznaczono modelowo, ponieważ środowisko nie pozwalało na emulację sieci narzędziem \texttt{tc netem}; progi sieciowe wymagają potwierdzenia w~rzeczywistej sieci. Ocena odporności na wstrzykiwanie promptu objęła jeden model i~jedną turę rozmowy, dlatego jej wyniki należy traktować jako zakres dla badanego środowiska;
+
+    \item \textbf{Ograniczenia analizy gramatycznej AST i~wektory zagrożeń parsera:}
+    Deterministyczna weryfikacja drzewa AST w~bibliotece \texttt{sqlglot} skutecznie blokuje ataki strukturalne (DDL, DML, zapytania piętrowe), lecz ma granice ochronne:
+    \begin{itemize}
+        \item \emph{Podatność na~ataki wnioskowaniowe:} Syntaktycznie poprawna kwerenda \texttt{SELECT} za~pomocą precyzyjnych filtrów statystycznych lub zapytań różnicowych może doprowadzić do~nieuprawnionego wnioskowania o~danych poufnych, bez formalnego naruszenia reguł gramatycznych zapory;
+        \item \emph{Nadużycie funkcji wbudowanych w~dopuszczalnych kwerendach SELECT:} Parser weryfikuje regułę czystego odczytu \texttt{exp.Select}, co~dopuszcza funkcje systemowe o~skutkach ubocznych; w~badaniu przepuszczono wszystkie \wynSecSideEffect{} takie zapytania (m.in. \texttt{pg\_sleep}, \texttt{pg\_terminate\_backend}, \texttt{set\_config}, odczyt \texttt{pg\_shadow}). Wymaga to uzupełnienia analizatora o~listę dopuszczalnych funkcji oraz ograniczenia uprawnień roli bazodanowej;
+        \item \emph{Ataki na~złożoność parsera (głębokie zagnieżdżenia):} Nie przetestowano odporności parsera \texttt{sqlglot} na~kwerendy o~patologicznej strukturze (np. $10\,000$ poziomów zagnieżdżeń nawiasowych), które mogą wywołać przepełnienie stosu lub zawieszenie procesu roboczego w~puli \texttt{ProcessPoolExecutor}. Mitygacja wymagałaby limitu głębokości drzewa składniowego;
+        \item \emph{Granice testów enkapsulacji rekordów:} Brak rekordów z~pozostałymi tokenami sterującymi dotyczy badanego zbioru \wynSecPrompt{} wektorów i~nie obejmuje technik manipulacji kodowaniem znaków (homoglify Unicode, wielobajtowe kolizje kodowań, niestandardowe sekwencje ucieczki lekserów XML) ani testów mutacyjnych z~udziałem modelu adwersarza (\emph{fuzzing} w~pętli sprzężenia zwrotnego), co pozostaje kierunkiem dalszych badań.
+    \end{itemize}
+
+    \item \textbf{Zależność wydajności paginacji keyset od postaci predykatu i~indeksu:}
+    Stałe opóźnienie keyset (\wynKeysetDeep~ms przy offsecie 950\,000, podrozdział~\ref{subsec:wyniki_paginacja_glebokosc}) wymaga kompozytowego indeksu B-drzewa o~zgodnych kierunkach i~polityce \texttt{NULLS} oraz predykatu rozbitego na gałęzie \texttt{UNION ALL}, które zwielokrotniają liczbę zapytań indeksowych na stronę (do $2m+1$); pojedynczy predykat DNF dawał koszt $\mathcal{O}(M)$ (podrozdział~\ref{subsec:wyniki_predykat}), a~metoda nie umożliwia skoku do dowolnej strony. Pomiar oparto na \wynPagReps{} powtórzeniach na punkt i~jednej instancji bazy, a~wariant nieindeksowany zmierzono tylko do offsetu 50\,000.
+\end{enumerate}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Perspektywy rozwoju i kierunki dalszych prac badawczych}
+\label{sec:podsumowanie_kierunki}
+
+Z~wyników i~ograniczeń wynikają następujące kierunki dalszych prac:
+\begin{enumerate}
+    \item \textbf{Ewaluacja na pytaniach w języku czysto biznesowym:}
+    Istotnym kierunkiem jest rozszerzenie Scenariusza A o zbiór, w~którym pytania formułowane są w~naturalnym języku biznesowym (bez jawnego wymieniania nazw tabel pośrednich), z~wielojęzycznym modelem osadzeń text-embedding. Pozwoli to w~pełni ocenić zdolność ekspansji grafowej do odnajdywania relacji mostkujących w~warunkach niepełnej specyfikacji zapytania przez użytkownika;
+
+    \item \textbf{Pomiary ruchu MCP i~optymalizacja aparatury:}
+    Kolejnym krokiem badawczym jest realizacja pomiarów bezpośrednio przez warstwę transportową MCP (\texttt{stdio} i~Streamable HTTP), z~rolą bazodanową tylko do odczytu, wdrożeniem pełnego scenariusza strumieniowania zdarzeń oraz emulacją parametrów sieciowych narzędziem \texttt{tc netem};
+
+    \item \textbf{Transport binarny w~specyfikacji MCP:}
+    Wartościowym rozszerzeniem standardu MCP byłby transport dla danych tabelarycznych oparty na~\emph{Apache Arrow Flight} lub \emph{gRPC / Protocol Buffers}~\cite{grpc_spec,protobuf_spec}. Umożliwiłoby to przesyłanie danych w~formacie kolumnowym bez konwersji do tekstu JSON i~bez narzutu Base64;
+    
+    \item \textbf{Ograniczenie błędów złączeń:}
+    Na profilu 7B odwołanie do tabeli spoza wycinka odpowiadało za \wynErrTableMissingLarge{} z~\wynErrFalseLarge{} niepowodzeń wariantu autorskiego, a~w~praktyce zapytania te kończyły się błędnie odgadniętą kolumną klucza obcego. Kierunkiem dalszych prac jest iteracyjne uzupełnianie wycinka na żądanie modelu (narzędzie MCP zwracające DDL brakującej tabeli), jawne podawanie w~wycinku par kolumn złączeń oraz walidacja identyfikatorów względem katalogu przed wykonaniem zapytania;
+
+    \item \textbf{Transakcje kompensacyjne, tożsamość i~interoperacyjność agentów:}
+    Brak semantyki transakcyjnej w~MCP można adresować adaptacją wzorca SAGA~\cite{garcia1987sagas}. Framework SagaLLM~\cite{chang2025sagallm} powierza jednak generowanie akcji kompensujących samemu modelowi, co grozi halucynacją procedury naprawczej, natomiast architektura RAC~\cite{perera2026rac} przenosi deklaratywnie zdefiniowane kompensacje do warstwy middleware. Drugim kierunkiem jest delegacja tożsamości i~autoryzacja drobnoziarnista (OAuth 2.0, RFC 8693), umożliwiająca egzekwowanie uprawnień na~poziomie wierszy w~sposób przezroczysty dla modelu, trzecim sprzężenie bramy MCP z~protokołami komunikacji międzyagentowej (A2A, ACP)~\cite{survey_agent_interoperability_2025}, w~którym brama stałaby się wspólną magistralą danych dla wielu agentów bez multiplikowania sesji bazodanowych.
+\end{enumerate}

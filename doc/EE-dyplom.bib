@@ -1,0 +1,714 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Typy bibliografii:
+%  - artykuł z czasopisma,
+%  - artykuł z konferencji,
+%  - materiały konferencyjne,
+%  - książka,
+%  - fragment książki,
+%  - książka z serii,
+%  - krótka broszura,
+%  - praca magisterska,
+%  - praca doktorska,
+%  - instrukcja obsługi,
+%  - raport techniczny,
+%  - materiały nieopublikowane,
+%  - inne typy materiałów źródłowych.
+% Więcej informacji na stronie https://www.bibtex.com/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Artykuły naukowe z czasopism i konferencji
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Article - artykuł z czasopisma.
+% Wymagane pola: author, title, journal, year.
+% Opcjonalne pola: volume, number, pages, month, note.
+@Article{maxwell1865,
+    author  = {James Clerk Maxwell},
+    title   = {A Dynamical Theory of the Electromagnetic Field},
+    journal = {Philosophical Transactions of the Royal Society},
+    year    = {1865},
+    number  = {155},
+    pages   = {459-512},
+    month   = {1},
+    note    = {\href{https://royalsocietypublishing.org/doi/pdf/10.1098/rstl.1865.0008}{<https://royalsocietypublishing.org/doi/pdf/10.1098/rstl.1865.0008>}, dostęp uzyskano 2020-12-03},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% InProceedings - artykuły z konferencji
+% Wymagane pola: author or editor, title, publisher, year.
+% Opcjonalne pola: volume or number, series, address, edition, month, note.
+@inproceedings{cichon1995,
+    author  = {D. J. {Cichon} and W. {Wiesbeck}},
+    title   = {The Heinrich Hertz wireless experiments at Karlsruhe in the view of modern communication},
+    publisher   = {Institution of Engineering and Technology},
+    year        = {1995},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Proceedings - publikacja pokonferencyjna, zbiór artykułów z jednej konferencji
+% Wymagane pola: title, year.
+% Opcjonalne pola: editor, volume or number, series, address, publisher, note, month, organization.
+@proceedings{cpee2018,
+    title   = {19th International Conference Computational Problems of Electrical Engineering},
+    year    = {2018},
+    note    = {doi: \href{https://doi.org/10.1109/CPEE44871.2018}{10.1109/CPEE44871.2018}},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Materiały książkowe
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Book - książka mająca wydawcę.
+% Wymagane pola: author or editor, title, publisher, year.
+% Opcjonalne pola: volume or number, series, address, edition, month, note.
+@book{fowler2009,
+    author    = {Kim Fowler},
+    title     = {Mission-Critical and Safety-Critical Systems Handbook: Design and Development for Embedded Applications},
+    publisher = {Newnes},
+    year      = {2009},
+    ISBN      = {978-0750685672},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Inbook - część książki, na przykład rozdział i/lub zakres stron.
+% Wymagane pola: author lub editor, title, chapter i/lub pages, publisher, year.
+% Opcjonalne pola: volume or number, series, type, address, edition, month, note.
+@inbook{leksinski1995,
+  chapter   = {1-2},
+  pages     = {9-232},
+  title     = {Matematyka},
+  publisher = {Wydawnictwa Naukowo-Techniczne},
+  year      = {1995},
+  author    = {Wojciech Żakowski and Wacław Leksiński},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Incollection - część książki mająca własny tytuł, również książka z serii.
+% Wymagane pola: author, title, booktitle, publisher, year.
+% Opcjonalne pola: editor, volume or number, series, type, chapter, pages, address, edition, month, note.
+@incollection{lncsevo,
+  author    = {Gyu Myoung Lee and Noel Crespi and Jun Kyun Choi and Matthieu Boussard},
+  title     = {Internet of Things},
+  booktitle = {Evolution of Telecommunication Services},
+  series    = {Lecture Notes in Computer Science},
+  publisher = {Springer-Verlag Berlin Heidelberg},
+  year      = {2013},
+  editor    = {Emmanuel Bertin and Noel Crespi and Thomas Magedanz},
+  volume    = {7768},
+  isbn      = {978-3642415685},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Booklet - praca, która została wydrukowana i oprawiona ale nie mająca wydawcy lub stojącej za nią instytucji, broszurka mająca 4-48 stron
+% Wymagane pola: title.
+% Opcjonalne pola: author, howpublished, address, month, year, note.
+@mastersthesis{poirier2020,
+    author  = {Izabela Poirier},
+    title   = {Wykorzystanie technologii Blockchain w komunikacji urządzeń Internetu Rzeczy},
+    school  = {Politechnika Warszawska, Wydział Elektryczny, Instytut Elektrotechniki Teoretycznej i Systemów Informacyjno-Pomiarowych},
+    year    = {2020},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% phdthesis - praca doktorska
+% Wymagane pola: author, title, school, year.
+% Opcjonalne pola: type, address, month, note.
+@phdthesis{truong2018,
+    author  = {Nguyen Binh Truong},
+    title   = {Evaluation of trust in the Internet of Things : models, mechanisms and applications},
+    school  = {Liverpool John Moores University},
+    year    = {2018},
+    note    = {doi: \href{http://doi.org/10.24377/researchonline.ljmu.ac.uk.00009241}{10.24377/researchonline.ljmu.ac.uk.00009241}}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dokumenty techniczne
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% manual - instrukcja obługi, specyfikacja techniczna, nota katalogowa (datasheet)
+% Wymagane pola: title.
+% Opcjonalne pola: author, organization, address, edition, month, year, note.
+@manual{AN4230,
+    title           = {STM32 microcontroller random number generation validation using the NIST statistical test suite},
+    organization    = {STMicroelectronics},
+    year            = {2020},
+    month           = {8},
+    note            = {AN4230},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% techreport - raport techniczny
+% Wymagane pola: author, title, institution, year.
+% Opcjonalne pola: type, number, address, month, note.
+@techreport{nask2020,
+    author      = {{Zespół CERT Polska}},   % Nietypowy autor - dodatkowe nawiasy powodują, że nie zostanie uznany za imię i nazwisko co byłoby komiczne (Polska Z. C.)
+    title       = {Krajobraz bezpieczeństwa polskiego Internetu w 2019 roku},
+    institution = {NASK -- Państwowy Instytut Badawczy},
+    year        = {2020},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dokumenty nietypowe
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% unpublished - dokument mający autora i tytuł ale nie opublikowany typowymi metodami
+% Wymagane pola: author, title, note.
+% Opcjonalne pola: month, year.
+@unpublished{wilamowski2017,
+  author    = {Maciej Wilamowski},
+  title     = {,,Daj, ać ja pobruczę, a ty poczywaj''. Pierwsze zdanie po polsku w historii},
+  note    = {\href{https://twojahistoria.pl/2017/11/21/daj-ac-ja-pobrucze-a-ty-poczywaj-co-powinienes-wiedziec-o-pierwszym-zdaniu-zapisanym-w-jezyku-polskim/}{<https://twojahistoria.pl/2017/11/21/daj-ac-ja-pobrucze-a-ty-poczywaj-co-powinienes-wiedziec-o-pierwszym-zdaniu-zapisanym-w-jezyku-polskim/>}, dostęp uzyskano 2020-12-03},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% misc - jeśli wszystkie inne kategorie nie pasują; przynajmniej jedno z pól opcjonalnych musi być użyte
+% Wymagane pola: brak
+% Opcjonalne pola: author, title, howpublished, month, year, note.
+@misc{szablon,
+    author  = {Łukasz Makowski},
+    title   = {Szablon prac dyplomowych dla Wydziału Elektrycznego Politechniki Warszawskiej},
+    howpublished    = {\href{https://github.com/SP5LMA/EE-Dyplom}{<https://github.com/SP5LMA/EE-Dyplom>}},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Publikacje i standardy badawcze MCP, bazodanowe i inżynierii agentowej
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@misc{mcp_spec,
+    author       = {{Anthropic}},
+    title        = {Model Context Protocol Specification},
+    howpublished = {\href{https://modelcontextprotocol.io}{<https://modelcontextprotocol.io>}},
+    year         = {2024},
+    note         = {Dostęp uzyskano: 2024-11-25},
+}
+
+@techreport{rfc8259,
+    author      = {Tim Bray},
+    title       = {The JavaScript Object Notation (JSON) Data Interchange Format},
+    institution = {Internet Engineering Task Force (IETF)},
+    type        = {RFC},
+    number      = {8259},
+    year        = {2017},
+    month       = {12},
+    note        = {doi: \href{https://doi.org/10.17487/RFC8259}{10.17487/RFC8259}},
+}
+
+@misc{jsonrpc2010,
+    author       = {{JSON-RPC Working Group}},
+    title        = {JSON-RPC 2.0 Specification},
+    howpublished = {\href{https://www.jsonrpc.org/specification}{<https://www.jsonrpc.org/specification>}},
+    year         = {2010},
+    note         = {Dostęp uzyskano: 2024-11-20},
+}
+
+@article{malkov2018hnsw,
+    author  = {Yury A. Malkov and Dmitry A. Yashunin},
+    title   = {Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs},
+    journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+    volume  = {42},
+    number  = {4},
+    pages   = {824--836},
+    year    = {2020},
+    note    = {doi: \href{https://doi.org/10.1109/TPAMI.2018.2889473}{10.1109/TPAMI.2018.2889473}},
+}
+
+@misc{pgvector,
+    author       = {Andrew Kane},
+    title        = {pgvector: Open-source vector similarity search for Postgres},
+    howpublished = {\href{https://github.com/pgvector/pgvector}{<https://github.com/pgvector/pgvector>}},
+    year         = {2024},
+}
+
+@inproceedings{yao2023react,
+    author    = {Shunyu Yao and Jeffrey Zhao and Dian Yu and Nan Du and Izhak Shafran and Karthik Narasimhan and Yuan Cao},
+    title     = {ReAct: Synergizing Reasoning and Acting in Language Models},
+    booktitle = {International Conference on Learning Representations (ICLR)},
+    year      = {2023},
+}
+
+@inproceedings{greshake2023promptinjection,
+    author    = {Kai Greshake and Sahar Abdelnabi and Shailesh Mishra and Christoph Endres and Thorsten Holz and Mario Fritz},
+    title     = {Not what you've signed up for: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection},
+    booktitle = {Proceedings of the 16th ACM Workshop on Artificial Intelligence and Security (AISEC '23)},
+    pages     = {79--90},
+    year      = {2023},
+    note      = {doi: \href{https://doi.org/10.1145/3605764.3623982}{10.1145/3605764.3623982}},
+}
+
+@article{reimers2019sentencebert,
+    author  = {Nils Reimers and Iryna Gurevych},
+    title   = {Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks},
+    journal = {arXiv preprint arXiv:1908.10084},
+    year    = {2019},
+}
+
+@misc{sqlglot,
+    author       = {Toby Mao},
+    title        = {sqlglot: An easily customizable SQL parser and transpiler},
+    howpublished = {\href{https://github.com/tobymao/sqlglot}{<https://github.com/tobymao/sqlglot>}},
+    year         = {2024},
+}
+
+@misc{tiktoken,
+    author       = {{OpenAI}},
+    title        = {tiktoken: Fast BPE tokeniser for use with OpenAI's models},
+    howpublished = {\href{https://github.com/openai/tiktoken}{<https://github.com/openai/tiktoken>}},
+    year         = {2023},
+}
+
+@misc{asyncpg,
+    author       = {{MagicStack Inc.}},
+    title        = {asyncpg: A fast PostgreSQL Database Client Library for Python/asyncio},
+    howpublished = {\href{https://github.com/MagicStack/asyncpg}{<https://github.com/MagicStack/asyncpg>}},
+    year         = {2024},
+}
+
+@misc{fastmcp,
+    author       = {Jeremiah Lowin},
+    title        = {FastMCP: High-level Python Framework for Model Context Protocol},
+    howpublished = {\href{https://github.com/jlowin/fastmcp}{<https://github.com/jlowin/fastmcp>}},
+    year         = {2024},
+}
+
+@article{kreps2011kafka,
+    author  = {Jay Kreps and Neha Narkhede and Jun Rao},
+    title   = {Kafka: A distributed messaging system for log processing},
+    journal = {Proceedings of the NetDB},
+    volume  = {11},
+    pages   = {1--7},
+    year    = {2011},
+}
+
+@inproceedings{schick2023toolformer,
+    author    = {Timo Schick and Jane Dwivedi-Yu and Roberto Dess{\`\i} and Roberta Raileanu and Maria Lomeli and Luke Zettlemoyer and Nicola Cancedda and Thomas Scialom},
+    title     = {Toolformer: Language Models Can Teach Themselves to Use Tools},
+    booktitle = {Advances in Neural Information Processing Systems (NeurIPS 2023)},
+    volume    = {36},
+    pages     = {68537--68551},
+    year      = {2023},
+    note      = {doi: \href{https://doi.org/10.48550/arXiv.2302.04761}{10.48550/arXiv.2302.04761}},
+}
+
+@article{patil2023gorilla,
+    author  = {Shishir G. Patil and Tianjun Zhang and Xin Wang and Joseph E. Gonzalez},
+    title   = {Gorilla: Large Language Model Connected with Massive {APIs}},
+    journal = {arXiv preprint arXiv:2305.15334},
+    year    = {2023},
+    note    = {doi: \href{https://doi.org/10.48550/arXiv.2305.15334}{10.48550/arXiv.2305.15334}},
+}
+
+@inproceedings{lewis2020rag,
+    author    = {Patrick Lewis and Ethan Perez and Aleksandra Piktus and Fabio Petroni and Vladimir Karpukhin and Naman Goyal and Heinrich K{\"u}ttler and Mike Lewis and Wen-tau Yih and Tim Rockt{\"a}schel and Sebastian Riedel and Douwe Kiela},
+    title     = {Retrieval-Augmented Generation for Knowledge-Intensive {NLP} Tasks},
+    booktitle = {Advances in Neural Information Processing Systems (NeurIPS 2020)},
+    volume    = {33},
+    pages     = {9459--9474},
+    year      = {2020},
+}
+
+@misc{lsp_spec,
+    author       = {{Microsoft Corporation}},
+    title        = {Language Server Protocol Specification - 3.17},
+    howpublished = {\href{https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/}{<https://microsoft.github.io/language-server-protocol/>}},
+    year         = {2024},
+    note         = {Dostęp uzyskano: 2024-11-15},
+}
+
+@inproceedings{vaswani2017attention,
+    author    = {Ashish Vaswani and Noam Shazeer and Niki Parmar and Jakob Uszkoreit and Llion Jones and Aidan N. Gomez and {\L}ukasz Kaiser and Illia Polosukhin},
+    title     = {Attention Is All You Need},
+    booktitle = {Advances in Neural Information Processing Systems (NIPS 2017)},
+    volume    = {30},
+    pages     = {5998--6008},
+    year      = {2017},
+}
+
+@article{mialon2023augmented,
+    author  = {Gr{\'e}goire Mialon and Roberto Dess{\`\i} and Maria Lomeli and Christoforos Nalmpantis and Ram Pasunuru and Roberta Raileanu and Baptiste Rozi{\`e}re and Timo Schick and Jane Dwivedi-Yu and Asli Celikyilmaz and Edouard Grave and Yann LeCun and Y-Lan Boureau},
+    title   = {Augmented Language Models: a Survey},
+    journal = {arXiv preprint arXiv:2302.07842},
+    year    = {2023},
+}
+
+@article{qin2023toollearning,
+    author  = {Yujia Qin and Shengding Hu and Yankai Lin and Weize Chen and Ning Ding and Ganqu Cui and Zheni Zeng and Yufei Huang and Chaojun Xiao and Chi Han and Yi R. Fung and Yusheng Su and Huadong Wang and Cheng Qian and Fanchao Qi and Jialun Tian and Ruobing Xie and Weixuan Cheng and Ziyi Zhou and Jiamin Chen and Wenzheng Liang and Zixuan Xie and Ming Yan and Zhen Chen and Baobao Chang and Wei Sun and Xiaodi Shi and Zonghan Zhang and Rong Pei and Honghao Huang and Siyu Zhao and Ruobing Zhao and Yuxian Gu and Zheng Liu and Weilin Chen and Ji-Rong Wen and Yang Liu and Maosong Sun and Jie Zhou and Xiang Ren and Heng Ji and Zhiyuan Liu},
+    title   = {Tool Learning with Foundation Models},
+    journal = {arXiv preprint arXiv:2304.08354},
+    year    = {2023},
+}
+
+@article{kirkpatrick2017overcoming,
+    author  = {James Kirkpatrick and Razvan Pascanu and Neil Rabinowitz and Joel Veness and Guillaume Desjardins and Andrei A. Rusu and Kieran Milan and John Quan and Tiago Ramalho and Agnieszka Grabska-Barwinska and Demis Hassabis and Claudia Clopath and Dharshan Kumaran and Raia Hadsell},
+    title   = {Overcoming catastrophic forgetting in neural networks},
+    journal = {Proceedings of the National Academy of Sciences (PNAS)},
+    volume  = {114},
+    number  = {13},
+    pages   = {3521--3526},
+    year    = {2017},
+    note    = {doi: \href{https://doi.org/10.1073/pnas.1611835114}{10.1073/pnas.1611835114}},
+}
+
+@incollection{gray1978notes,
+    author    = {Jim N. Gray},
+    title     = {Notes on Data Base Operating Systems},
+    booktitle = {Operating Systems, An Advanced Course},
+    series    = {Lecture Notes in Computer Science},
+    volume    = {60},
+    pages     = {393--481},
+    publisher = {Springer-Verlag Berlin Heidelberg},
+    year      = {1978},
+    note      = {doi: \href{https://doi.org/10.1007/3-540-08755-9_9}{10.1007/3-540-08755-9\_9}},
+}
+
+@misc{chase2022langchain,
+    author       = {Harrison Chase},
+    title        = {LangChain: Building applications with LLMs through composability},
+    howpublished = {\href{https://github.com/langchain-ai/langchain}{<https://github.com/langchain-ai/langchain>}},
+    year         = {2022},
+}
+
+@misc{semantic_kernel,
+    author       = {{Microsoft Corporation}},
+    title        = {Semantic Kernel: Integrate cutting-edge LLM technology into your apps},
+    howpublished = {\href{https://github.com/microsoft/semantic-kernel}{<https://github.com/microsoft/semantic-kernel>}},
+    year         = {2023},
+}
+
+@misc{openai_function_calling,
+    author       = {{OpenAI}},
+    title        = {Function calling and other API updates},
+    howpublished = {\href{https://openai.com/index/function-calling-and-other-api-updates/}{<https://openai.com/index/function-calling-and-other-api-updates/>}},
+    year         = {2023},
+    note         = {Opublikowano: 2023-06-13},
+}
+
+@phdthesis{fielding2000rest,
+    author = {Roy Thomas Fielding},
+    title  = {Architectural Styles and the Design of Network-based Software Architectures},
+    school = {University of California, Irvine},
+    year   = {2000},
+}
+
+@techreport{w3c_sse,
+    author      = {Ian Hickson},
+    title       = {Server-Sent Events},
+    institution = {World Wide Web Consortium (W3C)},
+    type        = {W3C Recommendation},
+    year        = {2015},
+    month       = {2},
+    note        = {\href{https://www.w3.org/TR/eventsource/}{<https://www.w3.org/TR/eventsource/>}},
+}
+
+@techreport{json_schema,
+    author      = {Austin Wright and Henry Andrews and Ben Hutton and Greg Dennis},
+    title       = {JSON Schema: A Media Type for Describing JSON Data Structures},
+    institution = {Internet Engineering Task Force (IETF)},
+    type        = {Internet-Draft},
+    year        = {2022},
+    note        = {\href{https://json-schema.org/draft/2020-12/json-schema-core.html}{draft-bhutton-json-schema-01}},
+}
+
+@misc{grpc_spec,
+    author       = {{The gRPC Authors}},
+    title        = {gRPC: A High Performance, Open Source Universal RPC Framework},
+    howpublished = {\href{https://grpc.io/docs/what-is-grpc/introduction/}{<https://grpc.io/docs/what-is-grpc/introduction/>}},
+    year         = {2023},
+    note         = {Dostęp uzyskano: 2024-11-15},
+}
+
+@misc{protobuf_spec,
+    author       = {{Google LLC}},
+    title        = {Protocol Buffers: Language-Neutral, Platform-Neutral Extensible Mechanisms for Serializing Structured Data},
+    howpublished = {\href{https://protobuf.dev/}{<https://protobuf.dev/>}},
+    year         = {2024},
+    note         = {Dostęp uzyskano: 2024-11-15},
+}
+
+@article{survey_agent_interoperability_2025,
+    author  = {Zhe Chen and Yuan Zhao and Hao Li and Jingjing Wang and Bo An},
+    title   = {A Survey of Agent Interoperability Protocols: Model Context Protocol (MCP), Agent Communication Protocol (ACP), Agent-to-Agent Protocol (A2A)},
+    journal = {arXiv preprint arXiv:2505.02279},
+    year    = {2025},
+    note    = {doi: \href{https://doi.org/10.48550/arXiv.2505.02279}{10.48550/arXiv.2505.02279}},
+}
+
+@techreport{owasp_llm_2025,
+    author      = {{OWASP Foundation}},
+    title       = {OWASP Top 10 for Large Language Model Applications and Generative AI},
+    institution = {Open Web Application Security Project},
+    type        = {Technical Report},
+    year        = {2025},
+    note        = {\href{https://owasp.org/www-project-top-10-for-large-language-model-applications/}{<https://owasp.org/www-project-top-10-for-large-language-model-applications/>}},
+}
+
+@article{hardy1988confused_deputy,
+    author  = {Norm Hardy},
+    title   = {The Confused Deputy: (or why I know how to stop the hackers)},
+    journal = {ACM SIGOPS Operating Systems Review},
+    volume  = {22},
+    number  = {4},
+    pages   = {36--38},
+    year    = {1988},
+    note    = {doi: \href{https://doi.org/10.1145/54289.848247}{10.1145/54289.848247}},
+}
+
+@techreport{rfc7540_http2,
+    author      = {Mike Belshe and Roberto Peon and Martin Thomson},
+    title       = {Hypertext Transfer Protocol Version 2 (HTTP/2)},
+    institution = {RFC Editor},
+    type        = {RFC},
+    number      = {7540},
+    year        = {2015},
+    month       = {5},
+    note        = {doi: \href{https://doi.org/10.17487/RFC7540}{10.17487/RFC7540}},
+}
+
+@article{welford1962,
+    author  = {B. P. Welford},
+    title   = {Note on a Method for Calculating Corrected Sums of Squares and Products},
+    journal = {Technometrics},
+    volume  = {4},
+    number  = {3},
+    pages   = {419--420},
+    year    = {1962},
+    note    = {doi: \href{https://doi.org/10.1080/00401706.1962.10490022}{10.1080/00401706.1962.10490022}},
+}
+
+@inproceedings{cormack2009rrf,
+    author    = {Gordon V. Cormack and Charles L. A. Clarke and Stefan Buettcher},
+    title     = {Reciprocal Rank Fusion Outperforms Condorcet and Individual Rank Learning Methods},
+    booktitle = {Proceedings of the 32nd International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR '09)},
+    pages     = {758--759},
+    year      = {2009},
+    note      = {doi: \href{https://doi.org/10.1145/1571941.1572114}{10.1145/1571941.1572114}},
+}
+
+@article{liu2024lostinthemiddle,
+    author  = {Nelson F. Liu and Kevin Lin and John Hewitt and Ashwin Paranjape and Michele Bevilacqua and Fabio Petroni and Percy Liang},
+    title   = {Lost in the Middle: How Language Models Use Long Contexts},
+    journal = {Transactions of the Association for Computational Linguistics (TACL)},
+    volume  = {12},
+    pages   = {157--173},
+    year    = {2024},
+    note    = {doi: \href{https://doi.org/10.1162/tacl_a_00638}{10.1162/tacl\_a\_00638}},
+}
+
+@article{barabasi1999,
+    author  = {Albert-L{\'a}szl{\'o} Barab{\'a}si and R{\'e}ka Albert},
+    title   = {Emergence of Scaling in Random Networks},
+    journal = {Science},
+    volume  = {286},
+    number  = {5439},
+    pages   = {509--512},
+    year    = {1999},
+    note    = {doi: \href{https://doi.org/10.1126/science.286.5439.509}{10.1126/science.286.5439.509}},
+}
+
+@article{wilcoxon1945,
+    author  = {Frank Wilcoxon},
+    title   = {Individual Comparisons by Ranking Methods},
+    journal = {Biometrics Bulletin},
+    volume  = {1},
+    number  = {6},
+    pages   = {80--83},
+    year    = {1945},
+    note    = {doi: \href{https://doi.org/10.2307/3001968}{10.2307/3001968}},
+}
+
+@article{peffers2007dsr,
+    author    = {Ken Peffers and Tuure Tuunanen and Marcus A. Rothenberger and Samir Chatterjee},
+    title     = {A Design Science Research Methodology for Information Systems Research},
+    journal   = {Journal of Management Information Systems},
+    volume    = {24},
+    number    = {3},
+    pages     = {45--77},
+    year      = {2007},
+    note      = {doi: \href{https://doi.org/10.2753/MIS0742-1222240302}{10.2753/MIS0742-1222240302}},
+}
+
+@misc{apache_arrow,
+    author       = {{Apache Arrow Community}},
+    title        = {Apache Arrow: A cross-language development platform for in-memory data},
+    howpublished = {\href{https://arrow.apache.org/}{<https://arrow.apache.org/>}},
+    year         = {2024},
+    note         = {Dostęp uzyskano: 2024-11-20},
+}
+
+@misc{arrow_flight,
+    author       = {{Apache Arrow Community}},
+    title        = {Arrow Flight RPC: High-performance data transport framework},
+    howpublished = {\href{https://arrow.apache.org/docs/format/Flight.html}{<https://arrow.apache.org/docs/format/Flight.html>}},
+    year         = {2024},
+    note         = {Dostęp uzyskano: 2024-11-20},
+}
+
+@inproceedings{pourreza2023dinsql,
+    author    = {Mohammadreza Pourreza and Davood Rafiei},
+    title     = {{DIN-SQL}: Decomposed In-Context Learning of Text-to-{SQL} with Self-Correction},
+    booktitle = {Advances in Neural Information Processing Systems (NeurIPS 2023)},
+    volume    = {36},
+    pages     = {37533--37545},
+    year      = {2023},
+}
+
+@article{gao2024dailsql,
+    author    = {Dawei Gao and Haibin Wang and Yaliang Li and Xiuyu Sun and Yichen Qian and Bolin Ding and Jingren Zhou},
+    title     = {Text-to-{SQL} Empowered by Large Language Models: A Benchmark Evaluation},
+    journal   = {Proceedings of the VLDB Endowment},
+    volume    = {17},
+    number    = {5},
+    pages     = {1132--1145},
+    year      = {2024},
+    note      = {doi: \href{https://doi.org/10.14778/3641204.3641221}{10.14778/3641204.3641221}},
+}
+
+@article{wang2025macsql,
+    author    = {Bing Wang and Changyu Ren and Jian Yang and Xinnian Liang and Jiaqi Bai and Linzheng Chai and Zhao Yan and Qian-Wen Zhang and Di Yin and Xing Sun},
+    title     = {{MAC-SQL}: A Multi-Agent Collaborative Framework for Text-to-{SQL}},
+    journal   = {arXiv preprint arXiv:2312.11242},
+    year      = {2024},
+    note      = {\href{https://arxiv.org/abs/2312.11242}{arXiv:2312.11242}},
+}
+
+@article{li2024codes,
+    author    = {Haoyang Li and Jing Zhang and Cuiping Li and Hong Chen},
+    title     = {{CodeS}: Towards Building Open-source Language Models for Text-to-{SQL}},
+    journal   = {Proceedings of the ACM on Management of Data (SIGMOD 2024)},
+    volume    = {2},
+    number    = {3},
+    pages     = {1--28},
+    year      = {2024},
+    note      = {doi: \href{https://doi.org/10.1145/3654930}{10.1145/3654930}},
+}
+
+@article{talaei2025chess,
+    author    = {Shayan Talaei and Mohammadreza Pourreza and Yu-Chieh Chang and Amin Saberi and Fatemeh Fazel and Reza Rawassizadeh},
+    title     = {{CHESS}: Contextual Harnessing for Efficient {SQL} Synthesis},
+    journal   = {arXiv preprint arXiv:2405.16755},
+    year      = {2024},
+    note      = {\href{https://arxiv.org/abs/2405.16755}{arXiv:2405.16755}},
+}
+
+@inproceedings{wang2024codeact,
+    author    = {Xingyao Wang and Yangyi Chen and Lifan Yuan and Yizhe Zhang and Yunzhu Li and Hao Peng and Heng Ji},
+    title     = {Executable Code Actions Elicit Better {LLM} Agents},
+    booktitle = {Proceedings of the 41st International Conference on Machine Learning (ICML 2024)},
+    pages     = {51640--51675},
+    year      = {2024},
+}
+
+@article{levy2024same,
+    author    = {Mosh Levy and Alon Jacoby and Yoav Goldberg},
+    title     = {Same Task, More Tokens: the Impact of Input Length on Language Model Reasoning},
+    journal   = {arXiv preprint arXiv:2402.14848},
+    year      = {2024},
+    note      = {\href{https://arxiv.org/abs/2402.14848}{arXiv:2402.14848}},
+}
+
+@article{pedro2023prompt2sql,
+    author    = {Rodrigo Pedro and Daniel Castro and Paulo Carreira and Nuno Santos},
+    title     = {From Prompt Injections to {SQL} Injection Attacks: How Protected is Your {LLM}-Integrated Web Application?},
+    journal   = {arXiv preprint arXiv:2308.01990},
+    year      = {2023},
+    note      = {\href{https://arxiv.org/abs/2308.01990}{arXiv:2308.01990}},
+}
+
+@article{chang2025sagallm,
+    author    = {Yuhang Chang and Jiacheng Geng and Yuzhe Tang},
+    title     = {{SagaLLM}: Context Management, Validation, and Transaction Failure Recovery for Large Language Model Systems},
+    journal   = {arXiv preprint arXiv:2503.11951},
+    year      = {2025},
+    note      = {\href{https://arxiv.org/abs/2503.11951}{arXiv:2503.11951}},
+}
+
+@inproceedings{perera2026rac,
+    author    = {Ransalu Perera and Sahan Fernando and Sanjiva Weerawarana},
+    title     = {Robust Agent Compensation ({RAC}): Log-Based Compensation for Agentic Systems},
+    booktitle = {Proceedings of the ACM Conference on AI and Agentic Systems},
+    year      = {2026},
+    note      = {\href{https://arxiv.org/abs/2605.03409}{arXiv:2605.03409}},
+}
+
+@article{garcia1987sagas,
+    author    = {Hector Garcia-Molina and Kenneth Salem},
+    title     = {Sagas},
+    journal   = {ACM SIGMOD Record},
+    volume    = {16},
+    number    = {3},
+    pages     = {249--259},
+    year      = {1987},
+    note      = {doi: \href{https://doi.org/10.1145/38714.38742}{10.1145/38714.38742}},
+}
+
+@article{klisura2024unmasking,
+    author    = {{\DJ}or{\dj}e Klisura and Anthony Rios},
+    title     = {Unmasking Database Vulnerabilities: Zero-Knowledge Schema Inference Attacks in Text-to-{SQL} Systems},
+    journal   = {arXiv preprint arXiv:2406.14545},
+    year      = {2024},
+    note      = {\href{https://arxiv.org/abs/2406.14545}{arXiv:2406.14545}},
+}
+
+
+@inproceedings{ainslie2023gqa,
+  author    = {Ainslie, Joshua and Lee-Thorp, James and de Jong, Michiel and Zemlyanskiy, Yury and Lebr{\'o}n, Federico and Sanghai, Sumit},
+  title     = {{GQA}: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints},
+  booktitle = {Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+  pages     = {4895--4901},
+  year      = {2023},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2023.emnlp-main.298}
+}
+
+@misc{qwen2025qwen25,
+  author       = {{Qwen Team} and Yang, An and others},
+  title        = {Qwen2.5 Technical Report},
+  year         = {2024},
+  eprint       = {2412.15115},
+  eprinttype   = {arXiv},
+  howpublished = {arXiv:2412.15115}
+}
+
+@misc{touvron2023llama2,
+  author       = {Touvron, Hugo and Martin, Louis and Stone, Kevin and others},
+  title        = {Llama 2: Open Foundation and Fine-Tuned Chat Models},
+  year         = {2023},
+  eprint       = {2307.09288},
+  eprinttype   = {arXiv},
+  howpublished = {arXiv:2307.09288}
+}
+
+@misc{mcp_spec_20250618,
+  author       = {{Model Context Protocol}},
+  title        = {Model Context Protocol Specification, rewizja 2025-06-18},
+  howpublished = {\url{https://modelcontextprotocol.io/specification/2025-06-18}},
+  year         = {2025},
+  note         = {Dostęp uzyskano: 2026-10-04}
+}
+
+@inproceedings{lei2025spider2,
+  author = {Lei, Fangyu and Chen, Jixuan and Ye, Yuxiao and others},
+  title = {Spider 2.0: Evaluating Language Models on Real-World Enterprise Text-to-SQL Workflows},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year = {2025},
+  note = {arXiv:2411.07763}
+}
+
+@inproceedings{kothyari2023crush4sql,
+  author = {Kothyari, Mayank and Dhingra, Dhruva and Sarawagi, Sunita and Chakrabarti, Soumen},
+  title = {{CRUSH4SQL}: Collective Retrieval Using Schema Hallucination For {Text2SQL}},
+  booktitle = {Proceedings of EMNLP 2023},
+  year = {2023}
+}
+
+@inproceedings{li2023resdsql,
+  author = {Li, Haoyang and Zhang, Jing and Li, Cuiping and Chen, Hong},
+  title = {{RESDSQL}: Decoupling Schema Linking and Skeleton Parsing for Text-to-SQL},
+  booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume = {37},
+  year = {2023}
+}
+
+@misc{hou2025mcpsecurity,
+  author = {Hou, Xinyi and Zhao, Yanjie and Wang, Shenao and Wang, Haoyu},
+  title = {Model Context Protocol ({MCP}): Landscape, Security Threats, and Future Research Directions},
+  year = {2025},
+  eprint = {2503.23278},
+  eprinttype = {arXiv}
+}
